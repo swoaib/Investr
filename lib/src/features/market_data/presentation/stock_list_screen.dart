@@ -67,7 +67,7 @@ class _StockListView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       itemCount: controller.stocks.length,
                       separatorBuilder: (context, index) =>
-                          const SizedBox(height: 16),
+                          const Divider(height: 1),
                       itemBuilder: (context, index) {
                         final stock = controller.stocks[index];
                         return _StockListItem(stock: stock);
@@ -93,18 +93,7 @@ class _StockListItem extends StatelessWidget {
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
         children: [
           // Symbol and Name
