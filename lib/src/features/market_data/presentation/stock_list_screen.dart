@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../domain/stock.dart';
 import 'stock_list_controller.dart';
+import 'stock_detail_bottom_sheet.dart';
 
 class StockListScreen extends StatelessWidget {
   const StockListScreen({super.key});
@@ -89,64 +90,75 @@ class _StockListItem extends StatelessWidget {
     final isPositive = stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        children: [
-          // Symbol and Name
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  stock.symbol,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => StockDetailBottomSheet(stock: stock),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        color: Colors.transparent, // Ensures hit test works on empty space
+        child: Row(
+          children: [
+            // Symbol and Name
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    stock.symbol,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                Text(
-                  stock.companyName,
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-          // Graph Placeholder (Mini Sparkline)
-          Expanded(
-            flex: 2,
-            child: Icon(
-              isPositive ? Icons.trending_up : Icons.trending_down,
-              color: color,
-            ),
-          ),
-          // Price and Change
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  currencyFormat.format(stock.price),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                  Text(
+                    stock.companyName,
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                Text(
-                  '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
-                  style: TextStyle(
-                    color: color,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+            // Graph Placeholder (Mini Sparkline)
+            Expanded(
+              flex: 2,
+              child: Icon(
+                isPositive ? Icons.trending_up : Icons.trending_down,
+                color: color,
+              ),
+            ),
+            // Price and Change
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    currencyFormat.format(stock.price),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
+                    style: TextStyle(
+                      color: color,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:yahoo_finance_data_reader/yahoo_finance_data_reader.dart';
 import '../domain/stock.dart';
+import '../domain/price_point.dart';
 
 class StockRepository {
   final YahooFinanceDailyReader _yahooReader = const YahooFinanceDailyReader();
@@ -89,5 +90,40 @@ class StockRepository {
       }
     }
     return null;
+  }
+
+  /// Fetches historical data for a stock symbol.
+  /// [interval] is not directly supported by this free package (it defaults to daily),
+  /// but we can simulate ranges by filtering the returned daily data.
+  Future<List<PricePoint>> getStockHistory(String symbol) async {
+    try {
+      // YahooFinanceDailyReader gets all available daily history by default usually
+      // or we can try to filter if the package allows (checking source code is ideal,
+      // but assuming it returns a decent amount of history).
+      final response = await _yahooReader.getDailyDTOs(symbol);
+      final candles = response.candlesData;
+
+      if (candles.isNotEmpty) {
+        return candles.map((candle) {
+          // candle.date is usually a timestamp or DateTime?
+          // The package often uses a specific format or dynamic.
+          // Let's assume date is parsable or is a timestamp.
+          // Looking at common usage of this package:
+          // candle might satisfy YahooFinanceCandleData which has 'date' as DateTime? or int?
+          // YahooFinanceCandleData usually has date as DateTime
+          DateTime date = candle.date;
+
+          return PricePoint(
+            date: date,
+            price: (candle.close as num).toDouble(),
+          );
+        }).toList();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching history for $symbol: $e');
+      }
+    }
+    return [];
   }
 }
