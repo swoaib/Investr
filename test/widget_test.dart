@@ -4,6 +4,6 @@ import 'package:investr/src/app.dart';
 void main() {
   testWidgets('App smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const InvestrApp());
+    await tester.pumpWidget(const InvestrApp(onboardingCompleted: false));
   });
 }

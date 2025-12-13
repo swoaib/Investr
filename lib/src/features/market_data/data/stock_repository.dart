@@ -23,53 +23,41 @@ class StockRepository {
   Future<List<Stock>> getWatchlistStocks() async {
     List<Stock> stocks = [];
 
-    for (var entry in _watchlist.entries) {
+    final futures = _watchlist.entries.map((entry) async {
       try {
         final symbol = entry.key;
         final name = entry.value;
 
         // Fetch daily data
-        // We do not have a direct "Realtime quote" API in this free package easily,
-        // so we take the last known candle.
         YahooFinanceResponse response = await _yahooReader.getDailyDTOs(symbol);
-
         List<dynamic> candles = response.candlesData;
 
         if (candles.isNotEmpty) {
-          // Candles are usually sorted, but let's ensure we get the latest
-          // The package usually returns a list of YahooFinanceCandleData
-          // but due to dynamic typing in the map return, we verify.
-
-          // Actually getDailyDTOs returns a Map with 'candles' which is a List<YahooFinanceCandleData>
-          // Let's verify the type or work with dynamic
-
           var latestCandle = candles.last;
-          // Assuming candle has close, open, etc.
-
           double currentPrice = (latestCandle.close as num).toDouble();
           double openPrice = (latestCandle.open as num).toDouble();
 
-          // Calculate daily change based on Open vs Close (Approximate for demo)
           double change = currentPrice - openPrice;
           double changePercent = (change / openPrice) * 100;
 
-          stocks.add(
-            Stock(
-              symbol: symbol,
-              companyName: name,
-              price: currentPrice,
-              change: change,
-              changePercent: changePercent,
-            ),
+          return Stock(
+            symbol: symbol,
+            companyName: name,
+            price: currentPrice,
+            change: change,
+            changePercent: changePercent,
           );
         }
       } catch (e) {
         if (kDebugMode) {
           print('Error fetching data for ${entry.key}: $e');
         }
-        // In a real app, handle error state or retry.
       }
-    }
+      return null;
+    });
+
+    final results = await Future.wait(futures);
+    stocks = results.whereType<Stock>().toList();
     return stocks;
   }
 

@@ -10,10 +10,7 @@ class StockListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => StockListController()..loadStocks(),
-      child: const _StockListView(),
-    );
+    return const _StockListView();
   }
 }
 
