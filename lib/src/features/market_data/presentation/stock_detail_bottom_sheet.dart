@@ -18,25 +18,35 @@ class StockDetailBottomSheet extends StatefulWidget {
 class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   final StockRepository _repository = StockRepository();
   List<PricePoint> _history = [];
+  late Stock _stock; // Local mutable stock to hold details
   bool _isLoading = true;
   String _selectedInterval = '1M'; // Default
 
   @override
   void initState() {
     super.initState();
-    _loadHistory();
+    _stock = widget.stock;
+    _loadData();
   }
 
-  Future<void> _loadHistory() async {
+  Future<void> _loadData() async {
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final history = await _repository.getStockHistory(widget.stock.symbol);
+      final historyFuture = _repository.getStockHistory(widget.stock.symbol);
+      final detailsFuture = _repository.getStockDetails(widget.stock);
+      // Determine if we need intraday based on default or selection (default is 1M, so usually not needed immediately unless user selects 1D)
+      // But if user switches to 1D, we need it. Let's fetch it lazily or now?
+      // For simplicity, let's fetch both history and intraday if affordable, or just fetch history now.
+
+      final results = await Future.wait([historyFuture, detailsFuture]);
+
       if (mounted) {
         setState(() {
-          _history = history;
+          _history = results[0] as List<PricePoint>;
+          _stock = results[1] as Stock;
           _isLoading = false;
         });
       }
@@ -49,16 +59,40 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     }
   }
 
+  // Cache for intraday data to avoid re-fetching
+  List<PricePoint>? _intradayHistory;
+
+  Future<void> _fetchIntradayIfNeeded() async {
+    if (_selectedInterval == '1D' && _intradayHistory == null) {
+      setState(() => _isLoading = true);
+      final data = await _repository.getIntradayHistory(_stock.symbol);
+      if (mounted) {
+        setState(() {
+          _intradayHistory = data;
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   List<PricePoint> get _filteredHistory {
+    // If 1D is selected, return intraday data if available
+    if (_selectedInterval == '1D') {
+      if (_intradayHistory != null && _intradayHistory!.isNotEmpty) {
+        return _intradayHistory!;
+      }
+      // Fallback if intraday fetch failed or is empty: Show last 5 days of daily data
+      if (_history.isEmpty) return [];
+      if (_history.length < 5) return _history;
+      return _history.sublist(_history.length - 5).toList();
+    }
+
     if (_history.isEmpty) return [];
 
     final now = DateTime.now();
     DateTime cutoff;
 
     switch (_selectedInterval) {
-      case '1D':
-        cutoff = now.subtract(const Duration(days: 1));
-        break;
       case '1W':
         cutoff = now.subtract(const Duration(days: 7));
         break;
@@ -76,16 +110,24 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     return _history.where((p) => p.date.isAfter(cutoff)).toList();
   }
 
+  String _formatMarketCap(double? marketCap) {
+    if (marketCap == null) return 'N/A';
+    if (marketCap >= 1e12) return '\$${(marketCap / 1e12).toStringAsFixed(2)}T';
+    if (marketCap >= 1e9) return '\$${(marketCap / 1e9).toStringAsFixed(2)}B';
+    if (marketCap >= 1e6) return '\$${(marketCap / 1e6).toStringAsFixed(2)}M';
+    return '\$${marketCap.toStringAsFixed(0)}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final currencyFormat = NumberFormat.currency(symbol: '\$');
     final points = _filteredHistory;
-    final isPositive = widget.stock.isPositive;
+    final isPositive = _stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: MediaQuery.of(context).size.height * 0.85, // Increased height
       decoration: BoxDecoration(
         color: theme.cardTheme.color,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -102,13 +144,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.stock.symbol,
+                    _stock.symbol,
                     style: theme.textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    widget.stock.companyName,
+                    _stock.companyName,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: Colors.grey,
                     ),
@@ -119,13 +161,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    currencyFormat.format(widget.stock.price),
+                    currencyFormat.format(_stock.price),
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    '${isPositive ? '+' : ''}${widget.stock.changePercent.toStringAsFixed(2)}%',
+                    '${isPositive ? '+' : ''}${_stock.changePercent.toStringAsFixed(2)}%',
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: color,
                       fontWeight: FontWeight.bold,
@@ -138,8 +180,10 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
           const SizedBox(height: 32),
 
           // Chart
-          Expanded(
-            child: _isLoading
+          SizedBox(
+            // Fixed height for chart
+            height: 250,
+            child: _isLoading && _history.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : points.isEmpty
                 ? Center(
@@ -158,8 +202,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                           getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
                             return touchedBarSpots.map((barSpot) {
                               return LineTooltipItem(
-                                // Format price as integer string
-                                barSpot.y.toInt().toString(),
+                                barSpot.y.toStringAsFixed(2),
                                 const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -205,6 +248,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                   setState(() {
                     _selectedInterval = interval;
                   });
+                  _fetchIntradayIfNeeded();
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -226,9 +270,76 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
               );
             }).toList(),
           ),
+          const SizedBox(height: 32),
+
+          // Key Statistics Title
+          Text(
+            "Key Statistics",
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 16),
+
+          // Statistics Grid
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 2.5,
+              children: [
+                _buildStatItem(
+                  'Market Cap',
+                  _formatMarketCap(_stock.marketCap),
+                  theme,
+                ),
+                _buildStatItem(
+                  'P/E Ratio',
+                  _stock.peRatio?.toStringAsFixed(2) ?? 'N/A',
+                  theme,
+                ),
+                _buildStatItem(
+                  'Div Yield',
+                  _stock.dividendYield != null
+                      ? '${_stock.dividendYield!.toStringAsFixed(2)}%'
+                      : 'N/A',
+                  theme,
+                ),
+                _buildStatItem(
+                  'EPS',
+                  _stock.earningsPerShare?.toStringAsFixed(2) ?? 'N/A',
+                  theme,
+                ),
+                _buildStatItem(
+                  'Employees',
+                  _stock.employees?.toString() ?? 'N/A',
+                  theme,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _buildStatItem(String label, String value, ThemeData theme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }
