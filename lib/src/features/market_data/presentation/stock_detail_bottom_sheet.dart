@@ -86,9 +86,9 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.6,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: theme.cardTheme.color,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -142,7 +142,12 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : points.isEmpty
-                ? const Center(child: Text('No data available'))
+                ? Center(
+                    child: Text(
+                      'No data available',
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  )
                 : LineChart(
                     LineChartData(
                       gridData: const FlGridData(show: false),

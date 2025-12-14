@@ -8,7 +8,7 @@ import 'features/market_data/presentation/stock_list_controller.dart';
 import 'features/onboarding/presentation/onboarding_screen.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
 
-class InvestrApp extends StatelessWidget {
+class InvestrApp extends StatefulWidget {
   final bool onboardingCompleted;
   final SharedPreferences prefs;
   final StockListController? stockListController;
@@ -23,16 +23,31 @@ class InvestrApp extends StatelessWidget {
   });
 
   @override
+  State<InvestrApp> createState() => _InvestrAppState();
+}
+
+class _InvestrAppState extends State<InvestrApp> {
+  late final GoRouter _router;
+
+  @override
+  void initState() {
+    super.initState();
+    _router = _buildRouter(widget.onboardingCompleted);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) =>
-              stockListController ?? (StockListController()..loadStocks()),
+              widget.stockListController ??
+              (StockListController()..loadStocks()),
           lazy: false,
         ),
         ChangeNotifierProvider(
-          create: (_) => themeController ?? ThemeController(prefs),
+          create: (_) =>
+              widget.themeController ?? ThemeController(widget.prefs),
         ),
       ],
       child: Consumer<ThemeController>(
@@ -43,7 +58,7 @@ class InvestrApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             themeMode: controller.themeMode,
             debugShowCheckedModeBanner: false,
-            routerConfig: _buildRouter(onboardingCompleted),
+            routerConfig: _router,
           );
         },
       ),

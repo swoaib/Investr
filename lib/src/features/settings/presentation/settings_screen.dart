@@ -111,13 +111,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 value: _notificationsEnabled,
                 onChanged: (val) => setState(() => _notificationsEnabled = val),
               ),
-              _buildSwitchTile(
+              _buildSettingsTile(
                 context,
-                title: 'Dark Mode',
-                value: themeController.isDarkMode,
-                onChanged: (val) {
-                  themeController.toggleTheme(val);
-                },
+                title: 'Theme',
+                onTap: () => _showThemeSelection(context, themeController),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _getThemeText(themeController.themeMode),
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.chevron_right, color: Colors.grey),
+                  ],
+                ),
               ),
               _buildSettingsTile(
                 context,
@@ -136,6 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BuildContext context, {
     required String title,
     required VoidCallback onTap,
+    Widget? trailing,
   }) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -143,7 +152,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title,
         style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
       ),
-      trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+      trailing: trailing ?? const Icon(Icons.chevron_right, color: Colors.grey),
       onTap: onTap,
     );
   }
@@ -164,6 +173,84 @@ class _SettingsScreenState extends State<SettingsScreen> {
       onChanged: onChanged,
       activeTrackColor: AppTheme.primaryGreen,
       activeThumbColor: Colors.white,
+    );
+  }
+
+  String _getThemeText(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.system:
+        return 'System Default';
+      case ThemeMode.light:
+        return 'Light';
+      case ThemeMode.dark:
+        return 'Dark';
+    }
+  }
+
+  void _showThemeSelection(BuildContext context, ThemeController controller) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  'Select Theme',
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              _buildThemeOption(
+                context,
+                controller,
+                title: 'System Default',
+                mode: ThemeMode.system,
+              ),
+              _buildThemeOption(
+                context,
+                controller,
+                title: 'Light',
+                mode: ThemeMode.light,
+              ),
+              _buildThemeOption(
+                context,
+                controller,
+                title: 'Dark',
+                mode: ThemeMode.dark,
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildThemeOption(
+    BuildContext context,
+    ThemeController controller, {
+    required String title,
+    required ThemeMode mode,
+  }) {
+    return RadioListTile<ThemeMode>(
+      title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
+      value: mode,
+      groupValue: controller.themeMode,
+      onChanged: (value) {
+        if (value != null) {
+          controller.updateThemeMode(value);
+          Navigator.pop(context);
+        }
+      },
+      activeColor: AppTheme.primaryGreen,
     );
   }
 }
