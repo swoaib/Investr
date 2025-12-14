@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../../shared/theme/app_theme.dart';
+import '../../../shared/theme/theme_controller.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -11,10 +13,12 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
-  bool _darkModeEnabled = false;
 
   @override
   Widget build(BuildContext context) {
+    // Access ThemeController
+    final themeController = Provider.of<ThemeController>(context);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -33,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 24),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardTheme.color,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -74,7 +78,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           Text(
                             'Unlock exclusive features.',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.color,
                               fontSize: 12,
                             ),
                           ),
@@ -98,19 +104,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 32),
               // Settings List
-              _buildSettingsTile(title: 'Account', onTap: () {}),
+              _buildSettingsTile(context, title: 'Account', onTap: () {}),
               _buildSwitchTile(
+                context,
                 title: 'Notifications',
                 value: _notificationsEnabled,
                 onChanged: (val) => setState(() => _notificationsEnabled = val),
               ),
               _buildSwitchTile(
-                title: 'Theme',
-                value: _darkModeEnabled,
-                onChanged: (val) => setState(() => _darkModeEnabled = val),
+                context,
+                title: 'Dark Mode',
+                value: themeController.isDarkMode,
+                onChanged: (val) {
+                  themeController.toggleTheme(val);
+                },
               ),
-              _buildSettingsTile(title: 'Help & Support', onTap: () {}),
-              _buildSettingsTile(title: 'About', onTap: () {}),
+              _buildSettingsTile(
+                context,
+                title: 'Help & Support',
+                onTap: () {},
+              ),
+              _buildSettingsTile(context, title: 'About', onTap: () {}),
             ],
           ),
         ),
@@ -118,7 +132,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSettingsTile({
+  Widget _buildSettingsTile(
+    BuildContext context, {
     required String title,
     required VoidCallback onTap,
   }) {
@@ -133,7 +148,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSwitchTile({
+  Widget _buildSwitchTile(
+    BuildContext context, {
     required String title,
     required bool value,
     required ValueChanged<bool> onChanged,

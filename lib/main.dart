@@ -5,9 +5,11 @@ import 'src/app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Check if onboarding is completed
+  // Load shared preferences
   final prefs = await SharedPreferences.getInstance();
+
+  // Check if onboarding is completed
   final onboardingCompleted = prefs.getBool('onboarding_completed') ?? false;
 
-  runApp(InvestrApp(onboardingCompleted: onboardingCompleted));
+  runApp(InvestrApp(onboardingCompleted: onboardingCompleted, prefs: prefs));
 }
