@@ -84,4 +84,19 @@ class StockListController extends ChangeNotifier {
     _error = null;
     notifyListeners();
   }
+
+  /// Adds a stock from search results to the watchlist
+  void addToWatchlist(Stock stock) {
+    // Check if stock is already in watchlist
+    if (_stocks.any((s) => s.symbol == stock.symbol)) {
+      return; // Already in watchlist
+    }
+    _stocks.insert(0, stock);
+    notifyListeners();
+  }
+
+  /// Checks if a stock is in the watchlist
+  bool isInWatchlist(String symbol) {
+    return _stocks.any((s) => s.symbol == symbol);
+  }
 }

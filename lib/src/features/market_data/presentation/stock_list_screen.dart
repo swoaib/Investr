@@ -134,7 +134,13 @@ class _StockListViewState extends State<_StockListView> {
       separatorBuilder: (context, index) => const Divider(height: 1),
       itemBuilder: (context, index) {
         final stock = controller.searchResults[index];
-        return _StockListItem(stock: stock);
+        return _SearchResultItem(
+          stock: stock,
+          isInWatchlist: controller.isInWatchlist(stock.symbol),
+          onAddToWatchlist: () {
+            controller.addToWatchlist(stock);
+          },
+        );
       },
     );
   }
@@ -211,6 +217,97 @@ class _StockListItem extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Widget for displaying a search result with an add button
+class _SearchResultItem extends StatelessWidget {
+  final Stock stock;
+  final bool isInWatchlist;
+  final VoidCallback onAddToWatchlist;
+
+  const _SearchResultItem({
+    required this.stock,
+    required this.isInWatchlist,
+    required this.onAddToWatchlist,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final currencyFormat = NumberFormat.currency(symbol: '\$');
+    final isPositive = stock.isPositive;
+    final color = isPositive ? AppTheme.primaryGreen : Colors.red;
+
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => StockDetailBottomSheet(stock: stock),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            // Symbol and Name
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    stock.symbol,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    stock.companyName,
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            // Price and Change
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  currencyFormat.format(stock.price),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 12),
+            // Add button
+            IconButton(
+              icon: Icon(
+                isInWatchlist ? Icons.check_circle : Icons.add_circle_outline,
+                color: isInWatchlist
+                    ? AppTheme.primaryGreen
+                    : AppTheme.textGrey,
+              ),
+              onPressed: isInWatchlist ? null : onAddToWatchlist,
             ),
           ],
         ),
