@@ -53,7 +53,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
             child: Form(
               key: _formKey,
               child: Column(
@@ -63,9 +63,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Intrinsic Value',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.white.withValues(alpha: 0.9),
-                      ),
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ),
                   const SizedBox(height: 24),

@@ -28,7 +28,12 @@ class _StockListView extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              padding: const EdgeInsets.fromLTRB(
+                AppTheme.screenPaddingHorizontal,
+                AppTheme.screenPaddingVertical,
+                AppTheme.screenPaddingHorizontal,
+                0,
+              ),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -38,7 +43,7 @@ class _StockListView extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: 'Search (e.g. AAPL)',
@@ -61,7 +66,9 @@ class _StockListView extends StatelessWidget {
                   : controller.error != null
                   ? Center(child: Text(controller.error!))
                   : ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.screenPaddingHorizontal,
+                      ),
                       itemCount: controller.stocks.length,
                       separatorBuilder: (context, index) =>
                           const Divider(height: 1),

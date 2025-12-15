@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../domain/course.dart';
+import '../../../shared/theme/app_theme.dart';
 
 class LearnScreen extends StatelessWidget {
   const LearnScreen({super.key});
@@ -32,7 +33,12 @@ class LearnScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+              padding: const EdgeInsets.fromLTRB(
+                AppTheme.screenPaddingHorizontal,
+                AppTheme.screenPaddingVertical,
+                AppTheme.screenPaddingHorizontal,
+                AppTheme.screenPaddingHorizontal,
+              ),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -43,7 +49,9 @@ class LearnScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.screenPaddingHorizontal,
+                ),
                 itemCount: courses.length,
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 16),

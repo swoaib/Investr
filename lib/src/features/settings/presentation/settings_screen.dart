@@ -26,7 +26,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+                padding: const EdgeInsets.fromLTRB(
+                  AppTheme.screenPaddingHorizontal,
+                  AppTheme.screenPaddingVertical,
+                  AppTheme.screenPaddingHorizontal,
+                  AppTheme.screenPaddingHorizontal,
+                ),
                 child: Text(
                   'Settings',
                   style: Theme.of(context).textTheme.headlineLarge,
@@ -34,7 +39,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               // Upgrade Banner
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 24),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.screenPaddingHorizontal,
+                ),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardTheme.color,
@@ -147,7 +154,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Widget? trailing,
   }) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.screenPaddingHorizontal,
+        vertical: 8,
+      ),
       title: Text(
         title,
         style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
@@ -164,7 +174,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required ValueChanged<bool> onChanged,
   }) {
     return SwitchListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.screenPaddingHorizontal,
+        vertical: 8,
+      ),
       title: Text(
         title,
         style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),

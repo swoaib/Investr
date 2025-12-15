@@ -13,6 +13,10 @@ class AppTheme {
   static const Color textLight = Color(0xFFE0E0E0); // Light text for dark mode
   static const Color textGrey = Color(0xFF757575);
 
+  // Screen Padding Constants
+  static const double screenPaddingHorizontal = 16.0;
+  static const double screenPaddingVertical = 16.0;
+
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
