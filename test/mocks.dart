@@ -12,10 +12,19 @@ class MockStockListController extends ChangeNotifier
   Future<void> searchStock(String query) async {}
 
   @override
+  void clearSearch() {}
+
+  @override
   bool get isLoading => false;
 
   @override
+  bool get isSearching => false;
+
+  @override
   List<Stock> get stocks => [];
+
+  @override
+  List<Stock> get searchResults => [];
 
   @override
   String? get error => null;

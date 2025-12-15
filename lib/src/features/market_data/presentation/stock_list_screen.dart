@@ -15,8 +15,26 @@ class StockListScreen extends StatelessWidget {
   }
 }
 
-class _StockListView extends StatelessWidget {
+class _StockListView extends StatefulWidget {
   const _StockListView();
+
+  @override
+  State<_StockListView> createState() => _StockListViewState();
+}
+
+class _StockListViewState extends State<_StockListView> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    context.read<StockListController>().clearSearch();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +63,18 @@ class _StockListView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
               child: TextField(
+                controller: _searchController,
                 decoration: InputDecoration(
                   hintText: 'Search (e.g. AAPL)',
                   prefixIcon: const Icon(Icons.search),
+                  suffixIcon:
+                      _searchController.text.isNotEmpty ||
+                          controller.isSearching
+                      ? IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: _clearSearch,
+                        )
+                      : null,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -55,6 +82,9 @@ class _StockListView extends StatelessWidget {
                   filled: true,
                 ),
                 textInputAction: TextInputAction.search,
+                onChanged: (value) {
+                  setState(() {}); // Rebuild to show/hide clear button
+                },
                 onSubmitted: (value) {
                   controller.searchStock(value);
                 },
@@ -65,22 +95,47 @@ class _StockListView extends StatelessWidget {
                   ? const Center(child: CircularProgressIndicator())
                   : controller.error != null
                   ? Center(child: Text(controller.error!))
-                  : ListView.separated(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppTheme.screenPaddingHorizontal,
-                      ),
-                      itemCount: controller.stocks.length,
-                      separatorBuilder: (context, index) =>
-                          const Divider(height: 1),
-                      itemBuilder: (context, index) {
-                        final stock = controller.stocks[index];
-                        return _StockListItem(stock: stock);
-                      },
-                    ),
+                  : controller.isSearching
+                  ? _buildSearchResults(controller)
+                  : _buildWatchlist(controller),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildWatchlist(StockListController controller) {
+    if (controller.stocks.isEmpty) {
+      return const Center(child: Text('No stocks in watchlist'));
+    }
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.screenPaddingHorizontal,
+      ),
+      itemCount: controller.stocks.length,
+      separatorBuilder: (context, index) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        final stock = controller.stocks[index];
+        return _StockListItem(stock: stock);
+      },
+    );
+  }
+
+  Widget _buildSearchResults(StockListController controller) {
+    if (controller.searchResults.isEmpty) {
+      return const Center(child: Text('No results found'));
+    }
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.screenPaddingHorizontal,
+      ),
+      itemCount: controller.searchResults.length,
+      separatorBuilder: (context, index) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        final stock = controller.searchResults[index];
+        return _StockListItem(stock: stock);
+      },
     );
   }
 }

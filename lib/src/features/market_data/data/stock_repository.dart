@@ -14,11 +14,11 @@ class StockRepository {
     'AAPL': 'Apple Inc.',
     'GOOGL': 'Alphabet Inc.',
     'TSLA': 'Tesla Inc.',
-    'MSFT': 'Microsoft Corp.',
-    'AMZN': 'Amazon.com Inc.',
-    'NFLX': 'Netflix Inc.',
-    'META': 'Meta Platforms',
-    'NVDA': 'NVIDIA Corp.',
+    // 'MSFT': 'Microsoft Corp.',
+    // 'AMZN': 'Amazon.com Inc.',
+    // 'NFLX': 'Netflix Inc.',
+    // 'META': 'Meta Platforms',
+    // 'NVDA': 'NVIDIA Corp.',
   };
 
   /// Fetches current data for the watchlist.

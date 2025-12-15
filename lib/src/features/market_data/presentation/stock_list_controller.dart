@@ -11,6 +11,13 @@ class StockListController extends ChangeNotifier {
   List<Stock> _stocks = [];
   List<Stock> get stocks => _stocks;
 
+  // Search state
+  List<Stock> _searchResults = [];
+  List<Stock> get searchResults => _searchResults;
+
+  bool _isSearching = false;
+  bool get isSearching => _isSearching;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
@@ -33,10 +40,15 @@ class StockListController extends ChangeNotifier {
   }
 
   Future<void> searchStock(String query) async {
-    if (query.isEmpty) return;
+    if (query.isEmpty) {
+      clearSearch();
+      return;
+    }
 
     _isLoading = true;
+    _isSearching = true;
     _error = null;
+    _searchResults = [];
     notifyListeners();
 
     try {
@@ -51,9 +63,7 @@ class StockListController extends ChangeNotifier {
         );
 
         if (stock != null) {
-          // Add to top of list
-          _stocks.removeWhere((s) => s.symbol == stock.symbol);
-          _stocks.insert(0, stock);
+          _searchResults = [stock];
         } else {
           _error = 'Could not load stock data';
         }
@@ -66,5 +76,12 @@ class StockListController extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void clearSearch() {
+    _isSearching = false;
+    _searchResults = [];
+    _error = null;
+    notifyListeners();
   }
 }
