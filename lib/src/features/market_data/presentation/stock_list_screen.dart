@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -191,12 +192,45 @@ class _StockListItem extends StatelessWidget {
                 ],
               ),
             ),
-            // Graph Placeholder (Mini Sparkline)
-            Icon(
-              isPositive ? Icons.trending_up : Icons.trending_down,
-              color: color,
+            // Mini Sparkline Chart
+            SizedBox(
+              width: 60,
+              height: 30,
+              child:
+                  stock.sparklineData != null && stock.sparklineData!.isNotEmpty
+                  ? LineChart(
+                      LineChartData(
+                        gridData: const FlGridData(show: false),
+                        titlesData: const FlTitlesData(show: false),
+                        borderData: FlBorderData(show: false),
+                        lineTouchData: const LineTouchData(enabled: false),
+                        lineBarsData: [
+                          LineChartBarData(
+                            spots: stock.sparklineData!
+                                .asMap()
+                                .entries
+                                .map(
+                                  (e) =>
+                                      FlSpot(e.key.toDouble(), e.value.price),
+                                )
+                                .toList(),
+                            isCurved: true,
+                            color: color,
+                            barWidth: 1.5,
+                            isStrokeCapRound: true,
+                            dotData: const FlDotData(show: false),
+                            belowBarData: BarAreaData(show: false),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Icon(
+                      isPositive ? Icons.trending_up : Icons.trending_down,
+                      color: color,
+                      size: 24,
+                    ),
             ),
-            SizedBox(width: 24),
+            const SizedBox(width: 16),
             // Price and Change
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,

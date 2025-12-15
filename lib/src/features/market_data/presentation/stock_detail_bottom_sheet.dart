@@ -20,7 +20,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   List<PricePoint> _history = [];
   late Stock _stock; // Local mutable stock to hold details
   bool _isLoading = true;
-  String _selectedInterval = '1M'; // Default
+  String _selectedInterval = '1D'; // Default to 1D
 
   @override
   void initState() {
@@ -35,18 +35,24 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     });
 
     try {
+      // Fetch history, details, and intraday (since 1D is now default)
       final historyFuture = _repository.getStockHistory(widget.stock.symbol);
       final detailsFuture = _repository.getStockDetails(widget.stock);
-      // Determine if we need intraday based on default or selection (default is 1M, so usually not needed immediately unless user selects 1D)
-      // But if user switches to 1D, we need it. Let's fetch it lazily or now?
-      // For simplicity, let's fetch both history and intraday if affordable, or just fetch history now.
+      final intradayFuture = _repository.getIntradayHistory(
+        widget.stock.symbol,
+      );
 
-      final results = await Future.wait([historyFuture, detailsFuture]);
+      final results = await Future.wait([
+        historyFuture,
+        detailsFuture,
+        intradayFuture,
+      ]);
 
       if (mounted) {
         setState(() {
           _history = results[0] as List<PricePoint>;
           _stock = results[1] as Stock;
+          _intradayHistory = results[2] as List<PricePoint>;
           _isLoading = false;
         });
       }

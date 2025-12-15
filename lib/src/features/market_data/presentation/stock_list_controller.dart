@@ -30,7 +30,23 @@ class StockListController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _stocks = await _repository.getWatchlistStocks();
+      final stocks = await _repository.getWatchlistStocks();
+
+      // Load sparkline data for each stock in parallel
+      final stocksWithSparklines = await Future.wait(
+        stocks.map((stock) async {
+          try {
+            final sparkline = await _repository.getIntradayHistory(
+              stock.symbol,
+            );
+            return stock.copyWithSparkline(sparkline);
+          } catch (e) {
+            return stock; // Return stock without sparkline on error
+          }
+        }),
+      );
+
+      _stocks = stocksWithSparklines;
     } catch (e) {
       _error = 'Failed to load stock data. Please check your connection.';
     } finally {
