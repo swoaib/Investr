@@ -113,7 +113,6 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(

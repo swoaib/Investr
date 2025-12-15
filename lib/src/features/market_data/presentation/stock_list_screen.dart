@@ -28,22 +28,21 @@ class _StockListView extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Stock Prices',
+                  'Stock Market',
                   style: theme.textTheme.headlineLarge,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(16.0),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: 'Search (e.g. AAPL)',
                   prefixIcon: const Icon(Icons.search),
-                  fillColor: Colors.grey.shade200,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -62,7 +61,7 @@ class _StockListView extends StatelessWidget {
                   : controller.error != null
                   ? Center(child: Text(controller.error!))
                   : ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       itemCount: controller.stocks.length,
                       separatorBuilder: (context, index) =>
                           const Divider(height: 1),
@@ -106,7 +105,6 @@ class _StockListItem extends StatelessWidget {
           children: [
             // Symbol and Name
             Expanded(
-              flex: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -126,36 +124,31 @@ class _StockListItem extends StatelessWidget {
               ),
             ),
             // Graph Placeholder (Mini Sparkline)
-            Expanded(
-              flex: 2,
-              child: Icon(
-                isPositive ? Icons.trending_up : Icons.trending_down,
-                color: color,
-              ),
+            Icon(
+              isPositive ? Icons.trending_up : Icons.trending_down,
+              color: color,
             ),
+            SizedBox(width: 24),
             // Price and Change
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    currencyFormat.format(stock.price),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  currencyFormat.format(stock.price),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
-                  Text(
-                    '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
-                    style: TextStyle(
-                      color: color,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                ),
+                Text(
+                  '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
