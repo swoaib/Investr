@@ -96,7 +96,7 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: primaryGreen, width: 2),
         ),
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(12),
         hintStyle: GoogleFonts.outfit(color: textGrey),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -190,7 +190,7 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: primaryGreen, width: 2),
         ),
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(12),
         hintStyle: GoogleFonts.outfit(color: textGrey),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
