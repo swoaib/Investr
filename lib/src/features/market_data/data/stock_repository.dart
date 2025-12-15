@@ -301,4 +301,42 @@ class StockRepository {
     }
     return [];
   }
+
+  /// Searches for a stock ticker by symbol or name.
+  /// Returns the best matching ticker symbol and name.
+  Future<({String symbol, String name})?> searchTicker(String query) async {
+    try {
+      final encodedQuery = Uri.encodeComponent(query.toUpperCase());
+      final url = Uri.parse(
+        '$_baseUrl/v3/reference/tickers?search=$encodedQuery&active=true&limit=10&apiKey=$_apiKey',
+      );
+
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] as List<dynamic>?;
+
+        if (results != null && results.isNotEmpty) {
+          // Prioritize exact ticker match
+          for (var result in results) {
+            if ((result['ticker'] as String).toUpperCase() ==
+                query.toUpperCase()) {
+              return (
+                symbol: result['ticker'] as String,
+                name: result['name'] as String,
+              );
+            }
+          }
+          // Otherwise return first result
+          return (
+            symbol: results.first['ticker'] as String,
+            name: results.first['name'] as String,
+          );
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error searching ticker for $query: $e');
+    }
+    return null;
+  }
 }

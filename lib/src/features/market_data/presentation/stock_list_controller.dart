@@ -40,13 +40,25 @@ class StockListController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final stock = await _repository.getStock(query);
-      if (stock != null) {
-        // Add to top of list if found
-        _stocks.removeWhere((s) => s.symbol == stock.symbol);
-        _stocks.insert(0, stock);
+      // First, try to find the ticker (supports both symbol and name search)
+      final tickerResult = await _repository.searchTicker(query);
+
+      if (tickerResult != null) {
+        // Found a match, now get the stock data
+        final stock = await _repository.getStock(
+          tickerResult.symbol,
+          name: tickerResult.name,
+        );
+
+        if (stock != null) {
+          // Add to top of list
+          _stocks.removeWhere((s) => s.symbol == stock.symbol);
+          _stocks.insert(0, stock);
+        } else {
+          _error = 'Could not load stock data';
+        }
       } else {
-        _error = 'Stock not found';
+        _error = 'Stock not found for "$query"';
       }
     } catch (e) {
       _error = 'Error searching stock';
