@@ -325,6 +325,29 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                               }).toList();
                             },
                           ),
+                          getTouchedSpotIndicator:
+                              (
+                                LineChartBarData barData,
+                                List<int> spotIndexes,
+                              ) {
+                                return spotIndexes.map((index) {
+                                  return TouchedSpotIndicatorData(
+                                    FlLine(color: color, strokeWidth: 1.5),
+                                    FlDotData(
+                                      show: true,
+                                      getDotPainter:
+                                          (spot, percent, barData, index) {
+                                            return FlDotCirclePainter(
+                                              radius: 8,
+                                              color: color,
+                                              strokeWidth: 1,
+                                              strokeColor: Colors.white,
+                                            );
+                                          },
+                                    ),
+                                  );
+                                }).toList();
+                              },
                         ),
                         lineBarsData: [
                           LineChartBarData(
