@@ -133,167 +133,276 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.85, // Increased height
       decoration: BoxDecoration(
         color: theme.cardTheme.color,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _stock.symbol,
-                    style: theme.textTheme.headlineLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+      padding: const EdgeInsets.all(16),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _stock.symbol,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    _stock.companyName,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: Colors.grey,
+                    Text(
+                      _stock.companyName,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    currencyFormat.format(_stock.price),
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      currencyFormat.format(_stock.price),
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${isPositive ? '+' : ''}${_stock.changePercent.toStringAsFixed(2)}%',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: color,
-                      fontWeight: FontWeight.bold,
+                    Text(
+                      '${isPositive ? '+' : ''}${_stock.changePercent.toStringAsFixed(2)}%',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: color,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
 
-          // Chart
-          SizedBox(
-            // Fixed height for chart
-            height: 250,
-            child: _isLoading && _history.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : points.isEmpty
-                ? Center(
-                    child: Text(
-                      'No data available',
-                      style: theme.textTheme.bodyMedium,
-                    ),
-                  )
-                : LineChart(
-                    LineChartData(
-                      gridData: const FlGridData(show: false),
-                      titlesData: const FlTitlesData(show: false),
-                      borderData: FlBorderData(show: false),
-                      lineTouchData: LineTouchData(
-                        touchTooltipData: LineTouchTooltipData(
-                          getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
-                            return touchedBarSpots.map((barSpot) {
-                              return LineTooltipItem(
-                                barSpot.y.toStringAsFixed(2),
-                                const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
-                            }).toList();
+            // Chart
+            SizedBox(
+              // Fixed height for chart
+              height: 250,
+              child: _isLoading && _history.isEmpty
+                  ? const Center(child: CircularProgressIndicator())
+                  : points.isEmpty
+                  ? Center(
+                      child: Text(
+                        'No data available',
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                    )
+                  : LineChart(
+                      LineChartData(
+                        gridData: FlGridData(
+                          show: true,
+                          drawVerticalLine: false,
+                          horizontalInterval: null,
+                          getDrawingHorizontalLine: (value) {
+                            return FlLine(
+                              color: Colors.grey.withValues(alpha: 0.2),
+                              strokeWidth: 1,
+                            );
                           },
                         ),
-                      ),
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: points
-                              .map(
-                                (p) => FlSpot(
-                                  p.date.millisecondsSinceEpoch.toDouble(),
-                                  p.price,
-                                ),
-                              )
-                              .toList(),
-                          isCurved: true,
-                          color: color,
-                          barWidth: 3,
-                          isStrokeCapRound: true,
-                          dotData: const FlDotData(show: false),
-                          belowBarData: BarAreaData(
-                            show: true,
-                            color: color.withValues(alpha: 0.1),
+                        titlesData: FlTitlesData(
+                          show: true,
+                          leftTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          topTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 20,
+                              interval: null,
+                              getTitlesWidget: (value, meta) {
+                                final date =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                      value.toInt(),
+                                    );
+
+                                // Show only first and last date to avoid crowding
+                                if (value == meta.min || value == meta.max) {
+                                  String formatted;
+                                  if (_selectedInterval == '1D') {
+                                    formatted = DateFormat(
+                                      'HH:mm',
+                                    ).format(date);
+                                  } else if (_selectedInterval == '1W') {
+                                    formatted = DateFormat('EEE').format(date);
+                                  } else if (_selectedInterval == '1M') {
+                                    formatted = DateFormat(
+                                      'MMM d',
+                                    ).format(date);
+                                  } else {
+                                    formatted = DateFormat(
+                                      'MMM yy',
+                                    ).format(date);
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: Text(
+                                      formatted,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                            ),
+                          ),
+                          rightTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 35,
+                              maxIncluded: false,
+                              minIncluded: false,
+                              getTitlesWidget: (value, meta) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    '\$${value.toStringAsFixed(0)}',
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-          ),
-          const SizedBox(height: 24),
+                        borderData: FlBorderData(
+                          show: true,
+                          border: Border(
+                            right: BorderSide(
+                              color: Colors.grey.withValues(alpha: 0.2),
+                              width: 1,
+                            ),
+                            bottom: BorderSide(
+                              color: Colors.grey.withValues(alpha: 0.2),
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                        lineTouchData: LineTouchData(
+                          touchTooltipData: LineTouchTooltipData(
+                            getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+                              return touchedBarSpots.map((barSpot) {
+                                final date =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                      barSpot.x.toInt(),
+                                    );
+                                String dateStr;
+                                if (_selectedInterval == '1D') {
+                                  dateStr = DateFormat('HH:mm').format(date);
+                                } else {
+                                  dateStr = DateFormat('MMM d, y').format(date);
+                                }
 
-          // Interval Selector
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: ['1D', '1W', '1M', '1Y', 'All'].map((interval) {
-              final isSelected = _selectedInterval == interval;
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedInterval = interval;
-                  });
-                  _fetchIntradayIfNeeded();
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isSelected ? color : Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    interval,
-                    style: TextStyle(
-                      color: isSelected ? Colors.white : Colors.grey,
-                      fontWeight: FontWeight.bold,
+                                return LineTooltipItem(
+                                  '\$${barSpot.y.toStringAsFixed(2)}\n$dateStr',
+                                  const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                );
+                              }).toList();
+                            },
+                          ),
+                        ),
+                        lineBarsData: [
+                          LineChartBarData(
+                            spots: points
+                                .map(
+                                  (p) => FlSpot(
+                                    p.date.millisecondsSinceEpoch.toDouble(),
+                                    p.price,
+                                  ),
+                                )
+                                .toList(),
+                            isCurved: true,
+                            color: color,
+                            barWidth: 2,
+                            isStrokeCapRound: true,
+                            dotData: const FlDotData(show: false),
+                            belowBarData: BarAreaData(
+                              show: true,
+                              color: color.withValues(alpha: 0.1),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 32),
-
-          // Key Statistics Title
-          Text(
-            "Key Statistics",
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
             ),
-          ),
-          const SizedBox(height: 16),
+            const SizedBox(height: 16),
 
-          // Statistics Grid
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 2.5,
+            // Interval Selector
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: ['1D', '1W', '1M', '1Y', 'All'].map((interval) {
+                final isSelected = _selectedInterval == interval;
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedInterval = interval;
+                    });
+                    _fetchIntradayIfNeeded();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected ? color : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      interval,
+                      style: TextStyle(
+                        color: isSelected ? Colors.white : Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 24),
+
+            // Key Statistics Title
+            Text(
+              "Key Statistics",
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Statistics Grid
+            GridView.count(
+              crossAxisCount: 3,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 _buildStatItem(
                   'Market Cap',
@@ -324,8 +433,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

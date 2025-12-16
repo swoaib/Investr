@@ -74,8 +74,9 @@ class StockRepository {
           }
         }
       } else {
-        if (kDebugMode)
+        if (kDebugMode) {
           print('Failed to fetch group data: ${response.statusCode}');
+        }
         // Fallback: If group fetch fails (e.g. 403 or Holiday), return empty list or try individual fallback?
         // For now, return empty to avoid hanging.
       }
@@ -119,8 +120,9 @@ class StockRepository {
           );
         }
       } else {
-        if (kDebugMode)
+        if (kDebugMode) {
           print('Failed to fetch stock $symbol: ${response.statusCode}');
+        }
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching stock $symbol: $e');
