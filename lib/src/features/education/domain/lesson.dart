@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Lesson {
+  final String id;
   final String title;
   final String description;
   final List<LessonPage> pages;
@@ -8,6 +9,7 @@ class Lesson {
   final IconData? icon; // For the list view if needed
 
   const Lesson({
+    required this.id,
     required this.title,
     required this.description,
     required this.pages,

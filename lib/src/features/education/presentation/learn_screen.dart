@@ -3,11 +3,16 @@ import '../domain/lesson.dart';
 import 'lesson_detail_screen.dart';
 import '../../../shared/theme/app_theme.dart';
 
+import 'package:provider/provider.dart';
+import '../data/education_service.dart';
+import '../presentation/education_controller.dart';
+
 class LearnScreen extends StatelessWidget {
   const LearnScreen({super.key});
 
   static const List<Lesson> lessons = [
     Lesson(
+      id: 'stocks_101',
       title: 'Stocks 101',
       description: 'Start your journey here.',
       color: Color(0xFF4CAF50),
@@ -34,6 +39,7 @@ class LearnScreen extends StatelessWidget {
       ],
     ),
     Lesson(
+      id: 'investing_vs_speculation',
       title: 'Investment vs. Speculation',
       description: 'Understand the difference.',
       color: Color(0xFF2196F3),
@@ -60,6 +66,7 @@ class LearnScreen extends StatelessWidget {
       ],
     ),
     Lesson(
+      id: 'mr_market',
       title: 'Mr. Market',
       description: 'The Intelligent Investor concept.',
       color: Color(0xFFFFC107),
@@ -98,6 +105,7 @@ class LearnScreen extends StatelessWidget {
       ],
     ),
     Lesson(
+      id: 'dollar_cost_averaging',
       title: 'Dollar Cost Averaging',
       description: 'Build wealth through consistency.',
       color: Color(0xFF9C27B0),
@@ -130,6 +138,7 @@ class LearnScreen extends StatelessWidget {
       ],
     ),
     Lesson(
+      id: 'margin_of_safety',
       title: 'Margin of Safety',
       description: 'Risk management strategy.',
       color: Color(0xFFFF5722),
@@ -171,6 +180,22 @@ class LearnScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) =>
+          EducationController(EducationService())..transformLessons(lessons),
+      child: const _LearnScreenContent(),
+    );
+  }
+}
+
+class _LearnScreenContent extends StatelessWidget {
+  const _LearnScreenContent();
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = context.watch<EducationController>();
+    final overallProgress = controller.getOverallProgress(LearnScreen.lessons);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -182,12 +207,61 @@ class LearnScreen extends StatelessWidget {
                 AppTheme.screenPaddingHorizontal,
                 AppTheme.screenPaddingHorizontal,
               ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Learn',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Learn',
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardTheme.color,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppTheme.primaryGreen.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Overall Progress',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text(
+                              '${(overallProgress * 100).toInt()}%',
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: AppTheme.primaryGreen,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: LinearProgressIndicator(
+                            value: overallProgress,
+                            minHeight: 12,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).dividerColor.withValues(alpha: 0.2),
+                            valueColor: const AlwaysStoppedAnimation(
+                              AppTheme.primaryGreen,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -195,11 +269,11 @@ class LearnScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppTheme.screenPaddingHorizontal,
                 ),
-                itemCount: lessons.length,
+                itemCount: LearnScreen.lessons.length,
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 16),
                 itemBuilder: (context, index) {
-                  return _LessonCard(lesson: lessons[index]);
+                  return _LessonCard(lesson: LearnScreen.lessons[index]);
                 },
               ),
             ),
@@ -217,10 +291,22 @@ class _LessonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Watch for updates to repaint when progress changes
+    final progress = context.select<EducationController, double>(
+      (controller) => controller.getProgress(lesson.id, lesson.pages.length),
+    );
+
     return GestureDetector(
       onTap: () {
+        // Pass the existing controller instance to the detail screen
+        final controller = context.read<EducationController>();
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => LessonDetailScreen(lesson: lesson)),
+          MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider.value(
+              value: controller,
+              child: LessonDetailScreen(lesson: lesson),
+            ),
+          ),
         );
       },
       child: Container(
@@ -261,17 +347,39 @@ class _LessonCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 8),
-                  // Progress indicator can be implemented later when we have state
-                  LinearProgressIndicator(
-                    value: 0.0, // Default 0 for now
-                    backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation(lesson.color),
-                    borderRadius: BorderRadius.circular(4),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).dividerColor.withValues(alpha: 0.2),
+                            valueColor: AlwaysStoppedAnimation(lesson.color),
+                            minHeight: 6,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${(progress * 100).toInt()}%',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: lesson.color,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.grey),
+            const SizedBox(width: 8),
+            Icon(
+              progress >= 1.0 ? Icons.check_circle : Icons.chevron_right,
+              color: progress >= 1.0 ? AppTheme.primaryGreen : Colors.grey,
+            ),
           ],
         ),
       ),

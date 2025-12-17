@@ -1,5 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'education_controller.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../domain/lesson.dart';
@@ -20,7 +22,12 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    // Initialize PageController with stored progress
+    final initialPage = context.read<EducationController>().getRawProgress(
+      widget.lesson.id,
+    );
+    _currentPage = initialPage < widget.lesson.pages.length ? initialPage : 0;
+    _pageController = PageController(initialPage: _currentPage);
   }
 
   @override
@@ -33,6 +40,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     setState(() {
       _currentPage = index;
     });
+    // Update progress
+    context.read<EducationController>().updateProgress(widget.lesson.id, index);
   }
 
   void _nextPage() {
