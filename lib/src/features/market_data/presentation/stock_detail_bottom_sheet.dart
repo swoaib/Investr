@@ -359,10 +359,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                                   ),
                                 )
                                 .toList(),
-                            isCurved: true,
                             color: color,
                             barWidth: 2,
-                            isStrokeCapRound: true,
                             dotData: const FlDotData(show: false),
                             belowBarData: BarAreaData(
                               show: true,
