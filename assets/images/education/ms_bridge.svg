@@ -1,0 +1,13 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 200 L250 200" stroke="#795548" stroke-width="10"/>
+  <path d="M50 200 Q150 250 250 200" stroke="#795548" stroke-width="4" fill="none"/>
+  <path d="M70 200 L70 230 M230 200 L230 230" stroke="#795548" stroke-width="4"/>
+  
+  <rect x="130" y="170" width="40" height="30" fill="#2196F3"/>
+  <circle cx="140" cy="200" r="5" fill="#333"/>
+  <circle cx="160" cy="200" r="5" fill="#333"/>
+  
+  <rect x="200" y="100" width="60" height="40" fill="#FFF" stroke="#D32F2F" stroke-width="2"/>
+  <text x="230" y="120" font-family="Arial" font-size="10" fill="#D32F2F" text-anchor="middle">Load: 10k</text>
+  <text x="230" y="135" font-family="Arial" font-size="10" fill="#388E3C" text-anchor="middle">Cap: 30k</text>
+</svg>

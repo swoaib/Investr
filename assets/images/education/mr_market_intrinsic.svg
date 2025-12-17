@@ -1,0 +1,10 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 200 L250 100" stroke="#4CAF50" stroke-width="4"/>
+  <text x="260" y="100" font-family="Arial" font-size="12" fill="#4CAF50">Value</text>
+  
+  <path d="M50 220 Q100 150 150 220 T250 80" stroke="#FFC107" stroke-width="2"/>
+  <text x="260" y="80" font-family="Arial" font-size="12" fill="#FFC107">Price</text>
+  
+  <circle cx="150" cy="150" r="40" stroke="#2196F3" stroke-width="2" stroke-dasharray="4,4"/>
+  <text x="150" y="155" font-family="Arial" font-size="12" fill="#2196F3" text-anchor="middle">Gap</text>
+</svg>

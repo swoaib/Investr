@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/theme/app_theme.dart';
@@ -126,7 +127,13 @@ class _LessonPageView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (page.imagePath != null)
-            Image.asset(page.imagePath!, height: 300, fit: BoxFit.contain)
+            page.imagePath!.endsWith('.svg')
+                ? SvgPicture.asset(
+                    page.imagePath!,
+                    height: 300,
+                    fit: BoxFit.contain,
+                  )
+                : Image.asset(page.imagePath!, height: 300, fit: BoxFit.contain)
           else if (page.icon != null)
             Container(
               padding: const EdgeInsets.all(32),

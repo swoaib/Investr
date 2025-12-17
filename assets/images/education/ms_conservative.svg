@@ -1,0 +1,10 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 250 L250 250" stroke="#757575" stroke-width="2"/>
+  <path d="M50 250 L50 50" stroke="#757575" stroke-width="2"/>
+  
+  <path d="M50 250 C100 240 150 150 250 50" stroke="#9E9E9E" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="200" y="60" font-family="Arial" font-size="10" fill="#9E9E9E">Bullish</text>
+  
+  <path d="M50 250 C100 245 150 220 250 180" stroke="#4CAF50" stroke-width="4"/>
+  <text x="200" y="170" font-family="Arial" font-size="12" fill="#4CAF50" font-weight="bold">Conservative</text>
+</svg>
