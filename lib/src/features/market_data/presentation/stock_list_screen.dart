@@ -118,7 +118,27 @@ class _StockListViewState extends State<_StockListView> {
       separatorBuilder: (context, index) => const Divider(height: 1),
       itemBuilder: (context, index) {
         final stock = controller.stocks[index];
-        return _StockListItem(stock: stock);
+        return Dismissible(
+          key: Key(stock.symbol),
+          background: Container(
+            color: Colors.red,
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 20.0),
+            child: const Icon(Icons.delete, color: Colors.white),
+          ),
+          direction: DismissDirection.endToStart,
+          onDismissed: (direction) {
+            controller.removeFromWatchlist(stock);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('${stock.symbol} removed from watchlist'),
+                width: 400, // Limit width for better look on wide screens
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          },
+          child: _StockListItem(stock: stock),
+        );
       },
     );
   }

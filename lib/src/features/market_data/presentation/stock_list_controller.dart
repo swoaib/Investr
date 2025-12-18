@@ -102,13 +102,26 @@ class StockListController extends ChangeNotifier {
   }
 
   /// Adds a stock from search results to the watchlist
-  void addToWatchlist(Stock stock) {
+  Future<void> addToWatchlist(Stock stock) async {
     // Check if stock is already in watchlist
     if (_stocks.any((s) => s.symbol == stock.symbol)) {
       return; // Already in watchlist
     }
+
+    // Add to local list immediately for UI responsiveness
     _stocks.insert(0, stock);
     notifyListeners();
+
+    // Persist
+    await _repository.addToWatchlist(stock.symbol, stock.companyName);
+  }
+
+  /// Remove a stock from the watchlist
+  Future<void> removeFromWatchlist(Stock stock) async {
+    _stocks.removeWhere((s) => s.symbol == stock.symbol);
+    notifyListeners();
+
+    await _repository.removeFromWatchlist(stock.symbol);
   }
 
   /// Checks if a stock is in the watchlist

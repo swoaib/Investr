@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../domain/stock.dart';
@@ -10,15 +11,13 @@ class StockRepository {
   final String _baseUrl = 'https://api.polygon.io';
 
   // Hardcoded list of popular stocks for the dashboard to simulate a "Watchlist"
-  final Map<String, String> _watchlist = {
+  static const String _watchlistKey = 'watchlist_v1';
+
+  // Default stocks for new users
+  final Map<String, String> _defaultWatchlist = {
     'AAPL': 'Apple Inc.',
     'GOOGL': 'Alphabet Inc.',
     'TSLA': 'Tesla Inc.',
-    // 'MSFT': 'Microsoft Corp.',
-    // 'AMZN': 'Amazon.com Inc.',
-    // 'NFLX': 'Netflix Inc.',
-    // 'META': 'Meta Platforms',
-    // 'NVDA': 'NVIDIA Corp.',
   };
 
   /// Fetches current data for the watchlist.
@@ -26,6 +25,8 @@ class StockRepository {
   Future<List<Stock>> getWatchlistStocks() async {
     List<Stock> stocks = [];
     try {
+      final watchlistMap = await _loadWatchlistMap();
+
       // 1. Calculate the most recent trading day (typically yesterday)
       // Grouped Daily data is available for the previous trading day.
       DateTime date = DateTime.now().subtract(const Duration(days: 1));
@@ -52,7 +53,7 @@ class StockRepository {
           // We only care about stocks in our _watchlist
           for (var item in results) {
             final String ticker = item['T'];
-            if (_watchlist.containsKey(ticker)) {
+            if (watchlistMap.containsKey(ticker)) {
               // Found a watchlist item
               final double currentPrice = (item['c'] as num).toDouble();
               final double openPrice = (item['o'] as num).toDouble();
@@ -64,7 +65,7 @@ class StockRepository {
               stocks.add(
                 Stock(
                   symbol: ticker,
-                  companyName: _watchlist[ticker]!,
+                  companyName: watchlistMap[ticker]!,
                   price: currentPrice,
                   change: change,
                   changePercent: changePercent,
@@ -340,5 +341,50 @@ class StockRepository {
       if (kDebugMode) print('Error searching ticker for $query: $e');
     }
     return null;
+  }
+
+  // Encryption/Persistence Helpers
+
+  Future<Map<String, String>> _loadWatchlistMap() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString(_watchlistKey);
+
+    if (jsonString == null) {
+      // Seed with default
+      await _saveWatchlistMap(_defaultWatchlist);
+      return _defaultWatchlist;
+    }
+
+    try {
+      final List<dynamic> list = json.decode(jsonString);
+      return {for (var item in list) item['symbol']: item['name']};
+    } catch (e) {
+      // Fallback if corrupted
+      return _defaultWatchlist;
+    }
+  }
+
+  Future<void> _saveWatchlistMap(Map<String, String> watchlist) async {
+    final prefs = await SharedPreferences.getInstance();
+    final list = watchlist.entries
+        .map((e) => {'symbol': e.key, 'name': e.value})
+        .toList();
+    await prefs.setString(_watchlistKey, json.encode(list));
+  }
+
+  Future<void> addToWatchlist(String symbol, String name) async {
+    final current = await _loadWatchlistMap();
+    if (!current.containsKey(symbol)) {
+      current[symbol] = name;
+      await _saveWatchlistMap(current);
+    }
+  }
+
+  Future<void> removeFromWatchlist(String symbol) async {
+    final current = await _loadWatchlistMap();
+    if (current.containsKey(symbol)) {
+      current.remove(symbol);
+      await _saveWatchlistMap(current);
+    }
   }
 }
