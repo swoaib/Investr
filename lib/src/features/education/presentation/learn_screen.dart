@@ -195,6 +195,10 @@ class _LearnScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<EducationController>();
     final overallProgress = controller.getOverallProgress(LearnScreen.lessons);
+    final isOverallCompleted = overallProgress >= 1.0;
+    final overallProgressColor = isOverallCompleted
+        ? AppTheme.primaryGreen
+        : AppTheme.textGrey;
 
     return Scaffold(
       body: SafeArea(
@@ -238,7 +242,7 @@ class _LearnScreenContent extends StatelessWidget {
                               '${(overallProgress * 100).toInt()}%',
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
-                                    color: AppTheme.primaryGreen,
+                                    color: overallProgressColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
@@ -253,8 +257,8 @@ class _LearnScreenContent extends StatelessWidget {
                             backgroundColor: Theme.of(
                               context,
                             ).dividerColor.withValues(alpha: 0.2),
-                            valueColor: const AlwaysStoppedAnimation(
-                              AppTheme.primaryGreen,
+                            valueColor: AlwaysStoppedAnimation(
+                              overallProgressColor,
                             ),
                           ),
                         ),
@@ -295,6 +299,11 @@ class _LessonCard extends StatelessWidget {
     final progress = context.select<EducationController, double>(
       (controller) => controller.getProgress(lesson.id, lesson.pages.length),
     );
+
+    final isCompleted = progress >= 1.0;
+    final progressColor = isCompleted
+        ? AppTheme.primaryGreen
+        : AppTheme.textGrey;
 
     return GestureDetector(
       onTap: () {
@@ -357,7 +366,7 @@ class _LessonCard extends StatelessWidget {
                             backgroundColor: Theme.of(
                               context,
                             ).dividerColor.withValues(alpha: 0.2),
-                            valueColor: AlwaysStoppedAnimation(lesson.color),
+                            valueColor: AlwaysStoppedAnimation(progressColor),
                             minHeight: 6,
                           ),
                         ),
@@ -366,7 +375,7 @@ class _LessonCard extends StatelessWidget {
                       Text(
                         '${(progress * 100).toInt()}%',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: lesson.color,
+                          color: progressColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
