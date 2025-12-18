@@ -26,6 +26,9 @@ class StockRepository {
     List<Stock> stocks = [];
     try {
       final watchlistMap = await _loadWatchlistMap();
+      if (watchlistMap.isEmpty) {
+        return [];
+      }
 
       // 1. Calculate the most recent trading day (typically yesterday)
       // Grouped Daily data is available for the previous trading day.
@@ -49,12 +52,17 @@ class StockRepository {
         final results = data['results'] as List<dynamic>?;
 
         if (results != null) {
-          // Create a map for O(1) lookup or just filter
-          // We only care about stocks in our _watchlist
-          for (var item in results) {
-            final String ticker = item['T'];
-            if (watchlistMap.containsKey(ticker)) {
-              // Found a watchlist item
+          // Create a lookup map from API results
+          final Map<String, dynamic> resultsMap = {
+            for (var item in results) item['T']: item,
+          };
+
+          // Iterate through our PRESERVED watchlist order
+          for (var ticker in watchlistMap.keys) {
+            final item = resultsMap[ticker];
+
+            if (item != null) {
+              // Found data for this watchlist item
               final double currentPrice = (item['c'] as num).toDouble();
               final double openPrice = (item['o'] as num).toDouble();
               final double change = currentPrice - openPrice;
@@ -75,14 +83,11 @@ class StockRepository {
           }
         }
       } else {
-        if (kDebugMode) {
-          print('Failed to fetch group data: ${response.statusCode}');
-        }
-        // Fallback: If group fetch fails (e.g. 403 or Holiday), return empty list or try individual fallback?
-        // For now, return empty to avoid hanging.
+        throw Exception('Failed to fetch group data: ${response.statusCode}');
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching watchlist: $e');
+      rethrow;
     }
 
     // Sort to maintain order if needed, or just return what we found
