@@ -310,6 +310,38 @@ class StockRepository {
     return [];
   }
 
+  /// Fetches hourly data for the "1W" chart to provide more granularity than daily.
+  Future<List<PricePoint>> getWeeklyHistory(String symbol) async {
+    try {
+      final now = DateTime.now();
+      final from = now.subtract(const Duration(days: 7));
+      final dateFormat = DateFormat('yyyy-MM-dd');
+
+      // /v2/aggs/ticker/{ticker}/range/1/hour/{from}/{to}
+      final url = Uri.parse(
+        '$_baseUrl/v2/aggs/ticker/$symbol/range/1/hour/${dateFormat.format(from)}/${dateFormat.format(now)}?adjusted=true&sort=asc&apiKey=$_apiKey',
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] as List<dynamic>?;
+
+        if (results != null && results.isNotEmpty) {
+          return results.map((candle) {
+            final date = DateTime.fromMillisecondsSinceEpoch(candle['t']);
+            final close = (candle['c'] as num).toDouble();
+            return PricePoint(date: date, price: close);
+          }).toList();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching weekly for $symbol: $e');
+    }
+    return [];
+  }
+
   /// Searches for a stock ticker by symbol or name.
   /// Returns the best matching ticker symbol and name.
   Future<({String symbol, String name})?> searchTicker(String query) async {

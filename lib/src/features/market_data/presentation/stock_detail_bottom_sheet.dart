@@ -21,6 +21,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   late Stock _stock; // Local mutable stock to hold details
   bool _isLoading = true;
   String _selectedInterval = '1D'; // Default to 1D
+  DateTimeRange? _customDateRange;
 
   @override
   void initState() {
@@ -65,16 +66,26 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     }
   }
 
-  // Cache for intraday data to avoid re-fetching
+  // Cache for intraday/weekly data to avoid re-fetching
   List<PricePoint>? _intradayHistory;
+  List<PricePoint>? _weeklyHistory;
 
-  Future<void> _fetchIntradayIfNeeded() async {
+  Future<void> _fetchDataForInterval() async {
     if (_selectedInterval == '1D' && _intradayHistory == null) {
       setState(() => _isLoading = true);
       final data = await _repository.getIntradayHistory(_stock.symbol);
       if (mounted) {
         setState(() {
           _intradayHistory = data;
+          _isLoading = false;
+        });
+      }
+    } else if (_selectedInterval == '1W' && _weeklyHistory == null) {
+      setState(() => _isLoading = true);
+      final data = await _repository.getWeeklyHistory(_stock.symbol);
+      if (mounted) {
+        setState(() {
+          _weeklyHistory = data;
           _isLoading = false;
         });
       }
@@ -93,6 +104,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
       return _history.sublist(_history.length - 5).toList();
     }
 
+    if (_selectedInterval == '1W') {
+      if (_weeklyHistory != null && _weeklyHistory!.isNotEmpty) {
+        return _weeklyHistory!;
+      }
+      // Fallback to daily data if weekly fails
+    }
+
     if (_history.isEmpty) return [];
 
     final now = DateTime.now();
@@ -109,8 +127,19 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
         cutoff = now.subtract(const Duration(days: 365));
         break;
       case 'All':
+      case 'Custom':
+        // Custom is handled below
+        cutoff = DateTime(1970); // Effectively all, then filtered
+        break;
       default:
         return _history;
+    }
+
+    if (_selectedInterval == 'Custom' && _customDateRange != null) {
+      return _history.where((p) {
+        return p.date.isAfter(_customDateRange!.start) &&
+            p.date.isBefore(_customDateRange!.end.add(const Duration(days: 1)));
+      }).toList();
     }
 
     return _history.where((p) => p.date.isAfter(cutoff)).toList();
@@ -376,14 +405,50 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             // Interval Selector
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: ['1D', '1W', '1M', '1Y', 'All'].map((interval) {
+              children: ['1D', '1W', '1M', '1Y', 'All', 'Custom'].map((
+                interval,
+              ) {
                 final isSelected = _selectedInterval == interval;
                 return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedInterval = interval;
-                    });
-                    _fetchIntradayIfNeeded();
+                  onTap: () async {
+                    if (interval == 'Custom') {
+                      final picked = await showDateRangePicker(
+                        context: context,
+                        firstDate: DateTime.now().subtract(
+                          const Duration(days: 365 * 2),
+                        ),
+                        lastDate: DateTime.now(),
+                        initialDateRange: _customDateRange,
+                        builder: (context, child) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: color,
+                                onPrimary: Colors.white,
+                                surface: theme.cardColor,
+                                onSurface: theme.textTheme.bodyLarge!.color!,
+                              ),
+                              dialogBackgroundColor:
+                                  theme.scaffoldBackgroundColor,
+                            ),
+                            child: child!,
+                          );
+                        },
+                      );
+
+                      if (picked != null) {
+                        setState(() {
+                          _customDateRange = picked;
+                          _selectedInterval = interval;
+                        });
+                      }
+                    } else {
+                      setState(() {
+                        _selectedInterval = interval;
+                        _customDateRange = null; // Reset custom range
+                      });
+                      _fetchDataForInterval();
+                    }
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
