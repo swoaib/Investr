@@ -21,7 +21,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   late Stock _stock; // Local mutable stock to hold details
   bool _isLoading = true;
   String _selectedInterval = '1D'; // Default to 1D
-  DateTimeRange? _customDateRange;
+  DateTime? _customStartDate;
+  DateTime? _customEndDate;
 
   @override
   void initState() {
@@ -135,14 +136,47 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
         return _history;
     }
 
-    if (_selectedInterval == 'Custom' && _customDateRange != null) {
-      return _history.where((p) {
-        return p.date.isAfter(_customDateRange!.start) &&
-            p.date.isBefore(_customDateRange!.end.add(const Duration(days: 1)));
-      }).toList();
+    if (_selectedInterval == 'Custom') {
+      if (_customStartDate != null && _customEndDate != null) {
+        return _history.where((p) {
+          return p.date.isAfter(_customStartDate!) &&
+              p.date.isBefore(_customEndDate!.add(const Duration(days: 1)));
+        }).toList();
+      }
+      return [];
     }
 
     return _history.where((p) => p.date.isAfter(cutoff)).toList();
+  }
+
+  Future<void> _pickStartDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _customStartDate ?? now,
+      firstDate: DateTime(1970),
+      lastDate: _customEndDate ?? now,
+    );
+    if (picked != null) {
+      setState(() {
+        _customStartDate = picked;
+      });
+    }
+  }
+
+  Future<void> _pickEndDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _customEndDate ?? now,
+      firstDate: _customStartDate ?? DateTime(1970),
+      lastDate: now,
+    );
+    if (picked != null) {
+      setState(() {
+        _customEndDate = picked;
+      });
+    }
   }
 
   String _formatMarketCap(double? marketCap) {
@@ -213,7 +247,37 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                 ),
               ],
             ),
-            const SizedBox(height: 32),
+            // Animated Date Buttons for Custom Interval
+            AnimatedCrossFade(
+              firstChild: const SizedBox(width: double.infinity),
+              secondChild: Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildDateButton(
+                      'Start Date',
+                      _customStartDate,
+                      _pickStartDate,
+                      theme,
+                      color,
+                    ),
+                    _buildDateButton(
+                      'End Date',
+                      _customEndDate,
+                      _pickEndDate,
+                      theme,
+                      color,
+                    ),
+                  ],
+                ),
+              ),
+              crossFadeState: _selectedInterval == 'Custom'
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              duration: const Duration(milliseconds: 300),
+            ),
+            const SizedBox(height: 16),
 
             // Chart
             SizedBox(
@@ -224,7 +288,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                   : points.isEmpty
                   ? Center(
                       child: Text(
-                        'No data available',
+                        _selectedInterval == 'Custom' &&
+                                (_customStartDate == null ||
+                                    _customEndDate == null)
+                            ? 'Please select start and end dates'
+                            : 'No data available',
                         style: theme.textTheme.bodyMedium,
                       ),
                     )
@@ -410,45 +478,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
               ) {
                 final isSelected = _selectedInterval == interval;
                 return GestureDetector(
-                  onTap: () async {
-                    if (interval == 'Custom') {
-                      final picked = await showDateRangePicker(
-                        context: context,
-                        firstDate: DateTime.now().subtract(
-                          const Duration(days: 365 * 2),
-                        ),
-                        lastDate: DateTime.now(),
-                        initialDateRange: _customDateRange,
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
-                                primary: color,
-                                onPrimary: Colors.white,
-                                surface: theme.cardColor,
-                                onSurface: theme.textTheme.bodyLarge!.color!,
-                              ),
-                              dialogBackgroundColor:
-                                  theme.scaffoldBackgroundColor,
-                            ),
-                            child: child!,
-                          );
-                        },
-                      );
-
-                      if (picked != null) {
-                        setState(() {
-                          _customDateRange = picked;
-                          _selectedInterval = interval;
-                        });
+                  onTap: () {
+                    setState(() {
+                      _selectedInterval = interval;
+                      if (interval != 'Custom') {
+                        _customStartDate = null;
+                        _customEndDate = null;
+                        _fetchDataForInterval();
                       }
-                    } else {
-                      setState(() {
-                        _selectedInterval = interval;
-                        _customDateRange = null; // Reset custom range
-                      });
-                      _fetchDataForInterval();
-                    }
+                    });
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -541,6 +579,40 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildDateButton(
+    String label,
+    DateTime? date,
+    VoidCallback onTap,
+    ThemeData theme,
+    Color color,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          border: Border.all(color: color),
+          borderRadius: BorderRadius.circular(20),
+          color: date != null ? color.withValues(alpha: 0.1) : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.calendar_today, size: 16, color: color),
+            const SizedBox(width: 8),
+            Text(
+              date != null ? DateFormat('MMM d, y').format(date) : label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: color,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
