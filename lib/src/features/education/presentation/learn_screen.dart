@@ -196,8 +196,11 @@ class _LearnScreenContent extends StatelessWidget {
     final controller = context.watch<EducationController>();
     final overallProgress = controller.getOverallProgress(LearnScreen.lessons);
     final isOverallCompleted = overallProgress >= 1.0;
+    final isOverallInProgress = overallProgress > 0.0 && overallProgress < 1.0;
     final overallProgressColor = isOverallCompleted
         ? AppTheme.primaryGreen
+        : isOverallInProgress
+        ? Color(0xFF2196F3)
         : AppTheme.textGrey;
 
     return Scaffold(
@@ -301,8 +304,11 @@ class _LessonCard extends StatelessWidget {
     );
 
     final isCompleted = progress >= 1.0;
+    final isInProgress = progress > 0.0 && progress < 1.0;
     final progressColor = isCompleted
         ? AppTheme.primaryGreen
+        : isInProgress
+        ? Color(0xFF2196F3)
         : AppTheme.textGrey;
 
     return GestureDetector(
