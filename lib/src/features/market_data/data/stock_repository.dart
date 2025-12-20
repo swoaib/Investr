@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../domain/stock.dart';
 import '../domain/price_point.dart';
+import '../domain/earnings_point.dart';
 
 class StockRepository {
   final String _apiKey = 'gWdDRuo8TM3Mmy5cXuuwxbFuzpLpuRn1';
@@ -231,7 +232,49 @@ class StockRepository {
     }
   }
 
+  /// Fetches historical earnings (EPS) for the Earnings chart.
+  Future<List<EarningsPoint>> getEarningsHistory(String symbol) async {
+    try {
+      final url = Uri.parse(
+        '$_baseUrl/vX/reference/financials?ticker=$symbol&limit=4&sort=filing_date&order=desc&apiKey=$_apiKey',
+      );
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] as List<dynamic>?;
+
+        if (results != null) {
+          final List<EarningsPoint> points = [];
+          for (var report in results) {
+            final period = report['fiscal_period'] as String? ?? '';
+            final year = report['fiscal_year'] as String? ?? '';
+            // Construct label like "Q3 23"
+            final shortYear = year.length > 2 ? year.substring(2) : year;
+            final label = '$period $shortYear';
+
+            final financials = report['financials'];
+            final incomeStatement = financials?['income_statement'];
+            final epsNode = incomeStatement?['basic_earnings_per_share'];
+
+            if (epsNode != null) {
+              final val = (epsNode['value'] as num?)?.toDouble();
+              if (val != null) {
+                points.add(EarningsPoint(period: label, eps: val));
+              }
+            }
+          }
+          return points.reversed.toList();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching earnings for $symbol: $e');
+    }
+    return [];
+  }
+
   /// Fetches historical data for a stock symbol.
+
   /// Defaults to 1 Year of daily data.
   Future<List<PricePoint>> getStockHistory(String symbol) async {
     try {
