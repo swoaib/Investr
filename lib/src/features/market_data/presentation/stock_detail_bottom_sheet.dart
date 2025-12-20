@@ -23,6 +23,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   String _selectedInterval = '1D'; // Default to 1D
   DateTime? _customStartDate;
   DateTime? _customEndDate;
+  PricePoint? _selectedPoint;
 
   @override
   void initState() {
@@ -231,15 +232,19 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      currencyFormat.format(_stock.price),
+                      _selectedPoint != null
+                          ? currencyFormat.format(_selectedPoint!.price)
+                          : currencyFormat.format(_stock.price),
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      '${isPositive ? '+' : ''}${_stock.changePercent.toStringAsFixed(2)}%',
+                      _selectedPoint != null
+                          ? _formatDate(_selectedPoint!.date)
+                          : '${isPositive ? '+' : ''}${_stock.changePercent.toStringAsFixed(2)}%',
                       style: theme.textTheme.titleMedium?.copyWith(
-                        color: color,
+                        color: _selectedPoint != null ? Colors.grey : color,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -397,29 +402,39 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                           ),
                         ),
                         lineTouchData: LineTouchData(
-                          touchTooltipData: LineTouchTooltipData(
-                            getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
-                              return touchedBarSpots.map((barSpot) {
-                                final date =
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                      barSpot.x.toInt(),
-                                    );
-                                String dateStr;
-                                if (_selectedInterval == '1D') {
-                                  dateStr = DateFormat('HH:mm').format(date);
-                                } else {
-                                  dateStr = DateFormat('MMM d, y').format(date);
+                          touchCallback:
+                              (
+                                FlTouchEvent event,
+                                LineTouchResponse? touchResponse,
+                              ) {
+                                if (event is FlPanEndEvent ||
+                                    event is FlLongPressEnd ||
+                                    touchResponse == null ||
+                                    touchResponse.lineBarSpots == null ||
+                                    touchResponse.lineBarSpots!.isEmpty) {
+                                  setState(() {
+                                    _selectedPoint = null;
+                                  });
+                                  return;
                                 }
 
-                                return LineTooltipItem(
-                                  '\$${barSpot.y.toStringAsFixed(2)}\n$dateStr',
-                                  const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                );
-                              }).toList();
+                                final spot = touchResponse.lineBarSpots!.first;
+                                final date =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                      spot.x.toInt(),
+                                    );
+                                setState(() {
+                                  _selectedPoint = PricePoint(
+                                    date: date,
+                                    price: spot.y,
+                                  );
+                                });
+                              },
+                          handleBuiltInTouches: true,
+                          touchTooltipData: LineTouchTooltipData(
+                            getTooltipItems: (touchedBarSpots) {
+                              // Disable tooltip by returning empty items
+                              return touchedBarSpots.map((_) => null).toList();
                             },
                           ),
                           getTouchedSpotIndicator:
@@ -614,5 +629,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
         ),
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    if (_selectedInterval == '1D') {
+      return DateFormat('HH:mm').format(date);
+    } else {
+      return DateFormat('MMM d, y').format(date);
+    }
   }
 }
