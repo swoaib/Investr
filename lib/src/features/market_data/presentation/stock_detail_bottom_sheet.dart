@@ -319,9 +319,14 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
           const SizedBox(height: 16),
 
           // Content
-          _currentTabIndex == 0
-              ? _buildOverviewTab(theme, color, points)
-              : _buildEarningsTab(theme, color),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.fastOutSlowIn,
+            alignment: Alignment.topCenter,
+            child: _currentTabIndex == 0
+                ? _buildOverviewTab(theme, color, points)
+                : _buildEarningsTab(theme, color),
+          ),
         ],
       ),
     );
