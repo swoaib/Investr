@@ -134,7 +134,7 @@ class EarningsChart extends StatelessWidget {
                             BarChartRodData(
                               toY: isRevenue ? point.revenue : point.eps,
                               color: color,
-                              width: 16,
+                              width: 24,
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(4),
                                 topRight: Radius.circular(4),
