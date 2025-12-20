@@ -6,11 +6,13 @@ import '../../../shared/theme/app_theme.dart';
 class EarningsChart extends StatelessWidget {
   final List<EarningsPoint> earnings;
   final bool isLoading;
+  final String metric; // 'EPS' or 'Revenue'
 
   const EarningsChart({
     super.key,
     required this.earnings,
     this.isLoading = false,
+    this.metric = 'EPS',
   });
 
   @override
@@ -31,27 +33,33 @@ class EarningsChart extends StatelessWidget {
 
     final theme = Theme.of(context);
     final color = AppTheme.primaryGreen;
+    final isRevenue = metric == 'Revenue';
+
+    // Helper to get value based on metric
+    double getValue(EarningsPoint p) => isRevenue ? p.revenue : p.eps;
 
     // Find max Y for some padding
     double maxY = 0;
     for (var e in earnings) {
-      if (e.eps > maxY) maxY = e.eps;
+      final val = getValue(e);
+      if (val > maxY) maxY = val;
     }
-    maxY = maxY * 1.2; // 20% buffer
+    maxY = maxY == 0 ? 10 : maxY * 1.2; // 20% buffer
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header is moved to parent or we can keep a dynamic subtitle here
           Text(
-            "Earnings History",
+            isRevenue ? "Revenue History" : "Earnings History",
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            "Quarterly Earnings (EPS)",
+            isRevenue ? "Revenue (USD)" : "Earnings Per Share (EPS)",
             style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
           const SizedBox(height: 24),
@@ -66,8 +74,8 @@ class EarningsChart extends StatelessWidget {
                   touchTooltipData: BarTouchTooltipData(
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       return BarTooltipItem(
-                        '\$${rod.toY.toStringAsFixed(2)}',
-                        TextStyle(
+                        _formatValue(rod.toY, isRevenue),
+                        const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
@@ -102,13 +110,13 @@ class EarningsChart extends StatelessWidget {
                   leftTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
-                      reservedSize: 40,
+                      reservedSize: 45,
                       getTitlesWidget: (value, meta) {
                         if (value == 0) return const SizedBox();
                         return Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Text(
-                            '\$${value.toStringAsFixed(2)}',
+                            _formatAxisValue(value, isRevenue),
                             style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 10,
@@ -129,7 +137,7 @@ class EarningsChart extends StatelessWidget {
                 gridData: FlGridData(
                   show: true,
                   drawVerticalLine: false,
-                  horizontalInterval: null,
+                  horizontalInterval: maxY / 5,
                   getDrawingHorizontalLine: (value) {
                     return FlLine(
                       color: Colors.grey.withValues(alpha: 0.1),
@@ -145,17 +153,15 @@ class EarningsChart extends StatelessWidget {
                     x: index,
                     barRods: [
                       BarChartRodData(
-                        toY: point.eps,
+                        toY: getValue(point),
                         color: color,
                         width: 24,
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(4),
                           topRight: Radius.circular(4),
                         ),
-                        // Show label on top if desired, but tooltip is often cleaner
                       ),
                     ],
-                    showingTooltipIndicators: [0], // Show value always on top?
                   );
                 }).toList(),
               ),
@@ -164,5 +170,23 @@ class EarningsChart extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatValue(double value, bool isRevenue) {
+    if (isRevenue) {
+      if (value >= 1e9) return '\$${(value / 1e9).toStringAsFixed(2)}B';
+      if (value >= 1e6) return '\$${(value / 1e6).toStringAsFixed(2)}M';
+      return '\$${value.toStringAsFixed(0)}';
+    }
+    return '\$${value.toStringAsFixed(2)}';
+  }
+
+  String _formatAxisValue(double value, bool isRevenue) {
+    if (isRevenue) {
+      if (value >= 1e9) return '\$${(value / 1e9).toStringAsFixed(1)}B';
+      if (value >= 1e6) return '\$${(value / 1e6).toStringAsFixed(1)}M';
+      return '\$${value.toStringAsFixed(0)}';
+    }
+    return '\$${value.toStringAsFixed(1)}';
   }
 }

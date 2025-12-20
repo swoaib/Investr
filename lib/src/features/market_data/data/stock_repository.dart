@@ -232,11 +232,14 @@ class StockRepository {
     }
   }
 
-  /// Fetches historical earnings (EPS) for the Earnings chart.
-  Future<List<EarningsPoint>> getEarningsHistory(String symbol) async {
+  /// Fetches historical earnings (EPS) and Revenue for the Earnings chart.
+  Future<List<EarningsPoint>> getEarningsHistory(
+    String symbol, {
+    String frequency = 'quarterly',
+  }) async {
     try {
       final url = Uri.parse(
-        '$_baseUrl/vX/reference/financials?ticker=$symbol&limit=4&sort=filing_date&order=desc&apiKey=$_apiKey',
+        '$_baseUrl/vX/reference/financials?ticker=$symbol&limit=4&sort=filing_date&order=desc&timeframe=$frequency&apiKey=$_apiKey',
       );
       final response = await http.get(url);
 
@@ -249,19 +252,29 @@ class StockRepository {
           for (var report in results) {
             final period = report['fiscal_period'] as String? ?? '';
             final year = report['fiscal_year'] as String? ?? '';
-            // Construct label like "Q3 23"
-            final shortYear = year.length > 2 ? year.substring(2) : year;
-            final label = '$period $shortYear';
+
+            String label;
+            if (frequency == 'annual') {
+              label = year;
+            } else {
+              // Construct label like "Q3 23"
+              final shortYear = year.length > 2 ? year.substring(2) : year;
+              label = '$period $shortYear';
+            }
 
             final financials = report['financials'];
             final incomeStatement = financials?['income_statement'];
-            final epsNode = incomeStatement?['basic_earnings_per_share'];
 
-            if (epsNode != null) {
-              final val = (epsNode['value'] as num?)?.toDouble();
-              if (val != null) {
-                points.add(EarningsPoint(period: label, eps: val));
-              }
+            final epsNode = incomeStatement?['basic_earnings_per_share'];
+            final revNode = incomeStatement?['revenues'];
+
+            if (epsNode != null || revNode != null) {
+              final epsVal = (epsNode?['value'] as num?)?.toDouble() ?? 0.0;
+              final revVal = (revNode?['value'] as num?)?.toDouble() ?? 0.0;
+
+              points.add(
+                EarningsPoint(period: label, eps: epsVal, revenue: revVal),
+              );
             }
           }
           return points.reversed.toList();

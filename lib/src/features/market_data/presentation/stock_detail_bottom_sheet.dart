@@ -75,6 +75,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   List<PricePoint>? _weeklyHistory;
   List<EarningsPoint> _earningsHistory = [];
   bool _isEarningsLoading = false;
+  String _earningsFrequency = 'quarterly'; // 'quarterly', 'annual'
+  String _earningsMetric = 'EPS'; // 'EPS', 'Revenue'
 
   Future<void> _fetchDataForInterval() async {
     if (_selectedInterval == '1D' && _intradayHistory == null) {
@@ -100,7 +102,10 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
   Future<void> _fetchEarnings() async {
     setState(() => _isEarningsLoading = true);
-    final data = await _repository.getEarningsHistory(_stock.symbol);
+    final data = await _repository.getEarningsHistory(
+      _stock.symbol,
+      frequency: _earningsFrequency,
+    );
     if (mounted) {
       setState(() {
         _earningsHistory = data;
@@ -676,11 +681,104 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                   ),
 
                   // --- EARNINGS TAB ---
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: EarningsChart(
-                      earnings: _earningsHistory,
-                      isLoading: _isEarningsLoading,
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 16),
+                          // Controls
+                          Row(
+                            children: [
+                              // Metric Selector
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: theme.scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: Colors.grey.withValues(alpha: 0.2),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    _buildToggleOption(
+                                      'EPS',
+                                      _earningsMetric == 'EPS',
+                                      () => setState(() {
+                                        _earningsMetric = 'EPS';
+                                      }),
+                                      theme,
+                                      color,
+                                    ),
+                                    _buildToggleOption(
+                                      'Revenue',
+                                      _earningsMetric == 'Revenue',
+                                      () => setState(() {
+                                        _earningsMetric = 'Revenue';
+                                      }),
+                                      theme,
+                                      color,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Spacer(),
+                              // Frequency Selector
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: theme.scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: Colors.grey.withValues(alpha: 0.2),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    _buildToggleOption(
+                                      'Quarterly',
+                                      _earningsFrequency == 'quarterly',
+                                      () {
+                                        if (_earningsFrequency != 'quarterly') {
+                                          setState(() {
+                                            _earningsFrequency = 'quarterly';
+                                          });
+                                          _fetchEarnings();
+                                        }
+                                      },
+                                      theme,
+                                      color,
+                                    ),
+                                    _buildToggleOption(
+                                      'Annual',
+                                      _earningsFrequency == 'annual',
+                                      () {
+                                        if (_earningsFrequency != 'annual') {
+                                          setState(() {
+                                            _earningsFrequency = 'annual';
+                                          });
+                                          _fetchEarnings();
+                                        }
+                                      },
+                                      theme,
+                                      color,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          EarningsChart(
+                            earnings: _earningsHistory,
+                            isLoading: _isEarningsLoading,
+                            metric: _earningsMetric,
+                          ),
+                          const SizedBox(height: 48),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -751,5 +849,31 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     } else {
       return DateFormat('MMM d, y').format(date);
     }
+  }
+
+  Widget _buildToggleOption(
+    String text,
+    bool isSelected,
+    VoidCallback onTap,
+    ThemeData theme,
+    Color color,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? color.withValues(alpha: 0.1) : null,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          text,
+          style: theme.textTheme.bodySmall?.copyWith(
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            color: isSelected ? color : Colors.grey,
+          ),
+        ),
+      ),
+    );
   }
 }
