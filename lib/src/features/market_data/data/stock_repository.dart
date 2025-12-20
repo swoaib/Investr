@@ -239,7 +239,7 @@ class StockRepository {
   }) async {
     try {
       final url = Uri.parse(
-        '$_baseUrl/vX/reference/financials?ticker=$symbol&limit=4&sort=filing_date&order=desc&timeframe=$frequency&apiKey=$_apiKey',
+        '$_baseUrl/vX/reference/financials?ticker=$symbol&limit=8&sort=filing_date&order=desc&timeframe=$frequency&apiKey=$_apiKey',
       );
       final response = await http.get(url);
 
