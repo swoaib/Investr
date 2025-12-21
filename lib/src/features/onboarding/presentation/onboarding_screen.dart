@@ -282,35 +282,36 @@ class _ThemeSelectionPage extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
-          // Theme Preview
-          _ThemePreviewCard(),
-          const SizedBox(height: 24),
-          // Theme Options
-          RadioGroup<ThemeMode>(
-            groupValue: themeController.themeMode,
-            onChanged: (val) {
-              if (val != null) themeController.updateThemeMode(val);
-            },
-            child: Column(
-              children: [
-                RadioListTile<ThemeMode>(
-                  value: ThemeMode.system,
-                  title: Text(l10n.system),
-                  activeColor: AppTheme.primaryGreen,
+          // Theme Preview Grid
+          Row(
+            children: [
+              Expanded(
+                child: _ThemePreviewCard(
+                  mode: ThemeMode.light,
+                  label: l10n.light,
+                  isSelected: themeController.themeMode == ThemeMode.light,
+                  onTap: () => themeController.updateThemeMode(ThemeMode.light),
                 ),
-                RadioListTile<ThemeMode>(
-                  value: ThemeMode.light,
-                  title: Text(l10n.light),
-                  activeColor: AppTheme.primaryGreen,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _ThemePreviewCard(
+                  mode: ThemeMode.dark,
+                  label: l10n.dark,
+                  isSelected: themeController.themeMode == ThemeMode.dark,
+                  onTap: () => themeController.updateThemeMode(ThemeMode.dark),
                 ),
-                RadioListTile<ThemeMode>(
-                  value: ThemeMode.dark,
-                  title: Text(l10n.dark),
-                  activeColor: AppTheme.primaryGreen,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
+          const SizedBox(height: 12),
+          _ThemePreviewCard(
+            mode: ThemeMode.system,
+            label: l10n.system,
+            isSelected: themeController.themeMode == ThemeMode.system,
+            onTap: () => themeController.updateThemeMode(ThemeMode.system),
+          ),
+          const SizedBox(height: 24),
         ],
       ),
     );
@@ -318,75 +319,178 @@ class _ThemeSelectionPage extends StatelessWidget {
 }
 
 class _ThemePreviewCard extends StatelessWidget {
+  final ThemeMode mode;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _ThemePreviewCard({
+    required this.mode,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
   @override
   Widget build(BuildContext context) {
-    // This card renders using current theme colors to show preview
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardTheme.color,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor.withValues(alpha: 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+    return GestureDetector(
+      onTap: onTap,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryGreen.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.show_chart,
-                  color: AppTheme.primaryGreen,
-                ),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: isSelected ? AppTheme.primaryGreen : Colors.transparent,
+                width: 3,
               ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 80,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Container(
-                    width: 50,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.color?.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
+            ),
+            child: Container(
+              height: 120,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
-            ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: _buildPreview(context),
+              ),
+            ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              color: isSelected ? AppTheme.primaryGreen : null,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPreview(BuildContext context) {
+    switch (mode) {
+      case ThemeMode.light:
+        return _buildThemeMockup(
+          backgroundColor: AppTheme.backgroundLight,
+          cardColor: AppTheme.cardColorLight,
+          textColor: AppTheme.textDark,
+        );
+      case ThemeMode.dark:
+        return _buildThemeMockup(
+          backgroundColor: AppTheme.backgroundDark,
+          cardColor: AppTheme.cardColorDark,
+          textColor: AppTheme.textLight,
+        );
+      case ThemeMode.system:
+        return Row(
+          children: [
+            Expanded(
+              child: _buildThemeMockup(
+                backgroundColor: AppTheme.backgroundLight,
+                cardColor: AppTheme.cardColorLight,
+                textColor: AppTheme.textDark,
+                showTitle: false,
+              ),
+            ),
+            Expanded(
+              child: _buildThemeMockup(
+                backgroundColor: AppTheme.backgroundDark,
+                cardColor: AppTheme.cardColorDark,
+                textColor: AppTheme.textLight,
+                showTitle: false,
+              ),
+            ),
+          ],
+        );
+    }
+  }
+
+  Widget _buildThemeMockup({
+    required Color backgroundColor,
+    required Color cardColor,
+    required Color textColor,
+    bool showTitle = true,
+  }) {
+    return Container(
+      color: backgroundColor,
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (showTitle)
+            Container(
+              width: 40,
+              height: 6,
+              decoration: BoxDecoration(
+                color: textColor.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+          const SizedBox(height: 12),
           Container(
-            height: 60,
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+              color: cardColor,
               borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: const BoxDecoration(
+                        color: AppTheme.primaryGreen,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.show_chart,
+                        size: 10,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 30,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: textColor.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
