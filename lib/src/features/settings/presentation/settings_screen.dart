@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/locale/locale_controller.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _notificationsEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -15,160 +23,375 @@ class SettingsScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsTitle)),
-      body: ListView(
-        children: [
-          _SectionHeader(title: l10n.themeMode),
-          _RadioListTile<ThemeMode>(
-            title: l10n.system,
-            value: ThemeMode.system,
-            groupValue: themeController.themeMode,
-            onChanged: (value) => themeController.updateThemeMode(value!),
-          ),
-          _RadioListTile<ThemeMode>(
-            title: l10n.light,
-            value: ThemeMode.light,
-            groupValue: themeController.themeMode,
-            onChanged: (value) => themeController.updateThemeMode(value!),
-          ),
-          _RadioListTile<ThemeMode>(
-            title: l10n.dark,
-            value: ThemeMode.dark,
-            groupValue: themeController.themeMode,
-            onChanged: (value) => themeController.updateThemeMode(value!),
-          ),
-          const Divider(),
-          _SectionHeader(title: l10n.language),
-          _RadioListTile<Locale?>(
-            title: l10n.system,
-            value: null,
-            groupValue: localeController.locale,
-            onChanged: (value) => localeController.updateLocale(value),
-          ),
-          _RadioListTile<Locale?>(
-            title: 'English',
-            value: const Locale('en'),
-            groupValue: localeController.locale,
-            onChanged: (value) => localeController.updateLocale(value),
-          ),
-          _RadioListTile<Locale?>(
-            title: 'Norsk',
-            value: const Locale('no'),
-            groupValue: localeController.locale,
-            onChanged: (value) => localeController.updateLocale(value),
-          ),
-          _RadioListTile<Locale?>(
-            title: '日本語',
-            value: const Locale('ja'),
-            groupValue: localeController.locale,
-            onChanged: (value) => localeController.updateLocale(value),
-          ),
-          const Divider(),
-          _SectionHeader(title: l10n.notifications),
-          SwitchListTile(
-            title: Text(l10n.enableNotifications),
-            value: true,
-            onChanged: (value) {},
-          ),
-          CheckboxListTile(
-            title: Text(l10n.newsUpdates),
-            value: true,
-            onChanged: (value) {},
-          ),
-          CheckboxListTile(
-            title: Text(l10n.marketAlerts),
-            value: false,
-            onChanged: (value) {},
-          ),
-          const Divider(),
-          _SectionHeader(title: l10n.about),
-          ListTile(title: Text(l10n.version), subtitle: const Text('1.0.0')),
-          ListTile(title: Text(l10n.termsOfService), onTap: () {}),
-          ListTile(title: Text(l10n.privacyPolicy), onTap: () {}),
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppTheme.primaryGreen.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppTheme.primaryGreen),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppTheme.screenPaddingHorizontal,
+                  AppTheme.screenPaddingVertical,
+                  AppTheme.screenPaddingHorizontal,
+                  AppTheme.screenPaddingHorizontal,
+                ),
+                child: Text(
+                  l10n.settingsTitle,
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
               ),
-              child: Column(
-                children: [
-                  Text(
-                    l10n.upgradeToPro,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: AppTheme.primaryGreen,
-                      fontWeight: FontWeight.bold,
+              // Upgrade Banner
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.screenPaddingHorizontal,
+                ),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardTheme.color,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(
+                        context,
+                      ).shadowColor.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(l10n.upgradeToProDesc, textAlign: TextAlign.center),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryGreen,
-                      foregroundColor: Colors.white,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.workspace_premium_rounded,
+                        color: AppTheme.primaryGreen,
+                        size: 32,
+                      ),
                     ),
-                    child: Text(l10n.upgradeNow),
-                  ),
-                ],
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.upgradeToPro,
+                            style: GoogleFonts.outfit(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            l10n.upgradeToProDesc,
+                            style: TextStyle(
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.color,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        backgroundColor: AppTheme.primaryGreen,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text(l10n.upgradeNow),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              const SizedBox(height: 32),
+              // Settings List
+              _buildSettingsTile(
+                context,
+                title: l10n
+                    .about, // Reused 'about' as placeholder for Account since Account wasn't localized
+                onTap: () {},
+              ), // Using 'About' or 'Account' - old code had Account. I don't have Account string. Using About for now or keep hardcoded if needed? The user wants design. I'll stick to 'Account' hardcoded as placeholder or remove it? The l10n file doesn't have Account. I'll omit it or use a placeholder. I'll skip Account to be safe on l10n.
+              _buildSwitchTile(
+                context,
+                title: l10n.enableNotifications,
+                value: _notificationsEnabled,
+                onChanged: (val) => setState(() => _notificationsEnabled = val),
+              ),
+              _buildSettingsTile(
+                context,
+                title: l10n.themeMode,
+                onTap: () =>
+                    _showThemeSelection(context, themeController, l10n),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _getThemeText(themeController.themeMode, l10n),
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.chevron_right, color: Colors.grey),
+                  ],
+                ),
+              ),
+              _buildSettingsTile(
+                context,
+                title: l10n.language,
+                onTap: () =>
+                    _showLanguageSelection(context, localeController, l10n),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _getLocaleText(localeController.locale, l10n),
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.chevron_right, color: Colors.grey),
+                  ],
+                ),
+              ),
+              _buildSettingsTile(context, title: l10n.about, onTap: () {}),
+              // Added Policy links that were in the intermediate version
+              _buildSettingsTile(
+                context,
+                title: l10n.termsOfService,
+                onTap: () {},
+              ),
+              _buildSettingsTile(
+                context,
+                title: l10n.privacyPolicy,
+                onTap: () {},
+              ),
+            ],
           ),
-          const SizedBox(height: 32),
-        ],
-      ),
-    );
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  final String title;
-
-  const _SectionHeader({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-          color: AppTheme.primaryGreen,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );
   }
-}
 
-class _RadioListTile<T> extends StatelessWidget {
-  final String title;
-  final T value;
-  final T? groupValue;
-  final ValueChanged<T?> onChanged;
+  Widget _buildSettingsTile(
+    BuildContext context, {
+    required String title,
+    required VoidCallback onTap,
+    Widget? trailing,
+  }) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.screenPaddingHorizontal,
+        vertical: 8,
+      ),
+      title: Text(
+        title,
+        style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+      trailing: trailing ?? const Icon(Icons.chevron_right, color: Colors.grey),
+      onTap: onTap,
+    );
+  }
 
-  const _RadioListTile({
-    required this.title,
-    required this.value,
-    required this.groupValue,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return RadioListTile<T>(
-      title: Text(title),
+  Widget _buildSwitchTile(
+    BuildContext context, {
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return SwitchListTile(
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppTheme.screenPaddingHorizontal,
+        vertical: 8,
+      ),
+      title: Text(
+        title,
+        style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
       value: value,
-      groupValue: groupValue,
       onChanged: onChanged,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+      activeTrackColor: AppTheme.primaryGreen,
+      activeThumbColor: Colors.white,
+    );
+  }
+
+  String _getThemeText(ThemeMode mode, AppLocalizations l10n) {
+    switch (mode) {
+      case ThemeMode.system:
+        return l10n.system;
+      case ThemeMode.light:
+        return l10n.light;
+      case ThemeMode.dark:
+        return l10n.dark;
+    }
+  }
+
+  String _getLocaleText(Locale? locale, AppLocalizations l10n) {
+    if (locale == null) return l10n.system;
+    switch (locale.languageCode) {
+      case 'en':
+        return 'English';
+      case 'no':
+        return 'Norsk';
+      case 'ja':
+        return '日本語';
+      default:
+        return l10n.system;
+    }
+  }
+
+  void _showThemeSelection(
+    BuildContext context,
+    ThemeController controller,
+    AppLocalizations l10n,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  l10n.themeMode,
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              _buildThemeOption(
+                context,
+                controller,
+                title: l10n.system,
+                mode: ThemeMode.system,
+              ),
+              _buildThemeOption(
+                context,
+                controller,
+                title: l10n.light,
+                mode: ThemeMode.light,
+              ),
+              _buildThemeOption(
+                context,
+                controller,
+                title: l10n.dark,
+                mode: ThemeMode.dark,
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildThemeOption(
+    BuildContext context,
+    ThemeController controller, {
+    required String title,
+    required ThemeMode mode,
+  }) {
+    return RadioListTile<ThemeMode>(
+      title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
+      value: mode,
+      groupValue: controller.themeMode,
+      onChanged: (value) {
+        if (value != null) {
+          controller.updateThemeMode(value);
+          Navigator.pop(context);
+        }
+      },
+      activeColor: AppTheme.primaryGreen,
+    );
+  }
+
+  void _showLanguageSelection(
+    BuildContext context,
+    LocaleController controller,
+    AppLocalizations l10n,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  l10n.language,
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              _buildLanguageOption(
+                context,
+                controller,
+                title: l10n.system,
+                locale: null,
+              ),
+              _buildLanguageOption(
+                context,
+                controller,
+                title: 'English',
+                locale: const Locale('en'),
+              ),
+              _buildLanguageOption(
+                context,
+                controller,
+                title: 'Norsk',
+                locale: const Locale('no'),
+              ),
+              _buildLanguageOption(
+                context,
+                controller,
+                title: '日本語',
+                locale: const Locale('ja'),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLanguageOption(
+    BuildContext context,
+    LocaleController controller, {
+    required String title,
+    required Locale? locale,
+  }) {
+    return RadioListTile<Locale?>(
+      title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
+      value: locale,
+      groupValue: controller.locale,
+      onChanged: (value) {
+        // Value can be null for system, so we accept null
+        controller.updateLocale(value);
+        Navigator.pop(context);
+      },
+      activeColor: AppTheme.primaryGreen,
     );
   }
 }
