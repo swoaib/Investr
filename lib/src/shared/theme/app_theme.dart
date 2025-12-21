@@ -99,12 +99,12 @@ class AppTheme {
         contentPadding: const EdgeInsets.all(12),
         hintStyle: GoogleFonts.outfit(color: textGrey),
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.white,
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.transparent,
         selectedItemColor: primaryGreen,
         unselectedItemColor: textGrey,
         type: BottomNavigationBarType.fixed,
-        elevation: 8,
+        elevation: 0,
         showSelectedLabels: false,
         showUnselectedLabels: false,
       ),
@@ -193,12 +193,12 @@ class AppTheme {
         contentPadding: const EdgeInsets.all(12),
         hintStyle: GoogleFonts.outfit(color: textGrey),
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: cardColorDark,
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.transparent,
         selectedItemColor: primaryGreen,
         unselectedItemColor: textGrey,
         type: BottomNavigationBarType.fixed,
-        elevation: 8,
+        elevation: 0,
         showSelectedLabels: false,
         showUnselectedLabels: false,
       ),
