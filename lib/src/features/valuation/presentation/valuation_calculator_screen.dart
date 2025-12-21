@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../domain/valuation_logic.dart';
 import '../../../shared/theme/app_theme.dart';
+import 'package:investr/l10n/app_localizations.dart';
 
 class ValuationCalculatorScreen extends StatefulWidget {
   const ValuationCalculatorScreen({super.key});
@@ -49,6 +50,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -62,41 +64,41 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Intrinsic Value',
+                      l10n.valuationDisplayTitle,
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ),
                   const SizedBox(height: 24),
-                  _buildLabel('EPS'),
+                  _buildLabel(l10n.eps),
                   TextFormField(
                     controller: _epsController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(hintText: 'e.g. 5.20'),
-                    validator: (value) => value!.isEmpty ? 'Required' : null,
+                    validator: (value) => value!.isEmpty ? l10n.required : null,
                   ),
                   const SizedBox(height: 16),
-                  _buildLabel('Growth Rate (%)'),
+                  _buildLabel(l10n.growthRate),
                   TextFormField(
                     controller: _growthController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(hintText: 'e.g. 10'),
-                    validator: (value) => value!.isEmpty ? 'Required' : null,
+                    validator: (value) => value!.isEmpty ? l10n.required : null,
                   ),
                   const SizedBox(height: 16),
-                  _buildLabel('Discount Rate (%)'),
+                  _buildLabel(l10n.discountRate),
                   TextFormField(
                     controller: _discountController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(hintText: 'e.g. 8'),
-                    validator: (value) => value!.isEmpty ? 'Required' : null,
+                    validator: (value) => value!.isEmpty ? l10n.required : null,
                   ),
                   const SizedBox(height: 16),
-                  _buildLabel('Years'),
+                  _buildLabel(l10n.years),
                   TextFormField(
                     controller: _yearsController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(hintText: 'e.g. 10'),
-                    validator: (value) => value!.isEmpty ? 'Required' : null,
+                    validator: (value) => value!.isEmpty ? l10n.required : null,
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
@@ -104,7 +106,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text('Calculate'),
+                    child: Text(l10n.calculate),
                   ),
                   const SizedBox(height: 32),
                   if (_result != null)
@@ -123,7 +125,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                       child: Column(
                         children: [
                           Text(
-                            'Estimated Value:',
+                            l10n.estimatedValue,
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const SizedBox(height: 8),

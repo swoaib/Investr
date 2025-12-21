@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../domain/earnings_point.dart';
 import '../../../shared/theme/app_theme.dart';
+import 'package:investr/l10n/app_localizations.dart';
 
 class EarningsChart extends StatelessWidget {
   final List<EarningsPoint> earnings;
@@ -20,6 +21,7 @@ class EarningsChart extends StatelessWidget {
     final theme = Theme.of(context);
     final color = AppTheme.primaryGreen;
     final isRevenue = metric == 'Revenue';
+    final l10n = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -28,13 +30,13 @@ class EarningsChart extends StatelessWidget {
         children: [
           // Header is moved to parent or we can keep a dynamic subtitle here
           Text(
-            isRevenue ? "Revenue History" : "Earnings History",
+            isRevenue ? l10n.revenueHistory : l10n.earningsHistory,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            isRevenue ? "Revenue (USD)" : "Earnings Per Share (EPS)",
+            isRevenue ? l10n.revenueUSD : l10n.earningsPerShare,
             style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
           const SizedBox(height: 24),
@@ -43,7 +45,7 @@ class EarningsChart extends StatelessWidget {
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : earnings.isEmpty
-                ? const Center(child: Text('No earning history available'))
+                ? Center(child: Text(l10n.noEarningsHistory))
                 : BarChart(
                     BarChartData(
                       alignment: BarChartAlignment.spaceAround,
@@ -134,7 +136,7 @@ class EarningsChart extends StatelessWidget {
                             BarChartRodData(
                               toY: isRevenue ? point.revenue : point.eps,
                               color: color,
-                              width: 24,
+                              width: 16,
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(4),
                                 topRight: Radius.circular(4),

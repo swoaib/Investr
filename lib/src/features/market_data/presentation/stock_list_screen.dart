@@ -6,6 +6,7 @@ import '../../../shared/theme/app_theme.dart';
 import '../domain/stock.dart';
 import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
+import 'package:investr/l10n/app_localizations.dart';
 
 class StockListScreen extends StatelessWidget {
   const StockListScreen({super.key});
@@ -41,6 +42,7 @@ class _StockListViewState extends State<_StockListView> {
   Widget build(BuildContext context) {
     final controller = context.watch<StockListController>();
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: SafeArea(
@@ -56,7 +58,7 @@ class _StockListViewState extends State<_StockListView> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Stock Market',
+                  l10n.stockMarketTitle,
                   style: theme.textTheme.headlineLarge,
                 ),
               ),
@@ -66,7 +68,7 @@ class _StockListViewState extends State<_StockListView> {
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'Search (e.g. AAPL)',
+                  hintText: l10n.searchHint,
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon:
                       _searchController.text.isNotEmpty ||
@@ -97,8 +99,8 @@ class _StockListViewState extends State<_StockListView> {
                   : controller.error != null
                   ? Center(child: Text(controller.error!))
                   : controller.isSearching
-                  ? _buildSearchResults(controller)
-                  : _buildWatchlist(controller),
+                  ? _buildSearchResults(controller, l10n)
+                  : _buildWatchlist(controller, l10n),
             ),
           ],
         ),
@@ -106,9 +108,12 @@ class _StockListViewState extends State<_StockListView> {
     );
   }
 
-  Widget _buildWatchlist(StockListController controller) {
+  Widget _buildWatchlist(
+    StockListController controller,
+    AppLocalizations l10n,
+  ) {
     if (controller.stocks.isEmpty) {
-      return const Center(child: Text('No stocks in watchlist'));
+      return Center(child: Text(l10n.noStocksInWatchlist));
     }
     return ListView.separated(
       padding: const EdgeInsets.symmetric(
@@ -131,7 +136,7 @@ class _StockListViewState extends State<_StockListView> {
             controller.removeFromWatchlist(stock);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('${stock.symbol} removed from watchlist'),
+                content: Text('${stock.symbol} ${l10n.removedFromWatchlist}'),
                 width: 400, // Limit width for better look on wide screens
                 behavior: SnackBarBehavior.floating,
               ),
@@ -143,9 +148,12 @@ class _StockListViewState extends State<_StockListView> {
     );
   }
 
-  Widget _buildSearchResults(StockListController controller) {
+  Widget _buildSearchResults(
+    StockListController controller,
+    AppLocalizations l10n,
+  ) {
     if (controller.searchResults.isEmpty) {
-      return const Center(child: Text('No results found'));
+      return Center(child: Text(l10n.noResultsFound));
     }
     return ListView.separated(
       padding: const EdgeInsets.symmetric(
@@ -308,7 +316,7 @@ class _SearchResultItem extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
-        color: Colors.transparent,
+        color: Colors.transparent, // Ensures hit test works on empty space
         child: Row(
           children: [
             // Symbol and Name

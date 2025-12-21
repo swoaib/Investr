@@ -7,6 +7,7 @@ import '../domain/price_point.dart';
 import '../domain/stock.dart';
 import '../domain/earnings_point.dart';
 import 'earnings_chart.dart';
+import 'package:investr/l10n/app_localizations.dart';
 
 class StockDetailBottomSheet extends StatefulWidget {
   final Stock stock;
@@ -241,6 +242,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     final points = _filteredHistory;
     final isPositive = _stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -310,9 +312,9 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
             indicatorColor: color,
             labelColor: color,
             unselectedLabelColor: Colors.grey,
-            tabs: const [
-              Tab(text: "Overview"),
-              Tab(text: "Earnings"),
+            tabs: [
+              Tab(text: l10n.overview),
+              Tab(text: l10n.earnings),
             ],
           ),
 
@@ -324,15 +326,19 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
             curve: Curves.fastOutSlowIn,
             alignment: Alignment.topCenter,
             child: _currentTabIndex == 0
-                ? _buildOverviewTab(theme, color, points)
-                : _buildEarningsTab(theme, color),
+                ? _buildOverviewTab(theme, color, points, l10n)
+                : _buildEarningsTab(theme, color, l10n),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildEarningsTab(ThemeData theme, Color color) {
+  Widget _buildEarningsTab(
+    ThemeData theme,
+    Color color,
+    AppLocalizations l10n,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -353,7 +359,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _buildToggleOption(
-                      'EPS',
+                      l10n.eps,
                       _earningsMetric == 'EPS',
                       () => setState(() {
                         _earningsMetric = 'EPS';
@@ -362,7 +368,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                       color,
                     ),
                     _buildToggleOption(
-                      'Revenue',
+                      l10n.revenue,
                       _earningsMetric == 'Revenue',
                       () => setState(() {
                         _earningsMetric = 'Revenue';
@@ -385,7 +391,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _buildToggleOption(
-                      'Quarterly',
+                      l10n.quarterly,
                       _earningsFrequency == 'quarterly',
                       () {
                         if (_earningsFrequency != 'quarterly') {
@@ -399,7 +405,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                       color,
                     ),
                     _buildToggleOption(
-                      'Annual',
+                      l10n.annual,
                       _earningsFrequency == 'annual',
                       () {
                         if (_earningsFrequency != 'annual') {
@@ -433,6 +439,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     ThemeData theme,
     Color color,
     List<PricePoint> points,
+    AppLocalizations l10n,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -448,14 +455,14 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildDateButton(
-                    'Start Date',
+                    'Start Date', // Kept English as generic label, or could be l10n.startDate if added
                     _customStartDate,
                     _pickStartDate,
                     theme,
                     color,
                   ),
                   _buildDateButton(
-                    'End Date',
+                    'End Date', // Same here
                     _customEndDate,
                     _pickEndDate,
                     theme,
@@ -481,7 +488,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                       _selectedInterval == 'Custom' &&
                               (_customStartDate == null ||
                                   _customEndDate == null)
-                          ? 'Please select start and end dates'
+                          ? 'Please select start and end dates' // Consider adding to ARB if critical
                           : 'No data available',
                       style: theme.textTheme.bodyMedium,
                     ),
@@ -698,7 +705,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
 
           // Key Statistics Title
           Text(
-            "Key Statistics",
+            l10n.keyStatistics,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -715,29 +722,29 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
             physics: const NeverScrollableScrollPhysics(),
             children: [
               _buildStatItem(
-                'Market Cap',
+                l10n.marketCap,
                 _formatMarketCap(_stock.marketCap),
                 theme,
               ),
               _buildStatItem(
-                'P/E Ratio',
+                l10n.peRatio,
                 _stock.peRatio?.toStringAsFixed(2) ?? 'N/A',
                 theme,
               ),
               _buildStatItem(
-                'Div Yield',
+                l10n.divYield,
                 _stock.dividendYield != null
                     ? '${_stock.dividendYield!.toStringAsFixed(2)}%'
                     : 'N/A',
                 theme,
               ),
               _buildStatItem(
-                'EPS',
+                l10n.eps,
                 _stock.earningsPerShare?.toStringAsFixed(2) ?? 'N/A',
                 theme,
               ),
               _buildStatItem(
-                'Employees',
+                l10n.employees,
                 _stock.employees?.toString() ?? 'N/A',
                 theme,
               ),
@@ -802,14 +809,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     );
   }
 
-  String _formatDate(DateTime date) {
-    if (_selectedInterval == '1D') {
-      return DateFormat('HH:mm').format(date);
-    } else {
-      return DateFormat('MMM d, y').format(date);
-    }
-  }
-
   Widget _buildToggleOption(
     String text,
     bool isSelected,
@@ -822,17 +821,25 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? color.withValues(alpha: 0.1) : null,
+          color: isSelected ? color : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           text,
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? color : Colors.grey,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: isSelected ? Colors.white : Colors.grey,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    if (_selectedInterval == '1D') {
+      return DateFormat('HH:mm').format(date);
+    } else {
+      return DateFormat('MMM d, y').format(date);
+    }
   }
 }

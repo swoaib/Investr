@@ -1,269 +1,174 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
+import '../../../shared/locale/locale_controller.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  Widget build(BuildContext context) {
+    final themeController = context.watch<ThemeController>();
+    final localeController = context.watch<LocaleController>();
+    final l10n = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
+      body: ListView(
+        children: [
+          _SectionHeader(title: l10n.themeMode),
+          _RadioListTile<ThemeMode>(
+            title: l10n.system,
+            value: ThemeMode.system,
+            groupValue: themeController.themeMode,
+            onChanged: (value) => themeController.updateThemeMode(value!),
+          ),
+          _RadioListTile<ThemeMode>(
+            title: l10n.light,
+            value: ThemeMode.light,
+            groupValue: themeController.themeMode,
+            onChanged: (value) => themeController.updateThemeMode(value!),
+          ),
+          _RadioListTile<ThemeMode>(
+            title: l10n.dark,
+            value: ThemeMode.dark,
+            groupValue: themeController.themeMode,
+            onChanged: (value) => themeController.updateThemeMode(value!),
+          ),
+          const Divider(),
+          _SectionHeader(title: l10n.language),
+          _RadioListTile<Locale?>(
+            title: l10n.system,
+            value: null,
+            groupValue: localeController.locale,
+            onChanged: (value) => localeController.updateLocale(value),
+          ),
+          _RadioListTile<Locale?>(
+            title: 'English',
+            value: const Locale('en'),
+            groupValue: localeController.locale,
+            onChanged: (value) => localeController.updateLocale(value),
+          ),
+          _RadioListTile<Locale?>(
+            title: 'Norsk',
+            value: const Locale('no'),
+            groupValue: localeController.locale,
+            onChanged: (value) => localeController.updateLocale(value),
+          ),
+          _RadioListTile<Locale?>(
+            title: '日本語',
+            value: const Locale('ja'),
+            groupValue: localeController.locale,
+            onChanged: (value) => localeController.updateLocale(value),
+          ),
+          const Divider(),
+          _SectionHeader(title: l10n.notifications),
+          SwitchListTile(
+            title: Text(l10n.enableNotifications),
+            value: true,
+            onChanged: (value) {},
+          ),
+          CheckboxListTile(
+            title: Text(l10n.newsUpdates),
+            value: true,
+            onChanged: (value) {},
+          ),
+          CheckboxListTile(
+            title: Text(l10n.marketAlerts),
+            value: false,
+            onChanged: (value) {},
+          ),
+          const Divider(),
+          _SectionHeader(title: l10n.about),
+          ListTile(title: Text(l10n.version), subtitle: const Text('1.0.0')),
+          ListTile(title: Text(l10n.termsOfService), onTap: () {}),
+          ListTile(title: Text(l10n.privacyPolicy), onTap: () {}),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppTheme.primaryGreen),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    l10n.upgradeToPro,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: AppTheme.primaryGreen,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(l10n.upgradeToProDesc, textAlign: TextAlign.center),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryGreen,
+                      foregroundColor: Colors.white,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Text(l10n.upgradeNow),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+        ],
+      ),
+    );
+  }
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notificationsEnabled = true;
+class _SectionHeader extends StatelessWidget {
+  final String title;
+
+  const _SectionHeader({required this.title});
 
   @override
   Widget build(BuildContext context) {
-    // Access ThemeController
-    final themeController = Provider.of<ThemeController>(context);
-
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppTheme.screenPaddingHorizontal,
-                  AppTheme.screenPaddingVertical,
-                  AppTheme.screenPaddingHorizontal,
-                  AppTheme.screenPaddingHorizontal,
-                ),
-                child: Text(
-                  'Settings',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-              ),
-              // Upgrade Banner
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: AppTheme.screenPaddingHorizontal,
-                ),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardTheme.color,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(
-                        context,
-                      ).shadowColor.withValues(alpha: 0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryGreen.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.workspace_premium_rounded, // Crown-like icon
-                        color: AppTheme.primaryGreen,
-                        size: 32,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Join Investr+',
-                            style: GoogleFonts.outfit(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            'Unlock exclusive features.',
-                            style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.color,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text('Upgrade Now'),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-              // Settings List
-              _buildSettingsTile(context, title: 'Account', onTap: () {}),
-              _buildSwitchTile(
-                context,
-                title: 'Notifications',
-                value: _notificationsEnabled,
-                onChanged: (val) => setState(() => _notificationsEnabled = val),
-              ),
-              _buildSettingsTile(
-                context,
-                title: 'Theme',
-                onTap: () => _showThemeSelection(context, themeController),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _getThemeText(themeController.themeMode),
-                      style: const TextStyle(color: Colors.grey, fontSize: 14),
-                    ),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.chevron_right, color: Colors.grey),
-                  ],
-                ),
-              ),
-              _buildSettingsTile(
-                context,
-                title: 'Help & Support',
-                onTap: () {},
-              ),
-              _buildSettingsTile(context, title: 'About', onTap: () {}),
-            ],
-          ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+          color: AppTheme.primaryGreen,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
   }
+}
 
-  Widget _buildSettingsTile(
-    BuildContext context, {
-    required String title,
-    required VoidCallback onTap,
-    Widget? trailing,
-  }) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppTheme.screenPaddingHorizontal,
-        vertical: 8,
-      ),
-      title: Text(
-        title,
-        style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
-      trailing: trailing ?? const Icon(Icons.chevron_right, color: Colors.grey),
-      onTap: onTap,
-    );
-  }
+class _RadioListTile<T> extends StatelessWidget {
+  final String title;
+  final T value;
+  final T? groupValue;
+  final ValueChanged<T?> onChanged;
 
-  Widget _buildSwitchTile(
-    BuildContext context, {
-    required String title,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return SwitchListTile(
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppTheme.screenPaddingHorizontal,
-        vertical: 8,
-      ),
-      title: Text(
-        title,
-        style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
+  const _RadioListTile({
+    required this.title,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioListTile<T>(
+      title: Text(title),
       value: value,
+      groupValue: groupValue,
       onChanged: onChanged,
-      activeTrackColor: AppTheme.primaryGreen,
-      activeThumbColor: Colors.white,
-    );
-  }
-
-  String _getThemeText(ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.system:
-        return 'System Default';
-      case ThemeMode.light:
-        return 'Light';
-      case ThemeMode.dark:
-        return 'Dark';
-    }
-  }
-
-  void _showThemeSelection(BuildContext context, ThemeController controller) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Text(
-                  'Select Theme',
-                  style: GoogleFonts.outfit(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              _buildThemeOption(
-                context,
-                controller,
-                title: 'System Default',
-                mode: ThemeMode.system,
-              ),
-              _buildThemeOption(
-                context,
-                controller,
-                title: 'Light',
-                mode: ThemeMode.light,
-              ),
-              _buildThemeOption(
-                context,
-                controller,
-                title: 'Dark',
-                mode: ThemeMode.dark,
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildThemeOption(
-    BuildContext context,
-    ThemeController controller, {
-    required String title,
-    required ThemeMode mode,
-  }) {
-    return RadioListTile<ThemeMode>(
-      title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
-      value: mode,
-      groupValue: controller.themeMode,
-      onChanged: (value) {
-        if (value != null) {
-          controller.updateThemeMode(value);
-          Navigator.pop(context);
-        }
-      },
-      activeColor: AppTheme.primaryGreen,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'shared/theme/app_theme.dart';
 import 'shared/theme/theme_controller.dart';
+import 'shared/locale/locale_controller.dart';
 import 'features/market_data/presentation/stock_list_controller.dart';
 import 'features/onboarding/presentation/onboarding_screen.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
@@ -49,15 +52,24 @@ class _InvestrAppState extends State<InvestrApp> {
           create: (_) =>
               widget.themeController ?? ThemeController(widget.prefs),
         ),
+        ChangeNotifierProvider(create: (_) => LocaleController(widget.prefs)),
       ],
-      child: Consumer<ThemeController>(
-        builder: (context, controller, child) {
+      child: Consumer2<ThemeController, LocaleController>(
+        builder: (context, themeController, localeController, child) {
           return MaterialApp.router(
             title: 'Investr',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: controller.themeMode,
+            themeMode: themeController.themeMode,
+            locale: localeController.locale,
             debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
             routerConfig: _router,
           );
         },
