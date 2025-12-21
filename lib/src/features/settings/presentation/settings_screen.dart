@@ -162,7 +162,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
               ),
-              _buildSettingsTile(context, title: l10n.about, onTap: () {}),
               // Added Policy links that were in the intermediate version
               _buildSettingsTile(
                 context,
