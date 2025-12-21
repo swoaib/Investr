@@ -33,13 +33,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   AppTheme.screenPaddingHorizontal,
                   AppTheme.screenPaddingVertical,
                   AppTheme.screenPaddingHorizontal,
-                  AppTheme.screenPaddingHorizontal,
+                  AppTheme.screenPaddingVertical,
                 ),
                 child: Text(
                   l10n.settingsTitle,
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ),
+              const SizedBox(height: 16),
               // Upgrade Banner
               Container(
                 margin: const EdgeInsets.symmetric(
@@ -114,7 +115,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               // Settings List
               _buildSettingsTile(
                 context,
