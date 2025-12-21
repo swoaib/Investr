@@ -1,0 +1,22 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circle Container -->
+  <circle cx="150" cy="150" r="100" stroke="#E0E0E0" stroke-width="5"/>
+  
+  <!-- Light Mode Half (Left) -->
+  <path d="M150 50 A100 100 0 0 0 150 250 Z" fill="#FFFFFF"/>
+  <!-- Sun Icon on Light side -->
+  <circle cx="100" cy="150" r="15" fill="#FFB74D"/>
+  <path d="M100 125 V115 M100 175 V185 M75 150 H65 M125 150 H135 M82 132 L75 125 M118 168 L125 175 M82 168 L75 175 M118 132 L125 125" stroke="#FFB74D" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Dark Mode Half (Right) -->
+  <path d="M150 50 A100 100 0 0 1 150 250 Z" fill="#263238"/>
+  <!-- Moon Icon on Dark side -->
+  <path d="M190 135 C190 135 195 160 215 165 C210 175 190 175 180 160 C175 145 190 135 190 135 Z" fill="#90CAF9"/>
+  <!-- Stars -->
+  <circle cx="210" cy="120" r="2" fill="#FFFFFF"/>
+  <circle cx="220" cy="140" r="1.5" fill="#FFFFFF"/>
+  <circle cx="180" cy="125" r="1.5" fill="#FFFFFF"/>
+
+  <!-- Dividing Line -->
+  <line x1="150" y1="50" x2="150" y2="250" stroke="#E0E0E0" stroke-width="2"/>
+</svg>

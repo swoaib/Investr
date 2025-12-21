@@ -849,6 +849,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'removed from watchlist'**
   String get removedFromWatchlist;
+
+  /// No description provided for @chooseLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Language'**
+  String get chooseLanguage;
+
+  /// No description provided for @chooseLanguageDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your preferred language to get started.'**
+  String get chooseLanguageDesc;
+
+  /// No description provided for @chooseTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Theme'**
+  String get chooseTheme;
+
+  /// No description provided for @chooseThemeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a look that fits your style. You can change this later in settings.'**
+  String get chooseThemeDesc;
+
+  /// No description provided for @trackYourStocks.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Your Stocks'**
+  String get trackYourStocks;
+
+  /// No description provided for @trackYourStocksDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get real-time updates on your favorite stocks and market trends.'**
+  String get trackYourStocksDesc;
+
+  /// No description provided for @learnToInvest.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn to Invest'**
+  String get learnToInvest;
+
+  /// No description provided for @learnToInvestDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Master the basics of investing with our curated educational content.'**
+  String get learnToInvestDesc;
+
+  /// No description provided for @valueYourPortfolio.
+  ///
+  /// In en, this message translates to:
+  /// **'Value Your Portfolio'**
+  String get valueYourPortfolio;
+
+  /// No description provided for @valueYourPortfolioDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Use advanced tools to calculate intrinsic value and make informed decisions.'**
+  String get valueYourPortfolioDesc;
 }
 
 class _AppLocalizationsDelegate

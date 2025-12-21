@@ -1,0 +1,23 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Smartphone Body -->
+  <rect x="70" y="40" width="160" height="240" rx="20" fill="#F5F5F5" stroke="#E0E0E0" stroke-width="4"/>
+  <rect x="80" y="55" width="140" height="210" rx="4" fill="#FFFFFF"/>
+  
+  <!-- Screen Elements -->
+  <!-- Header Bar -->
+  <rect x="90" y="65" width="120" height="15" rx="2" fill="#E8F5E9"/>
+  
+  <!-- Chart Line -->
+  <path d="M90 180 L110 160 L130 190 L160 140 L190 150 L210 100" stroke="#4CAF50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Area under chart (optional gradient effect simulated with opacity) -->
+  <path d="M90 180 L110 160 L130 190 L160 140 L190 150 L210 100 V220 H90 Z" fill="#4CAF50" fill-opacity="0.1"/>
+  
+  <!-- Up Arrow Icon -->
+  <path d="M200 80 L220 80 L220 100" stroke="#4CAF50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M190 110 L220 80" stroke="#4CAF50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- List Items below chart -->
+  <rect x="90" y="230" width="120" height="8" rx="2" fill="#EEEEEE"/>
+  <rect x="90" y="245" width="80" height="8" rx="2" fill="#EEEEEE"/>
+</svg>

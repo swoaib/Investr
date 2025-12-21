@@ -131,5 +131,15 @@
   "searchHint": "検索 (例: AAPL)",
   "noStocksInWatchlist": "ウォッチリストに株式がありません",
   "noResultsFound": "結果が見つかりませんでした",
-  "removedFromWatchlist": "ウォッチリストから削除されました"
+  "removedFromWatchlist": "ウォッチリストから削除されました",
+  "chooseLanguage": "言語を選択",
+  "chooseLanguageDesc": "開始するには、希望する言語を選択してください。",
+  "chooseTheme": "テーマを選択",
+  "chooseThemeDesc": "スタイルに合った外観を選択してください。これは後で設定で変更できます。",
+  "trackYourStocks": "株式を追跡する",
+  "trackYourStocksDesc": "お気に入りの株式と市場トレンドのリアルタイム更新を取得します。",
+  "learnToInvest": "投資を学ぶ",
+  "learnToInvestDesc": "厳選された教育コンテンツで投資の基礎をマスターしましょう。",
+  "valueYourPortfolio": "ポートフォリオを評価する",
+  "valueYourPortfolioDesc": "高度なツールを使用して本質的価値を計算し、情報に基づいた決定を下します。"
 }

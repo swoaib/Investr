@@ -410,4 +410,38 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get removedFromWatchlist => 'fjernet fra overvåkningslisten';
+
+  @override
+  String get chooseLanguage => 'Velg språk';
+
+  @override
+  String get chooseLanguageDesc => 'Velg foretrukket språk for å komme i gang.';
+
+  @override
+  String get chooseTheme => 'Velg tema';
+
+  @override
+  String get chooseThemeDesc =>
+      'Velg et utseende som passer din stil. Du kan endre dette senere i innstillinger.';
+
+  @override
+  String get trackYourStocks => 'Følg aksjene dine';
+
+  @override
+  String get trackYourStocksDesc =>
+      'Få sanntidsoppdateringer på favorittaksjene dine og markedstrender.';
+
+  @override
+  String get learnToInvest => 'Lær å investere';
+
+  @override
+  String get learnToInvestDesc =>
+      'Mestre det grunnleggende innen investering med vårt kuraterte pedagogiske innhold.';
+
+  @override
+  String get valueYourPortfolio => 'Verdsett porteføljen din';
+
+  @override
+  String get valueYourPortfolioDesc =>
+      'Bruk avanserte verktøy for å beregne iboende verdi og ta informerte beslutninger.';
 }

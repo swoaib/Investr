@@ -131,5 +131,15 @@
   "searchHint": "Søk (f.eks. AAPL)",
   "noStocksInWatchlist": "Ingen aksjer i overvåkningslisten",
   "noResultsFound": "Ingen resultater funnet",
-  "removedFromWatchlist": "fjernet fra overvåkningslisten"
+  "removedFromWatchlist": "fjernet fra overvåkningslisten",
+  "chooseLanguage": "Velg språk",
+  "chooseLanguageDesc": "Velg foretrukket språk for å komme i gang.",
+  "chooseTheme": "Velg tema",
+  "chooseThemeDesc": "Velg et utseende som passer din stil. Du kan endre dette senere i innstillinger.",
+  "trackYourStocks": "Følg aksjene dine",
+  "trackYourStocksDesc": "Få sanntidsoppdateringer på favorittaksjene dine og markedstrender.",
+  "learnToInvest": "Lær å investere",
+  "learnToInvestDesc": "Mestre det grunnleggende innen investering med vårt kuraterte pedagogiske innhold.",
+  "valueYourPortfolio": "Verdsett porteføljen din",
+  "valueYourPortfolioDesc": "Bruk avanserte verktøy for å beregne iboende verdi og ta informerte beslutninger."
 }

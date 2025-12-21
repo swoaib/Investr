@@ -9,7 +9,7 @@ class OnboardingController extends ChangeNotifier {
   bool _isLastPage = false;
   bool get isLastPage => _isLastPage;
 
-  static const int totalPages = 3;
+  static const int totalPages = 5;
 
   void onPageChanged(int index) {
     _currentPage = index;

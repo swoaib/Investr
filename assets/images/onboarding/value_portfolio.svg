@@ -1,0 +1,26 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Calculator Background -->
+  <rect x="140" y="50" width="120" height="160" rx="10" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="3"/>
+  <rect x="155" y="65" width="90" height="30" rx="2" fill="#C8E6C9"/>
+  
+  <!-- Calculator Buttons -->
+  <rect x="155" y="110" width="20" height="20" rx="2" fill="#E0E0E0"/>
+  <rect x="190" y="110" width="20" height="20" rx="2" fill="#E0E0E0"/>
+  <rect x="225" y="110" width="20" height="20" rx="2" fill="#E0E0E0"/>
+  
+  <rect x="155" y="140" width="20" height="20" rx="2" fill="#E0E0E0"/>
+  <rect x="190" y="140" width="20" height="20" rx="2" fill="#E0E0E0"/>
+  <rect x="225" y="140" width="20" height="20" rx="2" fill="#E0E0E0"/>
+  
+  <rect x="155" y="170" width="55" height="20" rx="2" fill="#4CAF50"/> <!-- Calculate Button -->
+
+  <!-- Diamond Forecast -->
+  <path d="M40 160 L80 160 L100 200 L60 250 L20 200 Z" fill="#29B6F6" stroke="#0288D1" stroke-width="3"/>
+  <path d="M40 160 L60 250 M80 160 L60 250 M20 200 L100 200" stroke="#0288D1" stroke-width="2" stroke-linecap="round"/>
+  <path d="M20 200 L40 160 L60 200 L80 160 L100 200" stroke="#B3E5FC" stroke-width="2"/>
+  
+  <!-- Sparkles -->
+  <path d="M120 220 L125 210 L130 220 L140 225 L130 230 L125 240 L120 230 L110 225 Z" fill="#FFEB3B"/>
+  <path d="M30 140 L33 135 L36 140 L41 142 L36 144 L33 149 L30 144 L25 142 Z" fill="#FFEB3B"/>
+
+</svg>

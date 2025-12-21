@@ -410,4 +410,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get removedFromWatchlist => 'removed from watchlist';
+
+  @override
+  String get chooseLanguage => 'Choose Language';
+
+  @override
+  String get chooseLanguageDesc =>
+      'Select your preferred language to get started.';
+
+  @override
+  String get chooseTheme => 'Choose Theme';
+
+  @override
+  String get chooseThemeDesc =>
+      'Select a look that fits your style. You can change this later in settings.';
+
+  @override
+  String get trackYourStocks => 'Track Your Stocks';
+
+  @override
+  String get trackYourStocksDesc =>
+      'Get real-time updates on your favorite stocks and market trends.';
+
+  @override
+  String get learnToInvest => 'Learn to Invest';
+
+  @override
+  String get learnToInvestDesc =>
+      'Master the basics of investing with our curated educational content.';
+
+  @override
+  String get valueYourPortfolio => 'Value Your Portfolio';
+
+  @override
+  String get valueYourPortfolioDesc =>
+      'Use advanced tools to calculate intrinsic value and make informed decisions.';
 }

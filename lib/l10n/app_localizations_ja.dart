@@ -402,4 +402,34 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get removedFromWatchlist => 'ウォッチリストから削除されました';
+
+  @override
+  String get chooseLanguage => '言語を選択';
+
+  @override
+  String get chooseLanguageDesc => '開始するには、希望する言語を選択してください。';
+
+  @override
+  String get chooseTheme => 'テーマを選択';
+
+  @override
+  String get chooseThemeDesc => 'スタイルに合った外観を選択してください。これは後で設定で変更できます。';
+
+  @override
+  String get trackYourStocks => '株式を追跡する';
+
+  @override
+  String get trackYourStocksDesc => 'お気に入りの株式と市場トレンドのリアルタイム更新を取得します。';
+
+  @override
+  String get learnToInvest => '投資を学ぶ';
+
+  @override
+  String get learnToInvestDesc => '厳選された教育コンテンツで投資の基礎をマスターしましょう。';
+
+  @override
+  String get valueYourPortfolio => 'ポートフォリオを評価する';
+
+  @override
+  String get valueYourPortfolioDesc => '高度なツールを使用して本質的価値を計算し、情報に基づいた決定を下します。';
 }

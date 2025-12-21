@@ -1,0 +1,16 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Globe -->
+  <circle cx="150" cy="180" r="60" fill="#E3F2FD" stroke="#2196F3" stroke-width="3"/>
+  <path d="M90 180 H210 M150 120 V240" stroke="#2196F3" stroke-width="2"/>
+  <ellipse cx="150" cy="180" rx="30" ry="60" stroke="#2196F3" stroke-width="2" fill="none"/>
+  
+  <!-- Speech Bubbles -->
+  <!-- Bubble 1: Hello -->
+  <path d="M50 80 H110 A10 10 0 0 1 120 90 V130 A10 10 0 0 1 110 140 H80 L60 160 L60 140 H50 A10 10 0 0 1 40 130 V90 A10 10 0 0 1 50 80 Z" fill="#4CAF50" stroke="#2E7D32" stroke-width="3"/>
+  <text x="80" y="115" font-family="Arial" font-weight="bold" font-size="20" fill="white" text-anchor="middle">Hi</text>
+
+  <!-- Bubble 2: Konnichiwa (Symbolic) -->
+  <path d="M190 60 H250 A10 10 0 0 1 260 70 V110 A10 10 0 0 1 250 120 H240 L240 140 L210 120 H190 A10 10 0 0 1 180 110 V70 A10 10 0 0 1 190 60 Z" fill="#FF7043" stroke="#D84315" stroke-width="3"/>
+  <text x="220" y="95" font-family="Arial" font-weight="bold" font-size="20" fill="white" text-anchor="middle">Aあ</text>
+
+</svg>
