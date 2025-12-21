@@ -5,6 +5,7 @@ import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/locale/locale_controller.dart';
+import '../../../shared/widgets/language_picker.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -260,45 +261,57 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       builder: (context) {
         return SafeArea(
-          child: RadioGroup<ThemeMode>(
-            groupValue: controller.themeMode,
-            onChanged: (value) {
-              if (value != null) {
-                controller.updateThemeMode(value);
-                Navigator.pop(context);
-              }
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Text(
-                    l10n.themeMode,
-                    style: GoogleFonts.outfit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  l10n.themeMode,
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                _buildThemeOption(
-                  context,
-                  title: l10n.system,
-                  mode: ThemeMode.system,
-                ),
-                _buildThemeOption(
-                  context,
-                  title: l10n.light,
-                  mode: ThemeMode.light,
-                ),
-                _buildThemeOption(
-                  context,
-                  title: l10n.dark,
-                  mode: ThemeMode.dark,
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
+              ),
+              _buildThemeOption(
+                context,
+                title: l10n.system,
+                mode: ThemeMode.system,
+                currentMode: controller.themeMode,
+                onChanged: (value) {
+                  if (value != null) {
+                    controller.updateThemeMode(value);
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              _buildThemeOption(
+                context,
+                title: l10n.light,
+                mode: ThemeMode.light,
+                currentMode: controller.themeMode,
+                onChanged: (value) {
+                  if (value != null) {
+                    controller.updateThemeMode(value);
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              _buildThemeOption(
+                context,
+                title: l10n.dark,
+                mode: ThemeMode.dark,
+                currentMode: controller.themeMode,
+                onChanged: (value) {
+                  if (value != null) {
+                    controller.updateThemeMode(value);
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
         );
       },
@@ -309,11 +322,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BuildContext context, {
     required String title,
     required ThemeMode mode,
+    required ThemeMode currentMode,
+    required ValueChanged<ThemeMode?> onChanged,
   }) {
     return RadioListTile<ThemeMode>(
       title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
       value: mode,
+      groupValue: currentMode,
       activeColor: AppTheme.primaryGreen,
+      onChanged: onChanged,
     );
   }
 
@@ -329,60 +346,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       builder: (context) {
         return SafeArea(
-          child: RadioGroup<Locale?>(
-            groupValue: controller.locale,
-            onChanged: (value) {
-              // Value can be null for system
-              controller.updateLocale(value);
-              Navigator.pop(context);
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Text(
-                    l10n.language,
-                    style: GoogleFonts.outfit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  l10n.language,
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                _buildLanguageOption(context, title: l10n.system, locale: null),
-                _buildLanguageOption(
-                  context,
-                  title: 'English',
-                  locale: const Locale('en'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: LanguagePicker(
+                  selectedLocale: controller.locale,
+                  onLocaleChanged: (value) {
+                    controller.updateLocale(value);
+                    Navigator.pop(context);
+                  },
                 ),
-                _buildLanguageOption(
-                  context,
-                  title: 'Norsk',
-                  locale: const Locale('no'),
-                ),
-                _buildLanguageOption(
-                  context,
-                  title: '日本語',
-                  locale: const Locale('ja'),
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
-    );
-  }
-
-  Widget _buildLanguageOption(
-    BuildContext context, {
-    required String title,
-    required Locale? locale,
-  }) {
-    return RadioListTile<Locale?>(
-      title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
-      value: locale,
-      activeColor: AppTheme.primaryGreen,
     );
   }
 }

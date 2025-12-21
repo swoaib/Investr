@@ -8,6 +8,7 @@ import 'package:investr/src/shared/locale/locale_controller.dart';
 import 'package:investr/src/shared/theme/theme_controller.dart';
 import 'onboarding_controller.dart';
 import '../../../shared/theme/app_theme.dart';
+import '../../../shared/widgets/language_picker.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -31,6 +32,11 @@ class _OnboardingView extends StatelessWidget {
 
     // Define pages here to access l10n
     final pages = [
+      _LanguageSelectionPage(
+        title: l10n.chooseLanguage,
+        description: l10n.chooseLanguageDesc,
+        imagePath: 'assets/images/onboarding/language_selection.svg',
+      ),
       OnboardingPage(
         title: l10n.trackYourStocks,
         description: l10n.trackYourStocksDesc,
@@ -50,11 +56,6 @@ class _OnboardingView extends StatelessWidget {
         title: l10n.chooseTheme,
         description: l10n.chooseThemeDesc,
         imagePath: 'assets/images/onboarding/theme_selection.svg',
-      ),
-      _LanguageSelectionPage(
-        title: l10n.chooseLanguage,
-        description: l10n.chooseLanguageDesc,
-        imagePath: 'assets/images/onboarding/language_selection.svg',
       ),
     ];
 
@@ -213,35 +214,15 @@ class _LanguageSelectionPage extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
-          // Language Options
-          RadioGroup<Locale?>(
-            groupValue: localeController.locale,
-            onChanged: (val) {
+          // Language Picker
+          LanguagePicker(
+            selectedLocale: localeController.locale,
+            onLocaleChanged: (val) {
               if (val != null) localeController.updateLocale(val);
             },
-            child: Column(
-              children: [
-                _buildLanguageOption(context, 'English', const Locale('en')),
-                _buildLanguageOption(context, 'Norsk', const Locale('no')),
-                _buildLanguageOption(context, '日本語', const Locale('ja')),
-              ],
-            ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildLanguageOption(
-    BuildContext context,
-    String label,
-    Locale locale,
-  ) {
-    return RadioListTile<Locale>(
-      value: locale,
-      title: Text(label),
-      activeColor: AppTheme.primaryGreen,
-      contentPadding: EdgeInsets.zero,
     );
   }
 }
