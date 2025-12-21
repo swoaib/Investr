@@ -5,7 +5,6 @@ import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/locale/locale_controller.dart';
-import '../../../shared/widgets/language_picker.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -359,20 +358,67 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: LanguagePicker(
-                  selectedLocale: controller.locale,
-                  onLocaleChanged: (value) {
-                    controller.updateLocale(value);
-                    Navigator.pop(context);
-                  },
-                ),
+              _buildLanguageOption(
+                context,
+                title: l10n.system,
+                locale: null,
+                currentLocale: controller.locale,
+                onChanged: (value) {
+                  controller.updateLocale(value);
+                  Navigator.pop(context);
+                },
               ),
+              _buildLanguageOption(
+                context,
+                title: 'English',
+                locale: const Locale('en'),
+                currentLocale: controller.locale,
+                onChanged: (value) {
+                  controller.updateLocale(value);
+                  Navigator.pop(context);
+                },
+              ),
+              _buildLanguageOption(
+                context,
+                title: 'Norsk',
+                locale: const Locale('no'),
+                currentLocale: controller.locale,
+                onChanged: (value) {
+                  controller.updateLocale(value);
+                  Navigator.pop(context);
+                },
+              ),
+              _buildLanguageOption(
+                context,
+                title: '日本語',
+                locale: const Locale('ja'),
+                currentLocale: controller.locale,
+                onChanged: (value) {
+                  controller.updateLocale(value);
+                  Navigator.pop(context);
+                },
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         );
       },
+    );
+  }
+
+  Widget _buildLanguageOption(
+    BuildContext context, {
+    required String title,
+    required Locale? locale,
+    required Locale? currentLocale,
+    required ValueChanged<Locale?> onChanged,
+  }) {
+    return RadioListTile<Locale?>(
+      title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
+      value: locale,
+      groupValue: currentLocale,
+      activeColor: AppTheme.primaryGreen,
+      onChanged: onChanged,
     );
   }
 }
