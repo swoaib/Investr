@@ -249,6 +249,7 @@ class _LearnScreenContent extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             Padding(
@@ -317,8 +318,10 @@ class _LearnScreenContent extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppTheme.screenPaddingHorizontal,
+                padding: const EdgeInsets.only(
+                  left: AppTheme.screenPaddingHorizontal,
+                  right: AppTheme.screenPaddingHorizontal,
+                  bottom: 100,
                 ),
                 itemCount: lessons.length,
                 separatorBuilder: (context, index) =>

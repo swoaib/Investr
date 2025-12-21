@@ -87,7 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     IconData? activeIcon,
   }) {
     final isSelected = _selectedIndex == index;
-    final color = isSelected ? AppTheme.primaryGreen : Colors.blueGrey;
+    final color = isSelected ? AppTheme.primaryGreen : Colors.grey;
 
     return IconButton(
       onPressed: () => _onItemTapped(index),
