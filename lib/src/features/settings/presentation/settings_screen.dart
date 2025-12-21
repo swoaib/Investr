@@ -104,7 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      child: const Text('Upgrade New'),
+                      child: const Text('Upgrade Now'),
                     ),
                   ],
                 ),
