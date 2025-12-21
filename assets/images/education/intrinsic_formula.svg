@@ -1,0 +1,10 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <text x="40" y="160" font-family="Times New Roman" font-size="60" fill="#4A148C">∑</text>
+  
+  <text x="100" y="140" font-family="Arial" font-size="24" fill="#4A148C" font-weight="bold">CF</text>
+  <line x1="90" y1="150" x2="200" y2="150" stroke="#4A148C" stroke-width="4"/>
+  <text x="100" y="180" font-family="Arial" font-size="24" fill="#4A148C" font-weight="bold">(1 + r)</text>
+  <text x="180" y="165" font-family="Arial" font-size="14" fill="#4A148C" font-weight="bold">n</text>
+  
+  <rect x="20" y="80" width="260" height="140" rx="20" stroke="#7B1FA2" stroke-width="4" fill="none"/>
+</svg>

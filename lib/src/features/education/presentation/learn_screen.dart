@@ -105,39 +105,6 @@ class LearnScreen extends StatelessWidget {
       ],
     ),
     Lesson(
-      id: 'dollar_cost_averaging',
-      title: 'Dollar Cost Averaging',
-      description: 'Build wealth through consistency.',
-      color: Color(0xFF9C27B0),
-      icon: Icons.calendar_month,
-      pages: [
-        LessonPage(
-          title: 'What is DCA?',
-          description:
-              'Investing a fixed amount of money at regular intervals, regardless of the share price.',
-          imagePath: 'assets/images/education/dca_calendar.svg',
-        ),
-        LessonPage(
-          title: 'Smoothing the Ride',
-          description:
-              'You buy more shares when prices are low and fewer when prices are high, lowering your average cost per share.',
-          imagePath: 'assets/images/education/dca_chart.svg',
-        ),
-        LessonPage(
-          title: 'Remove Emotion',
-          description:
-              'It eliminates the temptation to time the market, preventing emotional decisions during volatility.',
-          imagePath: 'assets/images/education/dca_emotion.svg',
-        ),
-        LessonPage(
-          title: 'Consistency Wins',
-          description:
-              'The key is consistency. Over time, this disciplined approach builds significant wealth.',
-          imagePath: 'assets/images/education/dca_growth.svg',
-        ),
-      ],
-    ),
-    Lesson(
       id: 'margin_of_safety',
       title: 'Margin of Safety',
       description: 'Risk management strategy.',
@@ -173,6 +140,105 @@ class LearnScreen extends StatelessWidget {
           description:
               'When valuing a company, always use conservative estimates for growth and profitability to ensure a margin of safety.',
           imagePath: 'assets/images/education/ms_conservative.svg',
+        ),
+      ],
+    ),
+    Lesson(
+      id: 'index_funds',
+      title: 'Index Funds',
+      description: 'The power of passive investing.',
+      color: Color(0xFF00BCD4),
+      icon: Icons.pie_chart,
+      pages: [
+        LessonPage(
+          title: 'What is an Index Fund?',
+          description:
+              'An index fund is a portfolio of stocks designed to mimic the composition and performance of a financial market index.',
+          imagePath: 'assets/images/education/index_fund_basket.svg',
+        ),
+        LessonPage(
+          title: 'Instant Diversification',
+          description:
+              'By buying an index fund, you instantly own a tiny piece of hundreds or thousands of companies, spreading your risk.',
+          imagePath: 'assets/images/education/diversification.svg',
+        ),
+        LessonPage(
+          title: 'Low Cost',
+          description:
+              'Index funds are passively managed, meaning they have significantly lower fees compared to actively managed mutual funds.',
+          imagePath: 'assets/images/education/low_fees.svg',
+        ),
+        LessonPage(
+          title: 'Market Performance',
+          description:
+              'Statistically, most actively managed funds fail to beat the market over the long term. If you can\'t beat them, join them.',
+          imagePath: 'assets/images/education/market_performance.svg',
+        ),
+      ],
+    ),
+    Lesson(
+      id: 'dollar_cost_averaging',
+      title: 'Dollar Cost Averaging',
+      description: 'Build wealth through consistency.',
+      color: Color(0xFF9C27B0),
+      icon: Icons.calendar_month,
+      pages: [
+        LessonPage(
+          title: 'What is DCA?',
+          description:
+              'Investing a fixed amount of money at regular intervals, regardless of the share price.',
+          imagePath: 'assets/images/education/dca_calendar.svg',
+        ),
+        LessonPage(
+          title: 'Smoothing the Ride',
+          description:
+              'You buy more shares when prices are low and fewer when prices are high, lowering your average cost per share.',
+          imagePath: 'assets/images/education/dca_chart.svg',
+        ),
+        LessonPage(
+          title: 'Remove Emotion',
+          description:
+              'It eliminates the temptation to time the market, preventing emotional decisions during volatility.',
+          imagePath: 'assets/images/education/dca_emotion.svg',
+        ),
+        LessonPage(
+          title: 'Consistency Wins',
+          description:
+              'The key is consistency. Over time, this disciplined approach builds significant wealth.',
+          imagePath: 'assets/images/education/dca_growth.svg',
+        ),
+      ],
+    ),
+    Lesson(
+      id: 'calculating_intrinsic_value',
+      title: 'Calculating Intrinsic Value',
+      description: 'The science of valuation.',
+      color: Color(0xFF673AB7),
+      icon: Icons.calculate,
+      pages: [
+        LessonPage(
+          title: 'Price vs. Value',
+          description:
+              'Price is what you pay. Value is what you get. A stock might cost \$100, but its intrinsic value could be \$50 or \$150.',
+          imagePath: 'assets/images/education/intrinsic_price_value.svg',
+        ),
+        LessonPage(
+          title: 'The Formula (DCF)',
+          description:
+              'Valuation often uses Discounted Cash Flow (DCF). It sums up all future cash a company will generate, discounted back to today.',
+          imagePath: 'assets/images/education/intrinsic_dcf.svg',
+        ),
+        LessonPage(
+          title: 'Step-by-Step',
+          description:
+              '1. Estimate future Free Cash Flow growth.\n2. Choose a Discount Rate (your desired return).\n3. Sum the discounted values.',
+          imagePath: 'assets/images/education/intrinsic_formula.svg',
+        ),
+        LessonPage(
+          title: 'Use Our Calculator',
+          description:
+              'This math can be complex. Use the "Intrinsic Value Calculator" tool in this app to do the heavy lifting for you.',
+          imagePath: 'assets/images/education/intrinsic_conservative.svg',
         ),
       ],
     ),
@@ -212,7 +278,7 @@ class _LearnScreenContent extends StatelessWidget {
                 AppTheme.screenPaddingHorizontal,
                 AppTheme.screenPaddingVertical,
                 AppTheme.screenPaddingHorizontal,
-                AppTheme.screenPaddingHorizontal,
+                AppTheme.screenPaddingVertical,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
