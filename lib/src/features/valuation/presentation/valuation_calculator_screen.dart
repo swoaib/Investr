@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../domain/valuation_logic.dart';
 import '../../../shared/theme/app_theme.dart';
+import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:investr/l10n/app_localizations.dart';
 
 class ValuationCalculatorScreen extends StatefulWidget {
@@ -53,9 +54,15 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+            padding: const EdgeInsets.fromLTRB(
+              AppTheme.screenPaddingHorizontal,
+              AppTheme.screenPaddingHorizontal, // Top padding usually same
+              AppTheme.screenPaddingHorizontal,
+              CustomBottomNavigationBar.contentBottomPadding,
+            ),
             child: Form(
               key: _formKey,
               child: Column(

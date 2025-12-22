@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../../shared/theme/app_theme.dart';
+import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import '../domain/stock.dart';
 import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
@@ -46,6 +47,7 @@ class _StockListViewState extends State<_StockListView> {
 
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             Padding(
@@ -116,8 +118,10 @@ class _StockListViewState extends State<_StockListView> {
       return Center(child: Text(l10n.noStocksInWatchlist));
     }
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppTheme.screenPaddingHorizontal,
+      padding: const EdgeInsets.only(
+        left: AppTheme.screenPaddingHorizontal,
+        right: AppTheme.screenPaddingHorizontal,
+        bottom: CustomBottomNavigationBar.contentBottomPadding,
       ),
       itemCount: controller.stocks.length,
       separatorBuilder: (context, index) => const Divider(height: 1),
@@ -156,8 +160,10 @@ class _StockListViewState extends State<_StockListView> {
       return Center(child: Text(l10n.noResultsFound));
     }
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppTheme.screenPaddingHorizontal,
+      padding: const EdgeInsets.only(
+        left: AppTheme.screenPaddingHorizontal,
+        right: AppTheme.screenPaddingHorizontal,
+        bottom: CustomBottomNavigationBar.contentBottomPadding,
       ),
       itemCount: controller.searchResults.length,
       separatorBuilder: (context, index) => const Divider(height: 1),

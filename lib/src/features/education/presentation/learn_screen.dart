@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../domain/lesson.dart';
 import 'lesson_detail_screen.dart';
 import '../../../shared/theme/app_theme.dart';
+import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 import '../data/education_service.dart';
 import '../presentation/education_controller.dart';
@@ -321,7 +322,7 @@ class _LearnScreenContent extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   left: AppTheme.screenPaddingHorizontal,
                   right: AppTheme.screenPaddingHorizontal,
-                  bottom: 100,
+                  bottom: CustomBottomNavigationBar.contentBottomPadding,
                 ),
                 itemCount: lessons.length,
                 separatorBuilder: (context, index) =>
