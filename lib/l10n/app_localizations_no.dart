@@ -236,10 +236,40 @@ class AppLocalizationsNo extends AppLocalizations {
       'Statistisk sett klarer de fleste aktivt forvaltede fond ikke å slå markedet over lang tid. Hvis du ikke kan slå dem, bli med dem.';
 
   @override
-  String get calcIntrinsicValueTitle => 'Beregning av iboende verdi';
+  String get calcIntrinsicValueTitle => 'Beregning av iboende verdi (Avansert)';
 
   @override
   String get calcIntrinsicValueDesc => 'Vitenskapen om verdsettelse.';
+
+  @override
+  String get powerOfCompoundingTitle => 'Renters rente-effekten';
+
+  @override
+  String get powerOfCompoundingDesc => 'Hvorfor det er viktig å starte tidlig.';
+
+  @override
+  String get snowballEffect => 'Snøballeffekten';
+
+  @override
+  String get snowballEffectDesc =>
+      'Renters rente er som en snøball som ruller ned en bakke. Etter hvert som den vokser, samler den mer snø og vokser raskere.';
+
+  @override
+  String get timeIsKey => 'Tid er nøkkelen';
+
+  @override
+  String get timeIsKeyDesc =>
+      'Jo lenger du er investert, jo mer jobber pengene dine for deg. Å starte 10 år tidligere kan doble resultatet ditt.';
+
+  @override
+  String get exponentialGrowth => 'Eksponentiell vekst';
+
+  @override
+  String get exponentialGrowthDesc =>
+      'Enkel rente er lineær. Renters rente er eksponentiell. Rentene dine tjener renter, og skaper en formueskurve.';
+
+  @override
+  String get dollarCostAveragingTitle => 'Kronerulling (DCA)';
 
   @override
   String get priceVsValue => 'Pris vs. Verdi';
@@ -268,9 +298,6 @@ class AppLocalizationsNo extends AppLocalizations {
   @override
   String get useOurCalculatorDesc =>
       'Denne matematikken kan være kompleks. Bruk \"Iboende verdi-kalkulator\"-verktøyet i denne appen for å gjøre det tunge løftet for deg.';
-
-  @override
-  String get dollarCostAveragingTitle => 'Kronerulling (DCA)';
 
   @override
   String get dollarCostAveragingDesc => 'Bygg formue gjennom konsistens.';

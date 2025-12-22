@@ -517,7 +517,7 @@ abstract class AppLocalizations {
   /// No description provided for @calcIntrinsicValueTitle.
   ///
   /// In en, this message translates to:
-  /// **'Calculating Intrinsic Value'**
+  /// **'Calculating Intrinsic Value (Advanced)'**
   String get calcIntrinsicValueTitle;
 
   /// No description provided for @calcIntrinsicValueDesc.
@@ -525,6 +525,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The science of valuation.'**
   String get calcIntrinsicValueDesc;
+
+  /// No description provided for @powerOfCompoundingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Power of Compounding'**
+  String get powerOfCompoundingTitle;
+
+  /// No description provided for @powerOfCompoundingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Why starting early matters.'**
+  String get powerOfCompoundingDesc;
+
+  /// No description provided for @snowballEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'Snowball Effect'**
+  String get snowballEffect;
+
+  /// No description provided for @snowballEffectDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Compounding is like a snowball rolling down a hill. As it grows, it gathers more snow, growing faster and faster.'**
+  String get snowballEffectDesc;
+
+  /// No description provided for @timeIsKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Time is Key'**
+  String get timeIsKey;
+
+  /// No description provided for @timeIsKeyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The longer you stay invested, the more your money works for you. Starting 10 years earlier can double your result.'**
+  String get timeIsKeyDesc;
+
+  /// No description provided for @exponentialGrowth.
+  ///
+  /// In en, this message translates to:
+  /// **'Exponential Growth'**
+  String get exponentialGrowth;
+
+  /// No description provided for @exponentialGrowthDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple interest is linear. Compound interest is exponential. Your interest earns interest, creating a curve of wealth.'**
+  String get exponentialGrowthDesc;
+
+  /// No description provided for @dollarCostAveragingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dollar Cost Averaging'**
+  String get dollarCostAveragingTitle;
 
   /// No description provided for @priceVsValue.
   ///
@@ -573,12 +627,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This math can be complex. Use the \"Intrinsic Value Calculator\" tool in this app to do the heavy lifting for you.'**
   String get useOurCalculatorDesc;
-
-  /// No description provided for @dollarCostAveragingTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Dollar Cost Averaging'**
-  String get dollarCostAveragingTitle;
 
   /// No description provided for @dollarCostAveragingDesc.
   ///

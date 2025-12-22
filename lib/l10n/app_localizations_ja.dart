@@ -230,10 +230,40 @@ class AppLocalizationsJa extends AppLocalizations {
       '統計的に、ほとんどのアクティブ運用ファンドは長期的には市場に勝てません。勝てないなら、彼らに加わりましょう。';
 
   @override
-  String get calcIntrinsicValueTitle => '本質的価値の計算';
+  String get calcIntrinsicValueTitle => '本質的価値の計算 (上級)';
 
   @override
   String get calcIntrinsicValueDesc => 'バリュエーションの科学。';
+
+  @override
+  String get powerOfCompoundingTitle => '複利の力';
+
+  @override
+  String get powerOfCompoundingDesc => 'なぜ早く始めることが重要なのか。';
+
+  @override
+  String get snowballEffect => '雪だるま効果';
+
+  @override
+  String get snowballEffectDesc =>
+      '複利は坂を転がり落ちる雪だるまのようなものです。大きくなるにつれてより多くの雪を集め、どんどん速く成長します。';
+
+  @override
+  String get timeIsKey => '時間は鍵';
+
+  @override
+  String get timeIsKeyDesc =>
+      '投資期間が長いほど、お金はあなたのために働きます。10年早く始めれば、結果は倍増する可能性があります。';
+
+  @override
+  String get exponentialGrowth => '指数関数的な成長';
+
+  @override
+  String get exponentialGrowthDesc =>
+      '単利は直線的です。複利は指数関数的です。利子が利子を生み、富の曲線を作り出します。';
+
+  @override
+  String get dollarCostAveragingTitle => 'ドルコスト平均法';
 
   @override
   String get priceVsValue => '価格 vs 価値';
@@ -262,9 +292,6 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get useOurCalculatorDesc =>
       'この数学は複雑になる可能性があります。このアプリの「本質的価値計算機」ツールを使って、面倒な作業を任せましょう。';
-
-  @override
-  String get dollarCostAveragingTitle => 'ドルコスト平均法';
 
   @override
   String get dollarCostAveragingDesc => '一貫性を通じて資産を築く。';

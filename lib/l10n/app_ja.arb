@@ -74,7 +74,7 @@
   "marketPerformance": "市場パフォーマンス",
   "marketPerformanceDesc": "統計的に、ほとんどのアクティブ運用ファンドは長期的には市場に勝てません。勝てないなら、彼らに加わりましょう。",
 
-  "calcIntrinsicValueTitle": "本質的価値の計算",
+  "calcIntrinsicValueTitle": "本質的価値の計算 (上級)",
   "calcIntrinsicValueDesc": "バリュエーションの科学。",
   "priceVsValue": "価格 vs 価値",
   "priceVsValueDesc": "価格はあなたが支払うもの。価値はあなたが得るもの。株価は100ドルかもしれませんが、その本質的価値は50ドルか150ドルかもしれません。",
@@ -156,5 +156,14 @@
   "enterpriseStrategy": "積極的な戦略",
   "enterpriseStrategyDesc": "彼らは財務報告書を分析して過小評価されている企業を見つけ、ハードワークの見返りとしてより高いリターンを求めます。",
   "theChoice": "選択",
-  "theChoiceDesc": "選択はリスク許容度だけでなく、働く意欲にかかっています。時間をかけられない場合は、防衛的になりましょう。"
+  "theChoiceDesc": "選択はリスク許容度だけでなく、働く意欲にかかっています。時間をかけられない場合は、防衛的になりましょう。",
+
+  "powerOfCompoundingTitle": "複利の力",
+  "powerOfCompoundingDesc": "なぜ早く始めることが重要なのか。",
+  "snowballEffect": "雪だるま効果",
+  "snowballEffectDesc": "複利は坂を転がり落ちる雪だるまのようなものです。大きくなるにつれてより多くの雪を集め、どんどん速く成長します。",
+  "timeIsKey": "時間は鍵",
+  "timeIsKeyDesc": "投資期間が長いほど、お金はあなたのために働きます。10年早く始めれば、結果は倍増する可能性があります。",
+  "exponentialGrowth": "指数関数的な成長",
+  "exponentialGrowthDesc": "単利は直線的です。複利は指数関数的です。利子が利子を生み、富の曲線を作り出します。"
 }

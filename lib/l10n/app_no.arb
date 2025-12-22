@@ -74,7 +74,7 @@
   "marketPerformance": "Markedsytelse",
   "marketPerformanceDesc": "Statistisk sett klarer de fleste aktivt forvaltede fond ikke å slå markedet over lang tid. Hvis du ikke kan slå dem, bli med dem.",
 
-  "calcIntrinsicValueTitle": "Beregning av iboende verdi",
+  "calcIntrinsicValueTitle": "Beregning av iboende verdi (Avansert)",
   "calcIntrinsicValueDesc": "Vitenskapen om verdsettelse.",
   "priceVsValue": "Pris vs. Verdi",
   "priceVsValueDesc": "Pris er det du betaler. Verdi er det du får. En aksje kan koste $100, men den iboende verdien kan være $50 eller $150.",
@@ -156,5 +156,14 @@
   "enterpriseStrategy": "Aktiv Strategi",
   "enterpriseStrategyDesc": "De analyserer finansielle rapporter for å finne undervurderte selskaper, og søker høyere avkastning i bytte mot hardt arbeid.",
   "theChoice": "Valget",
-  "theChoiceDesc": "Valget handler ikke bare om risikoappetitt, men om viljen til å jobbe. Hvis du ikke kan legge ned timene, vær defensiv."
+  "theChoiceDesc": "Valget handler ikke bare om risikoappetitt, men om viljen til å jobbe. Hvis du ikke kan legge ned timene, vær defensiv.",
+
+  "powerOfCompoundingTitle": "Renters rente-effekten",
+  "powerOfCompoundingDesc": "Hvorfor det er viktig å starte tidlig.",
+  "snowballEffect": "Snøballeffekten",
+  "snowballEffectDesc": "Renters rente er som en snøball som ruller ned en bakke. Etter hvert som den vokser, samler den mer snø og vokser raskere.",
+  "timeIsKey": "Tid er nøkkelen",
+  "timeIsKeyDesc": "Jo lenger du er investert, jo mer jobber pengene dine for deg. Å starte 10 år tidligere kan doble resultatet ditt.",
+  "exponentialGrowth": "Eksponentiell vekst",
+  "exponentialGrowthDesc": "Enkel rente er lineær. Renters rente er eksponentiell. Rentene dine tjener renter, og skaper en formueskurve."
 }

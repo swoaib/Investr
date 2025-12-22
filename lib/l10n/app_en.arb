@@ -74,8 +74,19 @@
   "marketPerformance": "Market Performance",
   "marketPerformanceDesc": "Statistically, most actively managed funds fail to beat the market over the long term. If you can't beat them, join them.",
 
-  "calcIntrinsicValueTitle": "Calculating Intrinsic Value",
+  "calcIntrinsicValueTitle": "Calculating Intrinsic Value (Advanced)",
   "calcIntrinsicValueDesc": "The science of valuation.",
+  
+  "powerOfCompoundingTitle": "The Power of Compounding",
+  "powerOfCompoundingDesc": "Why starting early matters.",
+  "snowballEffect": "Snowball Effect",
+  "snowballEffectDesc": "Compounding is like a snowball rolling down a hill. As it grows, it gathers more snow, growing faster and faster.",
+  "timeIsKey": "Time is Key",
+  "timeIsKeyDesc": "The longer you stay invested, the more your money works for you. Starting 10 years earlier can double your result.",
+  "exponentialGrowth": "Exponential Growth",
+  "exponentialGrowthDesc": "Simple interest is linear. Compound interest is exponential. Your interest earns interest, creating a curve of wealth.",
+
+  "dollarCostAveragingTitle": "Dollar Cost Averaging",
   "priceVsValue": "Price vs. Value",
   "priceVsValueDesc": "Price is what you pay. Value is what you get. A stock might cost $100, but its intrinsic value could be $50 or $150.",
   "theFormulaDCF": "The Formula (DCF)",

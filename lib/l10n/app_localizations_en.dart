@@ -236,10 +236,41 @@ class AppLocalizationsEn extends AppLocalizations {
       'Statistically, most actively managed funds fail to beat the market over the long term. If you can\'t beat them, join them.';
 
   @override
-  String get calcIntrinsicValueTitle => 'Calculating Intrinsic Value';
+  String get calcIntrinsicValueTitle =>
+      'Calculating Intrinsic Value (Advanced)';
 
   @override
   String get calcIntrinsicValueDesc => 'The science of valuation.';
+
+  @override
+  String get powerOfCompoundingTitle => 'The Power of Compounding';
+
+  @override
+  String get powerOfCompoundingDesc => 'Why starting early matters.';
+
+  @override
+  String get snowballEffect => 'Snowball Effect';
+
+  @override
+  String get snowballEffectDesc =>
+      'Compounding is like a snowball rolling down a hill. As it grows, it gathers more snow, growing faster and faster.';
+
+  @override
+  String get timeIsKey => 'Time is Key';
+
+  @override
+  String get timeIsKeyDesc =>
+      'The longer you stay invested, the more your money works for you. Starting 10 years earlier can double your result.';
+
+  @override
+  String get exponentialGrowth => 'Exponential Growth';
+
+  @override
+  String get exponentialGrowthDesc =>
+      'Simple interest is linear. Compound interest is exponential. Your interest earns interest, creating a curve of wealth.';
+
+  @override
+  String get dollarCostAveragingTitle => 'Dollar Cost Averaging';
 
   @override
   String get priceVsValue => 'Price vs. Value';
@@ -268,9 +299,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get useOurCalculatorDesc =>
       'This math can be complex. Use the \"Intrinsic Value Calculator\" tool in this app to do the heavy lifting for you.';
-
-  @override
-  String get dollarCostAveragingTitle => 'Dollar Cost Averaging';
 
   @override
   String get dollarCostAveragingDesc => 'Build wealth through consistency.';
