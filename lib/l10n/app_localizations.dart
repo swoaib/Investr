@@ -958,6 +958,138 @@ abstract class AppLocalizations {
   /// **'Use advanced tools to calculate intrinsic value and make informed decisions.'**
   String get valueYourPortfolioDesc;
 
+  /// No description provided for @howToInvestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to Invest'**
+  String get howToInvestTitle;
+
+  /// No description provided for @howToInvestDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Brokers, ETFs, and getting started.'**
+  String get howToInvestDesc;
+
+  /// No description provided for @theBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'The Broker'**
+  String get theBroker;
+
+  /// No description provided for @theBrokerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your broker is your gateway to the market. Today, this is typically a mobile app or a bank. They execute your buy and sell orders.'**
+  String get theBrokerDesc;
+
+  /// No description provided for @accountTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Types'**
+  String get accountTypes;
+
+  /// No description provided for @accountTypesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK). Using these can save you thousands in taxes over the long run.'**
+  String get accountTypesDesc;
+
+  /// No description provided for @etfs.
+  ///
+  /// In en, this message translates to:
+  /// **'ETFs'**
+  String get etfs;
+
+  /// No description provided for @etfsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange Traded Funds (ETFs) are baskets of stocks that trade like a single stock. They are modern, low-cost, and diverse.'**
+  String get etfsDesc;
+
+  /// No description provided for @mutualFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Mutual Funds'**
+  String get mutualFunds;
+
+  /// No description provided for @mutualFundsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar to ETFs but often actively managed by a professional. Beware: they typically have higher fees which eat into your returns.'**
+  String get mutualFundsDesc;
+
+  /// No description provided for @ethicalInvesting.
+  ///
+  /// In en, this message translates to:
+  /// **'Ethical Investing (ESG)'**
+  String get ethicalInvesting;
+
+  /// No description provided for @ethicalInvestingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You can vote with your wallet. ESG funds only include companies that meet Environmental, Social, and Governance standards.'**
+  String get ethicalInvestingDesc;
+
+  /// No description provided for @understandingMetricsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Understanding Metrics'**
+  String get understandingMetricsTitle;
+
+  /// No description provided for @understandingMetricsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn to speak the language.'**
+  String get understandingMetricsDesc;
+
+  /// No description provided for @marketCapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Market Cap'**
+  String get marketCapTitle;
+
+  /// No description provided for @marketCapDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Market Capitalization is the total value of a company. It\'s calculated by multiplying the stock price by the number of shares.'**
+  String get marketCapDesc;
+
+  /// No description provided for @peRatioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'P/E Ratio'**
+  String get peRatioTitle;
+
+  /// No description provided for @peRatioImgDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The Price-to-Earnings ratio tells you how much you are paying for \$1 of earnings. A lower P/E *can* mean a bargain.'**
+  String get peRatioImgDesc;
+
+  /// No description provided for @dividendYieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dividend Yield'**
+  String get dividendYieldTitle;
+
+  /// No description provided for @dividendYieldDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'This is the percentage of the stock price that is paid out to you in cash each year. It\'s like getting paid rent for owning the stock.'**
+  String get dividendYieldDesc;
+
+  /// No description provided for @epsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EPS (Earnings Per Share)'**
+  String get epsTitle;
+
+  /// No description provided for @epsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The portion of a company\'s profit allocated to each share. It is the engine that drives the stock price in the long run.'**
+  String get epsDesc;
+
   /// No description provided for @defensiveVsEnterpriseTitle.
   ///
   /// In en, this message translates to:
@@ -1029,6 +1161,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'They analyze financial reports to find undervalued companies, seeking higher returns in exchange for their hard work.'**
   String get enterpriseStrategyDesc;
+
+  /// No description provided for @stocksVsBondsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stocks vs. Bonds'**
+  String get stocksVsBondsTitle;
+
+  /// No description provided for @stocksVsBondsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Understanding Asset Classes.'**
+  String get stocksVsBondsDesc;
+
+  /// No description provided for @stocksForGrowth.
+  ///
+  /// In en, this message translates to:
+  /// **'Stocks for Growth'**
+  String get stocksForGrowth;
+
+  /// No description provided for @stocksForGrowthDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Stocks represent ownership. They offer high potential for growth but come with higher volatility and risk.'**
+  String get stocksForGrowthDesc;
+
+  /// No description provided for @bondsForStability.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonds for Stability'**
+  String get bondsForStability;
+
+  /// No description provided for @bondsForStabilityDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonds are loans you make to governments or companies. They pay steady interest and are generally safer than stocks.'**
+  String get bondsForStabilityDesc;
+
+  /// No description provided for @riskVsReward.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk vs. Reward'**
+  String get riskVsReward;
+
+  /// No description provided for @riskVsRewardDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s a trade-off. Stocks can grow fast but crash hard. Bonds likely won\'t double, but they won\'t crash either.'**
+  String get riskVsRewardDesc;
+
+  /// No description provided for @theIdealMix.
+  ///
+  /// In en, this message translates to:
+  /// **'The Ideal Mix'**
+  String get theIdealMix;
+
+  /// No description provided for @theIdealMixDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Most investors hold both. Stocks drive the growth of your portfolio, while bonds act as shock absorbers during market crashes.'**
+  String get theIdealMixDesc;
 
   /// No description provided for @theChoice.
   ///

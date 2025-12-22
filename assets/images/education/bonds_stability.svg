@@ -1,0 +1,14 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Steady Line -->
+  <path d="M20 250 L280 120" stroke="#2196F3" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Foundation/Building blocks (Security) -->
+  <rect x="50" y="250" width="40" height="30" fill="#BBDEFB"/>
+  <rect x="100" y="225" width="40" height="55" fill="#90CAF9"/>
+  <rect x="150" y="200" width="40" height="80" fill="#64B5F6"/>
+  <rect x="200" y="175" width="40" height="105" fill="#42A5F5"/>
+  
+  <!-- Shield Icon (Safety) -->
+  <path d="M260 50 L280 60 V 85 C 280 98 270 108 260 110 C 250 108 240 98 240 85 V 60 L 260 50 Z" fill="#2196F3"/>
+  <path d="M255 70 L 265 80 L 255 90" stroke="white" stroke-width="2" fill="none"/>
+</svg>

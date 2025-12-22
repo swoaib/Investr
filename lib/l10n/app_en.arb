@@ -154,6 +154,39 @@
   "valueYourPortfolio": "Value Your Portfolio",
   "valueYourPortfolioDesc": "Use advanced tools to calculate intrinsic value and make informed decisions.",
   
+  "howToInvestTitle": "How to Invest",
+  "howToInvestDesc": "Brokers, ETFs, and getting started.",
+  
+  "theBroker": "The Broker",
+  "theBrokerDesc": "Your broker is your gateway to the market. Today, this is typically a mobile app or a bank. They execute your buy and sell orders.",
+  
+  "accountTypes": "Account Types",
+  "accountTypesDesc": "Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK). Using these can save you thousands in taxes over the long run.",
+  
+  "etfs": "ETFs",
+  "etfsDesc": "Exchange Traded Funds (ETFs) are baskets of stocks that trade like a single stock. They are modern, low-cost, and diverse.",
+  
+  "mutualFunds": "Mutual Funds",
+  "mutualFundsDesc": "Similar to ETFs but often actively managed by a professional. Beware: they typically have higher fees which eat into your returns.",
+  
+  "ethicalInvesting": "Ethical Investing (ESG)",
+  "ethicalInvestingDesc": "You can vote with your wallet. ESG funds only include companies that meet Environmental, Social, and Governance standards.",
+  
+  "understandingMetricsTitle": "Understanding Metrics",
+  "understandingMetricsDesc": "Learn to speak the language.",
+  
+  "marketCapTitle": "Market Cap",
+  "marketCapDesc": "Market Capitalization is the total value of a company. It's calculated by multiplying the stock price by the number of shares.",
+  
+  "peRatioTitle": "P/E Ratio",
+  "peRatioImgDesc": "The Price-to-Earnings ratio tells you how much you are paying for $1 of earnings. A lower P/E *can* mean a bargain.",
+  
+  "dividendYieldTitle": "Dividend Yield",
+  "dividendYieldDesc": "This is the percentage of the stock price that is paid out to you in cash each year. It's like getting paid rent for owning the stock.",
+  
+  "epsTitle": "EPS (Earnings Per Share)",
+  "epsDesc": "The portion of a company's profit allocated to each share. It is the engine that drives the stock price in the long run.",
+  
   "defensiveVsEnterpriseTitle": "Defensive vs Enterprise",
   "defensiveVsEnterpriseDesc": "Passive vs Active Investing.",
   
@@ -171,6 +204,21 @@
   
   "enterpriseStrategy": "Enterprise Strategy",
   "enterpriseStrategyDesc": "They analyze financial reports to find undervalued companies, seeking higher returns in exchange for their hard work.",
+  
+  "stocksVsBondsTitle": "Stocks vs. Bonds",
+  "stocksVsBondsDesc": "Understanding Asset Classes.",
+
+  "stocksForGrowth": "Stocks for Growth",
+  "stocksForGrowthDesc": "Stocks represent ownership. They offer high potential for growth but come with higher volatility and risk.",
+
+  "bondsForStability": "Bonds for Stability",
+  "bondsForStabilityDesc": "Bonds are loans you make to governments or companies. They pay steady interest and are generally safer than stocks.",
+
+  "riskVsReward": "Risk vs. Reward",
+  "riskVsRewardDesc": "It's a trade-off. Stocks can grow fast but crash hard. Bonds likely won't double, but they won't crash either.",
+
+  "theIdealMix": "The Ideal Mix",
+  "theIdealMixDesc": "Most investors hold both. Stocks drive the growth of your portfolio, while bonds act as shock absorbers during market crashes.",
   
   "theChoice": "The Choice",
   "theChoiceDesc": "The choice isn't just about risk appetite, but your willingness to work. If you can't put in the hours, be defensive."

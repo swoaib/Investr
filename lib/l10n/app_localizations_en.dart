@@ -475,6 +475,81 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use advanced tools to calculate intrinsic value and make informed decisions.';
 
   @override
+  String get howToInvestTitle => 'How to Invest';
+
+  @override
+  String get howToInvestDesc => 'Brokers, ETFs, and getting started.';
+
+  @override
+  String get theBroker => 'The Broker';
+
+  @override
+  String get theBrokerDesc =>
+      'Your broker is your gateway to the market. Today, this is typically a mobile app or a bank. They execute your buy and sell orders.';
+
+  @override
+  String get accountTypes => 'Account Types';
+
+  @override
+  String get accountTypesDesc =>
+      'Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK). Using these can save you thousands in taxes over the long run.';
+
+  @override
+  String get etfs => 'ETFs';
+
+  @override
+  String get etfsDesc =>
+      'Exchange Traded Funds (ETFs) are baskets of stocks that trade like a single stock. They are modern, low-cost, and diverse.';
+
+  @override
+  String get mutualFunds => 'Mutual Funds';
+
+  @override
+  String get mutualFundsDesc =>
+      'Similar to ETFs but often actively managed by a professional. Beware: they typically have higher fees which eat into your returns.';
+
+  @override
+  String get ethicalInvesting => 'Ethical Investing (ESG)';
+
+  @override
+  String get ethicalInvestingDesc =>
+      'You can vote with your wallet. ESG funds only include companies that meet Environmental, Social, and Governance standards.';
+
+  @override
+  String get understandingMetricsTitle => 'Understanding Metrics';
+
+  @override
+  String get understandingMetricsDesc => 'Learn to speak the language.';
+
+  @override
+  String get marketCapTitle => 'Market Cap';
+
+  @override
+  String get marketCapDesc =>
+      'Market Capitalization is the total value of a company. It\'s calculated by multiplying the stock price by the number of shares.';
+
+  @override
+  String get peRatioTitle => 'P/E Ratio';
+
+  @override
+  String get peRatioImgDesc =>
+      'The Price-to-Earnings ratio tells you how much you are paying for \$1 of earnings. A lower P/E *can* mean a bargain.';
+
+  @override
+  String get dividendYieldTitle => 'Dividend Yield';
+
+  @override
+  String get dividendYieldDesc =>
+      'This is the percentage of the stock price that is paid out to you in cash each year. It\'s like getting paid rent for owning the stock.';
+
+  @override
+  String get epsTitle => 'EPS (Earnings Per Share)';
+
+  @override
+  String get epsDesc =>
+      'The portion of a company\'s profit allocated to each share. It is the engine that drives the stock price in the long run.';
+
+  @override
   String get defensiveVsEnterpriseTitle => 'Defensive vs Enterprise';
 
   @override
@@ -514,6 +589,40 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get enterpriseStrategyDesc =>
       'They analyze financial reports to find undervalued companies, seeking higher returns in exchange for their hard work.';
+
+  @override
+  String get stocksVsBondsTitle => 'Stocks vs. Bonds';
+
+  @override
+  String get stocksVsBondsDesc => 'Understanding Asset Classes.';
+
+  @override
+  String get stocksForGrowth => 'Stocks for Growth';
+
+  @override
+  String get stocksForGrowthDesc =>
+      'Stocks represent ownership. They offer high potential for growth but come with higher volatility and risk.';
+
+  @override
+  String get bondsForStability => 'Bonds for Stability';
+
+  @override
+  String get bondsForStabilityDesc =>
+      'Bonds are loans you make to governments or companies. They pay steady interest and are generally safer than stocks.';
+
+  @override
+  String get riskVsReward => 'Risk vs. Reward';
+
+  @override
+  String get riskVsRewardDesc =>
+      'It\'s a trade-off. Stocks can grow fast but crash hard. Bonds likely won\'t double, but they won\'t crash either.';
+
+  @override
+  String get theIdealMix => 'The Ideal Mix';
+
+  @override
+  String get theIdealMixDesc =>
+      'Most investors hold both. Stocks drive the growth of your portfolio, while bonds act as shock absorbers during market crashes.';
 
   @override
   String get theChoice => 'The Choice';

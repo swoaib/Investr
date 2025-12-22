@@ -1,0 +1,15 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Basket -->
+  <path d="M50 150 L80 250 H 220 L 250 150 Z" stroke="#795548" stroke-width="4" fill="#D7CCC8"/>
+  <path d="M50 150 C 50 100 250 100 250 150" stroke="#795548" stroke-width="4" fill="none"/>
+  
+  <!-- Items in Basket (Diviersified) -->
+  <circle cx="100" cy="180" r="15" fill="#2196F3"/> <!-- Tech -->
+  <rect x="130" y="165" width="30" height="30" fill="#4CAF50"/> <!-- Energy -->
+  <path d="M180 180 L195 150 L210 180 Z" fill="#FF9800"/> <!-- Retail -->
+  <rect x="150" y="200" width="40" height="20" rx="5" fill="#9C27B0"/> <!-- Health -->
+  
+  <!-- Label -->
+  <rect x="110" y="210" width="80" height="30" rx="4" fill="white" stroke="#795548"/>
+  <text x="135" y="230" font-family="Arial" font-size="16" fill="#795548" font-weight="bold">ETF</text>
+</svg>

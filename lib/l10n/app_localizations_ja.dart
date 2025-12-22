@@ -461,6 +461,78 @@ class AppLocalizationsJa extends AppLocalizations {
   String get valueYourPortfolioDesc => '高度なツールを使用して本質的価値を計算し、情報に基づいた決定を下します。';
 
   @override
+  String get howToInvestTitle => '投資の方法';
+
+  @override
+  String get howToInvestDesc => 'ブローカー、ETF、そして始め方。';
+
+  @override
+  String get theBroker => 'ブローカー';
+
+  @override
+  String get theBrokerDesc =>
+      'ブローカーは市場への入り口です。今日では、これは通常モバイルアプリや銀行です。彼らはあなたの売買注文を執行します。';
+
+  @override
+  String get accountTypes => '口座の種類';
+
+  @override
+  String get accountTypesDesc =>
+      '税制優遇のある口座（NISAやiDeCoなど）を探しましょう。これらを利用することで、長期的には数千ドルの節税になります。';
+
+  @override
+  String get etfs => 'ETF (上場投資信託)';
+
+  @override
+  String get etfsDesc => 'ETFは、単一の株式のように取引される株式のバスケットです。現代的で低コスト、そして多様性があります。';
+
+  @override
+  String get mutualFunds => '投資信託';
+
+  @override
+  String get mutualFundsDesc =>
+      'ETFに似ていますが、多くの場合、専門家によってアクティブに運用されています。注意：通常、手数料が高く、リターンを食いつぶす可能性があります。';
+
+  @override
+  String get ethicalInvesting => '倫理的投資 (ESG)';
+
+  @override
+  String get ethicalInvestingDesc =>
+      '財布で投票することができます。ESGファンドには、環境、社会、ガバナンスの基準を満たす企業のみが含まれています。';
+
+  @override
+  String get understandingMetricsTitle => '指標を理解する';
+
+  @override
+  String get understandingMetricsDesc => '言語を学ぶ。';
+
+  @override
+  String get marketCapTitle => '時価総額';
+
+  @override
+  String get marketCapDesc => '時価総額は、企業の総価値です。株価に株式数を掛けて計算されます。';
+
+  @override
+  String get peRatioTitle => 'PER (株価収益率)';
+
+  @override
+  String get peRatioImgDesc =>
+      '株価収益率は、1ドルの利益に対していくら払っているかを示します。PERが低いほど、お買い得である可能性があります。';
+
+  @override
+  String get dividendYieldTitle => '配当利回り';
+
+  @override
+  String get dividendYieldDesc =>
+      'これは、毎年現金で支払われる株価の割合です。株を所有することで家賃を受け取るようなものです。';
+
+  @override
+  String get epsTitle => 'EPS (一株当たり利益)';
+
+  @override
+  String get epsDesc => '各株式に割り当てられた企業の利益の一部です。それは長期的には株価を動かすエンジンです。';
+
+  @override
   String get defensiveVsEnterpriseTitle => '防衛的 vs 積極的';
 
   @override
@@ -499,6 +571,40 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get enterpriseStrategyDesc =>
       '彼らは財務報告書を分析して過小評価されている企業を見つけ、ハードワークの見返りとしてより高いリターンを求めます。';
+
+  @override
+  String get stocksVsBondsTitle => '株式 vs 債券';
+
+  @override
+  String get stocksVsBondsDesc => '資産クラスを理解する。';
+
+  @override
+  String get stocksForGrowth => '成長のための株式';
+
+  @override
+  String get stocksForGrowthDesc =>
+      '株式は所有権を表します。高い成長の可能性がありますが、変動性とリスクも高くなります。';
+
+  @override
+  String get bondsForStability => '安定のための債券';
+
+  @override
+  String get bondsForStabilityDesc =>
+      '債券は政府や企業への貸付です。定期的な利息が支払われ、一般的に株式よりも安全です。';
+
+  @override
+  String get riskVsReward => 'リスク vs リターン';
+
+  @override
+  String get riskVsRewardDesc =>
+      'トレードオフの関係です。株式は急成長する可能性がありますが、暴落もします。債券は倍増することはありませんが、暴落もしません。';
+
+  @override
+  String get theIdealMix => '理想的な組み合わせ';
+
+  @override
+  String get theIdealMixDesc =>
+      'ほとんどの投資家は両方を保有しています。株式はポートフォリオの成長を促進し、債券は市場暴落時のショックアブソーバーとして機能します。';
 
   @override
   String get theChoice => '選択';

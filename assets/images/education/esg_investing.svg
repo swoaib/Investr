@@ -1,0 +1,19 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Earth -->
+  <circle cx="150" cy="150" r="80" fill="#42A5F5"/>
+  <path d="M150 70 Q 180 100 190 150 Q 140 200 120 230" stroke="#4CAF50" stroke-width="20" stroke-linecap="round" fill="none"/> 
+  <!-- Simplified continents -->
+  <path d="M100 120 Q 120 140 130 110" stroke="#4CAF50" stroke-width="15" stroke-linecap="round"/>
+  
+  <!-- Leaf growing out -->
+  <path d="M150 70 L 150 40 L 130 20" stroke="#4CAF50" stroke-width="4"/>
+  <path d="M150 40 L 170 20" stroke="#4CAF50" stroke-width="4"/>
+  <circle cx="130" cy="20" r="10" fill="#81C784"/>
+  <circle cx="170" cy="20" r="10" fill="#81C784"/>
+  
+  <!-- Hand holding the world -->
+  <path d="M80 240 Q 150 280 220 240" stroke="#FFCC80" stroke-width="10" stroke-linecap="round" fill="none"/>
+  
+  <!-- Heart Icon (Love/Ethics) -->
+  <path d="M210 80 C 230 60 260 80 240 100 L 210 130 L 180 100 C 160 80 190 60 210 80" fill="#E91E63"/>
+</svg>

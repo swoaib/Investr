@@ -473,6 +473,81 @@ class AppLocalizationsNo extends AppLocalizations {
       'Bruk avanserte verktøy for å beregne iboende verdi og ta informerte beslutninger.';
 
   @override
+  String get howToInvestTitle => 'Hvordan Investere';
+
+  @override
+  String get howToInvestDesc => 'Meglere, ETFer og hvordan komme i gang.';
+
+  @override
+  String get theBroker => 'Megleren';
+
+  @override
+  String get theBrokerDesc =>
+      'Megleren din er din port til markedet. I dag er dette typisk en mobilapp eller en bank. De utfører dine kjøps- og salgsordrer.';
+
+  @override
+  String get accountTypes => 'Kontotyper';
+
+  @override
+  String get accountTypesDesc =>
+      'Se etter skattefordelaktige kontoer (som ASK i Norge). Bruk av disse kan spare deg tusenvis i skatt på lang sikt.';
+
+  @override
+  String get etfs => 'ETFer';
+
+  @override
+  String get etfsDesc =>
+      'Børsnoterte fond (ETFer) er kurver med aksjer som handles som en enkelt aksje. De er moderne, rimelige og diversifiserte.';
+
+  @override
+  String get mutualFunds => 'Aksjefond';
+
+  @override
+  String get mutualFundsDesc =>
+      'Ligner på ETFer, men forvaltes ofte aktivt av en profesjonell. Pass på: de har typisk høyere gebyrer som spiser av avkastningen din.';
+
+  @override
+  String get ethicalInvesting => 'Etisk Investering (ESG)';
+
+  @override
+  String get ethicalInvestingDesc =>
+      'Du kan stemme med lommeboken. ESG-fond inkluderer kun selskaper som oppfyller miljømessige, sosiale og styringsmessige standarder.';
+
+  @override
+  String get understandingMetricsTitle => 'Forstå Nøkkeltall';
+
+  @override
+  String get understandingMetricsDesc => 'Lær å snakke språket.';
+
+  @override
+  String get marketCapTitle => 'Markedsverdi';
+
+  @override
+  String get marketCapDesc =>
+      'Markedsverdi (Market Cap) er den totale verdien av et selskap. Den beregnes ved å multiplisere aksjekursen med antall aksjer.';
+
+  @override
+  String get peRatioTitle => 'P/E-forhold';
+
+  @override
+  String get peRatioImgDesc =>
+      'Pris-til-inntekt-forholdet forteller deg hvor mye du betaler for \$1 i inntjening. En lavere P/E *kan* bety et kupp.';
+
+  @override
+  String get dividendYieldTitle => 'Utbytte';
+
+  @override
+  String get dividendYieldDesc =>
+      'Dette er prosentandelen av aksjekursen som utbetales til deg i kontanter hvert år. Det er som å få betalt leie for å eie aksjen.';
+
+  @override
+  String get epsTitle => 'EPS (Fortjeneste per aksje)';
+
+  @override
+  String get epsDesc =>
+      'Andelen av et selskaps overskudd tildelt hver aksje. Det er motoren som driver aksjekursen på lang sikt.';
+
+  @override
   String get defensiveVsEnterpriseTitle => 'Defensiv vs Aktiv';
 
   @override
@@ -512,6 +587,40 @@ class AppLocalizationsNo extends AppLocalizations {
   @override
   String get enterpriseStrategyDesc =>
       'De analyserer finansielle rapporter for å finne undervurderte selskaper, og søker høyere avkastning i bytte mot hardt arbeid.';
+
+  @override
+  String get stocksVsBondsTitle => 'Aksjer vs. Obligasjoner';
+
+  @override
+  String get stocksVsBondsDesc => 'Forstå aktivaklasser.';
+
+  @override
+  String get stocksForGrowth => 'Aksjer for vekst';
+
+  @override
+  String get stocksForGrowthDesc =>
+      'Aksjer representerer eierskap. De tilbyr høyt potensial for vekst, men kommer med høyere volatilitet og risiko.';
+
+  @override
+  String get bondsForStability => 'Obligasjoner for stabilitet';
+
+  @override
+  String get bondsForStabilityDesc =>
+      'Obligasjoner er lån du gir til stater eller selskaper. De betaler faste renter og er generelt tryggere enn aksjer.';
+
+  @override
+  String get riskVsReward => 'Risiko vs. Avkastning';
+
+  @override
+  String get riskVsRewardDesc =>
+      'Det er en avveining. Aksjer kan vokse raskt, men falle hardt. Obligasjoner vil neppe doble seg, men de vil heller ikke krasje.';
+
+  @override
+  String get theIdealMix => 'Den ideelle blandingen';
+
+  @override
+  String get theIdealMixDesc =>
+      'De fleste investorer eier begge deler. Aksjer driver veksten i porteføljen din, mens obligasjoner fungerer som støtdempere under markedskrasj.';
 
   @override
   String get theChoice => 'Valget';

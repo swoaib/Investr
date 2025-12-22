@@ -87,6 +87,35 @@ class LearnScreen extends StatelessWidget {
         ],
       ),
       Lesson(
+        id: 'stocks_vs_bonds',
+        title: l10n.stocksVsBondsTitle,
+        description: l10n.stocksVsBondsDesc,
+        color: const Color(0xFF9C27B0), // Purple for balance
+        icon: Icons.scale,
+        pages: [
+          LessonPage(
+            title: l10n.stocksForGrowth,
+            description: l10n.stocksForGrowthDesc,
+            imagePath: 'assets/images/education/stocks_growth.svg',
+          ),
+          LessonPage(
+            title: l10n.bondsForStability,
+            description: l10n.bondsForStabilityDesc,
+            imagePath: 'assets/images/education/bonds_stability.svg',
+          ),
+          LessonPage(
+            title: l10n.riskVsReward,
+            description: l10n.riskVsRewardDesc,
+            imagePath: 'assets/images/education/risk_reward_seesaw.svg',
+          ),
+          LessonPage(
+            title: l10n.theIdealMix,
+            description: l10n.theIdealMixDesc,
+            imagePath: 'assets/images/education/portfolio_balance.svg',
+          ),
+        ],
+      ),
+      Lesson(
         id: 'defensive_vs_enterprise',
         title: l10n.defensiveVsEnterpriseTitle,
         description: l10n.defensiveVsEnterpriseDesc,
@@ -248,6 +277,69 @@ class LearnScreen extends StatelessWidget {
             title: l10n.marketPerformance,
             description: l10n.marketPerformanceDesc,
             imagePath: 'assets/images/education/market_performance.svg',
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'how_to_invest',
+        title: l10n.howToInvestTitle,
+        description: l10n.howToInvestDesc,
+        color: const Color(0xFF795548), // Brown for solid foundation/wallet
+        icon: Icons.account_balance_wallet,
+        pages: [
+          LessonPage(
+            title: l10n.theBroker,
+            description: l10n.theBrokerDesc,
+            imagePath: 'assets/images/education/broker_gateway.svg',
+          ),
+          LessonPage(
+            title: l10n.accountTypes,
+            description: l10n.accountTypesDesc,
+            imagePath: 'assets/images/education/account_types.svg',
+          ),
+          LessonPage(
+            title: l10n.etfs,
+            description: l10n.etfsDesc,
+            imagePath: 'assets/images/education/etf_basket.svg',
+          ),
+          LessonPage(
+            title: l10n.mutualFunds,
+            description: l10n.mutualFundsDesc,
+            imagePath: 'assets/images/education/mutual_fund_manager.svg',
+          ),
+          LessonPage(
+            title: l10n.ethicalInvesting,
+            description: l10n.ethicalInvestingDesc,
+            imagePath: 'assets/images/education/esg_investing.svg',
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'understanding_metrics',
+        title: l10n.understandingMetricsTitle,
+        description: l10n.understandingMetricsDesc,
+        color: const Color(0xFF607D8B), // Blue Grey for data/analytics
+        icon: Icons.analytics,
+        pages: [
+          LessonPage(
+            title: l10n.marketCapTitle,
+            description: l10n.marketCapDesc,
+            imagePath: 'assets/images/education/market_cap_size.svg',
+          ),
+          LessonPage(
+            title: l10n.peRatioTitle,
+            description: l10n.peRatioImgDesc,
+            imagePath: 'assets/images/education/pe_ratio_tag.svg',
+          ),
+          LessonPage(
+            title: l10n.dividendYieldTitle,
+            description: l10n.dividendYieldDesc,
+            imagePath: 'assets/images/education/dividend_yield_tree.svg',
+          ),
+          LessonPage(
+            title: l10n.epsTitle,
+            description: l10n.epsDesc,
+            imagePath: 'assets/images/education/eps_engine.svg',
           ),
         ],
       ),
