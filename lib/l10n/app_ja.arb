@@ -141,5 +141,20 @@
   "learnToInvest": "投資を学ぶ",
   "learnToInvestDesc": "厳選された教育コンテンツで投資の基礎をマスターしましょう。",
   "valueYourPortfolio": "ポートフォリオを評価する",
-  "valueYourPortfolioDesc": "高度なツールを使用して本質的価値を計算し、情報に基づいた決定を下します。"
+  "valueYourPortfolioDesc": "高度なツールを使用して本質的価値を計算し、情報に基づいた決定を下します。",
+
+  "defensiveVsEnterpriseTitle": "防衛的 vs 積極的",
+  "defensiveVsEnterpriseDesc": "パッシブ投資 vs アクティブ投資。",
+  "twoPaths": "2つの道",
+  "twoPathsDesc": "ベンジャミン・グレアムは、費やす意思のある労力に基づいて、2種類の投資家を定義しました。",
+  "theDefensiveInvestor": "防衛的な投資家",
+  "theDefensiveInvestorDesc": "安全性と手間がかからないことを優先します。最小限の労力でまともなリターンを得ることを目標とします。",
+  "defensiveStrategy": "防衛的な戦略",
+  "defensiveStrategyDesc": "優良なインデックスファンドを購入するか、株式と債券を50/50の割合で維持し、自動的にリバランスする必要があります。",
+  "theEnterpriseInvestor": "積極的な投資家",
+  "theEnterpriseInvestorDesc": "証券の調査に時間と注意を払うことを惜しみません。彼らは投資をビジネスやフルタイムの仕事として扱います。",
+  "enterpriseStrategy": "積極的な戦略",
+  "enterpriseStrategyDesc": "彼らは財務報告書を分析して過小評価されている企業を見つけ、ハードワークの見返りとしてより高いリターンを求めます。",
+  "theChoice": "選択",
+  "theChoiceDesc": "選択はリスク許容度だけでなく、働く意欲にかかっています。時間をかけられない場合は、防衛的になりましょう。"
 }

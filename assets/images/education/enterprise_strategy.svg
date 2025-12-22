@@ -1,0 +1,15 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stack of Books -->
+  <rect x="80" y="200" width="140" height="30" rx="4" fill="#5E35B1"/>
+  <rect x="90" y="170" width="120" height="30" rx="4" fill="#7E57C2"/>
+  <rect x="100" y="140" width="100" height="30" rx="4" fill="#9575CD"/>
+  
+  <!-- Open Book/Report on Top -->
+  <path d="M100 140 L150 110 L200 140" fill="#D1C4E9"/>
+  <path d="M150 110 V140" stroke="#5E35B1" stroke-width="2"/>
+  
+  <!-- Analysis Symbols -->
+  <path d="M150 80 V100" stroke="#5E35B1" stroke-width="4" stroke-dasharray="5,5"/>
+  <circle cx="150" cy="60" r="10" stroke="#5E35B1" stroke-width="3"/>
+  <path d="M150 65 L150 55" stroke="#5E35B1" stroke-width="3"/>
+</svg>

@@ -141,5 +141,20 @@
   "learnToInvest": "Lær å investere",
   "learnToInvestDesc": "Mestre det grunnleggende innen investering med vårt kuraterte pedagogiske innhold.",
   "valueYourPortfolio": "Verdsett porteføljen din",
-  "valueYourPortfolioDesc": "Bruk avanserte verktøy for å beregne iboende verdi og ta informerte beslutninger."
+  "valueYourPortfolioDesc": "Bruk avanserte verktøy for å beregne iboende verdi og ta informerte beslutninger.",
+
+  "defensiveVsEnterpriseTitle": "Defensiv vs Aktiv",
+  "defensiveVsEnterpriseDesc": "Passiv vs Aktiv Investering.",
+  "twoPaths": "To Veier",
+  "twoPathsDesc": "Benjamin Graham definerte to ulike typer investorer basert på innsatsen de er villige til å legge ned.",
+  "theDefensiveInvestor": "Den Defensive Investoren",
+  "theDefensiveInvestorDesc": "Prioriterer trygghet og frihet fra bekymringer. Målet er anstendig avkastning med minimal innsats.",
+  "defensiveStrategy": "Defensiv Strategi",
+  "defensiveStrategyDesc": "De bør kjøpe et indeksfond av høy kvalitet eller opprettholde en 50/50 fordeling mellom aksjer og obligasjoner.",
+  "theEnterpriseInvestor": "Den Aktive Investoren",
+  "theEnterpriseInvestorDesc": "Villig til å bruke tid og omsorg på å undersøke verdipapirer. De behandler investering som en bedrift eller fulltidsjobb.",
+  "enterpriseStrategy": "Aktiv Strategi",
+  "enterpriseStrategyDesc": "De analyserer finansielle rapporter for å finne undervurderte selskaper, og søker høyere avkastning i bytte mot hardt arbeid.",
+  "theChoice": "Valget",
+  "theChoiceDesc": "Valget handler ikke bare om risikoappetitt, men om viljen til å jobbe. Hvis du ikke kan legge ned timene, vær defensiv."
 }

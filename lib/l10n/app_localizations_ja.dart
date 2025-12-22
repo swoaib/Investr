@@ -432,4 +432,51 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get valueYourPortfolioDesc => '高度なツールを使用して本質的価値を計算し、情報に基づいた決定を下します。';
+
+  @override
+  String get defensiveVsEnterpriseTitle => '防衛的 vs 積極的';
+
+  @override
+  String get defensiveVsEnterpriseDesc => 'パッシブ投資 vs アクティブ投資。';
+
+  @override
+  String get twoPaths => '2つの道';
+
+  @override
+  String get twoPathsDesc => 'ベンジャミン・グレアムは、費やす意思のある労力に基づいて、2種類の投資家を定義しました。';
+
+  @override
+  String get theDefensiveInvestor => '防衛的な投資家';
+
+  @override
+  String get theDefensiveInvestorDesc =>
+      '安全性と手間がかからないことを優先します。最小限の労力でまともなリターンを得ることを目標とします。';
+
+  @override
+  String get defensiveStrategy => '防衛的な戦略';
+
+  @override
+  String get defensiveStrategyDesc =>
+      '優良なインデックスファンドを購入するか、株式と債券を50/50の割合で維持し、自動的にリバランスする必要があります。';
+
+  @override
+  String get theEnterpriseInvestor => '積極的な投資家';
+
+  @override
+  String get theEnterpriseInvestorDesc =>
+      '証券の調査に時間と注意を払うことを惜しみません。彼らは投資をビジネスやフルタイムの仕事として扱います。';
+
+  @override
+  String get enterpriseStrategy => '積極的な戦略';
+
+  @override
+  String get enterpriseStrategyDesc =>
+      '彼らは財務報告書を分析して過小評価されている企業を見つけ、ハードワークの見返りとしてより高いリターンを求めます。';
+
+  @override
+  String get theChoice => '選択';
+
+  @override
+  String get theChoiceDesc =>
+      '選択はリスク許容度だけでなく、働く意欲にかかっています。時間をかけられない場合は、防衛的になりましょう。';
 }

@@ -1,0 +1,16 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pie Chart Background -->
+  <circle cx="150" cy="150" r="100" fill="#E8F5E9" />
+  
+  <!-- Pie Segments 50/50 -->
+  <path d="M150 150 L150 50 A100 100 0 0 1 150 250 Z" fill="#4CAF50"/>
+  <path d="M150 150 L150 250 A100 100 0 0 1 150 50 Z" fill="#81C784"/>
+  
+  <!-- Labels -->
+  <text x="200" y="160" font-family="Arial" font-size="20" fill="white" font-weight="bold">50%</text>
+  <text x="80" y="160" font-family="Arial" font-size="20" fill="#2E7D32" font-weight="bold">50%</text>
+  
+  <!-- Title Wrapper -->
+  <rect x="90" y="260" width="120" height="30" rx="15" fill="#4CAF50"/>
+  <text x="150" y="280" font-family="Arial" font-size="14" fill="white" text-anchor="middle" font-weight="bold">BALANCE</text>
+</svg>

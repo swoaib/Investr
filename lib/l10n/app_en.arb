@@ -141,5 +141,26 @@
   "learnToInvest": "Learn to Invest",
   "learnToInvestDesc": "Master the basics of investing with our curated educational content.",
   "valueYourPortfolio": "Value Your Portfolio",
-  "valueYourPortfolioDesc": "Use advanced tools to calculate intrinsic value and make informed decisions."
+  "valueYourPortfolioDesc": "Use advanced tools to calculate intrinsic value and make informed decisions.",
+  
+  "defensiveVsEnterpriseTitle": "Defensive vs Enterprise",
+  "defensiveVsEnterpriseDesc": "Passive vs Active Investing.",
+  
+  "twoPaths": "Two Paths",
+  "twoPathsDesc": "Benjamin Graham defined two distinct types of investors based on the amount of effort they are willing to put in.",
+  
+  "theDefensiveInvestor": "The Defensive Investor",
+  "theDefensiveInvestorDesc": "Prioritizes safety and freedom from bother. Their goal is to get decent returns with minimal effort and worry.",
+  
+  "defensiveStrategy": "Defensive Strategy",
+  "defensiveStrategyDesc": "They should buy a high-grade index fund or maintain a 50/50 split between stocks and bonds, rebalancing automatically.",
+  
+  "theEnterpriseInvestor": "The Enterprise Investor",
+  "theEnterpriseInvestorDesc": "Willing to devote time and care to researching securities. They treat investing as a business or full-time job.",
+  
+  "enterpriseStrategy": "Enterprise Strategy",
+  "enterpriseStrategyDesc": "They analyze financial reports to find undervalued companies, seeking higher returns in exchange for their hard work.",
+  
+  "theChoice": "The Choice",
+  "theChoiceDesc": "The choice isn't just about risk appetite, but your willingness to work. If you can't put in the hours, be defensive."
 }

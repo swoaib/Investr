@@ -445,4 +445,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get valueYourPortfolioDesc =>
       'Use advanced tools to calculate intrinsic value and make informed decisions.';
+
+  @override
+  String get defensiveVsEnterpriseTitle => 'Defensive vs Enterprise';
+
+  @override
+  String get defensiveVsEnterpriseDesc => 'Passive vs Active Investing.';
+
+  @override
+  String get twoPaths => 'Two Paths';
+
+  @override
+  String get twoPathsDesc =>
+      'Benjamin Graham defined two distinct types of investors based on the amount of effort they are willing to put in.';
+
+  @override
+  String get theDefensiveInvestor => 'The Defensive Investor';
+
+  @override
+  String get theDefensiveInvestorDesc =>
+      'Prioritizes safety and freedom from bother. Their goal is to get decent returns with minimal effort and worry.';
+
+  @override
+  String get defensiveStrategy => 'Defensive Strategy';
+
+  @override
+  String get defensiveStrategyDesc =>
+      'They should buy a high-grade index fund or maintain a 50/50 split between stocks and bonds, rebalancing automatically.';
+
+  @override
+  String get theEnterpriseInvestor => 'The Enterprise Investor';
+
+  @override
+  String get theEnterpriseInvestorDesc =>
+      'Willing to devote time and care to researching securities. They treat investing as a business or full-time job.';
+
+  @override
+  String get enterpriseStrategy => 'Enterprise Strategy';
+
+  @override
+  String get enterpriseStrategyDesc =>
+      'They analyze financial reports to find undervalued companies, seeking higher returns in exchange for their hard work.';
+
+  @override
+  String get theChoice => 'The Choice';
+
+  @override
+  String get theChoiceDesc =>
+      'The choice isn\'t just about risk appetite, but your willingness to work. If you can\'t put in the hours, be defensive.';
 }

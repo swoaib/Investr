@@ -444,4 +444,52 @@ class AppLocalizationsNo extends AppLocalizations {
   @override
   String get valueYourPortfolioDesc =>
       'Bruk avanserte verktøy for å beregne iboende verdi og ta informerte beslutninger.';
+
+  @override
+  String get defensiveVsEnterpriseTitle => 'Defensiv vs Aktiv';
+
+  @override
+  String get defensiveVsEnterpriseDesc => 'Passiv vs Aktiv Investering.';
+
+  @override
+  String get twoPaths => 'To Veier';
+
+  @override
+  String get twoPathsDesc =>
+      'Benjamin Graham definerte to ulike typer investorer basert på innsatsen de er villige til å legge ned.';
+
+  @override
+  String get theDefensiveInvestor => 'Den Defensive Investoren';
+
+  @override
+  String get theDefensiveInvestorDesc =>
+      'Prioriterer trygghet og frihet fra bekymringer. Målet er anstendig avkastning med minimal innsats.';
+
+  @override
+  String get defensiveStrategy => 'Defensiv Strategi';
+
+  @override
+  String get defensiveStrategyDesc =>
+      'De bør kjøpe et indeksfond av høy kvalitet eller opprettholde en 50/50 fordeling mellom aksjer og obligasjoner.';
+
+  @override
+  String get theEnterpriseInvestor => 'Den Aktive Investoren';
+
+  @override
+  String get theEnterpriseInvestorDesc =>
+      'Villig til å bruke tid og omsorg på å undersøke verdipapirer. De behandler investering som en bedrift eller fulltidsjobb.';
+
+  @override
+  String get enterpriseStrategy => 'Aktiv Strategi';
+
+  @override
+  String get enterpriseStrategyDesc =>
+      'De analyserer finansielle rapporter for å finne undervurderte selskaper, og søker høyere avkastning i bytte mot hardt arbeid.';
+
+  @override
+  String get theChoice => 'Valget';
+
+  @override
+  String get theChoiceDesc =>
+      'Valget handler ikke bare om risikoappetitt, men om viljen til å jobbe. Hvis du ikke kan legge ned timene, vær defensiv.';
 }

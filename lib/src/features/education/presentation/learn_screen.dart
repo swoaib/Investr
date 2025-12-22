@@ -63,6 +63,45 @@ class LearnScreen extends StatelessWidget {
         ],
       ),
       Lesson(
+        id: 'defensive_vs_enterprise',
+        title: l10n.defensiveVsEnterpriseTitle,
+        description: l10n.defensiveVsEnterpriseDesc,
+        color: const Color(0xFF009688),
+        icon: Icons.balance,
+        pages: [
+          LessonPage(
+            title: l10n.twoPaths,
+            description: l10n.twoPathsDesc,
+            imagePath: 'assets/images/education/investor_choice.svg',
+          ),
+          LessonPage(
+            title: l10n.theDefensiveInvestor,
+            description: l10n.theDefensiveInvestorDesc,
+            imagePath: 'assets/images/education/defensive_investor.svg',
+          ),
+          LessonPage(
+            title: l10n.defensiveStrategy,
+            description: l10n.defensiveStrategyDesc,
+            imagePath: 'assets/images/education/defensive_strategy.svg',
+          ),
+          LessonPage(
+            title: l10n.theEnterpriseInvestor,
+            description: l10n.theEnterpriseInvestorDesc,
+            imagePath: 'assets/images/education/enterprise_investor.svg',
+          ),
+          LessonPage(
+            title: l10n.enterpriseStrategy,
+            description: l10n.enterpriseStrategyDesc,
+            imagePath: 'assets/images/education/enterprise_strategy.svg',
+          ),
+          LessonPage(
+            title: l10n.theChoice,
+            description: l10n.theChoiceDesc,
+            imagePath: 'assets/images/education/intelligent_choice.svg',
+          ),
+        ],
+      ),
+      Lesson(
         id: 'mr_market',
         title: l10n.mrMarketTitle,
         description: l10n.mrMarketDesc,

@@ -909,6 +909,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use advanced tools to calculate intrinsic value and make informed decisions.'**
   String get valueYourPortfolioDesc;
+
+  /// No description provided for @defensiveVsEnterpriseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Defensive vs Enterprise'**
+  String get defensiveVsEnterpriseTitle;
+
+  /// No description provided for @defensiveVsEnterpriseDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Passive vs Active Investing.'**
+  String get defensiveVsEnterpriseDesc;
+
+  /// No description provided for @twoPaths.
+  ///
+  /// In en, this message translates to:
+  /// **'Two Paths'**
+  String get twoPaths;
+
+  /// No description provided for @twoPathsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Benjamin Graham defined two distinct types of investors based on the amount of effort they are willing to put in.'**
+  String get twoPathsDesc;
+
+  /// No description provided for @theDefensiveInvestor.
+  ///
+  /// In en, this message translates to:
+  /// **'The Defensive Investor'**
+  String get theDefensiveInvestor;
+
+  /// No description provided for @theDefensiveInvestorDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Prioritizes safety and freedom from bother. Their goal is to get decent returns with minimal effort and worry.'**
+  String get theDefensiveInvestorDesc;
+
+  /// No description provided for @defensiveStrategy.
+  ///
+  /// In en, this message translates to:
+  /// **'Defensive Strategy'**
+  String get defensiveStrategy;
+
+  /// No description provided for @defensiveStrategyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'They should buy a high-grade index fund or maintain a 50/50 split between stocks and bonds, rebalancing automatically.'**
+  String get defensiveStrategyDesc;
+
+  /// No description provided for @theEnterpriseInvestor.
+  ///
+  /// In en, this message translates to:
+  /// **'The Enterprise Investor'**
+  String get theEnterpriseInvestor;
+
+  /// No description provided for @theEnterpriseInvestorDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Willing to devote time and care to researching securities. They treat investing as a business or full-time job.'**
+  String get theEnterpriseInvestorDesc;
+
+  /// No description provided for @enterpriseStrategy.
+  ///
+  /// In en, this message translates to:
+  /// **'Enterprise Strategy'**
+  String get enterpriseStrategy;
+
+  /// No description provided for @enterpriseStrategyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'They analyze financial reports to find undervalued companies, seeking higher returns in exchange for their hard work.'**
+  String get enterpriseStrategyDesc;
+
+  /// No description provided for @theChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'The Choice'**
+  String get theChoice;
+
+  /// No description provided for @theChoiceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The choice isn\'t just about risk appetite, but your willingness to work. If you can\'t put in the hours, be defensive.'**
+  String get theChoiceDesc;
 }
 
 class _AppLocalizationsDelegate

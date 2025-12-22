@@ -1,0 +1,12 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Shield -->
+  <path d="M150 50 C150 50 250 70 250 150 C250 220 150 270 150 270 C150 270 50 220 50 150 C50 70 150 50 150 50 Z" fill="#E8F5E9" stroke="#4CAF50" stroke-width="8"/>
+  
+  <!-- Inner Shield/Cross -->
+  <path d="M150 80 V240" stroke="#4CAF50" stroke-width="8" stroke-linecap="round"/>
+  <path d="M80 140 H220" stroke="#4CAF50" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Lock Icon Center -->
+  <rect x="130" y="120" width="40" height="30" rx="5" fill="#2E7D32"/>
+  <path d="M135 120 V110 C135 102 142 95 150 95 C158 95 165 102 165 110 V120" stroke="#2E7D32" stroke-width="4"/>
+</svg>
