@@ -262,44 +262,50 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _stock.symbol,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
+                Flexible(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _stock.symbol,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      _stock.companyName,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: Colors.grey,
+                      Text(
+                        _stock.companyName,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      _selectedPoint != null
-                          ? currencyFormat.format(_selectedPoint!.price)
-                          : currencyFormat.format(_stock.price),
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        _selectedPoint != null
+                            ? currencyFormat.format(_selectedPoint!.price)
+                            : currencyFormat.format(_stock.price),
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      _selectedPoint != null
-                          ? _formatDate(_selectedPoint!.date)
-                          : '${isPositive ? '+' : ''}${_stock.changePercent.toStringAsFixed(2)}%',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: _selectedPoint != null ? Colors.grey : color,
-                        fontWeight: FontWeight.bold,
+                      Text(
+                        _selectedPoint != null
+                            ? _formatDate(_selectedPoint!.date)
+                            : '${isPositive ? '+' : ''}${_stock.changePercent.toStringAsFixed(2)}%',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: _selectedPoint != null ? Colors.grey : color,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

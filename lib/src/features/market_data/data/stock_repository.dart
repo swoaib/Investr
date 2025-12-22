@@ -399,8 +399,10 @@ class StockRepository {
   }
 
   /// Searches for a stock ticker by symbol or name.
-  /// Returns the best matching ticker symbol and name.
-  Future<({String symbol, String name})?> searchTicker(String query) async {
+  /// Returns a list of matching ticker symbols and names.
+  Future<List<({String symbol, String name})>> searchTicker(
+    String query,
+  ) async {
     try {
       final encodedQuery = Uri.encodeComponent(query.toUpperCase());
       final url = Uri.parse(
@@ -413,27 +415,20 @@ class StockRepository {
         final results = data['results'] as List<dynamic>?;
 
         if (results != null && results.isNotEmpty) {
-          // Prioritize exact ticker match
-          for (var result in results) {
-            if ((result['ticker'] as String).toUpperCase() ==
-                query.toUpperCase()) {
-              return (
-                symbol: result['ticker'] as String,
-                name: result['name'] as String,
-              );
-            }
-          }
-          // Otherwise return first result
-          return (
-            symbol: results.first['ticker'] as String,
-            name: results.first['name'] as String,
-          );
+          return results
+              .map(
+                (result) => (
+                  symbol: result['ticker'] as String,
+                  name: result['name'] as String,
+                ),
+              )
+              .toList();
         }
       }
     } catch (e) {
       if (kDebugMode) print('Error searching ticker for $query: $e');
     }
-    return null;
+    return [];
   }
 
   // Encryption/Persistence Helpers

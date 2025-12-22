@@ -68,18 +68,22 @@ class StockListController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // First, try to find the ticker (supports both symbol and name search)
-      final tickerResult = await _repository.searchTicker(query);
+      // Get all matching tickers
+      final tickerResults = await _repository.searchTicker(query);
 
-      if (tickerResult != null) {
-        // Found a match, now get the stock data
-        final stock = await _repository.getStock(
-          tickerResult.symbol,
-          name: tickerResult.name,
+      if (tickerResults.isNotEmpty) {
+        // Fetch stock data for all found tickers in parallel
+        final stocks = await Future.wait(
+          tickerResults.map(
+            (ticker) => _repository.getStock(ticker.symbol, name: ticker.name),
+          ),
         );
 
-        if (stock != null) {
-          _searchResults = [stock];
+        // Filter out any that failed to load (nulls)
+        final validStocks = stocks.whereType<Stock>().toList();
+
+        if (validStocks.isNotEmpty) {
+          _searchResults = validStocks;
         } else {
           _error = 'Could not load stock data';
         }
