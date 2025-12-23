@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum LessonCategory { foundation, assetClasses, philosophy, strategy }
+
 class Lesson {
   final String id;
   final String title;
@@ -7,6 +9,7 @@ class Lesson {
   final List<LessonPage> pages;
   final Color color;
   final IconData? icon; // For the list view if needed
+  final LessonCategory category;
 
   const Lesson({
     required this.id,
@@ -14,6 +17,7 @@ class Lesson {
     required this.description,
     required this.pages,
     required this.color,
+    required this.category,
     this.icon,
   });
 

@@ -181,7 +181,7 @@ class AppLocalizationsNo extends AppLocalizations {
       'Du trenger ikke å handle med ham inne i humørsvingningene hans. Bruk hans emosjonelle priser til din fordel.';
 
   @override
-  String get intrinsicValue => 'Iboende verdi';
+  String get intrinsicValue => 'Indre verdi';
 
   @override
   String get intrinsicValueDesc =>
@@ -548,6 +548,18 @@ class AppLocalizationsNo extends AppLocalizations {
       'Du kan stemme med lommeboken. ESG-fond inkluderer kun selskaper som oppfyller miljømessige, sosiale og styringsmessige standarder.';
 
   @override
+  String get moduleFoundation => 'Fundamentet';
+
+  @override
+  String get moduleAssetClasses => 'Aktivaklasser';
+
+  @override
+  String get modulePhilosophy => 'Filosofien';
+
+  @override
+  String get moduleStrategy => 'Praktisk Strategi';
+
+  @override
   String get understandingMetricsTitle => 'Forstå Nøkkeltall';
 
   @override
@@ -661,5 +673,32 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get theChoiceDesc =>
-      'Valget handler ikke bare om risikoappetitt, men om viljen til å jobbe. Hvis du ikke kan legge ned timene, vær defensiv.';
+      'Valget handler ikke bare om risiko, men om viljen til å jobbe. Hvis du ikke vil legge ned timene, vær defensiv.';
+
+  @override
+  String get freeCashFlow => 'Fri kontantstrøm';
+
+  @override
+  String get terminalGrowthRate => 'Terminal vekstrate (%)';
+
+  @override
+  String get netDebt => 'Netto gjeld';
+
+  @override
+  String get sharesOutstanding => 'Utestående aksjer';
+
+  @override
+  String get selectStock => 'Velg aksje';
+
+  @override
+  String get enterSymbol => 'Skriv inn symbol';
+
+  @override
+  String get assumptions => 'Forutsetninger';
+
+  @override
+  String get terminalRate => 'Terminal rente';
+
+  @override
+  String get currentPrice => 'Nåværende pris';
 }

@@ -20,6 +20,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.stocks101Desc,
         color: const Color(0xFF4CAF50),
         icon: Icons.school,
+        category: LessonCategory.foundation,
         pages: [
           LessonPage(
             title: l10n.whatIsAStock,
@@ -44,6 +45,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.powerOfCompoundingDesc,
         color: const Color(0xFFFF9800),
         icon: Icons.trending_up,
+        category: LessonCategory.foundation,
         pages: [
           LessonPage(
             title: l10n.snowballEffect,
@@ -68,6 +70,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.investingVsSpeculationDesc,
         color: const Color(0xFF2196F3),
         icon: Icons.compare_arrows,
+        category: LessonCategory.foundation,
         pages: [
           LessonPage(
             title: l10n.whatIsAnInvestment,
@@ -92,6 +95,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.stocksVsBondsDesc,
         color: const Color(0xFF9C27B0), // Purple for balance
         icon: Icons.scale,
+        category: LessonCategory.assetClasses,
         pages: [
           LessonPage(
             title: l10n.stocksForGrowth,
@@ -121,6 +125,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.inflationDesc,
         color: const Color(0xFFE91E63), // Pink/Red for warning/urgent concept
         icon: Icons.price_change,
+        category: LessonCategory.foundation,
         pages: [
           LessonPage(
             title: l10n.inflationBalloonTitle,
@@ -150,6 +155,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.defensiveVsEnterpriseDesc,
         color: const Color(0xFF009688),
         icon: Icons.balance,
+        category: LessonCategory.philosophy,
         pages: [
           LessonPage(
             title: l10n.twoPaths,
@@ -189,6 +195,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.mrMarketDesc,
         color: const Color(0xFFFFC107),
         icon: Icons.person,
+        category: LessonCategory.philosophy,
         pages: [
           LessonPage(
             title: l10n.meetMrMarket,
@@ -223,6 +230,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.marginOfSafetyDesc,
         color: const Color(0xFFFF5722),
         icon: Icons.shield,
+        category: LessonCategory.philosophy,
         pages: [
           LessonPage(
             title: l10n.theSecret,
@@ -257,6 +265,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.dollarCostAveragingDesc,
         color: const Color(0xFF9C27B0),
         icon: Icons.calendar_month,
+        category: LessonCategory.strategy,
         pages: [
           LessonPage(
             title: l10n.whatIsDCA,
@@ -286,6 +295,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.indexFundsDesc,
         color: const Color(0xFF00BCD4),
         icon: Icons.pie_chart,
+        category: LessonCategory.assetClasses,
         pages: [
           LessonPage(
             title: l10n.whatIsAnIndexFund,
@@ -315,6 +325,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.howToInvestDesc,
         color: const Color(0xFF795548), // Brown for solid foundation/wallet
         icon: Icons.account_balance_wallet,
+        category: LessonCategory.strategy,
         pages: [
           LessonPage(
             title: l10n.theBroker,
@@ -349,6 +360,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.understandingMetricsDesc,
         color: const Color(0xFF607D8B), // Blue Grey for data/analytics
         icon: Icons.analytics,
+        category: LessonCategory.strategy,
         pages: [
           LessonPage(
             title: l10n.marketCapTitle,
@@ -378,6 +390,7 @@ class LearnScreen extends StatelessWidget {
         description: l10n.calcIntrinsicValueDesc,
         color: const Color(0xFF673AB7),
         icon: Icons.calculate,
+        category: LessonCategory.strategy,
         pages: [
           LessonPage(
             title: l10n.priceVsValue,
@@ -431,6 +444,9 @@ class _LearnScreenContent extends StatelessWidget {
         : isOverallInProgress
         ? const Color(0xFF2196F3)
         : AppTheme.textGrey;
+
+    // Grouping logic for initial sort
+    lessons.sort((a, b) => a.category.index.compareTo(b.category.index));
 
     return Scaffold(
       body: SafeArea(
@@ -502,17 +518,40 @@ class _LearnScreenContent extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.separated(
+              child: ListView.builder(
                 padding: const EdgeInsets.only(
                   left: AppTheme.screenPaddingHorizontal,
                   right: AppTheme.screenPaddingHorizontal,
                   bottom: CustomBottomNavigationBar.contentBottomPadding,
                 ),
                 itemCount: lessons.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 16),
                 itemBuilder: (context, index) {
-                  return _LessonCard(lesson: lessons[index]);
+                  final lesson = lessons[index];
+                  final showHeader =
+                      index == 0 ||
+                      lesson.category != lessons[index - 1].category;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (showHeader)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16, bottom: 8),
+                          child: Text(
+                            _getCategoryTitle(lesson.category, l10n),
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.primaryGreen,
+                                ),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _LessonCard(lesson: lesson),
+                      ),
+                    ],
+                  );
                 },
               ),
             ),
@@ -520,6 +559,19 @@ class _LearnScreenContent extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getCategoryTitle(LessonCategory category, AppLocalizations l10n) {
+    switch (category) {
+      case LessonCategory.foundation:
+        return l10n.moduleFoundation;
+      case LessonCategory.assetClasses:
+        return l10n.moduleAssetClasses;
+      case LessonCategory.philosophy:
+        return l10n.modulePhilosophy;
+      case LessonCategory.strategy:
+        return l10n.moduleStrategy;
+    }
   }
 }
 

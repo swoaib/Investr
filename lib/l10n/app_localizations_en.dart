@@ -550,6 +550,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'You can vote with your wallet. ESG funds only include companies that meet Environmental, Social, and Governance standards.';
 
   @override
+  String get moduleFoundation => 'The Foundation';
+
+  @override
+  String get moduleAssetClasses => 'Asset Classes';
+
+  @override
+  String get modulePhilosophy => 'The Philosophy';
+
+  @override
+  String get moduleStrategy => 'Practical Strategy';
+
+  @override
   String get understandingMetricsTitle => 'Understanding Metrics';
 
   @override
@@ -664,4 +676,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get theChoiceDesc =>
       'The choice isn\'t just about risk appetite, but your willingness to work. If you can\'t put in the hours, be defensive.';
+
+  @override
+  String get freeCashFlow => 'Free Cash Flow';
+
+  @override
+  String get terminalGrowthRate => 'Terminal Growth Rate (%)';
+
+  @override
+  String get netDebt => 'Net Debt';
+
+  @override
+  String get sharesOutstanding => 'Shares Outstanding';
+
+  @override
+  String get selectStock => 'Select Stock';
+
+  @override
+  String get enterSymbol => 'Enter Symbol';
+
+  @override
+  String get assumptions => 'Assumptions';
+
+  @override
+  String get terminalRate => 'Terminal Rate';
+
+  @override
+  String get currentPrice => 'Current Price';
 }

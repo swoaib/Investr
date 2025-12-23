@@ -1090,6 +1090,30 @@ abstract class AppLocalizations {
   /// **'You can vote with your wallet. ESG funds only include companies that meet Environmental, Social, and Governance standards.'**
   String get ethicalInvestingDesc;
 
+  /// No description provided for @moduleFoundation.
+  ///
+  /// In en, this message translates to:
+  /// **'The Foundation'**
+  String get moduleFoundation;
+
+  /// No description provided for @moduleAssetClasses.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset Classes'**
+  String get moduleAssetClasses;
+
+  /// No description provided for @modulePhilosophy.
+  ///
+  /// In en, this message translates to:
+  /// **'The Philosophy'**
+  String get modulePhilosophy;
+
+  /// No description provided for @moduleStrategy.
+  ///
+  /// In en, this message translates to:
+  /// **'Practical Strategy'**
+  String get moduleStrategy;
+
   /// No description provided for @understandingMetricsTitle.
   ///
   /// In en, this message translates to:
@@ -1293,6 +1317,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The choice isn\'t just about risk appetite, but your willingness to work. If you can\'t put in the hours, be defensive.'**
   String get theChoiceDesc;
+
+  /// No description provided for @freeCashFlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Cash Flow'**
+  String get freeCashFlow;
+
+  /// No description provided for @terminalGrowthRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Terminal Growth Rate (%)'**
+  String get terminalGrowthRate;
+
+  /// No description provided for @netDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Net Debt'**
+  String get netDebt;
+
+  /// No description provided for @sharesOutstanding.
+  ///
+  /// In en, this message translates to:
+  /// **'Shares Outstanding'**
+  String get sharesOutstanding;
+
+  /// No description provided for @selectStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Stock'**
+  String get selectStock;
+
+  /// No description provided for @enterSymbol.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Symbol'**
+  String get enterSymbol;
+
+  /// No description provided for @assumptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Assumptions'**
+  String get assumptions;
+
+  /// No description provided for @terminalRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Terminal Rate'**
+  String get terminalRate;
+
+  /// No description provided for @currentPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Price'**
+  String get currentPrice;
 }
 
 class _AppLocalizationsDelegate

@@ -178,6 +178,11 @@
   "ethicalInvesting": "倫理的投資 (ESG)",
   "ethicalInvestingDesc": "財布で投票することができます。ESGファンドには、環境、社会、ガバナンスの基準を満たす企業のみが含まれています。",
 
+  "moduleFoundation": "基礎",
+  "moduleAssetClasses": "資産クラス",
+  "modulePhilosophy": "哲学",
+  "moduleStrategy": "実践的戦略",
+
   "understandingMetricsTitle": "指標を理解する",
   "understandingMetricsDesc": "言語を学ぶ。",
   "marketCapTitle": "時価総額",
@@ -203,6 +208,16 @@
   "enterpriseStrategyDesc": "彼らは財務報告書を分析して過小評価されている企業を見つけ、ハードワークの見返りとしてより高いリターンを求めます。",
   "theChoice": "選択",
   "theChoiceDesc": "選択はリスク許容度だけでなく、働く意欲にかかっています。時間をかけられない場合は、防衛的になりましょう。",
+  "freeCashFlow": "フリーキャッシュフロー",
+  "terminalGrowthRate": "永久成長率 (%)",
+  "netDebt": "純有利子負債",
+  "sharesOutstanding": "発行済株式数",
+  "selectStock": "銘柄を選択",
+  "enterSymbol": "シンボルを入力",
+  "assumptions": "前提条件",
+  "terminalRate": "終端レート",
+  "currentPrice": "現在価格",
+  "intrinsicValue": "本質的価値",
 
   "powerOfCompoundingTitle": "複利の力",
   "powerOfCompoundingDesc": "なぜ早く始めることが重要なのか。",

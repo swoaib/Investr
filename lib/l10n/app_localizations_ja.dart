@@ -534,6 +534,18 @@ class AppLocalizationsJa extends AppLocalizations {
       '財布で投票することができます。ESGファンドには、環境、社会、ガバナンスの基準を満たす企業のみが含まれています。';
 
   @override
+  String get moduleFoundation => '基礎';
+
+  @override
+  String get moduleAssetClasses => '資産クラス';
+
+  @override
+  String get modulePhilosophy => '哲学';
+
+  @override
+  String get moduleStrategy => '実践的戦略';
+
+  @override
   String get understandingMetricsTitle => '指標を理解する';
 
   @override
@@ -645,4 +657,31 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get theChoiceDesc =>
       '選択はリスク許容度だけでなく、働く意欲にかかっています。時間をかけられない場合は、防衛的になりましょう。';
+
+  @override
+  String get freeCashFlow => 'フリーキャッシュフロー';
+
+  @override
+  String get terminalGrowthRate => '永久成長率 (%)';
+
+  @override
+  String get netDebt => '純有利子負債';
+
+  @override
+  String get sharesOutstanding => '発行済株式数';
+
+  @override
+  String get selectStock => '銘柄を選択';
+
+  @override
+  String get enterSymbol => 'シンボルを入力';
+
+  @override
+  String get assumptions => '前提条件';
+
+  @override
+  String get terminalRate => '終端レート';
+
+  @override
+  String get currentPrice => '現在価格';
 }

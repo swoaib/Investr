@@ -183,6 +183,11 @@
   "ethicalInvesting": "Ethical Investing (ESG)",
   "ethicalInvestingDesc": "You can vote with your wallet. ESG funds only include companies that meet Environmental, Social, and Governance standards.",
   
+  "moduleFoundation": "The Foundation",
+  "moduleAssetClasses": "Asset Classes",
+  "modulePhilosophy": "The Philosophy",
+  "moduleStrategy": "Practical Strategy",
+
   "understandingMetricsTitle": "Understanding Metrics",
   "understandingMetricsDesc": "Learn to speak the language.",
   
@@ -232,5 +237,16 @@
   "theIdealMixDesc": "Most investors hold both. Stocks drive the growth of your portfolio, while bonds act as shock absorbers during market crashes.",
   
   "theChoice": "The Choice",
-  "theChoiceDesc": "The choice isn't just about risk appetite, but your willingness to work. If you can't put in the hours, be defensive."
+  "theChoiceDesc": "The choice isn't just about risk appetite, but your willingness to work. If you can't put in the hours, be defensive.",
+
+  "freeCashFlow": "Free Cash Flow",
+  "terminalGrowthRate": "Terminal Growth Rate (%)",
+  "netDebt": "Net Debt",
+  "sharesOutstanding": "Shares Outstanding",
+  "selectStock": "Select Stock",
+  "enterSymbol": "Enter Symbol",
+  "assumptions": "Assumptions",
+  "terminalRate": "Terminal Rate",
+  "currentPrice": "Current Price",
+  "intrinsicValue": "Intrinsic Value"
 }
