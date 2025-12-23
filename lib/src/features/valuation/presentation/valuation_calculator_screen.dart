@@ -113,6 +113,80 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     });
   }
 
+  void _showInfoDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.info_outline,
+                      color: AppTheme.primaryGreen,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Text(
+                    l10n.howItWorks,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                l10n.dcfExplanation,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  height: 1.5,
+                  fontSize: 16,
+                  color: AppTheme.textGrey,
+                ),
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: Theme.of(context).cardTheme.color,
+                    foregroundColor: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge?.color,
+                    elevation: 0,
+                    side: BorderSide(
+                      color: Theme.of(
+                        context,
+                      ).dividerColor.withValues(alpha: 0.2),
+                    ),
+                  ),
+                  child: Text(l10n.done),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -132,9 +206,20 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    l10n.valuationDisplayTitle,
-                    style: Theme.of(context).textTheme.headlineLarge,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        l10n.valuationDisplayTitle,
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
+                      IconButton(
+                        onPressed: _showInfoDialog,
+                        icon: const Icon(Icons.info_outline_rounded),
+                        color: AppTheme.textGrey,
+                        tooltip: l10n.howItWorks,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 8),
                   Text(

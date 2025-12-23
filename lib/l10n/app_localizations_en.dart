@@ -703,4 +703,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get currentPrice => 'Current Price';
+
+  @override
+  String get howItWorks => 'How it works';
+
+  @override
+  String get dcfExplanation =>
+      'This calculator estimates the intrinsic value using the Discounted Cash Flow (DCF) model. It projects future cash flows based on your growth assumptions, discounts them back to today\'s value, adds a terminal value, and adjusts for the company\'s net debt.';
 }

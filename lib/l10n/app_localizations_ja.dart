@@ -684,4 +684,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get currentPrice => '現在価格';
+
+  @override
+  String get howItWorks => '仕組み';
+
+  @override
+  String get dcfExplanation =>
+      'この計算機は、割引キャッシュフロー（DCF）モデルを使用して本質的価値を推定します。成長率の仮定に基づいて将来のキャッシュフローを予測し、それを現在価値に割引し、終端価値を加え、企業の純負債を調整します。';
 }

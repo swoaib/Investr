@@ -1371,6 +1371,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current Price'**
   String get currentPrice;
+
+  /// No description provided for @howItWorks.
+  ///
+  /// In en, this message translates to:
+  /// **'How it works'**
+  String get howItWorks;
+
+  /// No description provided for @dcfExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'This calculator estimates the intrinsic value using the Discounted Cash Flow (DCF) model. It projects future cash flows based on your growth assumptions, discounts them back to today\'s value, adds a terminal value, and adjusts for the company\'s net debt.'**
+  String get dcfExplanation;
 }
 
 class _AppLocalizationsDelegate

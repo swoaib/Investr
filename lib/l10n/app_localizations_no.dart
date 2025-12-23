@@ -701,4 +701,11 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get currentPrice => 'Nåværende pris';
+
+  @override
+  String get howItWorks => 'Hvordan det fungerer';
+
+  @override
+  String get dcfExplanation =>
+      'Denne kalkulatoren estimerer den indre verdien ved hjelp av en kontantstrømsmodell (DCF). Den fremskriver fremtidige kontantstrømmer basert på dine vekstforutsetninger, diskonterer dem tilbake til dagens verdi, legger til en sluttverdi og justerer for selskapets nettogjeld.';
 }

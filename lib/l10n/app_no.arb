@@ -218,6 +218,9 @@
   "terminalRate": "Terminal rente",
   "currentPrice": "Nåværende pris",
   "intrinsicValue": "Indre verdi",
+  "howItWorks": "Hvordan det fungerer",
+  "dcfExplanation": "Denne kalkulatoren estimerer den indre verdien ved hjelp av en kontantstrømsmodell (DCF). Den fremskriver fremtidige kontantstrømmer basert på dine vekstforutsetninger, diskonterer dem tilbake til dagens verdi, legger til en sluttverdi og justerer for selskapets nettogjeld.",
+
 
   "powerOfCompoundingTitle": "Renters rente-effekten",
   "powerOfCompoundingDesc": "Hvorfor det er viktig å starte tidlig.",
