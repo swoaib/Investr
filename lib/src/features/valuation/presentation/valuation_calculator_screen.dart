@@ -6,6 +6,7 @@ import '../domain/valuation_logic.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:investr/l10n/app_localizations.dart';
+import 'dart:async';
 
 class ValuationCalculatorScreen extends StatefulWidget {
   const ValuationCalculatorScreen({super.key});
@@ -31,6 +32,11 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   double? _result;
   DCFData? _currentData;
 
+  // Search State
+  Timer? _searchDebounce;
+  List<({String symbol, String name})> _searchResults = [];
+  bool _isSearching = false;
+
   @override
   void initState() {
     super.initState();
@@ -48,7 +54,49 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     _terminalGrowthController.dispose();
     _discountController.dispose();
     _yearsController.dispose();
+    _searchDebounce?.cancel();
     super.dispose();
+  }
+
+  void _onSearchChanged(String query) {
+    if (_searchDebounce?.isActive ?? false) _searchDebounce!.cancel();
+
+    if (query.isEmpty) {
+      setState(() {
+        _searchResults = [];
+        _isSearching = false;
+      });
+      return;
+    }
+
+    setState(() => _isSearching = true);
+
+    _searchDebounce = Timer(const Duration(milliseconds: 500), () async {
+      try {
+        final results = await _stockRepository.searchTicker(query);
+        if (mounted) {
+          setState(() {
+            _searchResults = results;
+            _isSearching = false;
+          });
+        }
+      } catch (e) {
+        if (mounted) {
+          setState(() => _isSearching = false);
+        }
+      }
+    });
+  }
+
+  // Method to select a stock from search results
+  void _selectStock(String symbol) {
+    _symbolController.text = symbol;
+    setState(() {
+      _searchResults = []; // Clear results to hide list
+      _isSearching = false;
+    });
+    _fetchStockData();
+    FocusScope.of(context).unfocus(); // Close keyboard
   }
 
   Future<void> _fetchStockData() async {
@@ -99,18 +147,6 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
         );
       });
     }
-  }
-
-  void _showStockSearch() {
-    showSearch(
-      context: context,
-      delegate: _StockSearchDelegate(_stockRepository),
-    ).then((selectedSymbol) {
-      if (selectedSymbol != null) {
-        _symbolController.text = selectedSymbol;
-        _fetchStockData();
-      }
-    });
   }
 
   void _showInfoDialog() {
@@ -243,34 +279,79 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                         ),
                       ],
                     ),
-                    child: TextFormField(
-                      controller: _symbolController,
-                      decoration: InputDecoration(
-                        labelText: l10n.selectStock,
-                        hintText: l10n.searchHint, // "e.g. AAPL"
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: AppTheme.primaryGreen,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _symbolController,
+                          onChanged: _onSearchChanged, // Hook up live search
+                          decoration: InputDecoration(
+                            labelText: l10n.selectStock,
+                            hintText: l10n.searchHint,
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: AppTheme.primaryGreen,
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.all(16),
+                            suffixIcon: _isLoading
+                                ? const Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : IconButton(
+                                    icon: const Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 16,
+                                    ),
+                                    onPressed:
+                                        _fetchStockData, // Keep manual trigger as well
+                                  ),
+                          ),
                         ),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.all(16),
-                        suffixIcon: _isLoading
-                            ? const Padding(
-                                padding: EdgeInsets.all(12),
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 16,
-                                ),
-                                onPressed: _showStockSearch,
+
+                        // Inline Search Results
+                        if (_isSearching)
+                          const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: LinearProgressIndicator(minHeight: 2),
+                          ),
+
+                        if (_searchResults.isNotEmpty)
+                          Container(
+                            constraints: const BoxConstraints(maxHeight: 200),
+                            child: ListView.separated(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              itemCount: _searchResults.length,
+                              separatorBuilder: (context, index) => Divider(
+                                height: 1,
+                                color: Theme.of(
+                                  context,
+                                ).dividerColor.withValues(alpha: 0.1),
                               ),
-                      ),
-                      readOnly: true,
-                      onTap: _showStockSearch,
+                              itemBuilder: (context, index) {
+                                final stock = _searchResults[index];
+                                return ListTile(
+                                  dense: true,
+                                  title: Text(
+                                    stock.symbol,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    stock.name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  onTap: () => _selectStock(stock.symbol),
+                                );
+                              },
+                            ),
+                          ),
+                      ],
                     ),
                   ),
 
@@ -542,78 +623,6 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
           validator: (value) => value!.isEmpty ? 'Required' : null,
         ),
       ],
-    );
-  }
-}
-
-class _StockSearchDelegate extends SearchDelegate<String?> {
-  final StockRepository repository;
-
-  _StockSearchDelegate(this.repository);
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: const Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return _buildSearchResults();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    if (query.isEmpty) {
-      return Container();
-    }
-    return _buildSearchResults();
-  }
-
-  Widget _buildSearchResults() {
-    return FutureBuilder<List<({String symbol, String name})>>(
-      future: repository.searchTicker(query),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No results found for "$query"'));
-        }
-
-        final results = snapshot.data!;
-
-        return ListView.builder(
-          itemCount: results.length,
-          itemBuilder: (context, index) {
-            final stock = results[index];
-            return ListTile(
-              title: Text(stock.symbol),
-              subtitle: Text(stock.name),
-              onTap: () {
-                close(context, stock.symbol);
-              },
-            );
-          },
-        );
-      },
     );
   }
 }
