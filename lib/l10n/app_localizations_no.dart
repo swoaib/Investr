@@ -66,6 +66,40 @@ class AppLocalizationsNo extends AppLocalizations {
   String get overallProgress => 'Samlet fremgang';
 
   @override
+  String get inflationTitle => 'Inflasjon';
+
+  @override
+  String get inflationDesc => 'Den stille tyven av pengene dine.';
+
+  @override
+  String get inflationBalloonTitle => 'Ballongeffekten';
+
+  @override
+  String get inflationBalloonDesc =>
+      'Inflasjon er når prisene stiger over tid. Som en ballong som blåses opp, kreves det mer penger for å kjøpe de samme tingene.';
+
+  @override
+  String get purchasingPowerTitle => 'Kjøpekraft';
+
+  @override
+  String get purchasingPowerDesc =>
+      'Pengene dine kjøper mindre over tid. 100 kroner i dag kan kanskje bare kjøpe varer for 70 kroner om 10 år.';
+
+  @override
+  String get cpiBasketTitle => 'Konsumprisindeksen';
+
+  @override
+  String get cpiBasketDesc =>
+      'Økonomer måler inflasjon ved å spore prisen på en \'kurv\' med varer som mat, bolig og drivstoff.';
+
+  @override
+  String get inflationShieldTitle => 'Slå Inflasjonen';
+
+  @override
+  String get inflationShieldDesc =>
+      'Investering er ditt skjold. For å øke formuen din må avkastningen din være høyere enn inflasjonsraten.';
+
+  @override
   String get stocks101Title => 'Aksjer 101';
 
   @override

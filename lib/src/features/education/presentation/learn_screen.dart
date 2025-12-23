@@ -116,6 +116,35 @@ class LearnScreen extends StatelessWidget {
         ],
       ),
       Lesson(
+        id: 'inflation',
+        title: l10n.inflationTitle,
+        description: l10n.inflationDesc,
+        color: const Color(0xFFE91E63), // Pink/Red for warning/urgent concept
+        icon: Icons.price_change,
+        pages: [
+          LessonPage(
+            title: l10n.inflationBalloonTitle,
+            description: l10n.inflationBalloonDesc,
+            imagePath: 'assets/images/education/inflation_balloon.svg',
+          ),
+          LessonPage(
+            title: l10n.purchasingPowerTitle,
+            description: l10n.purchasingPowerDesc,
+            imagePath: 'assets/images/education/purchasing_power.svg',
+          ),
+          LessonPage(
+            title: l10n.cpiBasketTitle,
+            description: l10n.cpiBasketDesc,
+            imagePath: 'assets/images/education/cpi_basket.svg',
+          ),
+          LessonPage(
+            title: l10n.inflationShieldTitle,
+            description: l10n.inflationShieldDesc,
+            imagePath: 'assets/images/education/inflation_shield.svg',
+          ),
+        ],
+      ),
+      Lesson(
         id: 'defensive_vs_enterprise',
         title: l10n.defensiveVsEnterpriseTitle,
         description: l10n.defensiveVsEnterpriseDesc,

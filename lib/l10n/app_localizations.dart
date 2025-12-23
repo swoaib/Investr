@@ -214,6 +214,66 @@ abstract class AppLocalizations {
   /// **'Overall Progress'**
   String get overallProgress;
 
+  /// No description provided for @inflationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Inflation'**
+  String get inflationTitle;
+
+  /// No description provided for @inflationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The silent thief of your money.'**
+  String get inflationDesc;
+
+  /// No description provided for @inflationBalloonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Balloon Effect'**
+  String get inflationBalloonTitle;
+
+  /// No description provided for @inflationBalloonDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Inflation is when prices rise over time. Like a balloon inflating, it takes more money to buy the same things.'**
+  String get inflationBalloonDesc;
+
+  /// No description provided for @purchasingPowerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchasing Power'**
+  String get purchasingPowerTitle;
+
+  /// No description provided for @purchasingPowerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your money buys less over time. \$100 today might only buy \$70 worth of goods in 10 years.'**
+  String get purchasingPowerDesc;
+
+  /// No description provided for @cpiBasketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The CPI Basket'**
+  String get cpiBasketTitle;
+
+  /// No description provided for @cpiBasketDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Economists measure inflation by tracking the price of a \'basket\' of goods like food, housing, and fuel.'**
+  String get cpiBasketDesc;
+
+  /// No description provided for @inflationShieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Beating Inflation'**
+  String get inflationShieldTitle;
+
+  /// No description provided for @inflationShieldDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Investing is your shield. To grow your wealth, your returns must be higher than the inflation rate.'**
+  String get inflationShieldDesc;
+
   /// No description provided for @stocks101Title.
   ///
   /// In en, this message translates to:

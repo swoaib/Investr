@@ -164,6 +164,17 @@
   "etfsDesc": "ETFは、単一の株式のように取引される株式のバスケットです。現代的で低コスト、そして多様性があります。",
   "mutualFunds": "投資信託",
   "mutualFundsDesc": "ETFに似ていますが、多くの場合、専門家によってアクティブに運用されています。注意：通常、手数料が高く、リターンを食いつぶす可能性があります。",
+  "inflationTitle": "インフレ",
+  "inflationDesc": "あなたのお金を静かに盗む泥棒。",
+  "inflationBalloonTitle": "風船効果",
+  "inflationBalloonDesc": "インフレとは、時間の経過とともに価格が上昇することです。風船が膨らむように、同じものを買うのにより多くのお金が必要になります。",
+  "purchasingPowerTitle": "購買力",
+  "purchasingPowerDesc": "お金で買えるものは時間の経過とともに減っていきます。今日の100ドルは、10年後には70ドル分の価値しかないかもしれません。",
+  "cpiBasketTitle": "CPIバスケット",
+  "cpiBasketDesc": "経済学者は、食品、住宅、燃料などの「バスケット」の価格を追跡することでインフレを測定します。",
+  "inflationShieldTitle": "インフレに勝つ",
+  "inflationShieldDesc": "投資はあなたの盾です。資産を増やすには、リターンがインフレ率を上回らなければなりません。",
+
   "ethicalInvesting": "倫理的投資 (ESG)",
   "ethicalInvestingDesc": "財布で投票することができます。ESGファンドには、環境、社会、ガバナンスの基準を満たす企業のみが含まれています。",
 

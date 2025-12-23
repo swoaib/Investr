@@ -66,6 +66,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get overallProgress => 'Overall Progress';
 
   @override
+  String get inflationTitle => 'Inflation';
+
+  @override
+  String get inflationDesc => 'The silent thief of your money.';
+
+  @override
+  String get inflationBalloonTitle => 'The Balloon Effect';
+
+  @override
+  String get inflationBalloonDesc =>
+      'Inflation is when prices rise over time. Like a balloon inflating, it takes more money to buy the same things.';
+
+  @override
+  String get purchasingPowerTitle => 'Purchasing Power';
+
+  @override
+  String get purchasingPowerDesc =>
+      'Your money buys less over time. \$100 today might only buy \$70 worth of goods in 10 years.';
+
+  @override
+  String get cpiBasketTitle => 'The CPI Basket';
+
+  @override
+  String get cpiBasketDesc =>
+      'Economists measure inflation by tracking the price of a \'basket\' of goods like food, housing, and fuel.';
+
+  @override
+  String get inflationShieldTitle => 'Beating Inflation';
+
+  @override
+  String get inflationShieldDesc =>
+      'Investing is your shield. To grow your wealth, your returns must be higher than the inflation rate.';
+
+  @override
   String get stocks101Title => 'Stocks 101';
 
   @override

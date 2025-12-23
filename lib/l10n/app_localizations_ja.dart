@@ -66,6 +66,39 @@ class AppLocalizationsJa extends AppLocalizations {
   String get overallProgress => '全体の進捗';
 
   @override
+  String get inflationTitle => 'インフレ';
+
+  @override
+  String get inflationDesc => 'あなたのお金を静かに盗む泥棒。';
+
+  @override
+  String get inflationBalloonTitle => '風船効果';
+
+  @override
+  String get inflationBalloonDesc =>
+      'インフレとは、時間の経過とともに価格が上昇することです。風船が膨らむように、同じものを買うのにより多くのお金が必要になります。';
+
+  @override
+  String get purchasingPowerTitle => '購買力';
+
+  @override
+  String get purchasingPowerDesc =>
+      'お金で買えるものは時間の経過とともに減っていきます。今日の100ドルは、10年後には70ドル分の価値しかないかもしれません。';
+
+  @override
+  String get cpiBasketTitle => 'CPIバスケット';
+
+  @override
+  String get cpiBasketDesc => '経済学者は、食品、住宅、燃料などの「バスケット」の価格を追跡することでインフレを測定します。';
+
+  @override
+  String get inflationShieldTitle => 'インフレに勝つ';
+
+  @override
+  String get inflationShieldDesc =>
+      '投資はあなたの盾です。資産を増やすには、リターンがインフレ率を上回らなければなりません。';
+
+  @override
   String get stocks101Title => '株式 101';
 
   @override

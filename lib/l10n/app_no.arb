@@ -164,6 +164,17 @@
   "etfsDesc": "Børsnoterte fond (ETFer) er kurver med aksjer som handles som en enkelt aksje. De er moderne, rimelige og diversifiserte.",
   "mutualFunds": "Aksjefond",
   "mutualFundsDesc": "Ligner på ETFer, men forvaltes ofte aktivt av en profesjonell. Pass på: de har typisk høyere gebyrer som spiser av avkastningen din.",
+  "inflationTitle": "Inflasjon",
+  "inflationDesc": "Den stille tyven av pengene dine.",
+  "inflationBalloonTitle": "Ballongeffekten",
+  "inflationBalloonDesc": "Inflasjon er når prisene stiger over tid. Som en ballong som blåses opp, kreves det mer penger for å kjøpe de samme tingene.",
+  "purchasingPowerTitle": "Kjøpekraft",
+  "purchasingPowerDesc": "Pengene dine kjøper mindre over tid. 100 kroner i dag kan kanskje bare kjøpe varer for 70 kroner om 10 år.",
+  "cpiBasketTitle": "Konsumprisindeksen",
+  "cpiBasketDesc": "Økonomer måler inflasjon ved å spore prisen på en 'kurv' med varer som mat, bolig og drivstoff.",
+  "inflationShieldTitle": "Slå Inflasjonen",
+  "inflationShieldDesc": "Investering er ditt skjold. For å øke formuen din må avkastningen din være høyere enn inflasjonsraten.",
+
   "ethicalInvesting": "Etisk Investering (ESG)",
   "ethicalInvestingDesc": "Du kan stemme med lommeboken. ESG-fond inkluderer kun selskaper som oppfyller miljømessige, sosiale og styringsmessige standarder.",
 

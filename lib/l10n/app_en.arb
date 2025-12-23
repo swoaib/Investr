@@ -19,6 +19,17 @@
 
   "learnTitle": "Learn",
   "overallProgress": "Overall Progress",
+  "inflationTitle": "Inflation",
+  "inflationDesc": "The silent thief of your money.",
+  "inflationBalloonTitle": "The Balloon Effect",
+  "inflationBalloonDesc": "Inflation is when prices rise over time. Like a balloon inflating, it takes more money to buy the same things.",
+  "purchasingPowerTitle": "Purchasing Power",
+  "purchasingPowerDesc": "Your money buys less over time. $100 today might only buy $70 worth of goods in 10 years.",
+  "cpiBasketTitle": "The CPI Basket",
+  "cpiBasketDesc": "Economists measure inflation by tracking the price of a 'basket' of goods like food, housing, and fuel.",
+  "inflationShieldTitle": "Beating Inflation",
+  "inflationShieldDesc": "Investing is your shield. To grow your wealth, your returns must be higher than the inflation rate.",
+  
   "stocks101Title": "Stocks 101",
   "stocks101Desc": "Start your journey here.",
   "whatIsAStock": "What is a Stock?",
