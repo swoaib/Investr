@@ -713,7 +713,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
-                    vertical: 8,
+                    vertical: 5,
                   ),
                   decoration: BoxDecoration(
                     color: isSelected ? color : Colors.transparent,
@@ -730,7 +730,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
               );
             }).toList(),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
 
           // Key Statistics Title
           Text(
@@ -779,7 +779,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 8),
         ],
       ),
     );
