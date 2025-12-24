@@ -22,7 +22,7 @@ class MarketDataService {
     try {
       if (kDebugMode) print('Connecting to Polygon WebSocket...');
       _channel = WebSocketChannel.connect(
-        Uri.parse('wss://socket.polygon.io/stocks'),
+        Uri.parse('wss://delayed.polygon.io/stocks'),
       );
 
       _channel!.stream.listen(
