@@ -119,6 +119,8 @@ class _StockListViewState extends State<_StockListView> {
     }
     return ReorderableListView.builder(
       padding: const EdgeInsets.only(
+        left: AppTheme.screenPaddingHorizontal,
+        right: AppTheme.screenPaddingHorizontal,
         bottom: CustomBottomNavigationBar.contentBottomPadding,
       ),
       itemCount: controller.stocks.length,
@@ -151,12 +153,7 @@ class _StockListViewState extends State<_StockListView> {
                   ),
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppTheme.screenPaddingHorizontal,
-                ),
-                child: _StockListItem(stock: stock),
-              ),
+              child: _StockListItem(stock: stock),
             ),
             const Divider(height: 1),
           ],
