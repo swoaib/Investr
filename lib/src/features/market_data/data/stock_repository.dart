@@ -14,13 +14,17 @@ class StockRepository {
   final String _baseUrl = 'https://api.polygon.io';
 
   // Hardcoded list of popular stocks for the dashboard to simulate a "Watchlist"
-  static const String _watchlistKey = 'watchlist_v1';
+  static const String _watchlistKey = 'watchlist_v2';
 
   // Default stocks for new users
   final Map<String, String> _defaultWatchlist = {
     'AAPL': 'Apple Inc.',
     'GOOGL': 'Alphabet Inc.',
     'TSLA': 'Tesla Inc.',
+    'TM': 'Toyota Motor Corp.',
+    'MSFT': 'Microsoft Corp.',
+    'AMZN': 'Amazon.com Inc.',
+    'NVDA': 'Nvidia Corp.',
   };
 
   /// Fetches current data for the watchlist.
