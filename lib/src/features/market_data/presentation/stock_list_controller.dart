@@ -97,8 +97,6 @@ class StockListController extends ChangeNotifier {
         final currentStock = _stocks[index];
         // Calculate change based on stored previousClose (Yesterday's Close)
         final prevClose = currentStock.previousClose ?? currentStock.price;
-        // If previousClose was not set (e.g. fresh search item not from watchlist logic), use current price as fallback?
-        // Or better, just update price.
 
         // Calculate new change
         final change = price - prevClose;
@@ -106,11 +104,13 @@ class StockListController extends ChangeNotifier {
             ? (change / prevClose) * 100
             : 0.0;
 
-        _stocks[index] = currentStock.copyWith(
+        var updatedStock = currentStock.copyWith(
           price: price,
           change: change,
           changePercent: changePercent,
         );
+
+        _stocks[index] = updatedStock;
         notifyListeners();
       }
     }

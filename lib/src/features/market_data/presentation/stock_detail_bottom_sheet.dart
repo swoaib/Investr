@@ -8,6 +8,7 @@ import '../domain/stock.dart';
 import '../domain/earnings_point.dart';
 import 'earnings_chart.dart';
 import 'package:investr/l10n/app_localizations.dart';
+import '../data/market_data_service.dart';
 
 class StockDetailBottomSheet extends StatefulWidget {
   final Stock stock;
@@ -21,6 +22,7 @@ class StockDetailBottomSheet extends StatefulWidget {
 class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     with SingleTickerProviderStateMixin {
   final StockRepository _repository = StockRepository();
+  late MarketDataService _marketDataService;
   List<PricePoint> _history = [];
   late Stock _stock; // Local mutable stock to hold details
   bool _isLoading = true;
@@ -38,13 +40,43 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     _stock = widget.stock;
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
+
+    // Initialize MarketDataService
+    _marketDataService = MarketDataService(apiKey: _repository.apiKey);
+    _marketDataService.connect();
+    _marketDataService.updates.listen(_onStockUpdate);
+
     _loadData();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _marketDataService.dispose();
     super.dispose();
+  }
+
+  void _onStockUpdate(Map<String, dynamic> event) {
+    if (event['sym'] == _stock.symbol) {
+      final price = (event['c'] as num?)?.toDouble();
+      if (price != null && mounted) {
+        setState(() {
+          // Update current price
+          // We keep previousClose constant to calculate change correctly against the day's start
+          final prevClose = _stock.previousClose ?? _stock.price;
+          final change = price - prevClose;
+          final changePercent = (prevClose != 0)
+              ? (change / prevClose) * 100
+              : 0.0;
+
+          _stock = _stock.copyWith(
+            price: price,
+            change: change,
+            changePercent: changePercent,
+          );
+        });
+      }
+    }
   }
 
   void _handleTabSelection() {
@@ -86,6 +118,9 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
           _stock = results[1] as Stock;
           _intradayHistory = results[2] as List<PricePoint>;
           _isLoading = false;
+
+          // Subscribe after loading initial details
+          _marketDataService.subscribe([_stock.symbol]);
         });
       }
     } catch (e) {
@@ -152,22 +187,25 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
   }
 
   List<PricePoint> get _filteredHistory {
-    // If 1D is selected, return intraday data if available
     if (_selectedInterval == '1D') {
       if (_intradayHistory != null && _intradayHistory!.isNotEmpty) {
-        return _intradayHistory!;
+        final lastPointDate = _intradayHistory!.last.date;
+        final startOfDay = DateTime(
+          lastPointDate.year,
+          lastPointDate.month,
+          lastPointDate.day,
+        );
+        return _intradayHistory!
+            .where((p) => p.date.isAfter(startOfDay))
+            .toList();
       }
-      // Fallback if intraday fetch failed or is empty: Show last 5 days of daily data
-      if (_history.isEmpty) return [];
-      if (_history.length < 5) return _history;
-      return _history.sublist(_history.length - 5).toList();
+      return [];
     }
 
     if (_selectedInterval == '1W') {
       if (_weeklyHistory != null && _weeklyHistory!.isNotEmpty) {
         return _weeklyHistory!;
       }
-      // Fallback to daily data if weekly fails
     }
 
     if (_selectedInterval == '1M') {
@@ -193,8 +231,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
         break;
       case 'All':
       case 'Custom':
-        // Custom is handled below
-        cutoff = DateTime(1970); // Effectively all, then filtered
+        cutoff = DateTime(1970);
         break;
       default:
         return _history;
@@ -265,14 +302,12 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
         color: theme.cardTheme.color,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: const EdgeInsets.only(
-        top: 16,
-      ), // Remove horiz padding here to allow full width
+      padding: const EdgeInsets.only(top: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header (Persisting)
+          // Header
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
@@ -367,10 +402,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 16),
-          // Controls
           Row(
             children: [
-              // Metric Selector
               Container(
                 decoration: BoxDecoration(
                   color: theme.scaffoldBackgroundColor,
@@ -402,7 +435,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                 ),
               ),
               const Spacer(),
-              // Frequency Selector
               Container(
                 decoration: BoxDecoration(
                   color: theme.scaffoldBackgroundColor,
@@ -463,12 +495,66 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     List<PricePoint> points,
     AppLocalizations l10n,
   ) {
+    // Determine dynamic axes for 1D to support any timezone (e.g. CET)
+    // We assume the market session is 6.5 hours (standard US).
+    // If we have data, we anchor 'minX' to the first point (Open).
+    // 'maxX' is Open + 6.5 hours.
+    // If no data, we fallback to a default 9:30-16:00 Local assumption or just wait for data.
+
+    // Determine dynamic axes
+    double? minX;
+    double? maxX;
+    double? interval;
+
+    // For 1D, we use Time-based X-axis (millisecondsSinceEpoch) to show "filling from left".
+    // For others (1M, 1W), we use Index-based X-axis (0, 1, 2...) to "skip" weekends/closed hours.
+    final isIntraday = _selectedInterval == '1D';
+
+    if (isIntraday) {
+      if (points.isNotEmpty) {
+        final marketOpen = points.first.date;
+        // Snap to nice start if needed, or just use first point
+        final snappedOpen = marketOpen.subtract(
+          Duration(
+            minutes: marketOpen.minute % 30,
+            seconds: marketOpen.second,
+            milliseconds: marketOpen.millisecond,
+          ),
+        );
+
+        minX = snappedOpen.millisecondsSinceEpoch.toDouble();
+        maxX = snappedOpen
+            .add(const Duration(hours: 6, minutes: 30))
+            .millisecondsSinceEpoch
+            .toDouble();
+        interval = 3600000 * 2; // 2 hours
+      } else {
+        // Default placeholder
+        final now = DateTime.now();
+        final open = DateTime(now.year, now.month, now.day, 9, 30);
+        minX = open.millisecondsSinceEpoch.toDouble();
+        maxX = open
+            .add(const Duration(hours: 6, minutes: 30))
+            .millisecondsSinceEpoch
+            .toDouble();
+      }
+    } else {
+      // Index based
+      if (points.isNotEmpty) {
+        minX = 0;
+        maxX = (points.length - 1).toDouble();
+
+        // Calculate interval to show ~5 labels
+        interval = (points.length / 5).floorToDouble();
+        if (interval == 0) interval = 1;
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Animated Date Buttons for Custom Interval
           AnimatedCrossFade(
             firstChild: const SizedBox(width: double.infinity),
             secondChild: Padding(
@@ -477,14 +563,14 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildDateButton(
-                    'Start Date', // Kept English as generic label, or could be l10n.startDate if added
+                    'Start Date',
                     _customStartDate,
                     _pickStartDate,
                     theme,
                     color,
                   ),
                   _buildDateButton(
-                    'End Date', // Same here
+                    'End Date',
                     _customEndDate,
                     _pickEndDate,
                     theme,
@@ -499,7 +585,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
             duration: const Duration(milliseconds: 300),
           ),
 
-          // Chart
           SizedBox(
             height: 200,
             child: _isLoading && _history.isEmpty
@@ -510,13 +595,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                       _selectedInterval == 'Custom' &&
                               (_customStartDate == null ||
                                   _customEndDate == null)
-                          ? 'Please select start and end dates' // Consider adding to ARB if critical
+                          ? 'Please select start and end dates'
                           : 'No data available',
                       style: theme.textTheme.bodyMedium,
                     ),
                   )
                 : LineChart(
                     LineChartData(
+                      minX: minX,
+                      maxX: maxX,
                       gridData: FlGridData(
                         show: true,
                         horizontalInterval: null,
@@ -545,27 +632,43 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                           sideTitles: SideTitles(
                             showTitles: true,
                             reservedSize: 20,
-                            interval: null,
+                            interval: interval,
                             getTitlesWidget: (value, meta) {
-                              final index = value.toInt();
-                              if (index < 0 || index >= points.length) {
-                                return const SizedBox();
+                              DateTime date;
+                              if (isIntraday) {
+                                date = DateTime.fromMillisecondsSinceEpoch(
+                                  value.toInt(),
+                                );
+                              } else {
+                                final index = value.toInt();
+                                if (index < 0 || index >= points.length) {
+                                  return const SizedBox();
+                                }
+                                date = points[index].date;
                               }
-                              final date = points[index].date;
 
-                              // Show only first and last date to avoid crowding
+                              if (isIntraday) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text(
+                                    DateFormat('HH:mm').format(date),
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                );
+                              }
+
                               if (value == meta.min || value == meta.max) {
                                 String formatted;
-                                if (_selectedInterval == '1D') {
-                                  formatted = DateFormat('HH:mm').format(date);
-                                } else if (_selectedInterval == '1W') {
+                                if (_selectedInterval == '1W') {
                                   formatted = DateFormat('EEE').format(date);
                                 } else if (_selectedInterval == '1M') {
                                   formatted = DateFormat('MMM d').format(date);
                                 } else {
                                   formatted = DateFormat('MMM yy').format(date);
                                 }
-
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Text(
@@ -633,11 +736,26 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                               }
 
                               final spot = touchResponse.lineBarSpots!.first;
-                              final index = spot.x.toInt();
-                              if (index >= 0 && index < points.length) {
+                              final val = spot.x;
+
+                              if (isIntraday) {
+                                final date =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                      val.toInt(),
+                                    );
                                 setState(() {
-                                  _selectedPoint = points[index];
+                                  _selectedPoint = PricePoint(
+                                    date: date,
+                                    price: spot.y,
+                                  );
                                 });
+                              } else {
+                                final index = val.toInt();
+                                if (index >= 0 && index < points.length) {
+                                  setState(() {
+                                    _selectedPoint = points[index];
+                                  });
+                                }
                               }
                             },
                         handleBuiltInTouches: true,
@@ -675,7 +793,10 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                               .entries
                               .map(
                                 (entry) => FlSpot(
-                                  entry.key.toDouble(),
+                                  isIntraday
+                                      ? entry.value.date.millisecondsSinceEpoch
+                                            .toDouble()
+                                      : entry.key.toDouble(),
                                   entry.value.price,
                                 ),
                               )
@@ -694,7 +815,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
           ),
           const SizedBox(height: 16),
 
-          // Interval Selector
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: ['1D', '1W', '1M', '1Y', 'All', 'Custom'].map((interval) {
@@ -732,7 +852,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
           ),
           const SizedBox(height: 16),
 
-          // Key Statistics Title
           Text(
             l10n.keyStatistics,
             style: theme.textTheme.titleLarge?.copyWith(
@@ -741,7 +860,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
           ),
           const SizedBox(height: 16),
 
-          // Statistics Grid
           GridView.count(
             crossAxisCount: 3,
             crossAxisSpacing: 8,
@@ -804,40 +922,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     );
   }
 
-  Widget _buildDateButton(
-    String label,
-    DateTime? date,
-    VoidCallback onTap,
-    ThemeData theme,
-    Color color,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(color: color),
-          borderRadius: BorderRadius.circular(20),
-          color: date != null ? color.withValues(alpha: 0.1) : null,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.calendar_today, size: 16, color: color),
-            const SizedBox(width: 8),
-            Text(
-              date != null ? DateFormat('MMM d, y').format(date) : label,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: color,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildToggleOption(
     String text,
     bool isSelected,
@@ -848,15 +932,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? color : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+          color: isSelected ? color.withValues(alpha: 0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
           text,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: isSelected ? Colors.white : Colors.grey,
+            color: isSelected ? color : Colors.grey,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -864,11 +948,39 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     );
   }
 
+  Widget _buildDateButton(
+    String text,
+    DateTime? date,
+    VoidCallback onTap,
+    ThemeData theme,
+    Color color,
+  ) {
+    return Column(
+      children: [
+        Text(
+          text,
+          style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
+        ),
+        const SizedBox(height: 4),
+        ElevatedButton(
+          onPressed: onTap,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: theme.canvasColor,
+            foregroundColor: color,
+            side: BorderSide(color: color),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: Text(
+            date != null ? DateFormat('MMM d, y').format(date) : 'Select',
+          ),
+        ),
+      ],
+    );
+  }
+
   String _formatDate(DateTime date) {
-    if (_selectedInterval == '1D') {
-      return DateFormat('HH:mm').format(date);
-    } else {
-      return DateFormat('MMM d, y').format(date);
-    }
+    return DateFormat('MMM d, HH:mm').format(date);
   }
 }
