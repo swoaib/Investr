@@ -633,6 +633,9 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                             showTitles: true,
                             reservedSize: 20,
                             interval: interval,
+                            // Hide min/max for 1D as requested
+                            minIncluded: !isIntraday,
+                            maxIncluded: !isIntraday,
                             getTitlesWidget: (value, meta) {
                               DateTime date;
                               if (isIntraday) {
