@@ -501,7 +501,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
 
           // Chart
           SizedBox(
-            height: 250,
+            height: 200,
             child: _isLoading && _history.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : points.isEmpty
@@ -519,11 +519,16 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                     LineChartData(
                       gridData: FlGridData(
                         show: true,
-                        drawVerticalLine: false,
                         horizontalInterval: null,
+                        getDrawingVerticalLine: (value) {
+                          return FlLine(
+                            color: Colors.grey.withValues(alpha: 0.1),
+                            strokeWidth: 1,
+                          );
+                        },
                         getDrawingHorizontalLine: (value) {
                           return FlLine(
-                            color: Colors.grey.withValues(alpha: 0.2),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             strokeWidth: 1,
                           );
                         },
