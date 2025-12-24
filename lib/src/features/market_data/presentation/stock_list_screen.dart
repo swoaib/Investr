@@ -208,6 +208,7 @@ class _StockListItem extends StatelessWidget {
           children: [
             // Symbol and Name
             Expanded(
+              flex: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -226,65 +227,73 @@ class _StockListItem extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(width: 16),
             // Mini Sparkline Chart
-            SizedBox(
-              width: 60,
-              height: 30,
-              child:
-                  stock.sparklineData != null && stock.sparklineData!.isNotEmpty
-                  ? LineChart(
-                      LineChartData(
-                        gridData: const FlGridData(show: false),
-                        titlesData: const FlTitlesData(show: false),
-                        borderData: FlBorderData(show: false),
-                        lineTouchData: const LineTouchData(enabled: false),
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: stock.sparklineData!
-                                .asMap()
-                                .entries
-                                .map(
-                                  (e) =>
-                                      FlSpot(e.key.toDouble(), e.value.price),
-                                )
-                                .toList(),
-                            isCurved: true,
-                            color: color,
-                            barWidth: 1.5,
-                            isStrokeCapRound: true,
-                            dotData: const FlDotData(show: false),
-                            belowBarData: BarAreaData(show: false),
-                          ),
-                        ],
+            Expanded(
+              flex: 1,
+              child: SizedBox(
+                width: 60,
+                height: 30,
+                child:
+                    stock.sparklineData != null &&
+                        stock.sparklineData!.isNotEmpty
+                    ? LineChart(
+                        LineChartData(
+                          gridData: const FlGridData(show: false),
+                          titlesData: const FlTitlesData(show: false),
+                          borderData: FlBorderData(show: false),
+                          lineTouchData: const LineTouchData(enabled: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: stock.sparklineData!
+                                  .asMap()
+                                  .entries
+                                  .map(
+                                    (e) =>
+                                        FlSpot(e.key.toDouble(), e.value.price),
+                                  )
+                                  .toList(),
+                              isCurved: true,
+                              color: color,
+                              barWidth: 1.5,
+                              isStrokeCapRound: true,
+                              dotData: const FlDotData(show: false),
+                              belowBarData: BarAreaData(show: false),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Icon(
+                        isPositive ? Icons.trending_up : Icons.trending_down,
+                        color: color,
+                        size: 24,
                       ),
-                    )
-                  : Icon(
-                      isPositive ? Icons.trending_up : Icons.trending_down,
-                      color: color,
-                      size: 24,
-                    ),
+              ),
             ),
             const SizedBox(width: 16),
             // Price and Change
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  currencyFormat.format(stock.price),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+            Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    currencyFormat.format(stock.price),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                Text(
-                  '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
-                  style: TextStyle(
-                    color: color,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
+                  Text(
+                    '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
+                    style: TextStyle(
+                      color: color,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
