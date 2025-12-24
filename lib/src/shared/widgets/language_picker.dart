@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 
 class LanguagePicker extends StatelessWidget {
   final Locale? selectedLocale;
@@ -13,7 +14,9 @@ class LanguagePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final options = [
+      _LanguageOption(l10n.system, null, '📱'),
       _LanguageOption('English', const Locale('en'), '🇺🇸'),
       _LanguageOption('Norsk', const Locale('no'), '🇳🇴'),
       _LanguageOption('日本語', const Locale('ja'), '🇯🇵'),
@@ -25,7 +28,7 @@ class LanguagePicker extends StatelessWidget {
       alignment: WrapAlignment.center,
       children: options.map((option) {
         final isSelected =
-            selectedLocale?.languageCode == option.locale.languageCode;
+            selectedLocale?.languageCode == option.locale?.languageCode;
         return GestureDetector(
           onTap: () => onLocaleChanged(option.locale),
           child: AnimatedContainer(
@@ -77,7 +80,7 @@ class LanguagePicker extends StatelessWidget {
 
 class _LanguageOption {
   final String label;
-  final Locale locale;
+  final Locale? locale;
   final String flag;
 
   _LanguageOption(this.label, this.locale, this.flag);
