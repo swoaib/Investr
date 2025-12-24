@@ -10,6 +10,7 @@ import '../../valuation/domain/dcf_data.dart';
 
 class StockRepository {
   final String _apiKey = 'gWdDRuo8TM3Mmy5cXuuwxbFuzpLpuRn1';
+  String get apiKey => _apiKey;
   final String _baseUrl = 'https://api.polygon.io';
 
   // Hardcoded list of popular stocks for the dashboard to simulate a "Watchlist"
@@ -339,9 +340,9 @@ class StockRepository {
       final dateStr = DateFormat('yyyy-MM-dd').format(date);
 
       // /v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}
-      // Using 30-minute intervals for the single day
+      // Using 5-minute intervals for more detailed graph
       final url = Uri.parse(
-        '$_baseUrl/v2/aggs/ticker/$symbol/range/30/minute/$dateStr/$dateStr?adjusted=true&sort=asc&apiKey=$_apiKey',
+        '$_baseUrl/v2/aggs/ticker/$symbol/range/5/minute/$dateStr/$dateStr?adjusted=true&sort=asc&apiKey=$_apiKey',
       );
 
       final response = await http.get(url);

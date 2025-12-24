@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../data/stock_repository.dart';
+import '../data/market_data_service.dart';
 import '../domain/stock.dart';
 
 class StockListController extends ChangeNotifier {
   final StockRepository _repository;
+  MarketDataService? _marketDataService;
 
   StockListController({StockRepository? repository})
     : _repository = repository ?? StockRepository();
@@ -24,6 +26,12 @@ class StockListController extends ChangeNotifier {
   String? _error;
   String? get error => _error;
 
+  @override
+  void dispose() {
+    _marketDataService?.dispose();
+    super.dispose();
+  }
+
   Future<void> loadStocks() async {
     _isLoading = true;
     _error = null;
@@ -32,26 +40,79 @@ class StockListController extends ChangeNotifier {
     try {
       final stocks = await _repository.getWatchlistStocks();
 
-      // Load sparkline data for each stock in parallel
+      // Initialize MarketDataService if not already
+      _marketDataService ??= MarketDataService(apiKey: _repository.apiKey);
+      _marketDataService!.connect();
+
+      // Enhance stocks with previousClose for calculation
+      // Since stocks are from "Yesterday" (or previous close), their 'price' is the 'previousClose' for today.
+      final stocksWithRef = stocks
+          .map((s) => s.copyWith(previousClose: s.price))
+          .toList();
+
+      // Load sparklines
       final stocksWithSparklines = await Future.wait(
-        stocks.map((stock) async {
+        stocksWithRef.map((stock) async {
           try {
             final sparkline = await _repository.getIntradayHistory(
               stock.symbol,
             );
             return stock.copyWithSparkline(sparkline);
           } catch (e) {
-            return stock; // Return stock without sparkline on error
+            return stock;
           }
         }),
       );
 
       _stocks = stocksWithSparklines;
+
+      // Subscribe to real-time updates
+      if (_marketDataService != null) {
+        // Setup listener if first time
+        if (!_isListening) {
+          _marketDataService!.updates.listen(_onStockUpdate);
+          _isListening = true;
+        }
+        _marketDataService!.subscribe(_stocks.map((s) => s.symbol).toList());
+      }
     } catch (e) {
       _error = 'Failed to load stock data. Please check your connection.';
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  bool _isListening = false;
+
+  void _onStockUpdate(Map<String, dynamic> event) {
+    if (_stocks.isEmpty) return;
+
+    final symbol = event['sym'];
+    final price = (event['c'] as num?)?.toDouble();
+
+    if (symbol != null && price != null) {
+      final index = _stocks.indexWhere((s) => s.symbol == symbol);
+      if (index != -1) {
+        final currentStock = _stocks[index];
+        // Calculate change based on stored previousClose (Yesterday's Close)
+        final prevClose = currentStock.previousClose ?? currentStock.price;
+        // If previousClose was not set (e.g. fresh search item not from watchlist logic), use current price as fallback?
+        // Or better, just update price.
+
+        // Calculate new change
+        final change = price - prevClose;
+        final changePercent = (prevClose != 0)
+            ? (change / prevClose) * 100
+            : 0.0;
+
+        _stocks[index] = currentStock.copyWith(
+          price: price,
+          change: change,
+          changePercent: changePercent,
+        );
+        notifyListeners();
+      }
     }
   }
 

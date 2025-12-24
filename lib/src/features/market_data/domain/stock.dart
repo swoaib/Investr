@@ -14,6 +14,7 @@ class Stock {
     required this.price,
     required this.change,
     required this.changePercent,
+    this.previousClose,
     this.marketCap,
     this.peRatio,
     this.dividendYield,
@@ -26,6 +27,7 @@ class Stock {
     this.earningsHistory,
   });
 
+  final double? previousClose;
   final double? marketCap;
   final double? peRatio;
   final double? dividendYield;
@@ -43,44 +45,50 @@ class Stock {
 
   bool get isPositive => change >= 0;
 
-  /// Create a copy with sparkline data added
-  Stock copyWithSparkline(List<PricePoint> data) {
+  Stock copyWith({
+    String? symbol,
+    String? companyName,
+    double? price,
+    double? change,
+    double? changePercent,
+    double? previousClose,
+    double? marketCap,
+    double? peRatio,
+    double? dividendYield,
+    double? earningsPerShare,
+    String? description,
+    int? employees,
+    double? high52Week,
+    double? low52Week,
+    List<PricePoint>? sparklineData,
+    List<EarningsPoint>? earningsHistory,
+  }) {
     return Stock(
-      symbol: symbol,
-      companyName: companyName,
-      price: price,
-      change: change,
-      changePercent: changePercent,
-      marketCap: marketCap,
-      peRatio: peRatio,
-      dividendYield: dividendYield,
-      earningsPerShare: earningsPerShare,
-      description: description,
-      employees: employees,
-      high52Week: high52Week,
-      low52Week: low52Week,
-      sparklineData: data,
-      earningsHistory: earningsHistory,
+      symbol: symbol ?? this.symbol,
+      companyName: companyName ?? this.companyName,
+      price: price ?? this.price,
+      change: change ?? this.change,
+      changePercent: changePercent ?? this.changePercent,
+      previousClose: previousClose ?? this.previousClose,
+      marketCap: marketCap ?? this.marketCap,
+      peRatio: peRatio ?? this.peRatio,
+      dividendYield: dividendYield ?? this.dividendYield,
+      earningsPerShare: earningsPerShare ?? this.earningsPerShare,
+      description: description ?? this.description,
+      employees: employees ?? this.employees,
+      high52Week: high52Week ?? this.high52Week,
+      low52Week: low52Week ?? this.low52Week,
+      sparklineData: sparklineData ?? this.sparklineData,
+      earningsHistory: earningsHistory ?? this.earningsHistory,
     );
   }
 
+  /// Create a copy with sparkline data added
+  Stock copyWithSparkline(List<PricePoint> data) {
+    return copyWith(sparklineData: data);
+  }
+
   Stock copyWithEarnings(List<EarningsPoint> data) {
-    return Stock(
-      symbol: symbol,
-      companyName: companyName,
-      price: price,
-      change: change,
-      changePercent: changePercent,
-      marketCap: marketCap,
-      peRatio: peRatio,
-      dividendYield: dividendYield,
-      earningsPerShare: earningsPerShare,
-      description: description,
-      employees: employees,
-      high52Week: high52Week,
-      low52Week: low52Week,
-      sparklineData: sparklineData,
-      earningsHistory: data,
-    );
+    return copyWith(earningsHistory: data);
   }
 }
