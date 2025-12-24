@@ -568,67 +568,48 @@ class StockRepository {
           final double shares = (sharesNode?['value'] as num?)?.toDouble() ?? 0;
 
           // Free Cash Flow = Operating Cash Flow - CapEx
-          // Note: CapEx is usually negative in cash flow statements, so we ADD it if negative, or SUBTRACT if positive representation.
-          // Polygon usually reports 'net_cash_flow_from_investing_activities' generally, but let's look for CapEx specific fields or infer.
-          // Often 'payments_for_acquisition_of_property_plant_and_equipment'.
-          // Let's rely on 'net_cash_flow_from_operating_activities'.
-          final ocfNode = cashFlow?['net_cash_flow_from_operating_activities'];
-          final double ocf = (ocfNode?['value'] as num?)?.toDouble() ?? 0;
+          // Note: Polygon vX (Standardized) often lumps CapEx into 'net_cash_flow_from_investing_activities'.
+          // Valid keys verified: 'net_cash_flow_from_operating_activities', 'net_cash_flow_from_investing_activities'.
 
-          // CapEx
-          // Try specific node 'payments_for_acquisition_of_property_plant_and_equipment' which is an outflow (negative?)
-          // Depending on API, it might be positive number representing payment.
-          // Let's assume standard accounting: usually represented as outflow.
-          // We will look for net_cash_flow_from_investing... if specific capex missing?
-          // Actually, let's look for 'capital_expenditures' directly if available, or compute.
-          // Polygon vX often has 'net_cash_flow_from_investing_activities'.
-          // Let's try to be precise.
-          // Commonly: 'net_cash_flow_from_operating_activities_continuing'
+          final double operatingCashFlow =
+              (cashFlow?['net_cash_flow_from_operating_activities']?['value']
+                      as num?)
+                  ?.toDouble() ??
+              0;
 
-          // Fallback logic for CapEx:
-          // We will treat it as 0 if not found, but it's critical.
-          // Better: just fetch it.
-          // Polygon field name: 'capital_expenditure' isn't always standard. 'payments_to_acquire_property_plant_and_equipment'.
-          // Let's assume a simplified parsing for now or grab 'net_cash_flow_from_investing_activities' as a rough proxy if specific field absent.
-          // Actually, many datasets have 'capital_expenditure'.
-
-          // Let's try to check the raw JSON in a real scenario, but here I'll try to find 'net_cash_flow_using_investing_activities' which usually is mostly CapEx for industrial firms.
-          // However, for correct DCF, FCF = OCF - CapEx.
-          // If the API returns 'capital_expenditures' we use it.
-          // Let's assume we can create a robust assumption.
-
-          // Hack: we will assume 0 CapEx if not found, letting user edit it.
-          // In Polygon vX, check for 'exchange_rate_changes...' no...
-          // A common key is 'net_cash_flow_from_investing_activities'.
-          // We will use that as a proxy for now, but inform user.
-          final invNode = cashFlow?['net_cash_flow_from_investing_activities'];
+          // We use investing cash flow as a proxy for CapEx since specific 'capital_expenditures' key is missing for some symbols (e.g. AAPL).
+          // Investing flow is usually negative (outflow).
           final double investingCashFlow =
-              (invNode?['value'] as num?)?.toDouble() ?? 0;
+              (cashFlow?['net_cash_flow_from_investing_activities']?['value']
+                      as num?)
+                  ?.toDouble() ??
+              0;
 
-          // Usually Investing Cash Flow is negative (outflow). FCF = OCF + ICF (if ICF is purely CapEx outflow).
-          // To be safe, let's use OCF + InvestingCashFlow (assuming it's mostly CapEx).
-          final double freeCashFlow = ocf + investingCashFlow;
+          final double freeCashFlow = operatingCashFlow + investingCashFlow;
 
           // Net Debt = Total Debt - Cash
-          // Total Deal = Long Term Debt + Short Term Debt
-          final longTermDebtNode = balance?['long_term_debt'];
-          // Or strictly 'short_term_debt' if available.
+          // Valid keys verified: 'long_term_debt'. 'total_debt' and 'short_term_debt' often missing.
+          // 'cash_and_cash_equivalents' also often missing, making Net Debt calc difficult.
 
-          double totalDebt = 0;
-          // Try standard debt field
+          double totalDebt =
+              (balance?['long_term_debt']?['value'] as num?)?.toDouble() ?? 0;
           if (balance?['debt'] != null) {
-            totalDebt = (balance?['debt']['value'] as num?)?.toDouble() ?? 0;
-          } else {
-            // Sum long term and short term
-            final ltd = (longTermDebtNode?['value'] as num?)?.toDouble() ?? 0;
-            // We often don't have explicit STD in basic response, ignore for now.
-            totalDebt = ltd;
+            totalDebt =
+                (balance?['debt']['value'] as num?)?.toDouble() ?? totalDebt;
           }
 
-          final cashNode = balance?['cash_and_cash_equivalents'];
-          final double cash = (cashNode?['value'] as num?)?.toDouble() ?? 0;
+          final double cash =
+              (balance?['cash_and_cash_equivalents']?['value'] as num?)
+                  ?.toDouble() ??
+              0;
 
-          final double netDebt = totalDebt - cash;
+          // If short term investments key exists (rare), we use it.
+          final double shortTermInvestments =
+              (balance?['short_term_investments']?['value'] as num?)
+                  ?.toDouble() ??
+              0;
+
+          final double netDebt = totalDebt - (cash + shortTermInvestments);
 
           return DCFData(
             symbol: symbol,
