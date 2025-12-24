@@ -368,11 +368,50 @@ class StockRepository {
     return [];
   }
 
-  /// Fetches hourly data for the "1W" chart to provide more granularity than daily.
+  /// Fetches 30-minute data for the "1W" chart.
   Future<List<PricePoint>> getWeeklyHistory(String symbol) async {
     try {
       final now = DateTime.now();
       final from = now.subtract(const Duration(days: 7));
+      final dateFormat = DateFormat('yyyy-MM-dd');
+
+      // /v2/aggs/ticker/{ticker}/range/30/minute/{from}/{to}
+      final url = Uri.parse(
+        '$_baseUrl/v2/aggs/ticker/$symbol/range/30/minute/${dateFormat.format(from)}/${dateFormat.format(now)}?adjusted=true&sort=asc&apiKey=$_apiKey',
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] as List<dynamic>?;
+
+        if (results != null && results.isNotEmpty) {
+          return results
+              .map((candle) {
+                final date = DateTime.fromMillisecondsSinceEpoch(candle['t']);
+                final close = (candle['c'] as num).toDouble();
+                return PricePoint(date: date, price: close);
+              })
+              .where(
+                (p) =>
+                    p.date.weekday != DateTime.saturday &&
+                    p.date.weekday != DateTime.sunday,
+              )
+              .toList();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching weekly for $symbol: $e');
+    }
+    return [];
+  }
+
+  /// Fetches hourly data for the "1M" chart.
+  Future<List<PricePoint>> getMonthlyHistory(String symbol) async {
+    try {
+      final now = DateTime.now();
+      final from = now.subtract(const Duration(days: 30));
       final dateFormat = DateFormat('yyyy-MM-dd');
 
       // /v2/aggs/ticker/{ticker}/range/1/hour/{from}/{to}
@@ -387,15 +426,22 @@ class StockRepository {
         final results = data['results'] as List<dynamic>?;
 
         if (results != null && results.isNotEmpty) {
-          return results.map((candle) {
-            final date = DateTime.fromMillisecondsSinceEpoch(candle['t']);
-            final close = (candle['c'] as num).toDouble();
-            return PricePoint(date: date, price: close);
-          }).toList();
+          return results
+              .map((candle) {
+                final date = DateTime.fromMillisecondsSinceEpoch(candle['t']);
+                final close = (candle['c'] as num).toDouble();
+                return PricePoint(date: date, price: close);
+              })
+              .where(
+                (p) =>
+                    p.date.weekday != DateTime.saturday &&
+                    p.date.weekday != DateTime.sunday,
+              )
+              .toList();
         }
       }
     } catch (e) {
-      if (kDebugMode) print('Error fetching weekly for $symbol: $e');
+      if (kDebugMode) print('Error fetching monthly for $symbol: $e');
     }
     return [];
   }

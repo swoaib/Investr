@@ -100,6 +100,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
   // Cache for intraday/weekly data to avoid re-fetching
   List<PricePoint>? _intradayHistory;
   List<PricePoint>? _weeklyHistory;
+  List<PricePoint>? _monthlyHistory;
   List<EarningsPoint> _earningsHistory = [];
   bool _isEarningsLoading = false;
   String _earningsFrequency = 'quarterly'; // 'quarterly', 'annual'
@@ -121,6 +122,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
       if (mounted) {
         setState(() {
           _weeklyHistory = data;
+          _isLoading = false;
+        });
+      }
+    } else if (_selectedInterval == '1M' && _monthlyHistory == null) {
+      setState(() => _isLoading = true);
+      final data = await _repository.getMonthlyHistory(_stock.symbol);
+      if (mounted) {
+        setState(() {
+          _monthlyHistory = data;
           _isLoading = false;
         });
       }
@@ -158,6 +168,12 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
         return _weeklyHistory!;
       }
       // Fallback to daily data if weekly fails
+    }
+
+    if (_selectedInterval == '1M') {
+      if (_monthlyHistory != null && _monthlyHistory!.isNotEmpty) {
+        return _monthlyHistory!;
+      }
     }
 
     if (_history.isEmpty) return [];
@@ -526,9 +542,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                             reservedSize: 20,
                             interval: null,
                             getTitlesWidget: (value, meta) {
-                              final date = DateTime.fromMillisecondsSinceEpoch(
-                                value.toInt(),
-                              );
+                              final index = value.toInt();
+                              if (index < 0 || index >= points.length) {
+                                return const SizedBox();
+                              }
+                              final date = points[index].date;
 
                               // Show only first and last date to avoid crowding
                               if (value == meta.min || value == meta.max) {
@@ -610,15 +628,12 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                               }
 
                               final spot = touchResponse.lineBarSpots!.first;
-                              final date = DateTime.fromMillisecondsSinceEpoch(
-                                spot.x.toInt(),
-                              );
-                              setState(() {
-                                _selectedPoint = PricePoint(
-                                  date: date,
-                                  price: spot.y,
-                                );
-                              });
+                              final index = spot.x.toInt();
+                              if (index >= 0 && index < points.length) {
+                                setState(() {
+                                  _selectedPoint = points[index];
+                                });
+                              }
                             },
                         handleBuiltInTouches: true,
                         touchTooltipData: LineTouchTooltipData(
@@ -650,10 +665,12 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                       lineBarsData: [
                         LineChartBarData(
                           spots: points
+                              .asMap()
+                              .entries
                               .map(
-                                (p) => FlSpot(
-                                  p.date.millisecondsSinceEpoch.toDouble(),
-                                  p.price,
+                                (entry) => FlSpot(
+                                  entry.key.toDouble(),
+                                  entry.value.price,
                                 ),
                               )
                               .toList(),
