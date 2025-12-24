@@ -174,11 +174,28 @@ class StockListController extends ChangeNotifier {
     }
 
     // Add to local list immediately for UI responsiveness
-    _stocks.insert(0, stock);
+    _stocks.add(stock);
     notifyListeners();
 
     // Persist
     await _repository.addToWatchlist(stock.symbol, stock.companyName);
+
+    // Fetch sparkline and update
+    try {
+      final sparkline = await _repository.getIntradayHistory(stock.symbol);
+      final index = _stocks.indexWhere((s) => s.symbol == stock.symbol);
+      if (index != -1) {
+        _stocks[index] = _stocks[index].copyWithSparkline(sparkline);
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint('Error fetching sparkline for new stock: $e');
+    }
+
+    // Subscribe to real-time updates
+    if (_marketDataService != null) {
+      _marketDataService!.subscribe([stock.symbol]);
+    }
   }
 
   /// Remove a stock from the watchlist
