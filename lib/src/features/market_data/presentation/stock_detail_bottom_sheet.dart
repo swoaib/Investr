@@ -659,7 +659,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                                             radius: 8,
                                             color: color,
                                             strokeWidth: 1,
-                                            strokeColor: Colors.white,
+                                            strokeColor:
+                                                AppTheme.backgroundDark,
                                           );
                                         },
                                   ),
