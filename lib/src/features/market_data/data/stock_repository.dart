@@ -528,6 +528,11 @@ class StockRepository {
     }
   }
 
+  Future<void> updateWatchlistOrder(List<Stock> stocks) async {
+    final newMap = {for (var s in stocks) s.symbol: s.companyName};
+    await _saveWatchlistMap(newMap);
+  }
+
   /// Fetches data required for DCF calculation.
   Future<DCFData?> getDCFData(String symbol) async {
     try {

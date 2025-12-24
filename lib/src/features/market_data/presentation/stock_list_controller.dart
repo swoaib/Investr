@@ -206,6 +206,18 @@ class StockListController extends ChangeNotifier {
     await _repository.removeFromWatchlist(stock.symbol);
   }
 
+  /// Reorders stocks in the watchlist
+  void reorderStocks(int oldIndex, int newIndex) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final Stock item = _stocks.removeAt(oldIndex);
+    _stocks.insert(newIndex, item);
+    notifyListeners();
+
+    _repository.updateWatchlistOrder(_stocks);
+  }
+
   /// Checks if a stock is in the watchlist
   bool isInWatchlist(String symbol) {
     return _stocks.any((s) => s.symbol == symbol);

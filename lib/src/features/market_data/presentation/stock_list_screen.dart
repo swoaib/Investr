@@ -117,36 +117,49 @@ class _StockListViewState extends State<_StockListView> {
     if (controller.stocks.isEmpty) {
       return Center(child: Text(l10n.noStocksInWatchlist));
     }
-    return ListView.separated(
+    return ReorderableListView.builder(
       padding: const EdgeInsets.only(
-        left: AppTheme.screenPaddingHorizontal,
-        right: AppTheme.screenPaddingHorizontal,
         bottom: CustomBottomNavigationBar.contentBottomPadding,
       ),
       itemCount: controller.stocks.length,
-      separatorBuilder: (context, index) => const Divider(height: 1),
+      onReorder: (oldIndex, newIndex) {
+        controller.reorderStocks(oldIndex, newIndex);
+      },
       itemBuilder: (context, index) {
         final stock = controller.stocks[index];
-        return Dismissible(
+        return Column(
           key: Key(stock.symbol),
-          background: Container(
-            color: Colors.red,
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 20.0),
-            child: const Icon(Icons.delete, color: Colors.white),
-          ),
-          direction: DismissDirection.endToStart,
-          onDismissed: (direction) {
-            controller.removeFromWatchlist(stock);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('${stock.symbol} ${l10n.removedFromWatchlist}'),
-                width: 400, // Limit width for better look on wide screens
-                behavior: SnackBarBehavior.floating,
+          children: [
+            Dismissible(
+              key: Key('dismiss_${stock.symbol}'),
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 20.0),
+                child: const Icon(Icons.delete, color: Colors.white),
               ),
-            );
-          },
-          child: _StockListItem(stock: stock),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) {
+                controller.removeFromWatchlist(stock);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      '${stock.symbol} ${l10n.removedFromWatchlist}',
+                    ),
+                    width: 400,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.screenPaddingHorizontal,
+                ),
+                child: _StockListItem(stock: stock),
+              ),
+            ),
+            const Divider(height: 1),
+          ],
         );
       },
     );
