@@ -93,6 +93,30 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
             change: change,
             changePercent: changePercent,
           );
+
+          // Update Intraday Graph if active
+          if (_selectedInterval == '1D' && _intradayHistory != null) {
+            final now = DateTime.now();
+
+            if (_intradayHistory!.isNotEmpty) {
+              final lastDate = _intradayHistory!.last.date;
+              final isNewDay =
+                  now.day != lastDate.day ||
+                  now.month != lastDate.month ||
+                  now.year != lastDate.year;
+
+              if (isNewDay) {
+                // New day detected, clear old intraday data
+                _intradayHistory = [PricePoint(date: now, price: price)];
+              } else {
+                if (now.difference(lastDate).inSeconds > 0) {
+                  _intradayHistory!.add(PricePoint(date: now, price: price));
+                }
+              }
+            } else {
+              _intradayHistory = [PricePoint(date: now, price: price)];
+            }
+          }
         });
       }
     }

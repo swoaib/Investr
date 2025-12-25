@@ -334,15 +334,44 @@ class StockRepository {
   /// Attempts to find the last valid trading day's data.
   Future<List<PricePoint>> getIntradayHistory(String symbol) async {
     try {
-      // Use Today if it's a weekday, otherwise finding last Friday
+      // 1. Try fetching for "today" (or last known defined day if weekend)
       DateTime date = DateTime.now();
       while (date.weekday == DateTime.saturday ||
           date.weekday == DateTime.sunday) {
         date = date.subtract(const Duration(days: 1));
       }
 
-      final dateStr = DateFormat('yyyy-MM-dd').format(date);
+      String dateStr = DateFormat('yyyy-MM-dd').format(date);
 
+      // Attempt 1: Fetch for the calculated date
+      List<PricePoint> points = await _fetchIntradayForDate(symbol, dateStr);
+
+      if (points.isNotEmpty) {
+        return points;
+      }
+
+      // 2. If empty (e.g. pre-market or holiday), try the PREVIOUS trading day
+      // Go back one day from the 'date' we just tried
+      date = date.subtract(const Duration(days: 1));
+      while (date.weekday == DateTime.saturday ||
+          date.weekday == DateTime.sunday) {
+        date = date.subtract(const Duration(days: 1));
+      }
+
+      dateStr = DateFormat('yyyy-MM-dd').format(date);
+      // Attempt 2: Fetch for previous trading day
+      return await _fetchIntradayForDate(symbol, dateStr);
+    } catch (e) {
+      if (kDebugMode) print('Error fetching intraday for $symbol: $e');
+    }
+    return [];
+  }
+
+  Future<List<PricePoint>> _fetchIntradayForDate(
+    String symbol,
+    String dateStr,
+  ) async {
+    try {
       // /v2/aggs/ticker/{ticker}/range/{multiplier}/{timespan}/{from}/{to}
       // Using 5-minute intervals for more detailed graph
       final url = Uri.parse(
@@ -361,13 +390,11 @@ class StockRepository {
             final close = (candle['c'] as num).toDouble();
             return PricePoint(date: date, price: close);
           }).toList();
-        } else {
-          // Fallback: If 30-min data is empty (might happen on free tier for previous day sometimes?),
-          // try fetching 1-hour bars or just return empty to trigger fallback logic in UI
         }
       }
     } catch (e) {
-      if (kDebugMode) print('Error fetching intraday for $symbol: $e');
+      if (kDebugMode)
+        print('Error fetching intraday for $symbol on $dateStr: $e');
     }
     return [];
   }

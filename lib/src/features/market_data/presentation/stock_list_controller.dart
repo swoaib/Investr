@@ -114,15 +114,28 @@ class StockListController extends ChangeNotifier {
 
         // Update sparkline with new price point
         List<PricePoint> sparkline = currentStock.sparklineData ?? [];
+        final now = DateTime.now();
+
         if (sparkline.isNotEmpty) {
           final lastDate = sparkline.last.date;
-          // Only add if new time (prevent duplicate seconds if any)
-          if (DateTime.now().difference(lastDate).inSeconds > 0) {
-            sparkline = [
-              ...sparkline,
-              PricePoint(date: DateTime.now(), price: price),
-            ];
+
+          // Check if we entered a new trading day compared to the data we have
+          final isNewDay =
+              now.day != lastDate.day ||
+              now.month != lastDate.month ||
+              now.year != lastDate.year;
+
+          if (isNewDay) {
+            // If the incoming data is for a new day, clear old history and start fresh
+            sparkline = [PricePoint(date: now, price: price)];
+          } else {
+            // Only add if new time (prevent duplicate seconds if any)
+            if (now.difference(lastDate).inSeconds > 0) {
+              sparkline = [...sparkline, PricePoint(date: now, price: price)];
+            }
           }
+        } else {
+          sparkline = [PricePoint(date: now, price: price)];
         }
 
         var updatedStock = currentStock.copyWith(
