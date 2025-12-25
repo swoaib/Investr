@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../data/stock_repository.dart';
+import '../data/market_data_service.dart';
 import '../domain/price_point.dart';
 import '../domain/stock.dart';
 import '../domain/earnings_point.dart';
@@ -21,8 +25,10 @@ class StockDetailBottomSheet extends StatefulWidget {
 
 class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     with SingleTickerProviderStateMixin {
-  final StockRepository _repository = StockRepository();
-  late MarketDataService _marketDataService;
+  late final StockRepository _repository;
+  late final MarketDataService _marketDataService;
+  late final StreamSubscription _subscription; // Manage subscription manually
+  Timer? _refreshTimer;
   List<PricePoint> _history = [];
   late Stock _stock; // Local mutable stock to hold details
   bool _isLoading = true;
@@ -41,18 +47,31 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
 
-    // Initialize MarketDataService
-    _marketDataService = MarketDataService(apiKey: _repository.apiKey);
+    // Initialize Services from Provider
+    _repository = context.read<StockRepository>();
+    _marketDataService = context.read<MarketDataService>();
+
+    // Ensure connected (idempotent if already connected)
     _marketDataService.connect();
-    _marketDataService.updates.listen(_onStockUpdate);
+
+    // Subscribe to updates
+    _subscription = _marketDataService.updates.listen(_onStockUpdate);
 
     _loadData();
+
+    // Start periodic refresh for 1D graph (every 1 minute)
+    _refreshTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (mounted && _selectedInterval == '1D') {
+        _fetchDataForInterval();
+      }
+    });
   }
 
   @override
   void dispose() {
+    _refreshTimer?.cancel();
     _tabController.dispose();
-    _marketDataService.dispose();
+    _subscription.cancel(); // Cancel subscription, do NOT dispose service
     super.dispose();
   }
 
@@ -142,8 +161,9 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
   String _earningsMetric = 'EPS'; // 'EPS', 'Revenue'
 
   Future<void> _fetchDataForInterval() async {
-    if (_selectedInterval == '1D' && _intradayHistory == null) {
-      setState(() => _isLoading = true);
+    if (_selectedInterval == '1D') {
+      // For 1D, we always refresh to get latest delayed candles
+      // setState(() => _isLoading = true); // Optional: don't show loading on refresh
       final data = await _repository.getIntradayHistory(_stock.symbol);
       if (mounted) {
         setState(() {
@@ -512,22 +532,16 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
 
     if (isIntraday) {
       if (points.isNotEmpty) {
-        final marketOpen = points.first.date;
-        // Snap to nice start if needed, or just use first point
-        final snappedOpen = marketOpen.subtract(
-          Duration(
-            minutes: marketOpen.minute % 30,
-            seconds: marketOpen.second,
-            milliseconds: marketOpen.millisecond,
-          ),
-        );
+        // Use dynamic scaling based on data
+        minX = points.first.date.millisecondsSinceEpoch.toDouble();
+        maxX = points.last.date.millisecondsSinceEpoch.toDouble();
 
-        minX = snappedOpen.millisecondsSinceEpoch.toDouble();
-        maxX = snappedOpen
-            .add(const Duration(hours: 6, minutes: 30))
-            .millisecondsSinceEpoch
-            .toDouble();
-        interval = 3600000 * 2; // 2 hours
+        // Dynamic interval: target around 4-6 labels
+        if (maxX! > minX!) {
+          interval = (maxX! - minX!) / 4;
+        } else {
+          interval = 3600000; // 1 hour fallback
+        }
       } else {
         // Default placeholder
         final now = DateTime.now();

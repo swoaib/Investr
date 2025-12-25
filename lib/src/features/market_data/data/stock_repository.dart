@@ -225,6 +225,7 @@ class StockRepository {
         price: stock.price,
         change: stock.change,
         changePercent: stock.changePercent,
+        previousClose: stock.previousClose,
         marketCap: marketCap,
         description: description,
         employees: employees,
@@ -333,9 +334,8 @@ class StockRepository {
   /// Attempts to find the last valid trading day's data.
   Future<List<PricePoint>> getIntradayHistory(String symbol) async {
     try {
-      // Find the last likely trading day (Yesterday or Friday if today is Weekend/Monday)
-      // Note: Data might be delayed 15 mins or EOD on free tier, enabling 30-min bars helps smoothing.
-      DateTime date = DateTime.now().subtract(const Duration(days: 1));
+      // Use Today if it's a weekday, otherwise finding last Friday
+      DateTime date = DateTime.now();
       while (date.weekday == DateTime.saturday ||
           date.weekday == DateTime.sunday) {
         date = date.subtract(const Duration(days: 1));

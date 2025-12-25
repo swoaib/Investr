@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import '../data/stock_repository.dart';
 import '../data/market_data_service.dart';
 import '../domain/stock.dart';
+import '../domain/price_point.dart';
 
 class StockListController extends ChangeNotifier {
   final StockRepository _repository;
-  MarketDataService? _marketDataService;
+  final MarketDataService _marketDataService;
 
-  StockListController({StockRepository? repository})
-    : _repository = repository ?? StockRepository();
+  StockListController({
+    StockRepository? repository,
+    MarketDataService? marketDataService,
+    // fallback for tests or legacy
+  }) : _repository = repository ?? StockRepository(),
+       _marketDataService =
+           marketDataService ??
+           MarketDataService(apiKey: 'gWdDRuo8TM3Mmy5cXuuwxbFuzpLpuRn1');
 
   List<Stock> _stocks = [];
   List<Stock> get stocks => _stocks;
@@ -28,7 +35,10 @@ class StockListController extends ChangeNotifier {
 
   @override
   void dispose() {
-    _marketDataService?.dispose();
+    // _marketDataService is now injected, do not dispose it here unless we own it.
+    // In strict DI, the provider disposes it.
+    // _marketDataService.dispose();
+
     super.dispose();
   }
 
@@ -41,8 +51,8 @@ class StockListController extends ChangeNotifier {
       final stocks = await _repository.getWatchlistStocks();
 
       // Initialize MarketDataService if not already
-      _marketDataService ??= MarketDataService(apiKey: _repository.apiKey);
-      _marketDataService!.connect();
+      // _marketDataService ??= MarketDataService(apiKey: _repository.apiKey);
+      _marketDataService.connect();
 
       // Enhance stocks with previousClose for calculation
       // Since stocks are from "Yesterday" (or previous close), their 'price' is the 'previousClose' for today.
@@ -67,14 +77,12 @@ class StockListController extends ChangeNotifier {
       _stocks = stocksWithSparklines;
 
       // Subscribe to real-time updates
-      if (_marketDataService != null) {
-        // Setup listener if first time
-        if (!_isListening) {
-          _marketDataService!.updates.listen(_onStockUpdate);
-          _isListening = true;
-        }
-        _marketDataService!.subscribe(_stocks.map((s) => s.symbol).toList());
+      // Setup listener if first time
+      if (!_isListening) {
+        _marketDataService.updates.listen(_onStockUpdate);
+        _isListening = true;
       }
+      _marketDataService.subscribe(_stocks.map((s) => s.symbol).toList());
     } catch (e) {
       _error = 'Failed to load stock data. Please check your connection.';
     } finally {
@@ -104,10 +112,24 @@ class StockListController extends ChangeNotifier {
             ? (change / prevClose) * 100
             : 0.0;
 
+        // Update sparkline with new price point
+        List<PricePoint> sparkline = currentStock.sparklineData ?? [];
+        if (sparkline.isNotEmpty) {
+          final lastDate = sparkline.last.date;
+          // Only add if new time (prevent duplicate seconds if any)
+          if (DateTime.now().difference(lastDate).inSeconds > 0) {
+            sparkline = [
+              ...sparkline,
+              PricePoint(date: DateTime.now(), price: price),
+            ];
+          }
+        }
+
         var updatedStock = currentStock.copyWith(
           price: price,
           change: change,
           changePercent: changePercent,
+          sparklineData: sparkline,
         );
 
         _stocks[index] = updatedStock;
@@ -193,9 +215,7 @@ class StockListController extends ChangeNotifier {
     }
 
     // Subscribe to real-time updates
-    if (_marketDataService != null) {
-      _marketDataService!.subscribe([stock.symbol]);
-    }
+    _marketDataService.subscribe([stock.symbol]);
   }
 
   /// Remove a stock from the watchlist
