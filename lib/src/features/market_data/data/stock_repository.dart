@@ -393,8 +393,9 @@ class StockRepository {
         }
       }
     } catch (e) {
-      if (kDebugMode)
+      if (kDebugMode) {
         print('Error fetching intraday for $symbol on $dateStr: $e');
+      }
     }
     return [];
   }

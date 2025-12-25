@@ -11,8 +11,6 @@ import '../domain/price_point.dart';
 import '../domain/stock.dart';
 import '../domain/earnings_point.dart';
 import 'earnings_chart.dart';
-import 'package:investr/l10n/app_localizations.dart';
-import '../data/market_data_service.dart';
 
 class StockDetailBottomSheet extends StatefulWidget {
   final Stock stock;
@@ -561,8 +559,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
         maxX = points.last.date.millisecondsSinceEpoch.toDouble();
 
         // Dynamic interval: target around 4-6 labels
-        if (maxX! > minX!) {
-          interval = (maxX! - minX!) / 4;
+        if (maxX > minX) {
+          interval = (maxX - minX) / 4;
         } else {
           interval = 3600000; // 1 hour fallback
         }
