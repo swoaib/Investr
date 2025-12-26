@@ -266,6 +266,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -335,6 +336,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -389,6 +391,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required String title,
     required Locale? locale,
   }) {
+    // Handle equality for Locale objects potentially
     return RadioListTile<Locale?>(
       title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
       value: locale,

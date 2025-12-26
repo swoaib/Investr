@@ -53,11 +53,12 @@ class EarningsChart extends StatelessWidget {
                       barTouchData: BarTouchData(
                         enabled: true,
                         touchTooltipData: BarTouchTooltipData(
+                          getTooltipColor: (group) => theme.cardColor,
                           getTooltipItem: (group, groupIndex, rod, rodIndex) {
                             return BarTooltipItem(
                               _formatValue(rod.toY, isRevenue),
-                              const TextStyle(
-                                color: Colors.white,
+                              TextStyle(
+                                color: theme.textTheme.bodyLarge?.color,
                                 fontWeight: FontWeight.bold,
                               ),
                             );
