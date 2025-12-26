@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../market_data/data/stock_repository.dart';
 import '../domain/dcf_data.dart';
+import '../domain/dcf_result.dart'; // Import DCFResult
 import '../domain/valuation_logic.dart';
+import 'package:fl_chart/fl_chart.dart'; // Import fl_chart
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import 'dart:async';
+import 'dart:math';
 
 class ValuationCalculatorScreen extends StatefulWidget {
   const ValuationCalculatorScreen({super.key});
@@ -29,7 +32,8 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   final TextEditingController _yearsController = TextEditingController();
 
   bool _isLoading = false;
-  double? _result;
+  DCFResult? _result; // Update type
+  bool _showDetailedReport = false; // Toggle state
   DCFData? _currentData;
 
   // Search State
@@ -507,7 +511,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                         boxShadow: [
                           BoxShadow(
                             color:
-                                (_result! > _currentData!.price
+                                (_result!.intrinsicValue > _currentData!.price
                                         ? AppTheme.primaryGreen
                                         : Colors.redAccent)
                                     .withValues(alpha: 0.2),
@@ -528,10 +532,14 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            NumberFormat.simpleCurrency().format(_result),
+                            NumberFormat.simpleCurrency().format(
+                              _result?.intrinsicValue,
+                            ),
                             style: Theme.of(context).textTheme.displayMedium
                                 ?.copyWith(
-                                  color: _result! > _currentData!.price
+                                  color:
+                                      (_result?.intrinsicValue ?? 0) >
+                                          _currentData!.price
                                       ? AppTheme.primaryGreen
                                       : Colors.redAccent,
                                   fontWeight: FontWeight.bold,
@@ -569,6 +577,20 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                         ],
                       ),
                     ),
+                  if (_result != null) ...[
+                    const SizedBox(height: 24),
+                    SwitchListTile.adaptive(
+                      value: _showDetailedReport,
+                      onChanged: (val) =>
+                          setState(() => _showDetailedReport = val),
+                      title: const Text(
+                        'Show Detailed Report',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      activeTrackColor: AppTheme.primaryGreen,
+                    ),
+                    if (_showDetailedReport) _buildDetailedReport(),
+                  ],
                 ],
               ),
             ),
@@ -621,6 +643,242 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
             ),
           ),
           validator: (value) => value!.isEmpty ? 'Required' : null,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDetailedReport() {
+    final currency = NumberFormat.compactSimpleCurrency();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 32),
+        const Divider(),
+        const SizedBox(height: 24),
+
+        // 1. Fetched Data Table
+        Text(
+          '1. Fetched Financial Data',
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardTheme.color,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+            ),
+          ),
+          child: Column(
+            children: [
+              _buildDataRow(
+                'Market Price',
+                currency.format(_currentData!.price),
+              ),
+              const Divider(height: 24),
+              _buildDataRow(
+                'Free Cash Flow (FCF)',
+                currency.format(_currentData!.freeCashFlow),
+              ),
+              const Divider(height: 24),
+              _buildDataRow(
+                'Shares Outstanding',
+                NumberFormat.compact().format(_currentData!.sharesOutstanding),
+              ),
+              const Divider(height: 24),
+              _buildDataRow('Net Debt', currency.format(_currentData!.netDebt)),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 32),
+
+        // 2. Projected Future FCFs (Graph)
+        Text(
+          '2. Projected Future Cash Flows',
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+        AspectRatio(
+          aspectRatio: 1.5,
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(0, 24, 24, 0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardTheme.color,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY: _result!.futureCashFlows.values.reduce(max) * 1.1,
+                titlesData: FlTitlesData(
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 40,
+                      getTitlesWidget: (value, meta) {
+                        return SideTitleWidget(
+                          meta: meta,
+                          child: Text(
+                            NumberFormat.compact().format(value),
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: AppTheme.textGrey,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            'Y${value.toInt()}',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: AppTheme.textGrey,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                ),
+                gridData: const FlGridData(show: false),
+                borderData: FlBorderData(show: false),
+                barGroups: _result!.futureCashFlows.entries.map((e) {
+                  return BarChartGroupData(
+                    x: e.key,
+                    barRods: [
+                      BarChartRodData(
+                        toY: e.value,
+                        color: AppTheme.primaryGreen.withValues(alpha: 0.7),
+                        width: 12,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 32),
+
+        // 3. Formula Explanation
+        Text(
+          '3. Calculation Breakdown',
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Intrinsic Value per Share =',
+                style: TextStyle(color: AppTheme.textGrey, fontSize: 12),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                '(Sum of Discounted FCFs + Discounted Terminal Value - Net Debt) / Shares Outstanding',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 16),
+              const Divider(),
+              const SizedBox(height: 16),
+              _buildDataRow(
+                'Sum of Discounted FCFs',
+                currency.format(
+                  _result!.enterpriseValue - _result!.presentTerminalValue,
+                ),
+              ),
+              const SizedBox(height: 8),
+              _buildDataRow(
+                '+ Present Terminal Value',
+                currency.format(_result!.presentTerminalValue),
+              ),
+              const SizedBox(height: 8),
+              const Divider(),
+              _buildDataRow(
+                '= Total Enterprise Value',
+                currency.format(_result!.enterpriseValue),
+                isBold: true,
+              ),
+              const SizedBox(height: 8),
+              _buildDataRow(
+                '- Net Debt',
+                currency.format(_result!.netDebt),
+                color: Colors.redAccent,
+              ),
+              const SizedBox(height: 8),
+              const Divider(),
+              _buildDataRow(
+                '= Equity Value',
+                currency.format(_result!.equityValue),
+                isBold: true,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 32),
+      ],
+    );
+  }
+
+  Widget _buildDataRow(
+    String label,
+    String value, {
+    bool isBold = false,
+    Color? color,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            color: AppTheme.textGrey,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
+          ),
         ),
       ],
     );

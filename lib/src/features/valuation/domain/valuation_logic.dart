@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dcf_result.dart';
 
 class ValuationLogic {
   /// Calculates the intrinsic value based on Discounted Cash Flow of earnings for [years].
@@ -28,7 +29,7 @@ class ValuationLogic {
   }
 
   /// Calculates Intrinsic Value using "Real" DCF with Free Cash Flow and Terminal Value.
-  static double calculateRealDCF({
+  static DCFResult calculateRealDCF({
     required double freeCashFlow,
     required double growthRate, // in percent per year (for projection period)
     required double discountRate, // WACC in percent
@@ -43,10 +44,17 @@ class ValuationLogic {
     final g = growthRate / 100;
     final gTerm = terminalGrowthRate / 100;
 
+    final Map<int, double> futureCashFlows = {};
+    final Map<int, double> discountedCashFlows = {};
+
     // 1. Sum of Present Value of Future Free Cash Flows
     for (int i = 1; i <= years; i++) {
       currentFCF = currentFCF * (1 + g);
       double presentValue = currentFCF / pow(1 + r, i);
+
+      futureCashFlows[i] = currentFCF;
+      discountedCashFlows[i] = presentValue;
+
       totalEnterpriseValue += presentValue;
     }
 
@@ -55,7 +63,7 @@ class ValuationLogic {
     // We use the FCF of the last projected year (currentFCF at this point is Year N's FCF)
     // Strictly, Gordon Growth uses Year N+1 FCF
     double fcfNPlus1 = currentFCF * (1 + gTerm);
-    double terminalValue = fcfNPlus1 / (r - gTerm);
+    double terminalValue = (r - gTerm) == 0 ? 0 : fcfNPlus1 / (r - gTerm);
 
     // Discount Terminal Value to Present
     double presentTerminalValue = terminalValue / pow(1 + r, years);
@@ -68,8 +76,21 @@ class ValuationLogic {
     double equityValue = totalEnterpriseValue - netDebt;
 
     // 4. Per Share Value
-    if (sharesOutstanding <= 0) return 0;
+    double intrinsicValue = 0;
+    if (sharesOutstanding > 0) {
+      intrinsicValue = equityValue / sharesOutstanding;
+    }
 
-    return equityValue / sharesOutstanding;
+    return DCFResult(
+      intrinsicValue: intrinsicValue,
+      equityValue: equityValue,
+      enterpriseValue: totalEnterpriseValue,
+      terminalValue: terminalValue,
+      presentTerminalValue: presentTerminalValue,
+      futureCashFlows: futureCashFlows,
+      discountedCashFlows: discountedCashFlows,
+      netDebt: netDebt,
+      sharesOutstanding: sharesOutstanding,
+    );
   }
 }
