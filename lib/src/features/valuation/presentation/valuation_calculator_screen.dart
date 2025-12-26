@@ -719,6 +719,21 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               BarChartData(
                 alignment: BarChartAlignment.spaceAround,
                 maxY: _result!.futureCashFlows.values.reduce(max) * 1.1,
+                barTouchData: BarTouchData(
+                  touchTooltipData: BarTouchTooltipData(
+                    getTooltipColor: (group) => Theme.of(context).cardColor,
+
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                      return BarTooltipItem(
+                        NumberFormat.compactSimpleCurrency().format(rod.toY),
+                        TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
                     sideTitles: SideTitles(
