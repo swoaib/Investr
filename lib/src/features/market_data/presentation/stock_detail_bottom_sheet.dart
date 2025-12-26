@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../data/stock_repository.dart';
-import '../data/market_data_service.dart';
+// import '../data/market_data_service.dart'; // Unused import
 import '../domain/price_point.dart';
 import '../domain/stock.dart';
 import '../domain/earnings_point.dart';
@@ -24,8 +24,8 @@ class StockDetailBottomSheet extends StatefulWidget {
 class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     with SingleTickerProviderStateMixin {
   late final StockRepository _repository;
-  late final MarketDataService _marketDataService;
-  late final StreamSubscription _subscription; // Manage subscription manually
+  // late final MarketDataService _marketDataService; // Removed WebSocket
+  // late final StreamSubscription _subscription; // Removed WebSocket
   Timer? _refreshTimer;
   List<PricePoint> _history = [];
   late Stock _stock; // Local mutable stock to hold details
@@ -47,18 +47,18 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
 
     // Initialize Services from Provider
     _repository = context.read<StockRepository>();
-    _marketDataService = context.read<MarketDataService>();
+    // _marketDataService = context.read<MarketDataService>(); // Removed WebSocket
 
     // Ensure connected (idempotent if already connected)
-    _marketDataService.connect();
+    // _marketDataService.connect(); // Removed WebSocket
 
     // Subscribe to updates
-    _subscription = _marketDataService.updates.listen(_onStockUpdate);
+    // _subscription = _marketDataService.updates.listen(_onStockUpdate); // Removed WebSocket
 
     _loadData();
 
-    // Start periodic refresh for 1D graph (every 1 minute)
-    _refreshTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+    // Start periodic refresh for 1D graph (every 30 seconds)
+    _refreshTimer = Timer.periodic(const Duration(seconds: 30), (_) {
       if (mounted && _selectedInterval == '1D') {
         _fetchDataForInterval();
       }
@@ -69,56 +69,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
   void dispose() {
     _refreshTimer?.cancel();
     _tabController.dispose();
-    _subscription.cancel(); // Cancel subscription, do NOT dispose service
+    // _subscription.cancel(); // Removed WebSocket
     super.dispose();
   }
 
-  void _onStockUpdate(Map<String, dynamic> event) {
-    if (event['sym'] == _stock.symbol) {
-      final price = (event['c'] as num?)?.toDouble();
-      if (price != null && mounted) {
-        setState(() {
-          // Update current price
-          // We keep previousClose constant to calculate change correctly against the day's start
-          final prevClose = _stock.previousClose ?? _stock.price;
-          final change = price - prevClose;
-          final changePercent = (prevClose != 0)
-              ? (change / prevClose) * 100
-              : 0.0;
-
-          _stock = _stock.copyWith(
-            price: price,
-            change: change,
-            changePercent: changePercent,
-          );
-
-          // Update Intraday Graph if active
-          if (_selectedInterval == '1D' && _intradayHistory != null) {
-            final now = DateTime.now();
-
-            if (_intradayHistory!.isNotEmpty) {
-              final lastDate = _intradayHistory!.last.date;
-              final isNewDay =
-                  now.day != lastDate.day ||
-                  now.month != lastDate.month ||
-                  now.year != lastDate.year;
-
-              if (isNewDay) {
-                // New day detected, clear old intraday data
-                _intradayHistory = [PricePoint(date: now, price: price)];
-              } else {
-                if (now.difference(lastDate).inSeconds > 0) {
-                  _intradayHistory!.add(PricePoint(date: now, price: price));
-                }
-              }
-            } else {
-              _intradayHistory = [PricePoint(date: now, price: price)];
-            }
-          }
-        });
-      }
-    }
-  }
+  // void _onStockUpdate(Map<String, dynamic> event) { ... } // Removed WebSocket
 
   void _handleTabSelection() {
     if (_tabController.indexIsChanging ||
@@ -161,7 +116,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
           _isLoading = false;
 
           // Subscribe after loading initial details
-          _marketDataService.subscribe([_stock.symbol]);
+          // _marketDataService.subscribe([_stock.symbol]); // Removed WebSocket
         });
       }
     } catch (e) {
@@ -231,15 +186,36 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
   List<PricePoint> get _filteredHistory {
     if (_selectedInterval == '1D') {
       if (_intradayHistory != null && _intradayHistory!.isNotEmpty) {
-        final lastPointDate = _intradayHistory!.last.date;
-        final startOfDay = DateTime(
-          lastPointDate.year,
-          lastPointDate.month,
-          lastPointDate.day,
-        );
-        return _intradayHistory!
-            .where((p) => p.date.isAfter(startOfDay))
-            .toList();
+        // final lastPointDate = _intradayHistory!.last.date;
+        // final startOfDay = DateTime(
+        //   lastPointDate.year,
+        //   lastPointDate.month,
+        //   lastPointDate.day,
+        // );
+        return _intradayHistory!.where((p) {
+          // Filter to Regular Market Hours (09:30 - 16:00 ET)
+          final utcTime = p.date.toUtc();
+          final isDST = _isUSDST(utcTime);
+
+          // ET is UTC-4 (DST) or UTC-5 (Standard)
+          // Open: 09:30 ET -> 13:30 UTC (DST) or 14:30 UTC (Std)
+          // Close: 16:00 ET -> 20:00 UTC (DST) or 21:00 UTC (Std)
+
+          final openHour = isDST ? 13 : 14;
+          final closeHour = isDST ? 20 : 21;
+
+          final hour = utcTime.hour;
+          final minute = utcTime.minute;
+
+          if (hour < openHour || (hour == openHour && minute < 30)) {
+            return false;
+          }
+          if (hour > closeHour || (hour == closeHour && minute > 0)) {
+            return false;
+          }
+
+          return true;
+        }).toList();
       }
       return [];
     }
@@ -553,27 +529,46 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
     final isIntraday = _selectedInterval == '1D';
 
     if (isIntraday) {
-      if (points.isNotEmpty) {
-        // Use dynamic scaling based on data
-        minX = points.first.date.millisecondsSinceEpoch.toDouble();
-        maxX = points.last.date.millisecondsSinceEpoch.toDouble();
+      // Always show full market day: 09:30 to 16:00
+      // We need a reference date. If we have points, use that date.
+      // If not, use today (or last trading day ideally, but today works for axis placeholder).
 
-        // Dynamic interval: target around 4-6 labels
-        if (maxX > minX) {
-          interval = (maxX - minX) / 4;
-        } else {
-          interval = 3600000; // 1 hour fallback
-        }
+      DateTime baseDate;
+      if (points.isNotEmpty) {
+        baseDate = points.first.date;
       } else {
-        // Default placeholder
-        final now = DateTime.now();
-        final open = DateTime(now.year, now.month, now.day, 9, 30);
-        minX = open.millisecondsSinceEpoch.toDouble();
-        maxX = open
-            .add(const Duration(hours: 6, minutes: 30))
-            .millisecondsSinceEpoch
-            .toDouble();
+        baseDate = DateTime.now();
       }
+
+      final baseDateUtc = baseDate.toUtc();
+      final isDST = _isUSDST(baseDateUtc);
+
+      final openHour = isDST ? 13 : 14;
+      final closeHour = isDST ? 20 : 21;
+
+      // Construct Market Open/Close in UTC
+      final marketOpenUtc = DateTime.utc(
+        baseDateUtc.year,
+        baseDateUtc.month,
+        baseDateUtc.day,
+        openHour,
+        30,
+      );
+
+      final marketCloseUtc = DateTime.utc(
+        baseDateUtc.year,
+        baseDateUtc.month,
+        baseDateUtc.day,
+        closeHour,
+        0,
+      );
+
+      // Convert back to Local for the Axis (millisecondsSinceEpoch handles this correctly)
+      minX = marketOpenUtc.millisecondsSinceEpoch.toDouble();
+      maxX = marketCloseUtc.millisecondsSinceEpoch.toDouble();
+
+      // Calculate interval: 6.5 hours / 4 ~ 1.5 hours +
+      interval = (maxX - minX) / 4;
     } else {
       // Index based
       if (points.isNotEmpty) {
@@ -1017,6 +1012,37 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
         ),
       ],
     );
+  }
+
+  // Basic US DST Helper
+  bool _isUSDST(DateTime date) {
+    // US DST starts 2nd Sunday in March, ends 1st Sunday in Nov.
+    // Simplistic Logic Check:
+    if (date.month > 3 && date.month < 11) return true;
+    if (date.month < 3 || date.month > 11) return false;
+
+    // March or Nov
+    int day = date.day;
+
+    if (date.month == 3) {
+      // Starts 2nd Sunday.
+      DateTime firstMarch = DateTime.utc(date.year, 3, 1);
+      int firstMarchWeekday = firstMarch.weekday;
+      int dayOfFirstSunday = (8 - firstMarchWeekday) % 7;
+      if (dayOfFirstSunday == 0) dayOfFirstSunday = 7;
+      int dayOfSecondSunday = dayOfFirstSunday + 7;
+      return day >= dayOfSecondSunday;
+    }
+
+    if (date.month == 11) {
+      // Ends 1st Sunday.
+      DateTime firstNov = DateTime.utc(date.year, 11, 1);
+      int firstNovWeekday = firstNov.weekday;
+      int dayOfFirstSunday = (8 - firstNovWeekday) % 7;
+      if (dayOfFirstSunday == 0) dayOfFirstSunday = 7;
+      return day < dayOfFirstSunday;
+    }
+    return false;
   }
 
   String _formatDate(DateTime date) {

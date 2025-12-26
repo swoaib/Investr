@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import '../data/stock_repository.dart';
-import '../data/market_data_service.dart';
+import 'dart:async';
 import '../domain/stock.dart';
-import '../domain/price_point.dart';
+// import '../domain/price_point.dart'; // Unused import
 
 class StockListController extends ChangeNotifier {
   final StockRepository _repository;
-  final MarketDataService _marketDataService;
+  Timer? _pollingTimer;
 
-  StockListController({
-    StockRepository? repository,
-    MarketDataService? marketDataService,
-    // fallback for tests or legacy
-  }) : _repository = repository ?? StockRepository(),
-       _marketDataService =
-           marketDataService ??
-           MarketDataService(apiKey: 'gWdDRuo8TM3Mmy5cXuuwxbFuzpLpuRn1');
+  StockListController({StockRepository? repository})
+    : _repository = repository ?? StockRepository();
 
   List<Stock> _stocks = [];
   List<Stock> get stocks => _stocks;
@@ -35,10 +29,7 @@ class StockListController extends ChangeNotifier {
 
   @override
   void dispose() {
-    // _marketDataService is now injected, do not dispose it here unless we own it.
-    // In strict DI, the provider disposes it.
-    // _marketDataService.dispose();
-
+    _pollingTimer?.cancel();
     super.dispose();
   }
 
@@ -48,15 +39,17 @@ class StockListController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final stocks = await _repository.getWatchlistStocks();
-
-      // Initialize MarketDataService if not already
-      // _marketDataService ??= MarketDataService(apiKey: _repository.apiKey);
-      _marketDataService.connect();
-
       // Enhance stocks with previousClose for calculation
       // Since stocks are from "Yesterday" (or previous close), their 'price' is the 'previousClose' for today.
-      final stocksWithRef = stocks
+      var fetchedStocks = await _repository.getWatchlistStocks();
+
+      // Auto-Recovery: If fetching yields empty list (but no error), keys might be bad or empty. Reset.
+      if (fetchedStocks.isEmpty) {
+        await _repository.resetToDefaults();
+        fetchedStocks = await _repository.getWatchlistStocks();
+      }
+
+      final stocksWithRef = fetchedStocks
           .map((s) => s.copyWith(previousClose: s.price))
           .toList();
 
@@ -76,14 +69,10 @@ class StockListController extends ChangeNotifier {
 
       _stocks = stocksWithSparklines;
 
-      // Subscribe to real-time updates
-      // Setup listener if first time
-      if (!_isListening) {
-        _marketDataService.updates.listen(_onStockUpdate);
-        _isListening = true;
-      }
-      _marketDataService.subscribe(_stocks.map((s) => s.symbol).toList());
+      // Start Polling (REST API)
+      _startPolling();
     } catch (e) {
+      // Log error internally or to crash reporting service
       _error = 'Failed to load stock data. Please check your connection.';
     } finally {
       _isLoading = false;
@@ -91,65 +80,46 @@ class StockListController extends ChangeNotifier {
     }
   }
 
-  bool _isListening = false;
+  void _startPolling() {
+    _pollingTimer?.cancel();
+    _pollingTimer = Timer.periodic(const Duration(seconds: 30), (_) async {
+      await _updateStockPrices();
+    });
+  }
 
-  void _onStockUpdate(Map<String, dynamic> event) {
+  Future<void> _updateStockPrices() async {
     if (_stocks.isEmpty) return;
 
-    final symbol = event['sym'];
-    final price = (event['c'] as num?)?.toDouble();
+    // Ideally, use a batch endpoint. For now, we loop or use a modified repository method.
+    // To be efficient, we'll fetch details for each.
+    // NOTE: In a production app with rate limits, we should be careful here.
+    // We will iterate and update in place.
 
-    if (symbol != null && price != null) {
-      final index = _stocks.indexWhere((s) => s.symbol == symbol);
-      if (index != -1) {
-        final currentStock = _stocks[index];
-        // Calculate change based on stored previousClose (Yesterday's Close)
-        final prevClose = currentStock.previousClose ?? currentStock.price;
+    for (int i = 0; i < _stocks.length; i++) {
+      try {
+        final details = await _repository.getStockDetails(
+          _stocks[i],
+        ); // Refresh price
 
-        // Calculate new change
-        final change = price - prevClose;
-        final changePercent = (prevClose != 0)
-            ? (change / prevClose) * 100
-            : 0.0;
+        // We just want the latest price/change.
+        // But getStockDetails returns a full object.
 
-        // Update sparkline with new price point
-        List<PricePoint> sparkline = currentStock.sparklineData ?? [];
-        final now = DateTime.now();
-
-        if (sparkline.isNotEmpty) {
-          final lastDate = sparkline.last.date;
-
-          // Check if we entered a new trading day compared to the data we have
-          final isNewDay =
-              now.day != lastDate.day ||
-              now.month != lastDate.month ||
-              now.year != lastDate.year;
-
-          if (isNewDay) {
-            // If the incoming data is for a new day, clear old history and start fresh
-            sparkline = [PricePoint(date: now, price: price)];
-          } else {
-            // Only add if new time (prevent duplicate seconds if any)
-            if (now.difference(lastDate).inSeconds > 0) {
-              sparkline = [...sparkline, PricePoint(date: now, price: price)];
-            }
-          }
-        } else {
-          sparkline = [PricePoint(date: now, price: price)];
-        }
-
-        var updatedStock = currentStock.copyWith(
-          price: price,
-          change: change,
-          changePercent: changePercent,
-          sparklineData: sparkline,
+        _stocks[i] = _stocks[i].copyWith(
+          price: details.price,
+          change: details.change,
+          changePercent: details.changePercent,
         );
 
-        _stocks[index] = updatedStock;
-        notifyListeners();
+        // Optionally refresh sparkline if needed, but maybe too heavy for 30s poll.
+        // Let's stick to price for now.
+      } catch (e) {
+        // ignore error
       }
     }
+    notifyListeners();
   }
+
+  // void _onStockUpdate(Map<String, dynamic> event) { ... } // Removed WebSocket
 
   Future<void> searchStock(String query) async {
     if (query.isEmpty) {
@@ -224,11 +194,12 @@ class StockListController extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      debugPrint('Error fetching sparkline for new stock: $e');
+      // ignore
     }
 
-    // Subscribe to real-time updates
-    _marketDataService.subscribe([stock.symbol]);
+    // Subscribe to polling (automatic via _startPolling logic or explicit update)
+    // If we want immediate update, maybe fetch details again? Already done in addToWatchlist.
+    // _marketDataService.subscribe([stock.symbol]); // Removed WebSocket
   }
 
   /// Remove a stock from the watchlist

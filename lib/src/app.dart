@@ -8,7 +8,7 @@ import 'shared/theme/app_theme.dart';
 import 'shared/theme/theme_controller.dart';
 import 'shared/locale/locale_controller.dart';
 import 'features/market_data/data/stock_repository.dart';
-import 'features/market_data/data/market_data_service.dart';
+// import 'features/market_data/data/market_data_service.dart'; // Deleted
 import 'features/market_data/presentation/stock_list_controller.dart';
 import 'features/onboarding/presentation/onboarding_screen.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
@@ -45,18 +45,15 @@ class _InvestrAppState extends State<InvestrApp> {
     return MultiProvider(
       providers: [
         Provider<StockRepository>(create: (_) => StockRepository()),
-        ProxyProvider<StockRepository, MarketDataService>(
-          update: (_, repo, previous) =>
-              previous ?? MarketDataService(apiKey: repo.apiKey),
-          dispose: (_, service) => service.dispose(),
-        ),
+        // ProxyProvider<StockRepository, MarketDataService>(
+        //   update: (_, repo, previous) =>
+        //       previous ?? MarketDataService(apiKey: repo.apiKey),
+        //   dispose: (_, service) => service.dispose(),
+        // ),
         ChangeNotifierProvider(
           create: (context) =>
-              widget.stockListController ??
-              (StockListController(
-                repository: context.read<StockRepository>(),
-                marketDataService: context.read<MarketDataService>(),
-              )..loadStocks()),
+              (StockListController(repository: context.read<StockRepository>())
+                ..loadStocks()),
           lazy: false,
         ),
         ChangeNotifierProvider(

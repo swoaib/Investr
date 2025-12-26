@@ -1,0 +1,30 @@
+  /// Detects the last valid trading day by checking a major ticker (AAPL).
+  /// This is more reliable than guessing dates on holidays.
+  Future<DateTime> _getLastTradingDay() async {
+    try {
+      final url = Uri.parse(
+        '$_baseUrl/v2/aggs/ticker/AAPL/prev?adjusted=true&apiKey=$_apiKey',
+      );
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] as List<dynamic>?;
+        if (results != null && results.isNotEmpty) {
+          final timestamp = results.first['t'] as int;
+          return DateTime.fromMillisecondsSinceEpoch(timestamp);
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error finding last trading day: $e');
+    }
+
+    // Fallback: yesterday (or friday if weekend)
+    var date = DateTime.now().subtract(const Duration(days: 1));
+    while (date.weekday == DateTime.saturday ||
+        date.weekday == DateTime.sunday) {
+      date = date.subtract(const Duration(days: 1));
+    }
+    return date;
+  }
+}

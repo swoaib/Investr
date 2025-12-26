@@ -37,60 +37,66 @@ class StockRepository {
         return [];
       }
 
-      // 1. Calculate the most recent trading day (typically yesterday)
-      // Grouped Daily data is available for the previous trading day.
-      DateTime date = DateTime.now().subtract(const Duration(days: 1));
-      while (date.weekday == DateTime.saturday ||
-          date.weekday == DateTime.sunday) {
-        date = date.subtract(const Duration(days: 1));
-      }
-      // Simple loop to find previous weekday. Note: This doesn't account for holidays.
-      // If a holiday, the API might return empty, but for this demo it's robust enough.
+      // 1. Get initial date candidate
+      DateTime date = await _getLastTradingDay();
 
-      final dateStr = DateFormat('yyyy-MM-dd').format(date);
-      final url = Uri.parse(
-        '$_baseUrl/v2/aggs/grouped/locale/us/market/stocks/$dateStr?adjusted=true&apiKey=$_apiKey',
-      );
+      // 2. Try fetching data, going back up to 5 days if we hit a holiday (empty results)
+      for (int i = 0; i < 5; i++) {
+        final dateStr = DateFormat('yyyy-MM-dd').format(date);
 
-      final response = await http.get(url);
+        final url = Uri.parse(
+          '$_baseUrl/v2/aggs/grouped/locale/us/market/stocks/$dateStr?adjusted=true&apiKey=$_apiKey',
+        );
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final results = data['results'] as List<dynamic>?;
+        final response = await http.get(url);
 
-        if (results != null) {
-          // Create a lookup map from API results
-          final Map<String, dynamic> resultsMap = {
-            for (var item in results) item['T']: item,
-          };
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
+          final results = data['results'] as List<dynamic>?;
 
-          // Iterate through our PRESERVED watchlist order
-          for (var ticker in watchlistMap.keys) {
-            final item = resultsMap[ticker];
+          if (results != null && results.isNotEmpty) {
+            // Create a lookup map from API results
+            final Map<String, dynamic> resultsMap = {
+              for (var item in results) item['T']: item,
+            };
 
-            if (item != null) {
-              // Found data for this watchlist item
-              final double currentPrice = (item['c'] as num).toDouble();
-              final double openPrice = (item['o'] as num).toDouble();
-              final double change = currentPrice - openPrice;
-              final double changePercent = (openPrice != 0)
-                  ? (change / openPrice) * 100
-                  : 0.0;
+            // Iterate through our PRESERVED watchlist order
+            for (var ticker in watchlistMap.keys) {
+              final item = resultsMap[ticker];
 
-              stocks.add(
-                Stock(
-                  symbol: ticker,
-                  companyName: watchlistMap[ticker]!,
-                  price: currentPrice,
-                  change: change,
-                  changePercent: changePercent,
-                ),
-              );
+              if (item != null) {
+                // Found data for this watchlist item
+                final double currentPrice = (item['c'] as num).toDouble();
+                final double openPrice = (item['o'] as num).toDouble();
+                final double change = currentPrice - openPrice;
+                final changePercent = (openPrice != 0)
+                    ? (change / openPrice) * 100
+                    : 0.0;
+
+                stocks.add(
+                  Stock(
+                    symbol: ticker,
+                    companyName: watchlistMap[ticker]!,
+                    price: currentPrice,
+                    change: change,
+                    changePercent: changePercent,
+                  ),
+                );
+              }
+            }
+            // Success! Break the loop.
+            return stocks;
+          } else {
+            // Empty results (Holiday). Go back 1 day and skip weekends.
+            date = date.subtract(const Duration(days: 1));
+            while (date.weekday == DateTime.saturday ||
+                date.weekday == DateTime.sunday) {
+              date = date.subtract(const Duration(days: 1));
             }
           }
+        } else {
+          throw Exception('Failed to fetch group data: ${response.statusCode}');
         }
-      } else {
-        throw Exception('Failed to fetch group data: ${response.statusCode}');
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching watchlist: $e');
@@ -350,16 +356,12 @@ class StockRepository {
         return points;
       }
 
-      // 2. If empty (e.g. pre-market or holiday), try the PREVIOUS trading day
-      // Go back one day from the 'date' we just tried
-      date = date.subtract(const Duration(days: 1));
-      while (date.weekday == DateTime.saturday ||
-          date.weekday == DateTime.sunday) {
-        date = date.subtract(const Duration(days: 1));
-      }
-
+      // 2. If empty (e.g. pre-market or holiday), use the SCIENTIFICALLY determined last trading day
+      // This avoids just "guessing" yesterday, which fails on holidays.
+      date = await _getLastTradingDay();
       dateStr = DateFormat('yyyy-MM-dd').format(date);
-      // Attempt 2: Fetch for previous trading day
+
+      // Attempt 2: Fetch for the reliable last trading day
       return await _fetchIntradayForDate(symbol, dateStr);
     } catch (e) {
       if (kDebugMode) print('Error fetching intraday for $symbol: $e');
@@ -525,8 +527,16 @@ class StockRepository {
 
     try {
       final List<dynamic> list = json.decode(jsonString);
+      if (list.isEmpty) {
+        if (kDebugMode) {
+          print('Watchlist is empty in prefs. Reseeding defaults.');
+        }
+        await _saveWatchlistMap(_defaultWatchlist);
+        return _defaultWatchlist;
+      }
       return {for (var item in list) item['symbol']: item['name']};
     } catch (e) {
+      if (kDebugMode) print('Error parsing watchlist prefs: $e');
       // Fallback if corrupted
       return _defaultWatchlist;
     }
@@ -559,6 +569,12 @@ class StockRepository {
   Future<void> updateWatchlistOrder(List<Stock> stocks) async {
     final newMap = {for (var s in stocks) s.symbol: s.companyName};
     await _saveWatchlistMap(newMap);
+  }
+
+  /// Resets the watchlist to the hardcoded defaults.
+  /// Used when the watchlist appears corrupted or empty.
+  Future<void> resetToDefaults() async {
+    await _saveWatchlistMap(_defaultWatchlist);
   }
 
   /// Fetches data required for DCF calculation.
@@ -657,5 +673,38 @@ class StockRepository {
       if (kDebugMode) print('Error fetching DCF data for $symbol: $e');
     }
     return null;
+  }
+
+  /// Detects the last valid trading day by checking a major ticker (AAPL).
+  /// This is more reliable than guessing dates on holidays.
+  Future<DateTime> _getLastTradingDay() async {
+    try {
+      final url = Uri.parse(
+        '$_baseUrl/v2/aggs/ticker/AAPL/prev?adjusted=true&apiKey=$_apiKey',
+      );
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] as List<dynamic>?;
+        if (results != null && results.isNotEmpty) {
+          final timestamp = results.first['t'] as int;
+          return DateTime.fromMillisecondsSinceEpoch(timestamp);
+        }
+      } else {
+        // ignore
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      // or just swallow
+    }
+
+    // Fallback: yesterday (or friday if weekend)
+    var date = DateTime.now().subtract(const Duration(days: 1));
+    while (date.weekday == DateTime.saturday ||
+        date.weekday == DateTime.sunday) {
+      date = date.subtract(const Duration(days: 1));
+    }
+    return date;
   }
 }
