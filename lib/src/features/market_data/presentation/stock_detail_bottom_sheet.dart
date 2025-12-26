@@ -581,6 +581,21 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
       }
     }
 
+    // Determine Y-Axis with padding
+    double? minY;
+    double? maxY;
+    if (points.isNotEmpty) {
+      final prices = points.map((p) => p.price);
+      final minPrice = prices.reduce((a, b) => a < b ? a : b);
+      final maxPrice = prices.reduce((a, b) => a > b ? a : b);
+
+      final range = maxPrice - minPrice;
+      final padding = range == 0 ? minPrice * 0.02 : range * 0.05; // 5% padding
+
+      minY = minPrice - padding;
+      maxY = maxPrice + padding;
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -635,6 +650,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                     LineChartData(
                       minX: minX,
                       maxX: maxX,
+                      minY: minY,
+                      maxY: maxY,
                       gridData: FlGridData(
                         show: true,
                         horizontalInterval: null,
