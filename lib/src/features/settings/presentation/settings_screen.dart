@@ -15,8 +15,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notificationsEnabled = true;
-
   @override
   Widget build(BuildContext context) {
     final themeController = context.watch<ThemeController>();
@@ -209,28 +207,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       trailing: trailing ?? const Icon(Icons.chevron_right, color: Colors.grey),
       onTap: onTap,
-    );
-  }
-
-  Widget _buildSwitchTile(
-    BuildContext context, {
-    required String title,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return SwitchListTile(
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppTheme.screenPaddingHorizontal,
-        vertical: 8,
-      ),
-      title: Text(
-        title,
-        style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
-      value: value,
-      onChanged: onChanged,
-      activeTrackColor: AppTheme.primaryGreen,
-      activeThumbColor: Colors.white,
     );
   }
 
