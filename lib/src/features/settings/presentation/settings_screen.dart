@@ -47,99 +47,99 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 16),
               // Upgrade Banner
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: AppTheme.screenPaddingHorizontal,
-                ),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardTheme.color,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(
-                        context,
-                      ).shadowColor.withValues(alpha: 0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryGreen.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.workspace_premium_rounded,
-                        color: AppTheme.primaryGreen,
-                        size: 32,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.upgradeToPro,
-                            style: GoogleFonts.outfit(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            l10n.upgradeToProDesc,
-                            style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.color,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          backgroundColor: AppTheme.primaryGreen,
-                          foregroundColor: Colors.white,
-                        ),
-                        child: Text(
-                          l10n.upgradeNow,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(
+              //     horizontal: AppTheme.screenPaddingHorizontal,
+              //   ),
+              //   padding: const EdgeInsets.all(16),
+              //   decoration: BoxDecoration(
+              //     color: Theme.of(context).cardTheme.color,
+              //     borderRadius: BorderRadius.circular(16),
+              //     boxShadow: [
+              //       BoxShadow(
+              //         color: Theme.of(
+              //           context,
+              //         ).shadowColor.withValues(alpha: 0.05),
+              //         blurRadius: 10,
+              //         offset: const Offset(0, 4),
+              //       ),
+              //     ],
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       Container(
+              //         padding: const EdgeInsets.all(12),
+              //         decoration: BoxDecoration(
+              //           color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+              //           borderRadius: BorderRadius.circular(12),
+              //         ),
+              //         child: const Icon(
+              //           Icons.workspace_premium_rounded,
+              //           color: AppTheme.primaryGreen,
+              //           size: 32,
+              //         ),
+              //       ),
+              //       const SizedBox(width: 16),
+              //       Expanded(
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               l10n.upgradeToPro,
+              //               style: GoogleFonts.outfit(
+              //                 fontWeight: FontWeight.bold,
+              //                 fontSize: 16,
+              //               ),
+              //             ),
+              //             Text(
+              //               l10n.upgradeToProDesc,
+              //               style: TextStyle(
+              //                 color: Theme.of(
+              //                   context,
+              //                 ).textTheme.bodyMedium?.color,
+              //                 fontSize: 12,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       const SizedBox(width: 16),
+              //       Expanded(
+              //         child: ElevatedButton(
+              //           onPressed: () {},
+              //           style: ElevatedButton.styleFrom(
+              //             padding: const EdgeInsets.symmetric(
+              //               horizontal: 16,
+              //               vertical: 8,
+              //             ),
+              //             minimumSize: Size.zero,
+              //             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              //             backgroundColor: AppTheme.primaryGreen,
+              //             foregroundColor: Colors.white,
+              //           ),
+              //           child: Text(
+              //             l10n.upgradeNow,
+              //             textAlign: TextAlign.center,
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // const SizedBox(height: 16),
               // Settings List
-              _buildSettingsTile(
-                context,
-                title: l10n
-                    .about, // Reused 'about' as placeholder for Account since Account wasn't localized
-                onTap: () {},
-              ), // Using 'About' or 'Account' - old code had Account. I don't have Account string. Using About for now or keep hardcoded if needed? The user wants design. I'll stick to 'Account' hardcoded as placeholder or remove it? The l10n file doesn't have Account. I'll omit it or use a placeholder. I'll skip Account to be safe on l10n.
-              _buildSwitchTile(
-                context,
-                title: l10n.enableNotifications,
-                value: _notificationsEnabled,
-                onChanged: (val) => setState(() => _notificationsEnabled = val),
-              ),
+              // _buildSettingsTile(
+              //   context,
+              //   title: l10n
+              //       .about, // Reused 'about' as placeholder for Account since Account wasn't localized
+              //   onTap: () {},
+              // ), // Using 'About' or 'Account' - old code had Account. I don't have Account string. Using About for now or keep hardcoded if needed? The user wants design. I'll stick to 'Account' hardcoded as placeholder or remove it? The l10n file doesn't have Account. I'll omit it or use a placeholder. I'll skip Account to be safe on l10n.
+              // _buildSwitchTile(
+              //   context,
+              //   title: l10n.enableNotifications,
+              //   value: _notificationsEnabled,
+              //   onChanged: (val) => setState(() => _notificationsEnabled = val),
+              // ),
               _buildSettingsTile(
                 context,
                 title: l10n.themeMode,
@@ -175,16 +175,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               // Added Policy links that were in the intermediate version
-              _buildSettingsTile(
-                context,
-                title: l10n.termsOfService,
-                onTap: () {},
-              ),
-              _buildSettingsTile(
-                context,
-                title: l10n.privacyPolicy,
-                onTap: () {},
-              ),
+              // _buildSettingsTile(
+              //   context,
+              //   title: l10n.termsOfService,
+              //   onTap: () {},
+              // ),
+              // _buildSettingsTile(
+              //   context,
+              //   title: l10n.privacyPolicy,
+              //   onTap: () {},
+              // ),
             ],
           ),
         ),
