@@ -8,8 +8,6 @@
 	<string>app-store</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>com.swoaib.investr</key>
-		<string>match AppStore com.swoaib.investr</string>
 	</dict>
 	<key>signingCertificate</key>
 	<string>Apple Distribution</string>
