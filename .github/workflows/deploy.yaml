@@ -5,10 +5,23 @@ on:
     tags:
       - 'v*'
       - '[0-9]*'
+  workflow_dispatch:
+    inputs:
+      deploy_android:
+        description: 'Deploy Android'
+        required: true
+        default: true
+        type: boolean
+      deploy_ios:
+        description: 'Deploy iOS'
+        required: true
+        default: true
+        type: boolean
 
 jobs:
   deploy-android:
     name: Deploy Android to Play Store
+    if: ${{ github.event_name == 'push' || inputs.deploy_android == false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -50,6 +63,7 @@ jobs:
 
   deploy-ios:
     name: Deploy iOS to App Store
+    if: ${{ github.event_name == 'push' || inputs.deploy_ios == true }}
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -88,6 +102,7 @@ jobs:
 
 
       - name: Download Provisioning Profiles
+        id: provisioning
         uses: apple-actions/download-provisioning-profiles@v1
         with:
           bundle-id: 'x.sohaibahmed.investr'
@@ -97,7 +112,10 @@ jobs:
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
 
       - name: Build IPA
-        run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
+        run: |
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision))
+          echo "Using Provisioning Profile UUID: $PROFILE_UUID"
+          flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist -- PROVISIONING_PROFILE_SPECIFIER=$PROFILE_UUID CODE_SIGN_KEYCHAIN=$RUNNER_TEMP/app-signing.keychain-db
 
       - name: Upload to App Store Connect
         uses: Apple-Actions/upload-testflight-build@v1
