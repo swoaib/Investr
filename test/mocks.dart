@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:investr/src/features/market_data/domain/stock.dart';
 import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
 import 'package:investr/src/shared/theme/theme_controller.dart';
+import 'package:investr/src/features/market_data/data/stock_repository.dart';
 
 class MockStockListController extends ChangeNotifier
     implements StockListController {
@@ -54,4 +55,12 @@ class MockThemeController extends ChangeNotifier implements ThemeController {
 
   @override
   Future<void> toggleTheme(bool isDark) async {}
+}
+
+class MockStockRepository implements StockRepository {
+  @override
+  String get apiKey => 'test_key';
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

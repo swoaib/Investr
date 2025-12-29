@@ -17,6 +17,7 @@ class InvestrApp extends StatefulWidget {
   final bool onboardingCompleted;
   final SharedPreferences prefs;
   final StockListController? stockListController;
+  final StockRepository? stockRepository; // [NEW]
   final ThemeController? themeController;
 
   const InvestrApp({
@@ -24,6 +25,7 @@ class InvestrApp extends StatefulWidget {
     required this.onboardingCompleted,
     required this.prefs,
     this.stockListController,
+    this.stockRepository, // [NEW]
     this.themeController,
   });
 
@@ -44,14 +46,12 @@ class _InvestrAppState extends State<InvestrApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<StockRepository>(create: (_) => StockRepository()),
-        // ProxyProvider<StockRepository, MarketDataService>(
-        //   update: (_, repo, previous) =>
-        //       previous ?? MarketDataService(apiKey: repo.apiKey),
-        //   dispose: (_, service) => service.dispose(),
-        // ),
+        Provider<StockRepository>(
+          create: (_) => widget.stockRepository ?? StockRepository(),
+        ),
         ChangeNotifierProvider(
           create: (context) =>
+              widget.stockListController ??
               (StockListController(repository: context.read<StockRepository>())
                 ..loadStocks()),
           lazy: false,

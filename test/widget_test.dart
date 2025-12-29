@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:investr/src/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'mocks.dart';
 
 void main() {
@@ -11,6 +13,7 @@ void main() {
     final prefs = await SharedPreferences.getInstance();
 
     final mockStockListController = MockStockListController();
+    final mockStockRepository = MockStockRepository();
     final mockThemeController = MockThemeController();
 
     // Build our app and trigger a frame.
@@ -19,6 +22,7 @@ void main() {
         onboardingCompleted: false,
         prefs: prefs,
         stockListController: mockStockListController,
+        stockRepository: mockStockRepository,
         themeController: mockThemeController,
       ),
     );
