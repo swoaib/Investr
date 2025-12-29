@@ -8,10 +8,21 @@ import '../domain/price_point.dart';
 import '../domain/earnings_point.dart';
 import '../../valuation/domain/dcf_data.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class StockRepository {
-  final String _apiKey = 'gWdDRuo8TM3Mmy5cXuuwxbFuzpLpuRn1';
+  late final String _apiKey;
   String get apiKey => _apiKey;
   final String _baseUrl = 'https://api.polygon.io';
+
+  StockRepository() {
+    _apiKey = dotenv.env['POLYGON_API_KEY'] ?? '';
+    if (_apiKey.isEmpty) {
+      if (kDebugMode) {
+        print('WARNING: POLYGON_API_KEY is missing in .env');
+      }
+    }
+  }
 
   // Hardcoded list of popular stocks for the dashboard to simulate a "Watchlist"
   static const String _watchlistKey = 'watchlist_v2';
