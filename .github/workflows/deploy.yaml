@@ -75,6 +75,9 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      - name: Create .env
+        run: echo "POLYGON_API_KEY=${{ secrets.POLYGON_API_KEY }}" > .env
+
       - name: Install Apple Certificate and Profile
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
