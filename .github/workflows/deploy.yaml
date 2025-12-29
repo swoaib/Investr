@@ -124,6 +124,9 @@ jobs:
           # Inject UUID into project.pbxproj
           sed -i '' "s/CODE_SIGN_STYLE = Manual;/CODE_SIGN_STYLE = Manual; PROVISIONING_PROFILE_SPECIFIER = \"$PROFILE_UUID\";/g" ios/Runner.xcodeproj/project.pbxproj
           
+          # Inject UUID into ExportOptions.plist
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:x.sohaibahmed.investr string $PROFILE_UUID" ios/Runner/ExportOptions.plist
+          
           flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
 
       - name: Upload to App Store Connect
