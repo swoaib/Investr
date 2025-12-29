@@ -21,7 +21,7 @@ on:
 jobs:
   deploy-android:
     name: Deploy Android to Play Store
-    if: ${{ github.event_name == 'push' || inputs.deploy_android == false }}
+    if: ${{ github.event_name == 'push' || inputs.deploy_android == true }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -113,7 +113,9 @@ jobs:
 
       - name: Build IPA
         run: |
-          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision))
+          PP_PATH=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" | head -n 1)
+          echo "Found profile at: $PP_PATH"
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i "$PP_PATH"))
           echo "Using Provisioning Profile UUID: $PROFILE_UUID"
           flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist -- PROVISIONING_PROFILE_SPECIFIER=$PROFILE_UUID CODE_SIGN_KEYCHAIN=$RUNNER_TEMP/app-signing.keychain-db
 
