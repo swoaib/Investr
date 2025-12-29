@@ -106,7 +106,7 @@ jobs:
 
       - name: Download Provisioning Profiles
         id: provisioning
-        uses: apple-actions/download-provisioning-profiles@v1
+        uses: apple-actions/download-provisioning-profiles@v3
         with:
           bundle-id: 'x.sohaibahmed.investr'
           profile-type: 'IOS_APP_STORE'
@@ -117,6 +117,7 @@ jobs:
       - name: Build IPA
         id: build
         run: |
+          # ... (build script remains unchanged) ...
           PP_PATH=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" | head -n 1)
           echo "Found profile at: $PP_PATH"
           PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i "$PP_PATH"))
@@ -135,7 +136,7 @@ jobs:
           echo "ipa_path=$IPA_PATH" >> $GITHUB_OUTPUT
 
       - name: Upload to App Store Connect
-        uses: Apple-Actions/upload-testflight-build@v1
+        uses: Apple-Actions/upload-testflight-build@v3
         with:
           app-path: ${{ steps.build.outputs.ipa_path }}
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
