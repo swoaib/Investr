@@ -115,6 +115,7 @@ jobs:
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
 
       - name: Build IPA
+        id: build
         run: |
           PP_PATH=$(find ~/Library/MobileDevice/Provisioning\ Profiles -name "*.mobileprovision" | head -n 1)
           echo "Found profile at: $PP_PATH"
@@ -128,11 +129,15 @@ jobs:
           /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:x.sohaibahmed.investr string $PROFILE_UUID" ios/Runner/ExportOptions.plist
           
           flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
+          
+          # Output the IPA path for the next step
+          IPA_PATH=$(find build/ios/ipa -name "*.ipa" | head -n 1)
+          echo "ipa_path=$IPA_PATH" >> $GITHUB_OUTPUT
 
       - name: Upload to App Store Connect
         uses: Apple-Actions/upload-testflight-build@v1
         with:
-          app-path: build/ios/ipa/*.ipa
+          app-path: ${{ steps.build.outputs.ipa_path }}
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
