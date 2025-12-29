@@ -17,6 +17,9 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Create .env
+        run: echo "POLYGON_API_KEY=${{ secrets.POLYGON_API_KEY }}" > .env
+
       - name: Install dependencies
         run: flutter pub get
 

@@ -2,8 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:investr/src/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'mocks.dart';
 
 void main() {
