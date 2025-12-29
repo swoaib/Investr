@@ -43,7 +43,7 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
-          packageName: com.sohaibahmed.investr
+          packageName: x.sohaibahmed.investr
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
           track: production
           status: draft
@@ -88,7 +88,8 @@ jobs:
 
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i $PP_PATH))
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
 
       - name: Build IPA
         run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
