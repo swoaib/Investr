@@ -117,7 +117,11 @@ jobs:
           echo "Found profile at: $PP_PATH"
           PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i "$PP_PATH"))
           echo "Using Provisioning Profile UUID: $PROFILE_UUID"
-          flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist -- PROVISIONING_PROFILE_SPECIFIER=$PROFILE_UUID CODE_SIGN_KEYCHAIN=$RUNNER_TEMP/app-signing.keychain-db
+          
+          # Inject UUID into project.pbxproj
+          sed -i '' "s/CODE_SIGN_STYLE = Manual;/CODE_SIGN_STYLE = Manual; PROVISIONING_PROFILE_SPECIFIER = \"$PROFILE_UUID\";/g" ios/Runner.xcodeproj/project.pbxproj
+          
+          flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
 
       - name: Upload to App Store Connect
         uses: Apple-Actions/upload-testflight-build@v1
