@@ -12,6 +12,7 @@ import 'features/market_data/data/stock_repository.dart';
 import 'features/market_data/presentation/stock_list_controller.dart';
 import 'features/onboarding/presentation/onboarding_screen.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
+import 'features/alerts/data/alerts_repository.dart';
 
 class InvestrApp extends StatefulWidget {
   final bool onboardingCompleted;
@@ -61,6 +62,7 @@ class _InvestrAppState extends State<InvestrApp> {
               widget.themeController ?? ThemeController(widget.prefs),
         ),
         ChangeNotifierProvider(create: (_) => LocaleController(widget.prefs)),
+        Provider<AlertsRepository>(create: (_) => AlertsRepository()),
       ],
       child: Consumer2<ThemeController, LocaleController>(
         builder: (context, themeController, localeController, child) {

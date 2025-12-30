@@ -11,6 +11,7 @@ import '../domain/price_point.dart';
 import '../domain/stock.dart';
 import '../domain/earnings_point.dart';
 import 'earnings_chart.dart';
+import '../../alerts/presentation/alert_dialog.dart';
 
 class StockDetailBottomSheet extends StatefulWidget {
   final Stock stock;
@@ -350,6 +351,18 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                       ),
                     ],
                   ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => SetAlertDialog(
+                        symbol: _stock.symbol,
+                        currentPrice: _stock.price,
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.notifications_active_outlined),
                 ),
                 Flexible(
                   flex: 1,
