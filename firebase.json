@@ -1,17 +1,1 @@
-{
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "disallowLegacyRuntimeConfig": true,
-      "ignore": [
-        "venv",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
-      ],
-      "runtime": "python311"
-    }
-  ]
-}
+{"functions":[{"source":"functions","codebase":"default","disallowLegacyRuntimeConfig":true,"ignore":["venv",".git","firebase-debug.log","firebase-debug.*.log","*.local"],"runtime":"python311"}],"flutter":{"platforms":{"android":{"default":{"projectId":"investr-13bc4","appId":"1:995321223544:android:e444ebe2b4cd15441cd08d","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"investr-13bc4","appId":"1:995321223544:ios:005e0488a09fa52b1cd08d","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"investr-13bc4","configurations":{"android":"1:995321223544:android:e444ebe2b4cd15441cd08d","ios":"1:995321223544:ios:005e0488a09fa52b1cd08d"}}}}}}

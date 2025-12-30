@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../data/alerts_repository.dart';
 import '../domain/stock_alert.dart';
-import '../../../../shared/theme/app_theme.dart';
+import '../../../shared/theme/app_theme.dart';
 
 class SetAlertDialog extends StatefulWidget {
   final String symbol;
