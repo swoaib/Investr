@@ -363,7 +363,7 @@ class StockRepository {
       // Attempt 1: Fetch for the calculated date
       List<PricePoint> points = await _fetchIntradayForDate(symbol, dateStr);
 
-      if (points.isNotEmpty) {
+      if (points.isNotEmpty && _hasRegularMarketData(points)) {
         return points;
       }
 
@@ -717,5 +717,50 @@ class StockRepository {
       date = date.subtract(const Duration(days: 1));
     }
     return date;
+  }
+
+  bool _hasRegularMarketData(List<PricePoint> points) {
+    for (var p in points) {
+      final utcTime = p.date.toUtc();
+      final isDST = _isUSDST(utcTime);
+
+      // ET is UTC-4 (DST) or UTC-5 (Standard)
+      // Open: 09:30 ET -> 13:30 UTC (DST) or 14:30 UTC (Std)
+      // Close: 16:00 ET -> 20:00 UTC (DST) or 21:00 UTC (Std)
+      final openHour = isDST ? 13 : 14;
+      final closeHour = isDST ? 20 : 21;
+
+      final hour = utcTime.hour;
+      final minute = utcTime.minute;
+
+      final isAfterOpen = hour > openHour || (hour == openHour && minute >= 30);
+      final isBeforeClose =
+          hour < closeHour || (hour == closeHour && minute == 0);
+
+      if (isAfterOpen && isBeforeClose) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool _isUSDST(DateTime utcTime) {
+    final year = utcTime.year;
+    // 2nd Sunday in March
+    var secondSundayMarch = DateTime.utc(year, 3, 1);
+    while (secondSundayMarch.weekday != DateTime.sunday) {
+      secondSundayMarch = secondSundayMarch.add(const Duration(days: 1));
+    }
+    secondSundayMarch = secondSundayMarch.add(const Duration(days: 7));
+    final dstStart = DateTime.utc(year, 3, secondSundayMarch.day, 7);
+
+    // 1st Sunday in November
+    var firstSundayNov = DateTime.utc(year, 11, 1);
+    while (firstSundayNov.weekday != DateTime.sunday) {
+      firstSundayNov = firstSundayNov.add(const Duration(days: 1));
+    }
+    final dstEnd = DateTime.utc(year, 11, firstSundayNov.day, 6);
+
+    return utcTime.isAfter(dstStart) && utcTime.isBefore(dstEnd);
   }
 }
