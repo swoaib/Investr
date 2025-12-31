@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:investr/l10n/app_localizations.dart';
+
 import '../data/alerts_repository.dart';
 import '../domain/stock_alert.dart';
 import '../../../shared/theme/app_theme.dart';
@@ -30,17 +30,7 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
   void initState() {
     super.initState();
     _controller.text = widget.currentPrice.toStringAsFixed(2);
-    // Initial guess
-    // If not changed, defaults to above.
-  }
-
-  void _updateCondition() {
-    final price = double.tryParse(_controller.text);
-    if (price != null) {
-      setState(() {
-        _condition = price > widget.currentPrice ? 'above' : 'below';
-      });
-    }
+    // Determine default based on logic, but user can change it
   }
 
   Future<void> _saveAlert() async {
@@ -75,7 +65,7 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Alert set for ${widget.symbol} at \$${price.toStringAsFixed(2)}',
+              'Alert set for ${widget.symbol} when price is $_condition \$${price.toStringAsFixed(2)}',
             ),
             backgroundColor: AppTheme.primaryGreen,
           ),
@@ -94,34 +84,79 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AlertDialog(
-      title: Text('Set Alert for ${widget.symbol}'),
+      title: Text(
+        'Set Alert for ${widget.symbol}',
+        style: theme.textTheme.titleLarge,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Notify me when price goes $_condition:'),
-          const SizedBox(height: 16),
+          Text('Notify me when price goes:', style: theme.textTheme.bodyMedium),
+          const SizedBox(height: 12),
+          SegmentedButton<String>(
+            segments: const [
+              ButtonSegment<String>(
+                value: 'above',
+                label: Text('Above'),
+                icon: Icon(Icons.trending_up),
+              ),
+              ButtonSegment<String>(
+                value: 'below',
+                label: Text('Below'),
+                icon: Icon(Icons.trending_down),
+              ),
+            ],
+            selected: <String>{_condition},
+            onSelectionChanged: (Set<String> newSelection) {
+              setState(() {
+                _condition = newSelection.first;
+              });
+            },
+            style: ButtonStyle(
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              visualDensity: VisualDensity.compact,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text('Target Price:', style: theme.textTheme.bodyMedium),
+          const SizedBox(height: 8),
           TextField(
             controller: _controller,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(
+            style: theme.textTheme.headlineSmall,
+            decoration: InputDecoration(
               prefixText: '\$ ',
-              border: OutlineInputBorder(),
+              hintText: '0.00',
+              filled: true,
+              fillColor: theme.colorScheme.surfaceContainerHighest,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
             ),
-            onChanged: (val) => _updateCondition(),
           ),
         ],
       ),
+      actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
         ),
-        ElevatedButton(
+        FilledButton(
           onPressed: _isLoading ? null : _saveAlert,
-          style: ElevatedButton.styleFrom(
+          style: FilledButton.styleFrom(
             backgroundColor: AppTheme.primaryGreen,
             foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           ),
           child: _isLoading
               ? const SizedBox(
@@ -132,7 +167,7 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
                     color: Colors.white,
                   ),
                 )
-              : const Text('Set Alert'),
+              : const Text('Create Alert'),
         ),
       ],
     );

@@ -333,7 +333,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  flex: 2,
+                  flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -352,30 +352,50 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                     ],
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => SetAlertDialog(
-                        symbol: _stock.symbol,
-                        currentPrice: _stock.price,
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.notifications_active_outlined),
-                ),
+
+                // Alert Icon removed from here
                 Flexible(
                   flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        _selectedPoint != null
-                            ? currencyFormat.format(_selectedPoint!.price)
-                            : currencyFormat.format(_stock.price),
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton.outlined(
+                            visualDensity: VisualDensity.compact,
+                            style: IconButton.styleFrom(
+                              side: BorderSide(
+                                color: theme.colorScheme.primary.withValues(
+                                  alpha: 0.5,
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => SetAlertDialog(
+                                  symbol: _stock.symbol,
+                                  currentPrice: _stock.price,
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.notifications_outlined,
+                              size: 20,
+                            ),
+                            tooltip: 'Set Price Alert',
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            _selectedPoint != null
+                                ? currencyFormat.format(_selectedPoint!.price)
+                                : currencyFormat.format(_stock.price),
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         _selectedPoint != null
@@ -392,6 +412,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
               ],
             ),
           ),
+
+          const SizedBox(height: 16),
 
           // Tab Bar
           TabBar(

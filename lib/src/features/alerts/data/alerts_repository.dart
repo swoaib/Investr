@@ -25,7 +25,35 @@ class AlertsRepository {
       }
 
       // 2. Get FCM Token
-      String? token = await _messaging.getToken();
+      // 2. Get FCM Token (Wait for APNS on iOS)
+      String? token;
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        String? apnsToken = await _messaging.getAPNSToken();
+        if (apnsToken == null) {
+          // Wait up to 3 seconds for APNS token
+          await Future.delayed(const Duration(seconds: 1));
+          apnsToken = await _messaging.getAPNSToken();
+          if (apnsToken == null) {
+            await Future.delayed(const Duration(seconds: 2));
+            apnsToken = await _messaging.getAPNSToken();
+          }
+        }
+        if (apnsToken != null) {
+          token = await _messaging.getToken();
+        } else {
+          debugPrint(
+            'APNS Token not available. Notifications may not work on Simulator.',
+          );
+          // Attempt getToken anyway, though it may fail or be null
+          try {
+            token = await _messaging.getToken();
+          } catch (e) {
+            debugPrint('Failed to get FCM token without APNS: $e');
+          }
+        }
+      } else {
+        token = await _messaging.getToken();
+      }
 
       // 3. Prepare Data
       final data = alert.toMap();
