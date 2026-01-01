@@ -68,10 +68,9 @@ class AlertsManagementScreen extends StatelessWidget {
             );
           }
 
-          return ListView.separated(
+          return ListView.builder(
             padding: const EdgeInsets.only(top: 16),
             itemCount: alerts.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final alert = alerts[index];
               return Slidable(
