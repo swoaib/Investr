@@ -52,14 +52,14 @@ class AlertsManagementScreen extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.notifications_off_outlined,
-                    size: 64,
+                    size: 48,
                     color: isDark ? Colors.white54 : Colors.grey,
                   ),
                   const SizedBox(height: 16),
                   Text(
                     'No active alerts',
-                    style: GoogleFonts.outfit(
-                      fontSize: 18,
+                    style: TextStyle(
+                      fontSize: 16,
                       color: isDark ? Colors.white54 : Colors.grey,
                     ),
                   ),
@@ -69,7 +69,7 @@ class AlertsManagementScreen extends StatelessWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(top: 16),
             itemCount: alerts.length,
             separatorBuilder: (context, index) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
@@ -106,31 +106,22 @@ class AlertsManagementScreen extends StatelessWidget {
                     ],
                   ),
                   child: ListTile(
-                    contentPadding: const EdgeInsets.all(16),
-                    leading: CircleAvatar(
-                      backgroundColor: AppTheme.primaryGreen.withValues(
-                        alpha: 0.1,
-                      ),
-                      child: Text(
-                        alert.symbol.substring(0, 1),
-                        style: GoogleFonts.outfit(
-                          color: AppTheme.primaryGreen,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
                     title: Text(
                       alert.symbol,
-                      style: GoogleFonts.outfit(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     subtitle: Text(
                       'Target: ${alert.condition == "above" ? "Above" : "Below"} \$${alert.targetPrice.toStringAsFixed(2)}',
-                      style: GoogleFonts.outfit(color: Colors.grey),
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 12,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    trailing: Switch.adaptive(
+                    trailing: Switch(
                       value: alert.isActive,
                       activeTrackColor: AppTheme.primaryGreen,
                       onChanged: (val) {
