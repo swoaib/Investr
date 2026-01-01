@@ -39,6 +39,9 @@ class AppLocalizationsNo extends AppLocalizations {
   String get marketAlerts => 'Markedsvarsler';
 
   @override
+  String get manageAlerts => 'Administrer varsler';
+
+  @override
   String get about => 'Om';
 
   @override

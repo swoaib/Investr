@@ -82,4 +82,34 @@ class AlertsRepository {
           }).toList();
         });
   }
+
+  Future<void> deleteAlert(String alertId) async {
+    try {
+      await _firestore.collection('alerts').doc(alertId).delete();
+    } catch (e) {
+      debugPrint('Error deleting alert: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> updateAlert(StockAlert alert) async {
+    try {
+      final data = alert.toMap();
+      // Remove createdAt so we don't overwrite it (optional, but good practice)
+      data.remove('createdAt');
+      await _firestore.collection('alerts').doc(alert.id).update(data);
+    } catch (e) {
+      debugPrint('Error updating alert: $e');
+      rethrow;
+    }
+  }
+
+  Future<int> getAlertCount(String userId) async {
+    final snapshot = await _firestore
+        .collection('alerts')
+        .where('userId', isEqualTo: userId)
+        .count()
+        .get();
+    return snapshot.count ?? 0;
+  }
 }

@@ -141,5 +141,14 @@ def send_notification(alert, current_price):
     try:
         response = messaging.send(message)
         print(f"Successfully sent message: {response}")
+    except messaging.UnregisteredError:
+        print(f"Token unregistered. Deleting alert {alert['id']}...")
+        db = firestore.client()
+        db.collection("alerts").document(alert['id']).delete()
+    except messaging.SenderIdMismatchError: 
+         print(f"Sender ID mismatch for alert {alert['id']}.")
     except Exception as e:
         print(f"Error sending FCM: {e}")
+        # Build logic to cleanup garbage tokens (e.g. 'InvalidArgument')
+        # if "some_error_code" in str(e):
+        #    db.collection("alerts").document(alert['id']).delete()

@@ -160,6 +160,12 @@ abstract class AppLocalizations {
   /// **'Market alerts'**
   String get marketAlerts;
 
+  /// No description provided for @manageAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Alerts'**
+  String get manageAlerts;
+
   /// No description provided for @about.
   ///
   /// In en, this message translates to:

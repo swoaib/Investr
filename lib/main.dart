@@ -6,6 +6,7 @@ import 'src/app.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,11 @@ void main() async {
 
   // Initialize Firebase with the generated options
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Sign in anonymously (if not already signed in)
+  if (FirebaseAuth.instance.currentUser == null) {
+    await FirebaseAuth.instance.signInAnonymously();
+  }
 
   // Setup Foreground Notifications
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

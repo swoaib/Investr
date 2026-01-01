@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/alerts_repository.dart';
@@ -40,11 +41,23 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
     setState(() => _isLoading = true);
 
     try {
-      final prefs = await SharedPreferences.getInstance();
-      var userId = prefs.getString('user_device_id');
+      final userId = FirebaseAuth.instance.currentUser?.uid;
       if (userId == null) {
-        userId = const Uuid().v4();
-        await prefs.setString('user_device_id', userId);
+        throw Exception('User not signed in');
+      }
+
+      final repo = context.read<AlertsRepository>();
+      final currentCount = await repo.getAlertCount(userId);
+
+      if (currentCount >= 3) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('You can only create 3 alerts.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
       }
 
       final alert = StockAlert(

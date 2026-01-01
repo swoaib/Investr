@@ -39,6 +39,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get marketAlerts => '市場アラート';
 
   @override
+  String get manageAlerts => 'アラート管理';
+
+  @override
   String get about => 'アプリについて';
 
   @override
