@@ -8,7 +8,7 @@ initialize_app()
 # TODO: Add your Polygon.io API Key here or in Cloud Function Environment Variables
 POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY", "gWdDRuo8TM3Mmy5cXuuwxbFuzpLpuRn1")
 
-@scheduler_fn.on_schedule(schedule="every 24 hours")
+@scheduler_fn.on_schedule(schedule="every 1 hours")
 def check_price_alerts(event: scheduler_fn.ScheduledEvent) -> None:
     db = firestore.client()
     alerts_ref = db.collection("alerts").where("isActive", "==", True)
@@ -73,24 +73,54 @@ def check_price_alerts(event: scheduler_fn.ScheduledEvent) -> None:
 
 def fetch_prices(symbols):
     """
-    Fetches prices for a list of symbols.
-    Note: For production, use Polygon's Snapshot API to get all at once.
-    Here we loop for simplicity/demo.
+    Fetches prices for a list of symbols using Polygon's Snapshot API.
+    Uses chunking to handle URL length limits and efficient batch retrieval.
     """
     prices = {}
-    for symbol in symbols:
+    
+    # Remove duplicates and filter empty
+    unique_symbols = [s for s in set(symbols) if s]
+    if not unique_symbols:
+        return prices
+
+    # Chunk symbols into groups of 50 to avoid URL length limits
+    chunk_size = 50
+    for i in range(0, len(unique_symbols), chunk_size):
+        chunk = unique_symbols[i:i + chunk_size]
+        tickers_param = ",".join(chunk)
+        
         try:
-            # Using Polygon Last Trade endpoint
-            url = f"https://api.polygon.io/v2/last/trade/{symbol}?apiKey={POLYGON_API_KEY}"
+            # Use Snapshot API: https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers
+            url = f"https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?tickers={tickers_param}&apiKey={POLYGON_API_KEY}"
             resp = requests.get(url, timeout=10)
+            
             if resp.status_code == 200:
                 data = resp.json()
-                # polygon response: {"results": {"p": 150.00, ...}}
-                price = data.get('results', {}).get('p')
-                if price:
-                    prices[symbol] = float(price)
+                # Response usually contains 'tickers' or 'results' list
+                ticker_data_list = data.get('tickers', data.get('results', []))
+                
+                for item in ticker_data_list:
+                    ticker = item.get('ticker')
+                    price = None
+                    
+                    # Priority: Last Trade > Min Close > Day Close > Previous Close
+                    if 'lastTrade' in item and 'p' in item['lastTrade']:
+                        price = item['lastTrade']['p']
+                    elif 'min' in item and 'c' in item['min']:
+                        price = item['min']['c']
+                    elif 'day' in item and 'c' in item['day']:
+                        price = item['day']['c']
+                    elif 'prevDay' in item and 'c' in item['prevDay']:
+                        price = item['prevDay']['c']
+                    
+                    if ticker and price is not None:
+                        prices[ticker] = float(price)
+            else:
+                print(f"Error fetching snapshot for chunk: Status {resp.status_code}, {resp.text}")
+                
         except Exception as e:
-            print(f"Error fetching price for {symbol}: {e}")
+            print(f"Exception fetching prices for chunk {chunk}: {e}")
+            
     return prices
 
 def send_notification(alert, current_price):
