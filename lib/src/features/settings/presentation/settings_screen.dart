@@ -6,6 +6,7 @@ import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/locale/locale_controller.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+import 'alerts_management_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -138,6 +139,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
               //   value: _notificationsEnabled,
               //   onChanged: (val) => setState(() => _notificationsEnabled = val),
               // ),
+              _buildSettingsTile(
+                context,
+                title: l10n.manageAlerts,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AlertsManagementScreen(),
+                    ),
+                  );
+                },
+              ),
               _buildSettingsTile(
                 context,
                 title: l10n.themeMode,

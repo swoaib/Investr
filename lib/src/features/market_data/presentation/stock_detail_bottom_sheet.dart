@@ -11,6 +11,10 @@ import '../domain/price_point.dart';
 import '../domain/stock.dart';
 import '../domain/earnings_point.dart';
 import 'earnings_chart.dart';
+import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
+import '../../alerts/presentation/alert_dialog.dart';
+
+enum StockDetailView { overview, earnings }
 
 class StockDetailBottomSheet extends StatefulWidget {
   final Stock stock;
@@ -21,8 +25,7 @@ class StockDetailBottomSheet extends StatefulWidget {
   State<StockDetailBottomSheet> createState() => _StockDetailBottomSheetState();
 }
 
-class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
-    with SingleTickerProviderStateMixin {
+class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   late final StockRepository _repository;
   // late final MarketDataService _marketDataService; // Removed WebSocket
   // late final StreamSubscription _subscription; // Removed WebSocket
@@ -35,15 +38,14 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
   DateTime? _customEndDate;
   PricePoint? _selectedPoint;
 
-  late TabController _tabController;
-  int _currentTabIndex = 0;
+  Set<StockDetailView> _selectedView = {StockDetailView.overview};
 
   @override
   void initState() {
     super.initState();
     _stock = widget.stock;
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(_handleTabSelection);
+    // _tabController = TabController(length: 2, vsync: this);
+    // _tabController.addListener(_handleTabSelection);
 
     // Initialize Services from Provider
     _repository = context.read<StockRepository>();
@@ -68,24 +70,21 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
   @override
   void dispose() {
     _refreshTimer?.cancel();
-    _tabController.dispose();
+    // _tabController.dispose();
     // _subscription.cancel(); // Removed WebSocket
     super.dispose();
   }
 
   // void _onStockUpdate(Map<String, dynamic> event) { ... } // Removed WebSocket
 
-  void _handleTabSelection() {
-    if (_tabController.indexIsChanging ||
-        _tabController.index != _currentTabIndex) {
-      setState(() {
-        _currentTabIndex = _tabController.index;
-      });
-      if (_currentTabIndex == 1 &&
-          _earningsHistory.isEmpty &&
-          !_isEarningsLoading) {
-        _fetchEarnings();
-      }
+  void _handleViewSelection(Set<StockDetailView> newSelection) {
+    setState(() {
+      _selectedView = newSelection;
+    });
+    if (_selectedView.contains(StockDetailView.earnings) &&
+        _earningsHistory.isEmpty &&
+        !_isEarningsLoading) {
+      _fetchEarnings();
     }
   }
 
@@ -332,7 +331,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  flex: 2,
+                  flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -351,18 +350,25 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
                     ],
                   ),
                 ),
+
+                // Alert Icon removed from here
                 Flexible(
                   flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        _selectedPoint != null
-                            ? currencyFormat.format(_selectedPoint!.price)
-                            : currencyFormat.format(_stock.price),
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            _selectedPoint != null
+                                ? currencyFormat.format(_selectedPoint!.price)
+                                : currencyFormat.format(_stock.price),
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         _selectedPoint != null
@@ -380,17 +386,90 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
             ),
           ),
 
-          // Tab Bar
-          TabBar(
-            controller: _tabController,
-            dividerColor: Colors.transparent,
-            indicatorColor: color,
-            labelColor: color,
-            unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(text: l10n.overview),
-              Tab(text: l10n.earnings),
-            ],
+          const SizedBox(height: 16),
+
+          // Control Row
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                SegmentedButton<StockDetailView>(
+                  segments: [
+                    ButtonSegment<StockDetailView>(
+                      value: StockDetailView.overview,
+                      label: Text(l10n.overview),
+                    ),
+                    ButtonSegment<StockDetailView>(
+                      value: StockDetailView.earnings,
+                      label: Text(l10n.earnings),
+                    ),
+                  ],
+                  selected: _selectedView,
+                  onSelectionChanged: _handleViewSelection,
+                  showSelectedIcon: false,
+                  style: ButtonStyle(
+                    visualDensity: VisualDensity.compact,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    //padding: WidgetStateProperty.all(EdgeInsets.zero),
+                  ),
+                ),
+                const Spacer(),
+                // Alert Button
+                IconButton.outlined(
+                  visualDensity: VisualDensity.compact,
+                  style: IconButton.styleFrom(
+                    side: BorderSide(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => SetAlertDialog(
+                        symbol: _stock.symbol,
+                        currentPrice: _stock.price,
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.notifications_outlined, size: 20),
+                  tooltip: 'Set Price Alert',
+                ),
+                const SizedBox(width: 8),
+                // Watchlist Button
+                Consumer<StockListController>(
+                  builder: (context, controller, child) {
+                    final isInWatchlist = controller.isInWatchlist(
+                      _stock.symbol,
+                    );
+                    return IconButton.outlined(
+                      visualDensity: VisualDensity.compact,
+                      style: IconButton.styleFrom(
+                        side: BorderSide(
+                          color: isInWatchlist
+                              ? theme.colorScheme.primary.withValues(alpha: 0.5)
+                              : Colors.grey.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (isInWatchlist) {
+                          controller.removeFromWatchlist(_stock);
+                        } else {
+                          controller.addToWatchlist(_stock);
+                        }
+                      },
+                      icon: Icon(
+                        isInWatchlist ? Icons.check : Icons.add,
+                        size: 20,
+                        color: isInWatchlist ? theme.colorScheme.primary : null,
+                      ),
+                      tooltip: isInWatchlist
+                          ? 'Remove from Watchlist'
+                          : 'Add to Watchlist',
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 16),
@@ -400,7 +479,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet>
             duration: const Duration(milliseconds: 300),
             curve: Curves.fastOutSlowIn,
             alignment: Alignment.topCenter,
-            child: _currentTabIndex == 0
+            child: _selectedView.contains(StockDetailView.overview)
                 ? _buildOverviewTab(theme, color, points, l10n)
                 : _buildEarningsTab(theme, color, l10n),
           ),
