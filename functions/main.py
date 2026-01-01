@@ -1,14 +1,14 @@
-from firebase_functions import scheduler_fn
+from firebase_functions import scheduler_fn, params
 from firebase_admin import initialize_app, firestore, messaging
 import requests
 import os
 
 initialize_app()
 
-# TODO: Add your Polygon.io API Key here or in Cloud Function Environment Variables
-POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY", "gWdDRuo8TM3Mmy5cXuuwxbFuzpLpuRn1")
+# Define the secret parameter
+POLYGON_API_KEY = params.SecretParam("POLYGON_API_KEY")
 
-@scheduler_fn.on_schedule(schedule="every 1 hours")
+@scheduler_fn.on_schedule(schedule="every 1 hours", secrets=[POLYGON_API_KEY])
 def check_price_alerts(event: scheduler_fn.ScheduledEvent) -> None:
     db = firestore.client()
     alerts_ref = db.collection("alerts").where("isActive", "==", True)
@@ -91,7 +91,7 @@ def fetch_prices(symbols):
         
         try:
             # Use Snapshot API: https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers
-            url = f"https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?tickers={tickers_param}&apiKey={POLYGON_API_KEY}"
+            url = f"https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?tickers={tickers_param}&apiKey={POLYGON_API_KEY.value}"
             resp = requests.get(url, timeout=10)
             
             if resp.status_code == 200:
