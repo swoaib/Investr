@@ -498,16 +498,45 @@ class StockRepository {
   ) async {
     try {
       final encodedQuery = Uri.encodeComponent(query.toUpperCase());
+      // Increased limit from 10 to 100 to catch relevant tickers that might be ranked lower by the API
+      // Removed market=stocks to allow OTC stocks (e.g. NTDOY), filtering indices/forex client-side instead.
       final url = Uri.parse(
-        '$_baseUrl/v3/reference/tickers?search=$encodedQuery&active=true&limit=10&apiKey=$_apiKey',
+        '$_baseUrl/v3/reference/tickers?search=$encodedQuery&active=true&limit=100&apiKey=$_apiKey',
       );
 
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        final results = data['results'] as List<dynamic>?;
+        var results = listCast<dynamic>(data['results']);
 
         if (results != null && results.isNotEmpty) {
+          // Filter out Indices (I:...) and Forex/Currencies (C:...) or any other weird formats with colons
+          results = results.where((item) {
+            final ticker = item['ticker'] as String;
+            return !ticker.contains(':');
+          }).toList();
+
+          final q = query.toUpperCase();
+
+          // Client-side relevance sorting
+          results.sort((a, b) {
+            final tickerA = (a['ticker'] as String).toUpperCase();
+            final tickerB = (b['ticker'] as String).toUpperCase();
+
+            // 1. Exact match priority
+            if (tickerA == q && tickerB != q) return -1;
+            if (tickerB == q && tickerA != q) return 1;
+
+            // 2. Prefix match priority (e.g. "NIO" starts with "NIO", "ANION" does not)
+            final aStarts = tickerA.startsWith(q);
+            final bStarts = tickerB.startsWith(q);
+            if (aStarts && !bStarts) return -1;
+            if (bStarts && !aStarts) return 1;
+
+            // 3. Fallback to default order (usually alphabetical)
+            return 0;
+          });
+
           return results
               .map(
                 (result) => (
@@ -522,6 +551,14 @@ class StockRepository {
       if (kDebugMode) print('Error searching ticker for $query: $e');
     }
     return [];
+  }
+
+  /// Helper to safely cast JSON list
+  List<T>? listCast<T>(dynamic list) {
+    if (list is List) {
+      return list.cast<T>();
+    }
+    return null;
   }
 
   // Encryption/Persistence Helpers
