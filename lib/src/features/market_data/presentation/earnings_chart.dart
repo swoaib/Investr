@@ -21,7 +21,7 @@ class EarningsChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color = AppTheme.primaryGreen;
+    // color variable was unused
     final isRevenue = metric == 'Revenue';
     final l10n = AppLocalizations.of(context)!;
 
@@ -134,12 +134,12 @@ class EarningsChart extends StatelessWidget {
                           // Highlight zero line slightly more visible
                           if (value == 0) {
                             return FlLine(
-                              color: Colors.grey.withOpacity(0.3),
+                              color: Colors.grey.withValues(alpha: 0.3),
                               strokeWidth: 1,
                             );
                           }
                           return FlLine(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             strokeWidth: 1,
                           );
                         },
