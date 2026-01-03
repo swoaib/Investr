@@ -291,13 +291,28 @@ class StockRepository {
 
             final epsNode = incomeStatement?['basic_earnings_per_share'];
             final revNode = incomeStatement?['revenues'];
+            final netIncomeNode = incomeStatement?['net_income_loss'];
+            final grossProfitNode = incomeStatement?['gross_profit'];
+            final opIncomeNode = incomeStatement?['operating_income_loss'];
 
             if (epsNode != null || revNode != null) {
               final epsVal = (epsNode?['value'] as num?)?.toDouble() ?? 0.0;
               final revVal = (revNode?['value'] as num?)?.toDouble() ?? 0.0;
+              final netVal =
+                  (netIncomeNode?['value'] as num?)?.toDouble() ?? 0.0;
+              final grossVal =
+                  (grossProfitNode?['value'] as num?)?.toDouble() ?? 0.0;
+              final opVal = (opIncomeNode?['value'] as num?)?.toDouble() ?? 0.0;
 
               points.add(
-                EarningsPoint(period: label, eps: epsVal, revenue: revVal),
+                EarningsPoint(
+                  period: label,
+                  eps: epsVal,
+                  revenue: revVal,
+                  netIncome: netVal,
+                  grossProfit: grossVal,
+                  operatingIncome: opVal,
+                ),
               );
             }
           }

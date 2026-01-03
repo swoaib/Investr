@@ -134,13 +134,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   List<PricePoint>? _monthlyHistory;
   List<EarningsPoint> _earningsHistory = [];
   bool _isEarningsLoading = false;
-  String _earningsFrequency = 'quarterly'; // 'quarterly', 'annual'
-  String _earningsMetric = 'EPS'; // 'EPS', 'Revenue'
+  String _earningsFrequency = 'annual'; // Defaults to Annual
+  String _earningsMetric = 'Revenue'; // Defaults to Revenue
 
   Future<void> _fetchDataForInterval() async {
     if (_selectedInterval == '1D') {
-      // For 1D, we always refresh to get latest delayed candles
-      // setState(() => _isLoading = true); // Optional: don't show loading on refresh
       final data = await _repository.getIntradayHistory(_stock.symbol);
       if (mounted) {
         setState(() {
@@ -186,24 +184,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   List<PricePoint> get _filteredHistory {
     if (_selectedInterval == '1D') {
       if (_intradayHistory != null && _intradayHistory!.isNotEmpty) {
-        // final lastPointDate = _intradayHistory!.last.date;
-        // final startOfDay = DateTime(
-        //   lastPointDate.year,
-        //   lastPointDate.month,
-        //   lastPointDate.day,
-        // );
         return _intradayHistory!.where((p) {
-          // Filter to Regular Market Hours (09:30 - 16:00 ET)
           final utcTime = p.date.toUtc();
           final isDST = _isUSDST(utcTime);
-
-          // ET is UTC-4 (DST) or UTC-5 (Standard)
-          // Open: 09:30 ET -> 13:30 UTC (DST) or 14:30 UTC (Std)
-          // Close: 16:00 ET -> 20:00 UTC (DST) or 21:00 UTC (Std)
-
           final openHour = isDST ? 13 : 14;
           final closeHour = isDST ? 20 : 21;
-
           final hour = utcTime.hour;
           final minute = utcTime.minute;
 
@@ -213,7 +198,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
           if (hour > closeHour || (hour == closeHour && minute > 0)) {
             return false;
           }
-
           return true;
         }).toList();
       }
@@ -221,15 +205,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     }
 
     if (_selectedInterval == '1W') {
-      if (_weeklyHistory != null && _weeklyHistory!.isNotEmpty) {
-        return _weeklyHistory!;
-      }
+      return _weeklyHistory ?? [];
     }
 
     if (_selectedInterval == '1M') {
-      if (_monthlyHistory != null && _monthlyHistory!.isNotEmpty) {
-        return _monthlyHistory!;
-      }
+      return _monthlyHistory ?? [];
     }
 
     if (_history.isEmpty) return [];
@@ -238,12 +218,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     DateTime cutoff;
 
     switch (_selectedInterval) {
-      case '1W':
-        cutoff = now.subtract(const Duration(days: 7));
-        break;
-      case '1M':
-        cutoff = now.subtract(const Duration(days: 30));
-        break;
       case '1Y':
         cutoff = now.subtract(const Duration(days: 365));
         break;
@@ -306,6 +280,16 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     return '\$${marketCap.toStringAsFixed(0)}';
   }
 
+  String _formatDate(DateTime date) {
+    if (_selectedInterval == '1D') {
+      return DateFormat('HH:mm').format(date);
+    } else if (_selectedInterval == '1W' || _selectedInterval == '1M') {
+      return DateFormat('MMM d, yyyy').format(date);
+    } else {
+      return DateFormat('MMM yyyy').format(date);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -352,7 +336,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                   ),
                 ),
 
-                // Alert Icon removed from here
                 Flexible(
                   flex: 1,
                   child: Column(
@@ -411,7 +394,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                   style: ButtonStyle(
                     visualDensity: VisualDensity.compact,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    //padding: WidgetStateProperty.all(EdgeInsets.zero),
                   ),
                 ),
                 const Spacer(),
@@ -502,37 +484,60 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
           const SizedBox(height: 16),
           Row(
             children: [
+              // Metric Dropdown
               Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                 decoration: BoxDecoration(
                   color: theme.scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildToggleOption(
-                      l10n.eps,
-                      _earningsMetric == 'EPS',
-                      () => setState(() {
-                        _earningsMetric = 'EPS';
-                      }),
-                      theme,
-                      color,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _earningsMetric,
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: theme.iconTheme.color,
+                      size: 16,
                     ),
-                    _buildToggleOption(
-                      l10n.revenue,
-                      _earningsMetric == 'Revenue',
-                      () => setState(() {
-                        _earningsMetric = 'Revenue';
-                      }),
-                      theme,
-                      color,
+                    isDense: true,
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    dropdownColor: theme.cardColor,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
                     ),
-                  ],
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          _earningsMetric = newValue;
+                        });
+                      }
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        value: 'Revenue',
+                        child: Text(l10n.revenue),
+                      ),
+                      DropdownMenuItem(value: 'EPS', child: Text(l10n.eps)),
+                      const DropdownMenuItem(
+                        value: 'Net Income',
+                        child: Text('Net Income'),
+                      ),
+                      const DropdownMenuItem(
+                        value: 'Gross Profit',
+                        child: Text('Gross Profit'),
+                      ),
+                      const DropdownMenuItem(
+                        value: 'Operating Income',
+                        child: Text('Operating Income'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const Spacer(),
+              // Frequency Toggle
               Container(
                 decoration: BoxDecoration(
                   color: theme.scaffoldBackgroundColor,
@@ -1143,10 +1148,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
       return day < dayOfFirstSunday;
     }
     return false;
-  }
-
-  String _formatDate(DateTime date) {
-    return DateFormat('MMM d, HH:mm').format(date);
   }
 }
 

@@ -148,7 +148,13 @@ class EarningsChart extends StatelessWidget {
                       barGroups: earnings.asMap().entries.map((entry) {
                         final index = entry.key;
                         final point = entry.value;
-                        final val = isRevenue ? point.revenue : point.eps;
+                        final val = switch (metric) {
+                          'Revenue' => point.revenue,
+                          'Net Income' => point.netIncome,
+                          'Gross Profit' => point.grossProfit,
+                          'Operating Income' => point.operatingIncome,
+                          _ => point.eps,
+                        };
                         final isNegative = val < 0;
 
                         return BarChartGroupData(
@@ -195,7 +201,13 @@ class EarningsChart extends StatelessWidget {
     double minVal = 0;
 
     for (var e in earnings) {
-      final val = isRevenue ? e.revenue : e.eps;
+      final val = switch (metric) {
+        'Revenue' => e.revenue,
+        'Net Income' => e.netIncome,
+        'Gross Profit' => e.grossProfit,
+        'Operating Income' => e.operatingIncome,
+        _ => e.eps,
+      };
       if (val > maxVal) maxVal = val;
       if (val < minVal) minVal = val;
     }
@@ -233,7 +245,8 @@ class EarningsChart extends StatelessWidget {
   }
 
   String _formatValue(double value, bool isRevenue) {
-    if (isRevenue) {
+    // Large number formatting for Revenue, Net Income, etc.
+    if (metric != 'EPS') {
       final absVal = value.abs();
       if (absVal >= 1e9) return '\$${(value / 1e9).toStringAsFixed(2)}B';
       if (absVal >= 1e6) return '\$${(value / 1e6).toStringAsFixed(2)}M';
@@ -243,7 +256,7 @@ class EarningsChart extends StatelessWidget {
   }
 
   String _formatAxisValue(double value, bool isRevenue) {
-    if (isRevenue) {
+    if (metric != 'EPS') {
       final absVal = value.abs();
       if (absVal >= 1e9) return '\$${(value / 1e9).toStringAsFixed(1)}B';
       if (absVal >= 1e6) return '\$${(value / 1e6).toStringAsFixed(1)}M';
