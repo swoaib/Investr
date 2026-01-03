@@ -240,10 +240,8 @@ class EarningsChart extends StatelessWidget {
 
     // Ensure we have at least a little headroom if the bar equals exact niceMax
     final finalMax = niceMax == maxVal ? niceMax + interval : niceMax;
-    // Don't pad below zero if minVal is zero (keeps baseline tight for bar charts)
-    final finalMin = (niceMin == minVal && minVal != 0)
-        ? niceMin - interval
-        : niceMin;
+    // Don't pad below zero or negative values unnecessarily
+    final finalMin = niceMin;
 
     return (maxY: finalMax, minY: finalMin, interval: interval);
   }

@@ -155,7 +155,7 @@ class _StockListViewState extends State<_StockListView> {
               },
               child: _StockListItem(stock: stock),
             ),
-            const Divider(height: 1),
+            if (index < controller.stocks.length - 1) const Divider(height: 1),
           ],
         );
       },
