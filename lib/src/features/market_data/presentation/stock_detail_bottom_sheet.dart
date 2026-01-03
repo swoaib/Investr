@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -898,17 +899,20 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                             (LineChartBarData barData, List<int> spotIndexes) {
                               return spotIndexes.map((index) {
                                 return TouchedSpotIndicatorData(
-                                  FlLine(color: color, strokeWidth: 1.5),
+                                  // Bottom half: Native line
+                                  FlLine(
+                                    color: color,
+                                    strokeWidth: 1.5,
+                                    dashArray: [1, 1],
+                                  ),
+                                  // Top half & Dot: Custom painter
                                   FlDotData(
                                     show: true,
                                     getDotPainter:
                                         (spot, percent, barData, index) {
-                                          return FlDotCirclePainter(
-                                            radius: 8,
+                                          return _ChartTouchDotPainter(
                                             color: color,
-                                            strokeWidth: 1,
-                                            strokeColor:
-                                                AppTheme.backgroundDark,
+                                            context: context,
                                           );
                                         },
                                   ),
@@ -1144,4 +1148,68 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   String _formatDate(DateTime date) {
     return DateFormat('MMM d, HH:mm').format(date);
   }
+}
+
+class _ChartTouchDotPainter extends FlDotPainter {
+  final Color color;
+  final BuildContext context;
+
+  _ChartTouchDotPainter({required this.color, required this.context});
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    // 1. Draw the "Top Half" of the line (from top of chart to the dot)
+    // We use a dashed line to match the bottom style
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke;
+
+    const dashWidth = 1.0;
+    const dashSpace = 1.0;
+
+    // Start from the dot (offsetInCanvas.dy) and go UP to 0
+    double currentY = offsetInCanvas.dy;
+
+    while (currentY > 0) {
+      final endY = max(0.0, currentY - dashWidth);
+      canvas.drawLine(
+        Offset(offsetInCanvas.dx, currentY),
+        Offset(offsetInCanvas.dx, endY),
+        paint,
+      );
+      currentY -= (dashWidth + dashSpace);
+    }
+
+    // 2. Draw the Dot (Circle)
+    // We can reuse FlDotCirclePainter logic or simple draw
+    final dotPaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    // Main dot
+    canvas.drawCircle(offsetInCanvas, 8, dotPaint..color = color);
+
+    // Stroke/Border
+    final borderPaint = Paint()
+      ..color = AppTheme.backgroundDark
+      ..strokeWidth = 1
+      ..style = PaintingStyle.stroke;
+
+    canvas.drawCircle(offsetInCanvas, 8, borderPaint);
+  }
+
+  @override
+  Size getSize(FlSpot spot) => const Size(16, 16);
+
+  @override
+  List<Object?> get props => [color, context];
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    return b;
+  }
+
+  @override
+  Color get mainColor => color;
 }
