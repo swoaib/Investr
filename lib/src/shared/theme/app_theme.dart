@@ -12,6 +12,9 @@ class AppTheme {
   static const Color textDark = Color(0xFF212121); // Dark Gray (was 0xFF1B5E20)
   static const Color textLight = Color(0xFFE0E0E0); // Light text for dark mode
   static const Color textGrey = Color(0xFF757575);
+  static const Color errorRed = Color(
+    0xFFE53935,
+  ); // Vibrant Red for errors/negative values
 
   // Screen Padding Constants
   static const double screenPaddingHorizontal = 16.0;

@@ -4,6 +4,8 @@ import '../domain/earnings_point.dart';
 import '../../../shared/theme/app_theme.dart';
 import 'package:investr/l10n/app_localizations.dart';
 
+import 'dart:math';
+
 class EarningsChart extends StatelessWidget {
   final List<EarningsPoint> earnings;
   final bool isLoading;
@@ -22,6 +24,8 @@ class EarningsChart extends StatelessWidget {
     final color = AppTheme.primaryGreen;
     final isRevenue = metric == 'Revenue';
     final l10n = AppLocalizations.of(context)!;
+
+    final scale = _calculateNiceScale(isRevenue);
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -49,7 +53,8 @@ class EarningsChart extends StatelessWidget {
                 : BarChart(
                     BarChartData(
                       alignment: BarChartAlignment.spaceAround,
-                      maxY: _calculateMaxY(isRevenue),
+                      maxY: scale.maxY,
+                      minY: scale.minY,
                       barTouchData: BarTouchData(
                         enabled: true,
                         touchTooltipData: BarTouchTooltipData(
@@ -93,8 +98,13 @@ class EarningsChart extends StatelessWidget {
                           sideTitles: SideTitles(
                             showTitles: true,
                             reservedSize: 45,
+                            interval: scale.interval,
                             getTitlesWidget: (value, meta) {
                               if (value == 0) return const SizedBox();
+                              // Avoid showing the top-most label if it's too close to the max and might get cut off
+                              // or if it creates the "double label" visual issue if not aligned perfectly.
+                              // But with "nice scale", it should align perfectly.
+
                               return Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Text(
@@ -119,10 +129,17 @@ class EarningsChart extends StatelessWidget {
                       gridData: FlGridData(
                         show: true,
                         drawVerticalLine: false,
-                        horizontalInterval: _calculateMaxY(isRevenue) / 5,
+                        horizontalInterval: scale.interval,
                         getDrawingHorizontalLine: (value) {
+                          // Highlight zero line slightly more visible
+                          if (value == 0) {
+                            return FlLine(
+                              color: Colors.grey.withOpacity(0.3),
+                              strokeWidth: 1,
+                            );
+                          }
                           return FlLine(
-                            color: Colors.grey.withValues(alpha: 0.1),
+                            color: Colors.grey.withOpacity(0.1),
                             strokeWidth: 1,
                           );
                         },
@@ -131,16 +148,31 @@ class EarningsChart extends StatelessWidget {
                       barGroups: earnings.asMap().entries.map((entry) {
                         final index = entry.key;
                         final point = entry.value;
+                        final val = isRevenue ? point.revenue : point.eps;
+                        final isNegative = val < 0;
+
                         return BarChartGroupData(
                           x: index,
                           barRods: [
                             BarChartRodData(
-                              toY: isRevenue ? point.revenue : point.eps,
-                              color: color,
+                              toY: val,
+                              color: isNegative
+                                  ? AppTheme.errorRed
+                                  : AppTheme.primaryGreen,
                               width: 16,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(4),
-                                topRight: Radius.circular(4),
+                              borderRadius: BorderRadius.only(
+                                topLeft: isNegative
+                                    ? Radius.zero
+                                    : const Radius.circular(4),
+                                topRight: isNegative
+                                    ? Radius.zero
+                                    : const Radius.circular(4),
+                                bottomLeft: isNegative
+                                    ? const Radius.circular(4)
+                                    : Radius.zero,
+                                bottomRight: isNegative
+                                    ? const Radius.circular(4)
+                                    : Radius.zero,
                               ),
                             ),
                           ],
@@ -154,20 +186,57 @@ class EarningsChart extends StatelessWidget {
     );
   }
 
-  double _calculateMaxY(bool isRevenue) {
-    if (earnings.isEmpty) return 10;
-    double maxY = 0;
+  ({double maxY, double minY, double interval}) _calculateNiceScale(
+    bool isRevenue,
+  ) {
+    if (earnings.isEmpty) return (maxY: 10, minY: 0, interval: 2);
+
+    double maxVal = 0;
+    double minVal = 0;
+
     for (var e in earnings) {
       final val = isRevenue ? e.revenue : e.eps;
-      if (val > maxY) maxY = val;
+      if (val > maxVal) maxVal = val;
+      if (val < minVal) minVal = val;
     }
-    return maxY == 0 ? 10 : maxY * 1.2; // 20% buffer
+
+    // Determine the magnitude based on the larger absolute extent
+    final double absMax = max(maxVal.abs(), minVal.abs());
+
+    // If effectively zero
+    if (absMax <= 0) return (maxY: 10, minY: 0, interval: 2);
+
+    // nice number algorithm
+    final mag = pow(10, (log(absMax) / log(10)).floor()).toDouble();
+    final norm = absMax / mag; // between 1.0 and 10.0
+
+    double step;
+    if (norm <= 1.0) {
+      step = 0.2;
+    } else if (norm <= 2.0) {
+      step = 0.5;
+    } else if (norm <= 5.0) {
+      step = 1.0;
+    } else {
+      step = 2.0;
+    }
+
+    final interval = step * mag;
+    final niceMax = (maxVal / interval).ceil() * interval;
+    final niceMin = (minVal / interval).floor() * interval;
+
+    // Ensure we have at least a little headroom if the bar equals exact niceMax
+    final finalMax = niceMax == maxVal ? niceMax + interval : niceMax;
+    final finalMin = niceMin == minVal ? niceMin - interval : niceMin;
+
+    return (maxY: finalMax, minY: finalMin, interval: interval);
   }
 
   String _formatValue(double value, bool isRevenue) {
     if (isRevenue) {
-      if (value >= 1e9) return '\$${(value / 1e9).toStringAsFixed(2)}B';
-      if (value >= 1e6) return '\$${(value / 1e6).toStringAsFixed(2)}M';
+      final absVal = value.abs();
+      if (absVal >= 1e9) return '\$${(value / 1e9).toStringAsFixed(2)}B';
+      if (absVal >= 1e6) return '\$${(value / 1e6).toStringAsFixed(2)}M';
       return '\$${value.toStringAsFixed(0)}';
     }
     return '\$${value.toStringAsFixed(2)}';
@@ -175,8 +244,9 @@ class EarningsChart extends StatelessWidget {
 
   String _formatAxisValue(double value, bool isRevenue) {
     if (isRevenue) {
-      if (value >= 1e9) return '\$${(value / 1e9).toStringAsFixed(1)}B';
-      if (value >= 1e6) return '\$${(value / 1e6).toStringAsFixed(1)}M';
+      final absVal = value.abs();
+      if (absVal >= 1e9) return '\$${(value / 1e9).toStringAsFixed(1)}B';
+      if (absVal >= 1e6) return '\$${(value / 1e6).toStringAsFixed(1)}M';
       return '\$${value.toStringAsFixed(0)}';
     }
     return '\$${value.toStringAsFixed(1)}';
