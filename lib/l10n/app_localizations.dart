@@ -769,7 +769,7 @@ abstract class AppLocalizations {
   /// No description provided for @smoothingTheRideDesc.
   ///
   /// In en, this message translates to:
-  /// **'You buy more shares when prices are low and fewer when prices are high, lowering your average cost per share.'**
+  /// **'You usually get a good average price for the stock using this method. Take the example on the next page.'**
   String get smoothingTheRideDesc;
 
   /// No description provided for @removeEmotion.

@@ -379,7 +379,7 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get smoothingTheRideDesc =>
-      'Du kjøper flere aksjer når prisene er lave og færre når prisene er høye, noe som senker gjennomsnittskostnaden per aksje.';
+      'Du får vanligvis en god gjennomsnittspris for aksjen med denne metoden. Se eksempelet på neste side.';
 
   @override
   String get removeEmotion => 'Fjern følelser';

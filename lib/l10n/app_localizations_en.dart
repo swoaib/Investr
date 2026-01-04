@@ -380,7 +380,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get smoothingTheRideDesc =>
-      'You buy more shares when prices are low and fewer when prices are high, lowering your average cost per share.';
+      'You usually get a good average price for the stock using this method. Take the example on the next page.';
 
   @override
   String get removeEmotion => 'Remove Emotion';

@@ -370,7 +370,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get smoothingTheRideDesc =>
-      '価格が低いときはより多くの株を買い、高いときはより少ない株を買うことで、一株あたりの平均コストを下げます。';
+      'この方法を使うと、通常、株を良い平均価格で手に入れることができます。次のページの例を見てください。';
 
   @override
   String get removeEmotion => '感情を排除する';

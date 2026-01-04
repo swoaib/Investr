@@ -288,16 +288,6 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/dca_chart.svg',
           ),
           LessonPage(
-            title: l10n.removeEmotion,
-            description: l10n.removeEmotionDesc,
-            imagePath: 'assets/images/education/dca_emotion.svg',
-          ),
-          LessonPage(
-            title: l10n.consistencyWins,
-            description: l10n.consistencyWinsDesc,
-            imagePath: 'assets/images/education/dca_growth.svg',
-          ),
-          LessonPage(
             title: l10n.dcaHistoryCrashTitle,
             description: l10n.dcaHistoryCrashDesc,
             imagePath: 'assets/images/education/dca_crash_1929.png',
@@ -306,6 +296,11 @@ class LearnScreen extends StatelessWidget {
             title: l10n.dcaHistoryGrowthTitle,
             description: l10n.dcaHistoryGrowthDesc,
             imagePath: 'assets/images/education/dca_growth_1929.png',
+          ),
+          LessonPage(
+            title: l10n.removeEmotion,
+            description: l10n.removeEmotionDesc,
+            imagePath: 'assets/images/education/dca_remove_emotion.png',
           ),
         ],
       ),
