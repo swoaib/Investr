@@ -31,6 +31,17 @@
   "stockOwnershipHistory": "歴史的背景",
   "stockOwnershipHistoryDesc": "株式は所有権を単純化するだけです。農場、株式、その他の商品のいずれを購入する場合でも、投資の概念は変わりません。",
 
+  "whyInvestLessonTitle": "なぜ投資するのか？",
+  "whyInvestLessonDesc": "インフレに打ち勝ち、資産を築く。",
+  "stocksVsBankTitle": "株式 vs 銀行",
+  "stocksVsBankDesc": "過去10年間で、銀行の1万ドルはわずか約1.1万ドルになりました。S&P 500では、3.2万ドル以上に成長しました。",
+  "supportBusinessTitle": "好きなものを応援する",
+  "supportBusinessDesc": "投資は単なるお金の話ではありません。所有権です。あなたは自分が信じる企業や製品をサポートすることができます。",
+  "inflationShieldTitle": "インフレに勝つ",
+  "inflationShieldDesc": "インフレは現金を食いつくします。投資はあなたの盾です。損益分岐点に達するだけでも、インフレ率を上回るリターンが必要です。",
+  "powerOfCompoundingTitle": "複利",
+  "powerOfCompoundingDesc": "お金がお金を生む。早く始めることで、利子が利子を生み、雪だるま式に資産が増えます。",
+
   "investingVsSpeculationTitle": "投資 vs 投機",
   "investingVsSpeculationDesc": "違いを理解する。",
   "whatIsAnInvestment": "投資とは？",

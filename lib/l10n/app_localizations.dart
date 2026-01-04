@@ -277,7 +277,7 @@ abstract class AppLocalizations {
   /// No description provided for @inflationShieldDesc.
   ///
   /// In en, this message translates to:
-  /// **'Investing is your shield. To grow your wealth, your returns must be higher than the inflation rate.'**
+  /// **'Inflation eats your cash. Investing is your shield—you need returns higher than inflation just to break even.'**
   String get inflationShieldDesc;
 
   /// No description provided for @stocks101Title.
@@ -327,6 +327,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Investing allows your money to grow over time, helping you beat inflation and build long-term wealth.'**
   String get whyInvestDesc;
+
+  /// No description provided for @whyInvestLessonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why Invest?'**
+  String get whyInvestLessonTitle;
+
+  /// No description provided for @whyInvestLessonDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Beat inflation and build wealth.'**
+  String get whyInvestLessonDesc;
+
+  /// No description provided for @stocksVsBankTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stocks vs. Bank'**
+  String get stocksVsBankTitle;
+
+  /// No description provided for @stocksVsBankDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the last 10 years, \$10k in a bank grew to just ~\$11k. In the S&P 500, it grew to over \$32k.'**
+  String get stocksVsBankDesc;
+
+  /// No description provided for @supportBusinessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support What You Love'**
+  String get supportBusinessTitle;
+
+  /// No description provided for @supportBusinessDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Investing isn\'t just about money. It\'s about ownership. You can support the businesses and products you believe in.'**
+  String get supportBusinessDesc;
+
+  /// No description provided for @powerOfCompoundingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Power of Compounding'**
+  String get powerOfCompoundingTitle;
+
+  /// No description provided for @powerOfCompoundingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Why starting early matters.'**
+  String get powerOfCompoundingDesc;
 
   /// No description provided for @investingVsSpeculationTitle.
   ///
@@ -639,18 +687,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The science of valuation.'**
   String get calcIntrinsicValueDesc;
-
-  /// No description provided for @powerOfCompoundingTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'The Power of Compounding'**
-  String get powerOfCompoundingTitle;
-
-  /// No description provided for @powerOfCompoundingDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Why starting early matters.'**
-  String get powerOfCompoundingDesc;
 
   /// No description provided for @snowballEffect.
   ///

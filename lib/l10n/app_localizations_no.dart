@@ -130,6 +130,32 @@ class AppLocalizationsNo extends AppLocalizations {
       'Investering lar pengene dine vokse over tid, hjelper deg å slå inflasjon og bygge langsiktig formue.';
 
   @override
+  String get whyInvestLessonTitle => 'Hvorfor Investere?';
+
+  @override
+  String get whyInvestLessonDesc => 'Slå inflasjon og bygg formue.';
+
+  @override
+  String get stocksVsBankTitle => 'Aksjer vs. Bank';
+
+  @override
+  String get stocksVsBankDesc =>
+      'De siste 10 årene vokste 10k i banken til bare ~11k. I S&P 500 vokste det til over 32k.';
+
+  @override
+  String get supportBusinessTitle => 'Støtt det du elsker';
+
+  @override
+  String get supportBusinessDesc =>
+      'Investering handler ikke bare om penger. Du kan støtte bedriftene og produktene du har tro på.';
+
+  @override
+  String get powerOfCompoundingTitle => 'Renters rente-effekten';
+
+  @override
+  String get powerOfCompoundingDesc => 'Hvorfor det er viktig å starte tidlig.';
+
+  @override
   String get investingVsSpeculationTitle => 'Investering vs. Spekulasjon';
 
   @override
@@ -305,12 +331,6 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get calcIntrinsicValueDesc => 'Vitenskapen om verdsettelse.';
-
-  @override
-  String get powerOfCompoundingTitle => 'Renters rente-effekten';
-
-  @override
-  String get powerOfCompoundingDesc => 'Hvorfor det er viktig å starte tidlig.';
 
   @override
   String get snowballEffect => 'Snøballeffekten';

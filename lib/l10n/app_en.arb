@@ -40,6 +40,17 @@
   "whyInvest": "Why Invest?",
   "whyInvestDesc": "Investing allows your money to grow over time, helping you beat inflation and build long-term wealth.",
 
+  "whyInvestLessonTitle": "Why Invest?",
+  "whyInvestLessonDesc": "Beat inflation and build wealth.",
+  "stocksVsBankTitle": "Stocks vs. Bank",
+  "stocksVsBankDesc": "Over the last 10 years, $10k in a bank grew to just ~$11k. In the S&P 500, it grew to over $32k.",
+  "supportBusinessTitle": "Support What You Love",
+  "supportBusinessDesc": "Investing isn't just about money. It's about ownership. You can support the businesses and products you believe in.",
+  "inflationShieldTitle": "Beating Inflation",
+  "inflationShieldDesc": "Inflation eats your cash. Investing is your shield—you need returns higher than inflation just to break even.",
+  "powerOfCompoundingTitle": "Compounding",
+  "powerOfCompoundingDesc": "Money making money. Starting early allows your interest to earn interest, creating a snowball effect of wealth.",
+
   "investingVsSpeculationTitle": "Investment vs. Speculation",
   "investingVsSpeculationDesc": "Understand the difference.",
   "whatIsAnInvestment": "What is an Investment?",

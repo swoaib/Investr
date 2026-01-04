@@ -127,6 +127,32 @@ class AppLocalizationsJa extends AppLocalizations {
   String get whyInvestDesc => '投資することで、時間と共にお金を増やし、インフレに打ち勝ち、長期的な資産を築くことができます。';
 
   @override
+  String get whyInvestLessonTitle => 'なぜ投資するのか？';
+
+  @override
+  String get whyInvestLessonDesc => 'インフレに打ち勝ち、資産を築く。';
+
+  @override
+  String get stocksVsBankTitle => '株式 vs 銀行';
+
+  @override
+  String get stocksVsBankDesc =>
+      '過去10年間で、銀行の1万ドルはわずか約1.1万ドルになりました。S&P 500では、3.2万ドル以上に成長しました。';
+
+  @override
+  String get supportBusinessTitle => '好きなものを応援する';
+
+  @override
+  String get supportBusinessDesc =>
+      '投資は単なるお金の話ではありません。所有権です。あなたは自分が信じる企業や製品をサポートすることができます。';
+
+  @override
+  String get powerOfCompoundingTitle => '複利の力';
+
+  @override
+  String get powerOfCompoundingDesc => 'なぜ早く始めることが重要なのか。';
+
+  @override
   String get investingVsSpeculationTitle => '投資 vs 投機';
 
   @override
@@ -297,12 +323,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get calcIntrinsicValueDesc => 'バリュエーションの科学。';
-
-  @override
-  String get powerOfCompoundingTitle => '複利の力';
-
-  @override
-  String get powerOfCompoundingDesc => 'なぜ早く始めることが重要なのか。';
 
   @override
   String get snowballEffect => '雪だるま効果';

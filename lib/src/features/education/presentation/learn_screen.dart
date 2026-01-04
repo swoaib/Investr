@@ -75,68 +75,18 @@ class LearnScreen extends StatelessWidget {
         ],
       ),
       Lesson(
-        id: 'power_of_compounding',
-        title: l10n.powerOfCompoundingTitle,
-        description: l10n.powerOfCompoundingDesc,
-        color: const Color(0xFFFF9800),
-        icon: Icons.trending_up,
-        category: LessonCategory.foundation,
-        pages: [
-          LessonPage(
-            title: l10n.snowballEffect,
-            description: l10n.snowballEffectDesc,
-            imagePath: 'assets/images/education/compound_snowball.svg',
-          ),
-          LessonPage(
-            title: l10n.timeIsKey,
-            description: l10n.timeIsKeyDesc,
-            imagePath: 'assets/images/education/compound_time.svg',
-          ),
-          LessonPage(
-            title: l10n.exponentialGrowth,
-            description: l10n.exponentialGrowthDesc,
-            imagePath: 'assets/images/education/compound_graph.svg',
-          ),
-        ],
-      ),
-      Lesson(
-        id: 'stocks_vs_bonds',
-        title: l10n.stocksVsBondsTitle,
-        description: l10n.stocksVsBondsDesc,
+        id: 'why_invest',
+        title: l10n.whyInvestLessonTitle,
+        description: l10n.whyInvestLessonDesc,
         color: const Color(0xFF9C27B0), // Purple for balance
-        icon: Icons.scale,
-        category: LessonCategory.assetClasses,
-        pages: [
-          LessonPage(
-            title: l10n.stocksForGrowth,
-            description: l10n.stocksForGrowthDesc,
-            imagePath: 'assets/images/education/stocks_growth.svg',
-          ),
-          LessonPage(
-            title: l10n.bondsForStability,
-            description: l10n.bondsForStabilityDesc,
-            imagePath: 'assets/images/education/bonds_stability.svg',
-          ),
-          LessonPage(
-            title: l10n.riskVsReward,
-            description: l10n.riskVsRewardDesc,
-            imagePath: 'assets/images/education/risk_reward_seesaw.svg',
-          ),
-          LessonPage(
-            title: l10n.theIdealMix,
-            description: l10n.theIdealMixDesc,
-            imagePath: 'assets/images/education/portfolio_balance.svg',
-          ),
-        ],
-      ),
-      Lesson(
-        id: 'inflation',
-        title: l10n.inflationTitle,
-        description: l10n.inflationDesc,
-        color: const Color(0xFFE91E63), // Pink/Red for warning/urgent concept
-        icon: Icons.price_change,
+        icon: Icons.question_mark,
         category: LessonCategory.foundation,
         pages: [
+          LessonPage(
+            title: l10n.stocksVsBankTitle,
+            description: l10n.stocksVsBankDesc,
+            imagePath: 'assets/images/education/stocks_vs_bank_10y.png',
+          ),
           LessonPage(
             title: l10n.inflationBalloonTitle,
             description: l10n.inflationBalloonDesc,
@@ -156,6 +106,26 @@ class LearnScreen extends StatelessWidget {
             title: l10n.inflationShieldTitle,
             description: l10n.inflationShieldDesc,
             imagePath: 'assets/images/education/inflation_shield.svg',
+          ),
+          LessonPage(
+            title: l10n.snowballEffect,
+            description: l10n.snowballEffectDesc,
+            imagePath: 'assets/images/education/compound_snowball.svg',
+          ),
+          LessonPage(
+            title: l10n.timeIsKey,
+            description: l10n.timeIsKeyDesc,
+            imagePath: 'assets/images/education/compound_time.svg',
+          ),
+          LessonPage(
+            title: l10n.exponentialGrowth,
+            description: l10n.exponentialGrowthDesc,
+            imagePath: 'assets/images/education/compound_graph.svg',
+          ),
+          LessonPage(
+            title: l10n.supportBusinessTitle,
+            description: l10n.supportBusinessDesc,
+            imagePath: 'assets/images/education/support_business.png',
           ),
         ],
       ),
@@ -270,12 +240,42 @@ class LearnScreen extends StatelessWidget {
         ],
       ),
       Lesson(
+        id: 'index_funds',
+        title: l10n.indexFundsTitle,
+        description: l10n.indexFundsDesc,
+        color: const Color(0xFF00BCD4),
+        icon: Icons.pie_chart,
+        category: LessonCategory.philosophy,
+        pages: [
+          LessonPage(
+            title: l10n.whatIsAnIndexFund,
+            description: l10n.whatIsAnIndexFundDesc,
+            imagePath: 'assets/images/education/index_fund_basket.svg',
+          ),
+          LessonPage(
+            title: l10n.instantDiversification,
+            description: l10n.instantDiversificationDesc,
+            imagePath: 'assets/images/education/diversification.svg',
+          ),
+          LessonPage(
+            title: l10n.lowCost,
+            description: l10n.lowCostDesc,
+            imagePath: 'assets/images/education/low_fees.svg',
+          ),
+          LessonPage(
+            title: l10n.marketPerformance,
+            description: l10n.marketPerformanceDesc,
+            imagePath: 'assets/images/education/market_performance.svg',
+          ),
+        ],
+      ),
+      Lesson(
         id: 'dollar_cost_averaging',
         title: l10n.dollarCostAveragingTitle,
         description: l10n.dollarCostAveragingDesc,
         color: const Color(0xFF9C27B0),
         icon: Icons.calendar_month,
-        category: LessonCategory.strategy,
+        category: LessonCategory.philosophy,
         pages: [
           LessonPage(
             title: l10n.whatIsDCA,
@@ -301,36 +301,6 @@ class LearnScreen extends StatelessWidget {
             title: l10n.removeEmotion,
             description: l10n.removeEmotionDesc,
             imagePath: 'assets/images/education/dca_remove_emotion.png',
-          ),
-        ],
-      ),
-      Lesson(
-        id: 'index_funds',
-        title: l10n.indexFundsTitle,
-        description: l10n.indexFundsDesc,
-        color: const Color(0xFF00BCD4),
-        icon: Icons.pie_chart,
-        category: LessonCategory.assetClasses,
-        pages: [
-          LessonPage(
-            title: l10n.whatIsAnIndexFund,
-            description: l10n.whatIsAnIndexFundDesc,
-            imagePath: 'assets/images/education/index_fund_basket.svg',
-          ),
-          LessonPage(
-            title: l10n.instantDiversification,
-            description: l10n.instantDiversificationDesc,
-            imagePath: 'assets/images/education/diversification.svg',
-          ),
-          LessonPage(
-            title: l10n.lowCost,
-            description: l10n.lowCostDesc,
-            imagePath: 'assets/images/education/low_fees.svg',
-          ),
-          LessonPage(
-            title: l10n.marketPerformance,
-            description: l10n.marketPerformanceDesc,
-            imagePath: 'assets/images/education/market_performance.svg',
           ),
         ],
       ),

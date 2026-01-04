@@ -100,7 +100,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inflationShieldDesc =>
-      'Investing is your shield. To grow your wealth, your returns must be higher than the inflation rate.';
+      'Inflation eats your cash. Investing is your shield—you need returns higher than inflation just to break even.';
 
   @override
   String get stocks101Title => 'Stocks 101';
@@ -128,6 +128,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get whyInvestDesc =>
       'Investing allows your money to grow over time, helping you beat inflation and build long-term wealth.';
+
+  @override
+  String get whyInvestLessonTitle => 'Why Invest?';
+
+  @override
+  String get whyInvestLessonDesc => 'Beat inflation and build wealth.';
+
+  @override
+  String get stocksVsBankTitle => 'Stocks vs. Bank';
+
+  @override
+  String get stocksVsBankDesc =>
+      'Over the last 10 years, \$10k in a bank grew to just ~\$11k. In the S&P 500, it grew to over \$32k.';
+
+  @override
+  String get supportBusinessTitle => 'Support What You Love';
+
+  @override
+  String get supportBusinessDesc =>
+      'Investing isn\'t just about money. It\'s about ownership. You can support the businesses and products you believe in.';
+
+  @override
+  String get powerOfCompoundingTitle => 'The Power of Compounding';
+
+  @override
+  String get powerOfCompoundingDesc => 'Why starting early matters.';
 
   @override
   String get investingVsSpeculationTitle => 'Investment vs. Speculation';
@@ -306,12 +332,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calcIntrinsicValueDesc => 'The science of valuation.';
-
-  @override
-  String get powerOfCompoundingTitle => 'The Power of Compounding';
-
-  @override
-  String get powerOfCompoundingDesc => 'Why starting early matters.';
 
   @override
   String get snowballEffect => 'Snowball Effect';
