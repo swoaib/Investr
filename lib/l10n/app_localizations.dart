@@ -421,7 +421,7 @@ abstract class AppLocalizations {
   /// No description provided for @stockOwnershipHistoryDesc.
   ///
   /// In en, this message translates to:
-  /// **'Stocks just simplify buying business shares. It\'s essentially the same as investing in any business throughout history.'**
+  /// **'Stocks just simplify ownership. The concept of investing remains the same whether you buy a farm, a stock, or other instruments.'**
   String get stockOwnershipHistoryDesc;
 
   /// No description provided for @mrMarketTitle.

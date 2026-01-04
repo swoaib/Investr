@@ -35,7 +35,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.stockOwnershipHistory,
             description: l10n.stockOwnershipHistoryDesc,
-            imagePath: 'assets/images/education/stocks_ownership.svg',
+            imagePath: 'assets/images/education/stock_ownership_history.png',
           ),
         ],
       ),

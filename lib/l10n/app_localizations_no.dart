@@ -182,7 +182,7 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get stockOwnershipHistoryDesc =>
-      'Aksjer forenkler bare det å kjøpe andeler i bedrifter. Det er i hovedsak det samme som å investere i en hvilken som helst bedrift gjennom historien.';
+      'Aksjer forenkler bare eierskap. Konseptet med å investere forblir det samme enten du kjøper en gård, en aksje eller andre instrumenter.';
 
   @override
   String get mrMarketTitle => 'Mr. Market';

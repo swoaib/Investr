@@ -176,7 +176,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get stockOwnershipHistoryDesc =>
-      '株式はビジネスの株式を購入するのを簡単にするだけです。それは本質的に、歴史上のあらゆるビジネスに投資することと同じです。';
+      '株式は所有権を単純化するだけです。農場、株式、その他の商品のいずれを購入する場合でも、投資の概念は変わりません。';
 
   @override
   String get mrMarketTitle => 'ミスター・マーケット';
