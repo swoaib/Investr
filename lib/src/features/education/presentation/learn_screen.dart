@@ -40,31 +40,6 @@ class LearnScreen extends StatelessWidget {
         ],
       ),
       Lesson(
-        id: 'power_of_compounding',
-        title: l10n.powerOfCompoundingTitle,
-        description: l10n.powerOfCompoundingDesc,
-        color: const Color(0xFFFF9800),
-        icon: Icons.trending_up,
-        category: LessonCategory.foundation,
-        pages: [
-          LessonPage(
-            title: l10n.snowballEffect,
-            description: l10n.snowballEffectDesc,
-            imagePath: 'assets/images/education/compound_snowball.svg',
-          ),
-          LessonPage(
-            title: l10n.timeIsKey,
-            description: l10n.timeIsKeyDesc,
-            imagePath: 'assets/images/education/compound_time.svg',
-          ),
-          LessonPage(
-            title: l10n.exponentialGrowth,
-            description: l10n.exponentialGrowthDesc,
-            imagePath: 'assets/images/education/compound_graph.svg',
-          ),
-        ],
-      ),
-      Lesson(
         id: 'investing_vs_speculation',
         title: l10n.investingVsSpeculationTitle,
         description: l10n.investingVsSpeculationDesc,
@@ -96,6 +71,31 @@ class LearnScreen extends StatelessWidget {
             title: l10n.startupSpeculationTitle,
             description: l10n.startupSpeculationDesc,
             imagePath: 'assets/images/education/strategic_speculation.png',
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'power_of_compounding',
+        title: l10n.powerOfCompoundingTitle,
+        description: l10n.powerOfCompoundingDesc,
+        color: const Color(0xFFFF9800),
+        icon: Icons.trending_up,
+        category: LessonCategory.foundation,
+        pages: [
+          LessonPage(
+            title: l10n.snowballEffect,
+            description: l10n.snowballEffectDesc,
+            imagePath: 'assets/images/education/compound_snowball.svg',
+          ),
+          LessonPage(
+            title: l10n.timeIsKey,
+            description: l10n.timeIsKeyDesc,
+            imagePath: 'assets/images/education/compound_time.svg',
+          ),
+          LessonPage(
+            title: l10n.exponentialGrowth,
+            description: l10n.exponentialGrowthDesc,
+            imagePath: 'assets/images/education/compound_graph.svg',
           ),
         ],
       ),
@@ -296,6 +296,16 @@ class LearnScreen extends StatelessWidget {
             title: l10n.consistencyWins,
             description: l10n.consistencyWinsDesc,
             imagePath: 'assets/images/education/dca_growth.svg',
+          ),
+          LessonPage(
+            title: l10n.dcaHistoryCrashTitle,
+            description: l10n.dcaHistoryCrashDesc,
+            imagePath: 'assets/images/education/dca_crash_1929.png',
+          ),
+          LessonPage(
+            title: l10n.dcaHistoryGrowthTitle,
+            description: l10n.dcaHistoryGrowthDesc,
+            imagePath: 'assets/images/education/dca_growth_1929.png',
           ),
         ],
       ),

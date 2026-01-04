@@ -383,7 +383,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get consistencyWins => '継続は力なり';
 
   @override
-  String get consistencyWinsDesc => '鍵は一貫性です。時間が経つにつれて、この規律あるアプローチは大きな資産を築きます。';
+  String get consistencyWinsDesc => '市場のタイミングを計る必要はありません。定期的な投資は、山と谷を平準化します。';
+
+  @override
+  String get dcaHistoryCrashTitle => '大暴落';
+
+  @override
+  String get dcaHistoryCrashDesc =>
+      '1929年9月、S&P 500に12,000ドルを一括投資していたら、10年後には7,223ドルしか残っていませんでした（-40%）。';
+
+  @override
+  String get dcaHistoryGrowthTitle => 'DCAの利点';
+
+  @override
+  String get dcaHistoryGrowthDesc =>
+      'しかし、100ドルから始めて毎月100ドル投資（計12,000ドル）していれば、1939年までに15,571ドルになっていました（+30%）。継続はタイミングに勝る。';
 
   @override
   String get done => '完了';

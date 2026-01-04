@@ -397,6 +397,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'The key is consistency. Over time, this disciplined approach builds significant wealth.';
 
   @override
+  String get dcaHistoryCrashTitle => 'The Great Crash';
+
+  @override
+  String get dcaHistoryCrashDesc =>
+      'In Sept 1929, if you invested \$12,000 lump sum in the S&P 500, 10 years later you\'d have only \$7,223 left (-40%).';
+
+  @override
+  String get dcaHistoryGrowthTitle => 'The DCA Advantage';
+
+  @override
+  String get dcaHistoryGrowthDesc =>
+      'However, starting with \$100 and investing \$100 monthly (total \$12k), you\'d have \$15,571 by 1939 (+30%). Consistency beats timing.';
+
+  @override
   String get done => 'Done';
 
   @override

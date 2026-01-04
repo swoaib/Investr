@@ -127,6 +127,10 @@
   "removeEmotionDesc": "It eliminates the temptation to time the market, preventing emotional decisions during volatility.",
   "consistencyWins": "Consistency Wins",
   "consistencyWinsDesc": "The key is consistency. Over time, this disciplined approach builds significant wealth.",
+  "dcaHistoryCrashTitle": "The Great Crash",
+  "dcaHistoryCrashDesc": "In Sept 1929, if you invested $12,000 lump sum in the S&P 500, 10 years later you'd have only $7,223 left (-40%).",
+  "dcaHistoryGrowthTitle": "The DCA Advantage",
+  "dcaHistoryGrowthDesc": "However, starting with $100 and investing $100 monthly (total $12k), you'd have $15,571 by 1939 (+30%). Consistency beats timing.",
   "done": "Done",
   "next": "Next",
 

@@ -71,6 +71,10 @@
   "diversificationDesc": "安全域は、すべての卵を一つのカゴに入れないことによっても達成されます。リスクを分散することで資本を守ります。",
   "conservativeAssumptions": "保守的な仮定",
   "conservativeAssumptionsDesc": "企業を評価するときは、安全域を確保するために、成長と収益性について常に保守的な見積もりを使用してください。",
+  "dcaHistoryCrashTitle": "大暴落",
+  "dcaHistoryCrashDesc": "1929年9月、S&P 500に12,000ドルを一括投資していたら、10年後には7,223ドルしか残っていませんでした（-40%）。",
+  "dcaHistoryGrowthTitle": "DCAの利点",
+  "dcaHistoryGrowthDesc": "しかし、100ドルから始めて毎月100ドル投資（計12,000ドル）していれば、1939年までに15,571ドルになっていました（+30%）。継続はタイミングに勝る。",
 
   "indexFundsTitle": "インデックスファンド",
   "indexFundsDesc": "パッシブ投資の力。",
@@ -103,7 +107,11 @@
   "removeEmotion": "感情を排除する",
   "removeEmotionDesc": "これにより、市場のタイミングを計る誘惑がなくなり、変動時の感情的な決定を防ぐことができます。",
   "consistencyWins": "継続は力なり",
-  "consistencyWinsDesc": "鍵は一貫性です。時間が経つにつれて、この規律あるアプローチは大きな資産を築きます。",
+  "consistencyWinsDesc": "市場のタイミングを計る必要はありません。定期的な投資は、山と谷を平準化します。",
+  "dcaHistoryCrashTitle": "大暴落",
+  "dcaHistoryCrashDesc": "1929年9月、S&P 500に12,000ドルを一括投資していたら、10年後には7,223ドルしか残っていませんでした（-40%）。",
+  "dcaHistoryGrowthTitle": "DCAの利点",
+  "dcaHistoryGrowthDesc": "しかし、100ドルから始めて毎月100ドル投資（計12,000ドル）していれば、1939年までに15,571ドルになっていました（+30%）。継続はタイミングに勝る。",
   "done": "完了",
   "next": "次へ",
 

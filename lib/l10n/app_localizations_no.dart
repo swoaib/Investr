@@ -393,7 +393,21 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get consistencyWinsDesc =>
-      'Nøkkelen er konsistens. Over tid bygger denne disiplinerte tilnærmingen betydelig formue.';
+      'Ingen grunn til å prøve å time markedet. Jevnlig investering jevner ut toppene og bunnene.';
+
+  @override
+  String get dcaHistoryCrashTitle => 'Det store krakket';
+
+  @override
+  String get dcaHistoryCrashDesc =>
+      'I sept 1929, hvis du investerte \$12,000 som et engangsbeløp i S&P 500, ville du bare ha \$7,223 igjen 10 år senere (-40%).';
+
+  @override
+  String get dcaHistoryGrowthTitle => 'DCA-fordelen';
+
+  @override
+  String get dcaHistoryGrowthDesc =>
+      'Men, ved å starte med \$100 og investere \$100 månedlig (totalt \$12k), ville du ha \$15,571 innen 1939 (+30%). Konsistens slår timing.';
 
   @override
   String get done => 'Ferdig';

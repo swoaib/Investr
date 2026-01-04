@@ -796,6 +796,30 @@ abstract class AppLocalizations {
   /// **'The key is consistency. Over time, this disciplined approach builds significant wealth.'**
   String get consistencyWinsDesc;
 
+  /// No description provided for @dcaHistoryCrashTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The Great Crash'**
+  String get dcaHistoryCrashTitle;
+
+  /// No description provided for @dcaHistoryCrashDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'In Sept 1929, if you invested \$12,000 lump sum in the S&P 500, 10 years later you\'d have only \$7,223 left (-40%).'**
+  String get dcaHistoryCrashDesc;
+
+  /// No description provided for @dcaHistoryGrowthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The DCA Advantage'**
+  String get dcaHistoryGrowthTitle;
+
+  /// No description provided for @dcaHistoryGrowthDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'However, starting with \$100 and investing \$100 monthly (total \$12k), you\'d have \$15,571 by 1939 (+30%). Consistency beats timing.'**
+  String get dcaHistoryGrowthDesc;
+
   /// No description provided for @done.
   ///
   /// In en, this message translates to:

@@ -103,7 +103,11 @@
   "removeEmotion": "Fjern følelser",
   "removeEmotionDesc": "Det eliminerer fristelsen til å time markedet, og forhindrer emosjonelle beslutninger under volatilitet.",
   "consistencyWins": "Konsistens vinner",
-  "consistencyWinsDesc": "Nøkkelen er konsistens. Over tid bygger denne disiplinerte tilnærmingen betydelig formue.",
+  "dcaHistoryCrashTitle": "Det store krakket",
+  "dcaHistoryCrashDesc": "I sept 1929, hvis du investerte $12,000 som et engangsbeløp i S&P 500, ville du bare ha $7,223 igjen 10 år senere (-40%).",
+  "dcaHistoryGrowthTitle": "DCA-fordelen",
+  "dcaHistoryGrowthDesc": "Men, ved å starte med $100 og investere $100 månedlig (totalt $12k), ville du ha $15,571 innen 1939 (+30%). Konsistens slår timing.",
+  "consistencyWinsDesc": "Ingen grunn til å prøve å time markedet. Jevnlig investering jevner ut toppene og bunnene.",
   "done": "Ferdig",
   "next": "Neste",
 
