@@ -361,7 +361,7 @@ abstract class AppLocalizations {
   /// No description provided for @theSpeculatorDesc.
   ///
   /// In en, this message translates to:
-  /// **'Speculators bet on price movements without understanding the underlying business. It\'s essentially gambling.'**
+  /// **'Gambling and speculation can pay off, but they rely on chance and luck. It\'s betting on price, not value.'**
   String get theSpeculatorDesc;
 
   /// No description provided for @beAnInvestor.
@@ -375,6 +375,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Focus on the long-term value of the business, not just the ticker price simply moving up and down.'**
   String get beAnInvestorDesc;
+
+  /// No description provided for @valueInvestingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Value Investing'**
+  String get valueInvestingTitle;
+
+  /// No description provided for @valueInvestingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'This strategy focuses on buying stocks for less than their intrinsic value—getting \$1 worth of assets for 50 cents.'**
+  String get valueInvestingDesc;
+
+  /// No description provided for @valueRiskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Guarantees'**
+  String get valueRiskTitle;
+
+  /// No description provided for @valueRiskDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Value investing reduces risk, but doesn\'t eliminate it. There are no guarantees in the market.'**
+  String get valueRiskDesc;
+
+  /// No description provided for @startupSpeculationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Strategic Speculation'**
+  String get startupSpeculationTitle;
+
+  /// No description provided for @startupSpeculationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s okay to back early-stage companies (like Amazon\'s IPO). But limit these speculative bets to maximum 10% of your portfolio.'**
+  String get startupSpeculationDesc;
+
+  /// No description provided for @stockOwnershipHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Historical Context'**
+  String get stockOwnershipHistory;
+
+  /// No description provided for @stockOwnershipHistoryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Stocks just simplify buying business shares. It\'s essentially the same as investing in any business throughout history.'**
+  String get stockOwnershipHistoryDesc;
 
   /// No description provided for @mrMarketTitle.
   ///

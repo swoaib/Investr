@@ -143,13 +143,40 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get theSpeculatorDesc =>
-      '投機家は、基礎となるビジネスを理解せずに価格変動に賭けます。それは本質的にギャンブルです。';
+      'ギャンブルや投機は利益を生む可能性がありますが、それは偶然と運に依存しています。それは価値ではなく、価格への賭けです。';
 
   @override
   String get beAnInvestor => '投資家になろう';
 
   @override
   String get beAnInvestorDesc => '単に上下するティッカー価格ではなく、ビジネスの長期的価値に焦点を当てましょう。';
+
+  @override
+  String get valueInvestingTitle => 'バリュー投資';
+
+  @override
+  String get valueInvestingDesc =>
+      'この戦略は、本質的価値よりも安く株を買うことに焦点を当てています。50セントで1ドル分の資産を手に入れることです。';
+
+  @override
+  String get valueRiskTitle => '保証はありません';
+
+  @override
+  String get valueRiskDesc => 'バリュー投資はリスクを軽減しますが、排除するわけではありません。市場に保証はありません。';
+
+  @override
+  String get startupSpeculationTitle => '戦略的投機';
+
+  @override
+  String get startupSpeculationDesc =>
+      '初期段階の企業（AmazonのIPOなど）を支援することは問題ありません。しかし、これらの投機的な賭けはポートフォリオの最大10％に制限してください。';
+
+  @override
+  String get stockOwnershipHistory => '歴史的背景';
+
+  @override
+  String get stockOwnershipHistoryDesc =>
+      '株式はビジネスの株式を購入するのを簡単にするだけです。それは本質的に、歴史上のあらゆるビジネスに投資することと同じです。';
 
   @override
   String get mrMarketTitle => 'ミスター・マーケット';

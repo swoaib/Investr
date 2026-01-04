@@ -147,7 +147,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get theSpeculatorDesc =>
-      'Speculators bet on price movements without understanding the underlying business. It\'s essentially gambling.';
+      'Gambling and speculation can pay off, but they rely on chance and luck. It\'s betting on price, not value.';
 
   @override
   String get beAnInvestor => 'Be an Investor';
@@ -155,6 +155,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get beAnInvestorDesc =>
       'Focus on the long-term value of the business, not just the ticker price simply moving up and down.';
+
+  @override
+  String get valueInvestingTitle => 'Value Investing';
+
+  @override
+  String get valueInvestingDesc =>
+      'This strategy focuses on buying stocks for less than their intrinsic value—getting \$1 worth of assets for 50 cents.';
+
+  @override
+  String get valueRiskTitle => 'No Guarantees';
+
+  @override
+  String get valueRiskDesc =>
+      'Value investing reduces risk, but doesn\'t eliminate it. There are no guarantees in the market.';
+
+  @override
+  String get startupSpeculationTitle => 'Strategic Speculation';
+
+  @override
+  String get startupSpeculationDesc =>
+      'It\'s okay to back early-stage companies (like Amazon\'s IPO). But limit these speculative bets to maximum 10% of your portfolio.';
+
+  @override
+  String get stockOwnershipHistory => 'Historical Context';
+
+  @override
+  String get stockOwnershipHistoryDesc =>
+      'Stocks just simplify buying business shares. It\'s essentially the same as investing in any business throughout history.';
 
   @override
   String get mrMarketTitle => 'Mr. Market';

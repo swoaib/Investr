@@ -147,7 +147,7 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get theSpeculatorDesc =>
-      'Spekulanter vedder på prisbevegelser uten å forstå den underliggende virksomheten. Det er i hovedsak gambling.';
+      'Gambling og spekulasjon kan gi gevinst, men de er basert på sjanse og flaks. Det er veddemål på pris, ikke verdi.';
 
   @override
   String get beAnInvestor => 'Vær en investor';
@@ -155,6 +155,34 @@ class AppLocalizationsNo extends AppLocalizations {
   @override
   String get beAnInvestorDesc =>
       'Fokuser på den langsiktige verdien av virksomheten, ikke bare ticker-prisen som bare beveger seg opp og ned.';
+
+  @override
+  String get valueInvestingTitle => 'Verdiinvestering';
+
+  @override
+  String get valueInvestingDesc =>
+      'Denne strategien fokuserer på å kjøpe aksjer for mindre enn deres indre verdi - å få 1 krone verdt av eiendeler for 50 øre.';
+
+  @override
+  String get valueRiskTitle => 'Ingen garantier';
+
+  @override
+  String get valueRiskDesc =>
+      'Verdiinvestering reduserer risiko, men eliminerer den ikke. Det finnes ingen garantier i markedet.';
+
+  @override
+  String get startupSpeculationTitle => 'Strategisk spekulasjon';
+
+  @override
+  String get startupSpeculationDesc =>
+      'Det er greit å støtte selskaper i tidlig fase (som Amazons børsnotering). Men begrens disse spekulative veddemålene til maksimalt 10% av porteføljen din.';
+
+  @override
+  String get stockOwnershipHistory => 'Historisk kontekst';
+
+  @override
+  String get stockOwnershipHistoryDesc =>
+      'Aksjer forenkler bare det å kjøpe andeler i bedrifter. Det er i hovedsak det samme som å investere i en hvilken som helst bedrift gjennom historien.';
 
   @override
   String get mrMarketTitle => 'Mr. Market';
