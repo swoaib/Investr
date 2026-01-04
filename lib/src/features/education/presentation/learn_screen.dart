@@ -37,6 +37,11 @@ class LearnScreen extends StatelessWidget {
             description: l10n.stockOwnershipHistoryDesc,
             imagePath: 'assets/images/education/stock_ownership_history.png',
           ),
+          LessonPage(
+            title: l10n.supportBusinessTitle,
+            description: l10n.supportBusinessDesc,
+            imagePath: 'assets/images/education/support_business.png',
+          ),
         ],
       ),
       Lesson(
@@ -121,11 +126,6 @@ class LearnScreen extends StatelessWidget {
             title: l10n.exponentialGrowth,
             description: l10n.exponentialGrowthDesc,
             imagePath: 'assets/images/education/compound_graph.svg',
-          ),
-          LessonPage(
-            title: l10n.supportBusinessTitle,
-            description: l10n.supportBusinessDesc,
-            imagePath: 'assets/images/education/support_business.png',
           ),
         ],
       ),
