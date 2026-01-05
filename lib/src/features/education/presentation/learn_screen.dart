@@ -60,12 +60,12 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.whatIsAnInvestment,
             description: l10n.whatIsAnInvestmentDesc,
-            imagePath: 'assets/images/education/investment_analysis.svg',
+            imagePath: 'assets/images/education/investment_analysis.png',
           ),
           LessonPage(
             title: l10n.theSpeculator,
             description: l10n.theSpeculatorDesc,
-            imagePath: 'assets/images/education/speculation_gambling.png',
+            imagePath: 'assets/images/education/speculation_gambling.svg',
           ),
           LessonPage(
             title: l10n.valueInvestingTitle,
@@ -93,11 +93,6 @@ class LearnScreen extends StatelessWidget {
         category: LessonCategory.foundation,
         pages: [
           LessonPage(
-            title: l10n.stocksVsBankTitle,
-            description: l10n.stocksVsBankDesc,
-            imagePath: 'assets/images/education/stocks_vs_bank_10y.png',
-          ),
-          LessonPage(
             title: l10n.inflationBalloonTitle,
             description: l10n.inflationBalloonDesc,
             imagePath: 'assets/images/education/inflation_balloon.png',
@@ -105,7 +100,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.purchasingPowerTitle,
             description: l10n.purchasingPowerDesc,
-            imagePath: 'assets/images/education/purchasing_power.png',
+            imagePath: 'assets/images/education/purchasing_power-2.png',
           ),
           LessonPage(
             title: l10n.cpiBasketTitle,
@@ -116,6 +111,11 @@ class LearnScreen extends StatelessWidget {
             title: l10n.inflationShieldTitle,
             description: l10n.inflationShieldDesc,
             imagePath: 'assets/images/education/inflation_shield.png',
+          ),
+          LessonPage(
+            title: l10n.stocksVsBankTitle,
+            description: l10n.stocksVsBankDesc,
+            imagePath: 'assets/images/education/compound_graph.png',
           ),
           LessonPage(
             title: l10n.snowballEffect,
@@ -130,7 +130,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.exponentialGrowth,
             description: l10n.exponentialGrowthDesc,
-            imagePath: 'assets/images/education/compound_graph.png',
+            imagePath: 'assets/images/education/compound_graph.svg',
           ),
         ],
       ),
