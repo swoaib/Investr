@@ -184,22 +184,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   List<PricePoint> get _filteredHistory {
     if (_selectedInterval == '1D') {
       if (_intradayHistory != null && _intradayHistory!.isNotEmpty) {
-        return _intradayHistory!.where((p) {
-          final utcTime = p.date.toUtc();
-          final isDST = _isUSDST(utcTime);
-          final openHour = isDST ? 13 : 14;
-          final closeHour = isDST ? 20 : 21;
-          final hour = utcTime.hour;
-          final minute = utcTime.minute;
-
-          if (hour < openHour || (hour == openHour && minute < 30)) {
-            return false;
-          }
-          if (hour > closeHour || (hour == closeHour && minute > 0)) {
-            return false;
-          }
-          return true;
-        }).toList();
+        return _repository.filterForMarketHours(_intradayHistory!);
       }
       return [];
     }
@@ -626,7 +611,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
       }
 
       final baseDateUtc = baseDate.toUtc();
-      final isDST = _isUSDST(baseDateUtc);
+      final isDST = _repository.isUSDST(baseDateUtc);
 
       final openHour = isDST ? 13 : 14;
       final closeHour = isDST ? 20 : 21;
@@ -1120,34 +1105,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   }
 
   // Basic US DST Helper
-  bool _isUSDST(DateTime date) {
-    // US DST starts 2nd Sunday in March, ends 1st Sunday in Nov.
-    // Simplistic Logic Check:
-    if (date.month > 3 && date.month < 11) return true;
-    if (date.month < 3 || date.month > 11) return false;
-
-    // March or Nov
-    int day = date.day;
-
-    if (date.month == 3) {
-      // Starts 2nd Sunday.
-      DateTime firstMarch = DateTime.utc(date.year, 3, 1);
-      int firstMarchWeekday = firstMarch.weekday;
-      int dayOfFirstSunday = (8 - firstMarchWeekday) % 7;
-      if (dayOfFirstSunday == 0) dayOfFirstSunday = 7;
-      int dayOfSecondSunday = dayOfFirstSunday + 7;
-      return day >= dayOfSecondSunday;
-    }
-
-    if (date.month == 11) {
-      // Ends 1st Sunday.
-      DateTime firstNov = DateTime.utc(date.year, 11, 1);
-      int firstNovWeekday = firstNov.weekday;
-      int dayOfFirstSunday = (8 - firstNovWeekday) % 7;
-      if (dayOfFirstSunday == 0) dayOfFirstSunday = 7;
-      return day < dayOfFirstSunday;
-    }
-    return false;
   }
 }
 

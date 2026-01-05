@@ -256,6 +256,40 @@ class StockRepository {
     }
   }
 
+  /// Uses intraday data filtered to market hours to match the graph.
+  Future<Stock> getQuote(Stock stock) async {
+    try {
+      // Reuse getIntradayHistory to get the same data source as the graph
+      final points = await getIntradayHistory(stock.symbol);
+
+      // Filter strictly for market hours to match the graph visualization
+      final filteredPoints = filterForMarketHours(points);
+
+      if (filteredPoints.isNotEmpty) {
+        final latestPoint = filteredPoints.last;
+        final currentPrice = latestPoint.price;
+
+        // Calculate change based on the stored previousClose
+        double change = stock.change;
+        double changePercent = stock.changePercent;
+
+        if (stock.previousClose != null && stock.previousClose! > 0) {
+          change = currentPrice - stock.previousClose!;
+          changePercent = (change / stock.previousClose!) * 100;
+        }
+
+        return stock.copyWith(
+          price: currentPrice,
+          change: change,
+          changePercent: changePercent,
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching quote for ${stock.symbol}: $e');
+    }
+    return stock;
+  }
+
   /// Fetches historical earnings (EPS) and Revenue for the Earnings chart.
   Future<List<EarningsPoint>> getEarningsHistory(
     String symbol, {
@@ -772,9 +806,18 @@ class StockRepository {
   }
 
   bool _hasRegularMarketData(List<PricePoint> points) {
-    for (var p in points) {
+    // Reuse the public filter to check if we have any valid points
+    return filterForMarketHours(points).isNotEmpty;
+  }
+
+  /// Filters a list of price points to only include those within regular market hours (09:30 - 16:00 ET).
+  /// Handles DST automatically.
+  List<PricePoint> filterForMarketHours(List<PricePoint> points) {
+    if (points.isEmpty) return [];
+
+    return points.where((p) {
       final utcTime = p.date.toUtc();
-      final isDST = _isUSDST(utcTime);
+      final isDST = isUSDST(utcTime);
 
       // ET is UTC-4 (DST) or UTC-5 (Standard)
       // Open: 09:30 ET -> 13:30 UTC (DST) or 14:30 UTC (Std)
@@ -785,34 +828,51 @@ class StockRepository {
       final hour = utcTime.hour;
       final minute = utcTime.minute;
 
-      final isAfterOpen = hour > openHour || (hour == openHour && minute >= 30);
-      final isBeforeClose =
-          hour < closeHour || (hour == closeHour && minute == 0);
-
-      if (isAfterOpen && isBeforeClose) {
-        return true;
+      if (hour < openHour || (hour == openHour && minute < 30)) {
+        return false;
       }
-    }
-    return false;
+      if (hour > closeHour || (hour == closeHour && minute > 0)) {
+        return false;
+      }
+      return true;
+    }).toList();
   }
 
-  bool _isUSDST(DateTime utcTime) {
+  bool isUSDST(DateTime utcTime) {
     final year = utcTime.year;
-    // 2nd Sunday in March
-    var secondSundayMarch = DateTime.utc(year, 3, 1);
-    while (secondSundayMarch.weekday != DateTime.sunday) {
-      secondSundayMarch = secondSundayMarch.add(const Duration(days: 1));
-    }
-    secondSundayMarch = secondSundayMarch.add(const Duration(days: 7));
-    final dstStart = DateTime.utc(year, 3, secondSundayMarch.day, 7);
+    // DST starts 2nd Sunday in March
+    // DST ends 1st Sunday in November
 
-    // 1st Sunday in November
-    var firstSundayNov = DateTime.utc(year, 11, 1);
-    while (firstSundayNov.weekday != DateTime.sunday) {
-      firstSundayNov = firstSundayNov.add(const Duration(days: 1));
+    // Find 2nd Sunday in March
+    final march1 = DateTime.utc(year, 3, 1);
+    var secondSundayMarch = march1;
+    int sundayCount = 0;
+    for (int i = 0; i < 31; i++) {
+      if (march1.add(Duration(days: i)).weekday == DateTime.sunday) {
+        sundayCount++;
+        if (sundayCount == 2) {
+          secondSundayMarch = march1.add(Duration(days: i));
+          break;
+        }
+      }
     }
-    final dstEnd = DateTime.utc(year, 11, firstSundayNov.day, 6);
 
-    return utcTime.isAfter(dstStart) && utcTime.isBefore(dstEnd);
+    // Find 1st Sunday in November
+    final nov1 = DateTime.utc(year, 11, 1);
+    var firstSundayNov = nov1;
+    for (int i = 0; i < 31; i++) {
+      if (nov1.add(Duration(days: i)).weekday == DateTime.sunday) {
+        firstSundayNov = nov1.add(Duration(days: i));
+        break;
+      }
+    }
+
+    // DST starts at 2:00 AM local time (which is roughly 7am UTC in March?)
+    // For simplicity, we compare dates.
+    // The exact hour change might matter for the specific hour of switch,
+    // but usually market is closed on Sundays anyway.
+
+    return utcTime.isAfter(secondSundayMarch) &&
+        utcTime.isBefore(firstSundayNov);
   }
 }

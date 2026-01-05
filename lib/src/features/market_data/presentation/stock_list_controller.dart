@@ -97,17 +97,14 @@ class StockListController extends ChangeNotifier {
 
     for (int i = 0; i < _stocks.length; i++) {
       try {
-        final details = await _repository.getStockDetails(
+        final updatedStock = await _repository.getQuote(
           _stocks[i],
         ); // Refresh price
 
-        // We just want the latest price/change.
-        // But getStockDetails returns a full object.
-
         _stocks[i] = _stocks[i].copyWith(
-          price: details.price,
-          change: details.change,
-          changePercent: details.changePercent,
+          price: updatedStock.price,
+          change: updatedStock.change,
+          changePercent: updatedStock.changePercent,
         );
 
         // Optionally refresh sparkline if needed, but maybe too heavy for 30s poll.
