@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 
 import 'package:investr/l10n/app_localizations.dart';
 import 'package:investr/src/shared/locale/locale_controller.dart';
@@ -35,27 +35,27 @@ class _OnboardingView extends StatelessWidget {
       _LanguageSelectionPage(
         title: l10n.chooseLanguage,
         description: l10n.chooseLanguageDesc,
-        imagePath: 'assets/images/onboarding/language_selection.svg',
+        imagePath: 'assets/images/onboarding/language_selection.png',
       ),
       OnboardingPage(
         title: l10n.trackYourStocks,
         description: l10n.trackYourStocksDesc,
-        imagePath: 'assets/images/onboarding/track_stocks.svg',
+        imagePath: 'assets/images/onboarding/track_stocks.png',
       ),
       OnboardingPage(
         title: l10n.learnToInvest,
         description: l10n.learnToInvestDesc,
-        imagePath: 'assets/images/onboarding/learn_invest.svg',
+        imagePath: 'assets/images/onboarding/learn_invest.png',
       ),
       OnboardingPage(
         title: l10n.valueYourPortfolio,
         description: l10n.valueYourPortfolioDesc,
-        imagePath: 'assets/images/onboarding/value_portfolio.svg',
+        imagePath: 'assets/images/onboarding/value_portfolio.png',
       ),
       _ThemeSelectionPage(
         title: l10n.chooseTheme,
         description: l10n.chooseThemeDesc,
-        imagePath: 'assets/images/onboarding/theme_selection.svg',
+        imagePath: 'assets/images/onboarding/theme_selection.png',
       ),
     ];
 
@@ -158,7 +158,7 @@ class OnboardingPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(imagePath, height: 250),
+          Image.asset(imagePath, height: 250),
           const SizedBox(height: 32),
           Text(
             title,
@@ -198,7 +198,7 @@ class _LanguageSelectionPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(imagePath, height: 180),
+          Image.asset(imagePath, height: 180),
           const SizedBox(height: 24),
           Text(
             title,

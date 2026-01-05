@@ -335,12 +335,12 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.mutualFunds,
             description: l10n.mutualFundsDesc,
-            imagePath: 'assets/images/education/mutual_fund_manager.svg',
+            imagePath: 'assets/images/education/mutual_fund_manager.png',
           ),
           LessonPage(
             title: l10n.ethicalInvesting,
             description: l10n.ethicalInvestingDesc,
-            imagePath: 'assets/images/education/etf_basket.png',
+            imagePath: 'assets/images/education/esg_investing.png',
           ),
         ],
       ),
@@ -355,22 +355,22 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.marketCapTitle,
             description: l10n.marketCapDesc,
-            imagePath: 'assets/images/education/market_cap_size.svg',
+            imagePath: 'assets/images/education/market_cap_size.png',
           ),
           LessonPage(
             title: l10n.peRatioTitle,
             description: l10n.peRatioImgDesc,
-            imagePath: 'assets/images/education/pe_ratio_tag.svg',
+            imagePath: 'assets/images/education/pe_ratio_tag.png',
           ),
           LessonPage(
             title: l10n.dividendYieldTitle,
             description: l10n.dividendYieldDesc,
-            imagePath: 'assets/images/education/dividend_yield_tree.svg',
+            imagePath: 'assets/images/education/dividend_yield_tree.png',
           ),
           LessonPage(
             title: l10n.epsTitle,
             description: l10n.epsDesc,
-            imagePath: 'assets/images/education/eps_engine.svg',
+            imagePath: 'assets/images/education/eps_engine.png',
           ),
         ],
       ),
@@ -385,22 +385,22 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.priceVsValue,
             description: l10n.priceVsValueDesc,
-            imagePath: 'assets/images/education/intrinsic_price_value.svg',
+            imagePath: 'assets/images/education/intrinsic_price_value.png',
           ),
           LessonPage(
             title: l10n.theFormulaDCF,
             description: l10n.theFormulaDCFDesc,
-            imagePath: 'assets/images/education/intrinsic_dcf.svg',
+            imagePath: 'assets/images/education/intrinsic_dcf.png',
           ),
           LessonPage(
             title: l10n.stepByStep,
             description: l10n.stepByStepDesc,
-            imagePath: 'assets/images/education/intrinsic_formula.svg',
+            imagePath: 'assets/images/education/intrinsic_formula.png',
           ),
           LessonPage(
             title: l10n.useOurCalculator,
             description: l10n.useOurCalculatorDesc,
-            imagePath: 'assets/images/education/intrinsic_conservative.svg',
+            imagePath: 'assets/images/education/intrinsic_conservative.png',
           ),
         ],
       ),
