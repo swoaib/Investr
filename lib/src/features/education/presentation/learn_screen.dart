@@ -45,7 +45,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.stocks101AttributionTitle,
             description: l10n.stocks101AttributionDesc,
-            imagePath: 'assets/images/education/intelligent_choice.svg',
+            imagePath: 'assets/images/education/stocks_attribution.png',
           ),
         ],
       ),
