@@ -1103,9 +1103,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
       ],
     );
   }
-
-  // Basic US DST Helper
-  }
 }
 
 class _ChartTouchDotPainter extends FlDotPainter {
