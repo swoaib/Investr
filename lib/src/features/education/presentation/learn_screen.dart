@@ -155,22 +155,22 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.defensiveStrategy,
             description: l10n.defensiveStrategyDesc,
-            imagePath: 'assets/images/education/defensive_strategy.svg',
+            imagePath: 'assets/images/education/defensive_strategy.png',
           ),
           LessonPage(
             title: l10n.theEnterpriseInvestor,
             description: l10n.theEnterpriseInvestorDesc,
-            imagePath: 'assets/images/education/enterprise_investor.svg',
+            imagePath: 'assets/images/education/enterprise_investor.png',
           ),
           LessonPage(
             title: l10n.enterpriseStrategy,
             description: l10n.enterpriseStrategyDesc,
-            imagePath: 'assets/images/education/enterprise_strategy.svg',
+            imagePath: 'assets/images/education/enterprise_strategy.png',
           ),
           LessonPage(
             title: l10n.theChoice,
             description: l10n.theChoiceDesc,
-            imagePath: 'assets/images/education/intelligent_choice.svg',
+            imagePath: 'assets/images/education/intelligent_choice.png',
           ),
         ],
       ),
@@ -185,27 +185,27 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.meetMrMarket,
             description: l10n.meetMrMarketDesc,
-            imagePath: 'assets/images/education/mr_market_meet.svg',
+            imagePath: 'assets/images/education/mr_market_meet.png',
           ),
           LessonPage(
             title: l10n.heIsEmotional,
             description: l10n.heIsEmotionalDesc,
-            imagePath: 'assets/images/education/mr_market_emotional.svg',
+            imagePath: 'assets/images/education/mr_market_emotional.png',
           ),
           LessonPage(
             title: l10n.yourAdvantage,
             description: l10n.yourAdvantageDesc,
-            imagePath: 'assets/images/education/mr_market_advantage.svg',
+            imagePath: 'assets/images/education/mr_market_advantage.png',
           ),
           LessonPage(
             title: l10n.intrinsicValue,
             description: l10n.intrinsicValueDesc,
-            imagePath: 'assets/images/education/mr_market_intrinsic.svg',
+            imagePath: 'assets/images/education/mr_market_intrinsic.png',
           ),
           LessonPage(
             title: l10n.disciplineIsKey,
             description: l10n.disciplineIsKeyDesc,
-            imagePath: 'assets/images/education/mr_market_discipline.svg',
+            imagePath: 'assets/images/education/mr_market_discipline.png',
           ),
         ],
       ),
@@ -225,22 +225,22 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.roomForError,
             description: l10n.roomForErrorDesc,
-            imagePath: 'assets/images/education/ms_room_error.svg',
+            imagePath: 'assets/images/education/ms_room_error.png',
           ),
           LessonPage(
             title: l10n.theEngineersBridge,
             description: l10n.theEngineersBridgeDesc,
-            imagePath: 'assets/images/education/ms_bridge.svg',
+            imagePath: 'assets/images/education/ms_bridge.png',
           ),
           LessonPage(
             title: l10n.diversification,
             description: l10n.diversificationDesc,
-            imagePath: 'assets/images/education/ms_diversification.svg',
+            imagePath: 'assets/images/education/ms_diversification.png',
           ),
           LessonPage(
             title: l10n.conservativeAssumptions,
             description: l10n.conservativeAssumptionsDesc,
-            imagePath: 'assets/images/education/ms_conservative.svg',
+            imagePath: 'assets/images/education/ms_conservative.png',
           ),
         ],
       ),
@@ -255,22 +255,22 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.whatIsAnIndexFund,
             description: l10n.whatIsAnIndexFundDesc,
-            imagePath: 'assets/images/education/index_fund_basket.svg',
+            imagePath: 'assets/images/education/index_fund_basket.png',
           ),
           LessonPage(
             title: l10n.instantDiversification,
             description: l10n.instantDiversificationDesc,
-            imagePath: 'assets/images/education/diversification.svg',
+            imagePath: 'assets/images/education/diversification.png',
           ),
           LessonPage(
             title: l10n.lowCost,
             description: l10n.lowCostDesc,
-            imagePath: 'assets/images/education/low_fees.svg',
+            imagePath: 'assets/images/education/low_fees.png',
           ),
           LessonPage(
             title: l10n.marketPerformance,
             description: l10n.marketPerformanceDesc,
-            imagePath: 'assets/images/education/market_performance.svg',
+            imagePath: 'assets/images/education/market_performance.png',
           ),
         ],
       ),
@@ -320,12 +320,12 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.theBroker,
             description: l10n.theBrokerDesc,
-            imagePath: 'assets/images/education/broker_gateway.svg',
+            imagePath: 'assets/images/education/broker_gateway.png',
           ),
           LessonPage(
             title: l10n.accountTypes,
             description: l10n.accountTypesDesc,
-            imagePath: 'assets/images/education/account_types.svg',
+            imagePath: 'assets/images/education/account_types.png',
           ),
           LessonPage(
             title: l10n.etfs,
@@ -340,7 +340,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.ethicalInvesting,
             description: l10n.ethicalInvestingDesc,
-            imagePath: 'assets/images/education/esg_investing.svg',
+            imagePath: 'assets/images/education/etf_basket.png',
           ),
         ],
       ),
