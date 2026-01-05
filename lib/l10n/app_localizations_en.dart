@@ -130,6 +130,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Investing allows your money to grow over time, helping you beat inflation and build long-term wealth.';
 
   @override
+  String get stocks101AttributionTitle => 'Credit Where Due';
+
+  @override
+  String get stocks101AttributionDesc =>
+      'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors like Warren Buffett is also included.';
+
+  @override
   String get whyInvestLessonTitle => 'Why Invest?';
 
   @override

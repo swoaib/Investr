@@ -328,6 +328,18 @@ abstract class AppLocalizations {
   /// **'Investing allows your money to grow over time, helping you beat inflation and build long-term wealth.'**
   String get whyInvestDesc;
 
+  /// No description provided for @stocks101AttributionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Where Due'**
+  String get stocks101AttributionTitle;
+
+  /// No description provided for @stocks101AttributionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors like Warren Buffett is also included.'**
+  String get stocks101AttributionDesc;
+
   /// No description provided for @whyInvestLessonTitle.
   ///
   /// In en, this message translates to:

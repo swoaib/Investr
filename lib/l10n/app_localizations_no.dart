@@ -130,6 +130,13 @@ class AppLocalizationsNo extends AppLocalizations {
       'Investering lar pengene dine vokse over tid, hjelper deg å slå inflasjon og bygge langsiktig formue.';
 
   @override
+  String get stocks101AttributionTitle => 'Ære være den som æres bør';
+
+  @override
+  String get stocks101AttributionDesc =>
+      'Informasjonen i denne appen er basert på boken \'The Intelligent Investor\' av Benjamin Graham. Annen informasjon fra verdiinvestorer som Warren Buffett er også inkludert.';
+
+  @override
   String get whyInvestLessonTitle => 'Hvorfor Investere?';
 
   @override

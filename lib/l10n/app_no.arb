@@ -31,6 +31,9 @@
   "stockOwnershipHistory": "Historisk kontekst",
   "stockOwnershipHistoryDesc": "Aksjer forenkler bare eierskap. Konseptet med å investere forblir det samme enten du kjøper en gård, en aksje eller andre instrumenter.",
 
+  "stocks101AttributionTitle": "Ære være den som æres bør",
+  "stocks101AttributionDesc": "Informasjonen i denne appen er basert på boken 'The Intelligent Investor' av Benjamin Graham. Annen informasjon fra verdiinvestorer som Warren Buffett er også inkludert.",
+
   "whyInvestLessonTitle": "Hvorfor Investere?",
   "whyInvestLessonDesc": "Slå inflasjon og bygg formue.",
   "stocksVsBankTitle": "Aksjer vs. Bank",

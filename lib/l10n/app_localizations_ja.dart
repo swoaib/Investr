@@ -127,6 +127,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get whyInvestDesc => '投資することで、時間と共にお金を増やし、インフレに打ち勝ち、長期的な資産を築くことができます。';
 
   @override
+  String get stocks101AttributionTitle => 'Credit Where Due';
+
+  @override
+  String get stocks101AttributionDesc =>
+      'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors like Warren Buffett is also included.';
+
+  @override
   String get whyInvestLessonTitle => 'なぜ投資するのか？';
 
   @override

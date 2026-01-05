@@ -39,6 +39,9 @@
   "theStockMarketDesc": "The stock market is where buyers and sellers meet to trade shares. Think of it as a supermarket for companies.",
   "whyInvest": "Why Invest?",
   "whyInvestDesc": "Investing allows your money to grow over time, helping you beat inflation and build long-term wealth.",
+  
+  "stocks101AttributionTitle": "Credit Where Due",
+  "stocks101AttributionDesc": "The information in this app is based on the book 'The Intelligent Investor' by Benjamin Graham. Other information from value investors like Warren Buffett is also included.",
 
   "whyInvestLessonTitle": "Why Invest?",
   "whyInvestLessonDesc": "Beat inflation and build wealth.",
