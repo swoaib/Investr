@@ -1533,6 +1533,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This calculator estimates the intrinsic value using the Discounted Cash Flow (DCF) model. It projects future cash flows based on your growth assumptions, discounts them back to today\'s value, adds a terminal value, and adjusts for the company\'s net debt.'**
   String get dcfExplanation;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @myProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'My Progress'**
+  String get myProgress;
+
+  /// No description provided for @basicsOfOwnership.
+  ///
+  /// In en, this message translates to:
+  /// **'Basics of ownership'**
+  String get basicsOfOwnership;
+
+  /// No description provided for @beatingInflation.
+  ///
+  /// In en, this message translates to:
+  /// **'Beating inflation'**
+  String get beatingInflation;
+
+  /// No description provided for @riskManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk management'**
+  String get riskManagement;
+
+  /// No description provided for @growth.
+  ///
+  /// In en, this message translates to:
+  /// **'Growth'**
+  String get growth;
+
+  /// No description provided for @terminal.
+  ///
+  /// In en, this message translates to:
+  /// **'Terminal'**
+  String get terminal;
+
+  /// No description provided for @discount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get discount;
+
+  /// No description provided for @now.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get now;
+
+  /// No description provided for @notificationPriceAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Price Alert: '**
+  String get notificationPriceAlert;
+
+  /// No description provided for @notificationReached.
+  ///
+  /// In en, this message translates to:
+  /// **' reached '**
+  String get notificationReached;
+
+  /// No description provided for @epsAndRev.
+  ///
+  /// In en, this message translates to:
+  /// **'EPS & Rev'**
+  String get epsAndRev;
+
+  /// No description provided for @appleInc.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Inc.'**
+  String get appleInc;
 }
 
 class _AppLocalizationsDelegate

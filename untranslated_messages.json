@@ -1,17 +1,6 @@
 {
   "ja": [
-    "enableNotificationsTitle",
-    "enableNotificationsDesc",
-    "enableNotificationsButton",
-    "notNow",
     "stocks101AttributionTitle",
     "stocks101AttributionDesc"
-  ],
-
-  "no": [
-    "enableNotificationsTitle",
-    "enableNotificationsDesc",
-    "enableNotificationsButton",
-    "notNow"
   ]
 }

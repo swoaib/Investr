@@ -795,4 +795,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get dcfExplanation =>
       'This calculator estimates the intrinsic value using the Discounted Cash Flow (DCF) model. It projects future cash flows based on your growth assumptions, discounts them back to today\'s value, adds a terminal value, and adjusts for the company\'s net debt.';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get myProgress => 'My Progress';
+
+  @override
+  String get basicsOfOwnership => 'Basics of ownership';
+
+  @override
+  String get beatingInflation => 'Beating inflation';
+
+  @override
+  String get riskManagement => 'Risk management';
+
+  @override
+  String get growth => 'Growth';
+
+  @override
+  String get terminal => 'Terminal';
+
+  @override
+  String get discount => 'Discount';
+
+  @override
+  String get now => 'now';
+
+  @override
+  String get notificationPriceAlert => 'Price Alert: ';
+
+  @override
+  String get notificationReached => ' reached ';
+
+  @override
+  String get epsAndRev => 'EPS & Rev';
+
+  @override
+  String get appleInc => 'Apple Inc.';
 }

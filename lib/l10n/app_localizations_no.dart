@@ -36,17 +36,17 @@ class AppLocalizationsNo extends AppLocalizations {
   String get newsUpdates => 'Nyhetsoppdateringer';
 
   @override
-  String get enableNotificationsTitle => 'Price Alerts';
+  String get enableNotificationsTitle => 'Prisvarsler';
 
   @override
   String get enableNotificationsDesc =>
-      'Enable notifications to get alerts when your stocks hit your target price.';
+      'Aktiver varsler for å få beskjed når aksjene dine når målprisen.';
 
   @override
-  String get enableNotificationsButton => 'Enable Notifications';
+  String get enableNotificationsButton => 'Aktiver varsler';
 
   @override
-  String get notNow => 'Not now';
+  String get notNow => 'Ikke nå';
 
   @override
   String get marketAlerts => 'Markedsvarsler';
@@ -571,11 +571,11 @@ class AppLocalizationsNo extends AppLocalizations {
       'Velg et utseende som passer din stil. Du kan endre dette senere i innstillinger.';
 
   @override
-  String get trackYourStocks => 'Følg aksjene dine';
+  String get trackYourStocks => 'Følg selskaper';
 
   @override
   String get trackYourStocksDesc =>
-      'Få sanntidsoppdateringer på favorittaksjene dine og markedstrender.';
+      'Følg dine favorittselskaper for å sjekke priser, inntjening og nøkkeltall.';
 
   @override
   String get learnToInvest => 'Lær å investere';
@@ -585,11 +585,11 @@ class AppLocalizationsNo extends AppLocalizations {
       'Mestre det grunnleggende innen investering med vårt kuraterte pedagogiske innhold.';
 
   @override
-  String get valueYourPortfolio => 'Verdsett porteføljen din';
+  String get valueYourPortfolio => 'Beregn iboende verdi';
 
   @override
   String get valueYourPortfolioDesc =>
-      'Bruk avanserte verktøy for å beregne iboende verdi og ta informerte beslutninger.';
+      'Bruk vår kalkulator for å beregne den iboende verdien av et selskap og ta informerte beslutninger.';
 
   @override
   String get howToInvestTitle => 'Hvordan Investere';
@@ -793,4 +793,43 @@ class AppLocalizationsNo extends AppLocalizations {
   @override
   String get dcfExplanation =>
       'Denne kalkulatoren estimerer den indre verdien ved hjelp av en kontantstrømsmodell (DCF). Den fremskriver fremtidige kontantstrømmer basert på dine vekstforutsetninger, diskonterer dem tilbake til dagens verdi, legger til en sluttverdi og justerer for selskapets nettogjeld.';
+
+  @override
+  String get skip => 'Hopp over';
+
+  @override
+  String get myProgress => 'Min fremgang';
+
+  @override
+  String get basicsOfOwnership => 'Eierskapets grunnleggende';
+
+  @override
+  String get beatingInflation => 'Slå inflasjonen';
+
+  @override
+  String get riskManagement => 'Risikostyring';
+
+  @override
+  String get growth => 'Vekst';
+
+  @override
+  String get terminal => 'Terminal';
+
+  @override
+  String get discount => 'Rabatt';
+
+  @override
+  String get now => 'nå';
+
+  @override
+  String get notificationPriceAlert => 'Prisvarsel: ';
+
+  @override
+  String get notificationReached => ' nådde ';
+
+  @override
+  String get epsAndRev => 'EPS & Oms';
+
+  @override
+  String get appleInc => 'Apple Inc.';
 }

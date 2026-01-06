@@ -95,7 +95,7 @@ class _OnboardingView extends StatelessWidget {
                     controller.completeOnboarding(context);
                     context.go('/');
                   },
-                  child: const Text('Skip'),
+                  child: Text(l10n.skip),
                 ),
               )
             else

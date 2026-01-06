@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:investr/src/shared/theme/app_theme.dart';
+import 'package:investr/l10n/app_localizations.dart';
 
 class NotificationSimulationCard extends StatelessWidget {
   const NotificationSimulationCard({super.key});
@@ -53,7 +54,7 @@ class NotificationSimulationCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'now',
+                      AppLocalizations.of(context)!.now,
                       style: Theme.of(
                         context,
                       ).textTheme.bodySmall?.copyWith(color: Colors.grey),
@@ -65,12 +66,18 @@ class NotificationSimulationCard extends StatelessWidget {
                   text: TextSpan(
                     style: Theme.of(context).textTheme.bodyMedium,
                     children: [
-                      const TextSpan(text: 'Price Alert: '),
+                      TextSpan(
+                        text: AppLocalizations.of(
+                          context,
+                        )!.notificationPriceAlert,
+                      ),
                       const TextSpan(
                         text: 'AAPL',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      const TextSpan(text: ' reached '),
+                      TextSpan(
+                        text: AppLocalizations.of(context)!.notificationReached,
+                      ),
                       TextSpan(
                         text: '\$150.00',
                         style: TextStyle(

@@ -282,5 +282,19 @@
   "currentPrice": "Current Price",
   "intrinsicValue": "Intrinsic Value",
   "howItWorks": "How it works",
-  "dcfExplanation": "This calculator estimates the intrinsic value using the Discounted Cash Flow (DCF) model. It projects future cash flows based on your growth assumptions, discounts them back to today's value, adds a terminal value, and adjusts for the company's net debt."
+  "dcfExplanation": "This calculator estimates the intrinsic value using the Discounted Cash Flow (DCF) model. It projects future cash flows based on your growth assumptions, discounts them back to today's value, adds a terminal value, and adjusts for the company's net debt.",
+  
+  "skip": "Skip",
+  "myProgress": "My Progress",
+  "basicsOfOwnership": "Basics of ownership",
+  "beatingInflation": "Beating inflation",
+  "riskManagement": "Risk management",
+  "growth": "Growth",
+  "terminal": "Terminal",
+  "discount": "Discount",
+  "now": "now",
+  "notificationPriceAlert": "Price Alert: ",
+  "notificationReached": " reached ",
+  "epsAndRev": "EPS & Rev",
+  "appleInc": "Apple Inc."
 }

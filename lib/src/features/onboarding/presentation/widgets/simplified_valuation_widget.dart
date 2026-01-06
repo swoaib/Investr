@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../shared/theme/app_theme.dart';
+import 'package:investr/l10n/app_localizations.dart';
 
 class SimplifiedValuationWidget extends StatelessWidget {
   const SimplifiedValuationWidget({super.key});
@@ -39,16 +40,28 @@ class SimplifiedValuationWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildAssumptionItem(context, 'Growth', '10%'),
-              _buildAssumptionItem(context, 'Terminal', '3%'),
-              _buildAssumptionItem(context, 'Discount', '9%'),
+              _buildAssumptionItem(
+                context,
+                AppLocalizations.of(context)!.growth,
+                '10%',
+              ),
+              _buildAssumptionItem(
+                context,
+                AppLocalizations.of(context)!.terminal,
+                '3%',
+              ),
+              _buildAssumptionItem(
+                context,
+                AppLocalizations.of(context)!.discount,
+                '9%',
+              ),
             ],
           ),
           const SizedBox(height: 24),
           const Divider(),
           const SizedBox(height: 24),
           Text(
-            'Intrinsic Value',
+            AppLocalizations.of(context)!.intrinsicValue,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: AppTheme.textGrey,
               fontWeight: FontWeight.w500,
@@ -73,9 +86,12 @@ class SimplifiedValuationWidget extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Current Price: ',
-                  style: TextStyle(color: AppTheme.textGrey, fontSize: 13),
+                Text(
+                  AppLocalizations.of(context)!.currentPrice + ': ',
+                  style: const TextStyle(
+                    color: AppTheme.textGrey,
+                    fontSize: 13,
+                  ),
                 ),
                 Text(
                   NumberFormat.simpleCurrency().format(185.92),

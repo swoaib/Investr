@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import '../../../../shared/theme/app_theme.dart';
 
 class SimplifiedStockOverviewCard extends StatelessWidget {
@@ -38,7 +39,7 @@ class SimplifiedStockOverviewCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Apple Inc.',
+                    AppLocalizations.of(context)!.appleInc,
                     style: Theme.of(
                       context,
                     ).textTheme.bodySmall?.copyWith(color: Colors.grey),
@@ -123,13 +124,13 @@ class SimplifiedEarningsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Earnings',
+            AppLocalizations.of(context)!.earnings,
             style: Theme.of(
               context,
             ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           Text(
-            'EPS & Rev',
+            AppLocalizations.of(context)!.epsAndRev,
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: Colors.grey),

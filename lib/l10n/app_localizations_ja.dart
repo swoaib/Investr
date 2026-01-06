@@ -36,17 +36,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get newsUpdates => 'ニュース更新';
 
   @override
-  String get enableNotificationsTitle => 'Price Alerts';
+  String get enableNotificationsTitle => '価格アラート';
 
   @override
-  String get enableNotificationsDesc =>
-      'Enable notifications to get alerts when your stocks hit your target price.';
+  String get enableNotificationsDesc => '通知を有効にして、株価が目標価格に達したときにアラートを受け取りましょう。';
 
   @override
-  String get enableNotificationsButton => 'Enable Notifications';
+  String get enableNotificationsButton => '通知を有効にする';
 
   @override
-  String get notNow => 'Not now';
+  String get notNow => '今はしない';
 
   @override
   String get marketAlerts => '市場アラート';
@@ -560,10 +559,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get chooseThemeDesc => 'スタイルに合った外観を選択してください。これは後で設定で変更できます。';
 
   @override
-  String get trackYourStocks => '株式を追跡する';
+  String get trackYourStocks => '企業を追跡';
 
   @override
-  String get trackYourStocksDesc => 'お気に入りの株式と市場トレンドのリアルタイム更新を取得します。';
+  String get trackYourStocksDesc => 'お気に入りの企業をフォローして、価格、収益、主要な統計情報を確認しましょう。';
 
   @override
   String get learnToInvest => '投資を学ぶ';
@@ -572,10 +571,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get learnToInvestDesc => '厳選された教育コンテンツで投資の基礎をマスターしましょう。';
 
   @override
-  String get valueYourPortfolio => 'ポートフォリオを評価する';
+  String get valueYourPortfolio => '本質的価値を計算';
 
   @override
-  String get valueYourPortfolioDesc => '高度なツールを使用して本質的価値を計算し、情報に基づいた決定を下します。';
+  String get valueYourPortfolioDesc =>
+      '計算機を使用して企業の本質的価値を算出し、情報に基づいた投資判断を行いましょう。';
 
   @override
   String get howToInvestTitle => '投資の方法';
@@ -775,4 +775,43 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get dcfExplanation =>
       'この計算機は、割引キャッシュフロー（DCF）モデルを使用して本質的価値を推定します。成長率の仮定に基づいて将来のキャッシュフローを予測し、それを現在価値に割引し、終端価値を加え、企業の純負債を調整します。';
+
+  @override
+  String get skip => 'スキップ';
+
+  @override
+  String get myProgress => '進捗';
+
+  @override
+  String get basicsOfOwnership => '所有の基礎';
+
+  @override
+  String get beatingInflation => 'インフレに打ち勝つ';
+
+  @override
+  String get riskManagement => 'リスク管理';
+
+  @override
+  String get growth => '成長率';
+
+  @override
+  String get terminal => '永久成長';
+
+  @override
+  String get discount => '割引率';
+
+  @override
+  String get now => 'たった今';
+
+  @override
+  String get notificationPriceAlert => '価格アラート: ';
+
+  @override
+  String get notificationReached => ' が到達 ';
+
+  @override
+  String get epsAndRev => 'EPSと売上';
+
+  @override
+  String get appleInc => 'Apple Inc.';
 }

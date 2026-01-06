@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/theme/app_theme.dart';
+import 'package:investr/src/shared/theme/app_theme.dart';
+import 'package:investr/l10n/app_localizations.dart';
 
 class SimplifiedLearnWidget extends StatelessWidget {
   const SimplifiedLearnWidget({super.key});
@@ -28,7 +29,7 @@ class SimplifiedLearnWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'My Progress',
+                AppLocalizations.of(context)!.myProgress,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
@@ -58,8 +59,8 @@ class SimplifiedLearnWidget extends StatelessWidget {
             context,
             icon: Icons.school,
             color: const Color(0xFF4CAF50),
-            title: 'Stocks 101',
-            subtitle: 'Basics of ownership',
+            title: AppLocalizations.of(context)!.stocks101Title,
+            subtitle: AppLocalizations.of(context)!.basicsOfOwnership,
             isCompleted: true,
           ),
           const SizedBox(height: 12),
@@ -67,8 +68,8 @@ class SimplifiedLearnWidget extends StatelessWidget {
             context,
             icon: Icons.show_chart,
             color: const Color(0xFF2196F3),
-            title: 'Why Invest?',
-            subtitle: 'Beating inflation',
+            title: AppLocalizations.of(context)!.whyInvestLessonTitle,
+            subtitle: AppLocalizations.of(context)!.beatingInflation,
             progress: 0.6,
           ),
           const SizedBox(height: 12),
@@ -76,8 +77,8 @@ class SimplifiedLearnWidget extends StatelessWidget {
             context,
             icon: Icons.shield,
             color: const Color(0xFFFF5722),
-            title: 'Margin of Safety',
-            subtitle: 'Risk management',
+            title: AppLocalizations.of(context)!.marginOfSafetyTitle,
+            subtitle: AppLocalizations.of(context)!.riskManagement,
             isLocked: true,
           ),
         ],
