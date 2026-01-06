@@ -133,13 +133,18 @@ class _OnboardingView extends StatelessWidget {
                     ),
                   ),
                   // Next/Get Started Button (Hide on last page as it has its own buttons)
-                  if (!controller.isLastPage)
-                    ElevatedButton(
+                  Visibility(
+                    visible: !controller.isLastPage,
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    child: ElevatedButton(
                       onPressed: () {
                         controller.nextPage();
                       },
                       child: Text(l10n.next),
                     ),
+                  ),
                 ],
               ),
             ),
@@ -600,9 +605,7 @@ class _NotificationPermissionPageState
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 60),
-          const NotificationSimulationCard(),
-          const SizedBox(height: 48),
+          const Spacer(),
           Text(
             widget.title,
             style: Theme.of(context).textTheme.headlineLarge,
@@ -616,6 +619,8 @@ class _NotificationPermissionPageState
             ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
             textAlign: TextAlign.center,
           ),
+          const SizedBox(height: 48),
+          const NotificationSimulationCard(),
           const Spacer(),
           SizedBox(
             width: double.infinity,
