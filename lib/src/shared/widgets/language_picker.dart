@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
 import '../../../l10n/app_localizations.dart';
 
 class LanguagePicker extends StatelessWidget {
@@ -22,58 +22,37 @@ class LanguagePicker extends StatelessWidget {
       _LanguageOption('日本語', const Locale('ja'), '🇯🇵'),
     ];
 
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      alignment: WrapAlignment.center,
-      children: options.map((option) {
-        final isSelected =
-            selectedLocale?.languageCode == option.locale?.languageCode;
-        return GestureDetector(
-          onTap: () => onLocaleChanged(option.locale),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? AppTheme.primaryGreen.withValues(alpha: 0.1)
-                  : Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: isSelected
-                    ? AppTheme.primaryGreen
-                    : Colors.grey.withValues(alpha: 0.2),
-                width: 2,
+    final selectedIndex = options.indexWhere(
+      (option) => option.locale?.languageCode == selectedLocale?.languageCode,
+    );
+
+    // Default to 0 (System) if not found, or maintain current selection logic
+    final initialIndex = selectedIndex != -1 ? selectedIndex : 0;
+
+    return SizedBox(
+      height: 200,
+      child: CupertinoPicker(
+        itemExtent: 48,
+        scrollController: FixedExtentScrollController(
+          initialItem: initialIndex,
+        ),
+        onSelectedItemChanged: (index) {
+          onLocaleChanged(options[index].locale);
+        },
+        children: options.map((option) {
+          return Center(
+            child: Text(
+              '${option.flag}  ${option.label}',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight:
+                    option.locale?.languageCode == selectedLocale?.languageCode
+                    ? FontWeight.bold
+                    : FontWeight.normal,
               ),
-              boxShadow: isSelected
-                  ? [
-                      BoxShadow(
-                        color: AppTheme.primaryGreen.withValues(alpha: 0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
-                  : null,
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(option.flag, style: const TextStyle(fontSize: 20)),
-                const SizedBox(width: 8),
-                Text(
-                  option.label,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: isSelected
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                    color: isSelected ? AppTheme.primaryGreen : null,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 }
