@@ -714,9 +714,7 @@ class _GenericWidgetPage extends StatelessWidget {
 
 class _SlideUpAnimation extends StatefulWidget {
   final Widget child;
-  final Duration delay;
-
-  const _SlideUpAnimation({required this.child, this.delay = Duration.zero});
+  const _SlideUpAnimation({required this.child});
 
   @override
   State<_SlideUpAnimation> createState() => _SlideUpAnimationState();
@@ -739,13 +737,7 @@ class _SlideUpAnimationState extends State<_SlideUpAnimation>
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutQuart));
 
-    if (widget.delay == Duration.zero) {
-      _controller.forward();
-    } else {
-      Future.delayed(widget.delay, () {
-        if (mounted) _controller.forward();
-      });
-    }
+    _controller.forward();
   }
 
   @override

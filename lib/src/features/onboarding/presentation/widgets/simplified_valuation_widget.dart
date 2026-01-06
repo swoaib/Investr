@@ -87,7 +87,7 @@ class SimplifiedValuationWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  AppLocalizations.of(context)!.currentPrice + ': ',
+                  '${AppLocalizations.of(context)!.currentPrice}: ',
                   style: const TextStyle(
                     color: AppTheme.textGrey,
                     fontSize: 13,
