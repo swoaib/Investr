@@ -8,7 +8,7 @@
   "notifications": "Notifications",
   "enableNotifications": "Enable notifications",
   "newsUpdates": "News updates",
-  "enableNotificationsTitle": "Enable Notifications",
+  "enableNotificationsTitle": "Price Alerts",
   "enableNotificationsDesc": "Get instant alerts when your stocks hit your target price.",
   "enableNotificationsButton": "Enable Notifications",
   "notNow": "Not now",

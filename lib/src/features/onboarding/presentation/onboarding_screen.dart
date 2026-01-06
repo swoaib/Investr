@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:investr/l10n/app_localizations.dart';
 import 'package:investr/src/features/onboarding/presentation/widgets/simplified_stock_widgets.dart';
+import 'package:investr/src/features/onboarding/presentation/widgets/notification_simulation_card.dart';
 import 'package:investr/src/shared/locale/locale_controller.dart';
 import 'package:investr/src/shared/theme/theme_controller.dart';
 import 'onboarding_controller.dart';
@@ -59,7 +60,6 @@ class _OnboardingView extends StatelessWidget {
       _NotificationPermissionPage(
         title: l10n.enableNotificationsTitle,
         description: l10n.enableNotificationsDesc,
-        imagePath: 'assets/images/onboarding/notifications.png',
         enableButtonText: l10n.enableNotificationsButton,
         notNowButtonText: l10n.notNow,
         onEnable: () async {
@@ -569,7 +569,10 @@ class _ThemePreviewCard extends StatelessWidget {
 class _NotificationPermissionPage extends StatefulWidget {
   final VoidCallback onEnable;
   final VoidCallback onNotNow;
-  final String imagePath;
+  // imagePath is no longer needed but kept for signature compatibility if simpler,
+  // or we can remove it. Let's remove it from usage but keep in constructor if necessary/easier refactor,
+  // OR better: remove it properly. Since checking the usage above, we can assume we can remove it.
+
   final String title;
   final String description;
   final String enableButtonText;
@@ -578,7 +581,7 @@ class _NotificationPermissionPage extends StatefulWidget {
   const _NotificationPermissionPage({
     required this.onEnable,
     required this.onNotNow,
-    required this.imagePath,
+    // required this.imagePath, // Removed
     required this.title,
     required this.description,
     required this.enableButtonText,
@@ -599,8 +602,11 @@ class _NotificationPermissionPageState
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(widget.imagePath, height: 250),
-          const SizedBox(height: 32),
+          // Spacer(),
+          // Image.asset(widget.imagePath, height: 250),
+          const SizedBox(height: 60), // Add some top spacing
+          const NotificationSimulationCard(),
+          const SizedBox(height: 48),
           Text(
             widget.title,
             style: Theme.of(context).textTheme.headlineLarge,

@@ -157,7 +157,7 @@ abstract class AppLocalizations {
   /// No description provided for @enableNotificationsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Enable Notifications'**
+  /// **'Price Alerts'**
   String get enableNotificationsTitle;
 
   /// No description provided for @enableNotificationsDesc.

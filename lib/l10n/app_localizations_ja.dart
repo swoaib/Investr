@@ -36,7 +36,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get newsUpdates => 'ニュース更新';
 
   @override
-  String get enableNotificationsTitle => 'Enable Notifications';
+  String get enableNotificationsTitle => 'Price Alerts';
 
   @override
   String get enableNotificationsDesc =>
