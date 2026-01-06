@@ -36,6 +36,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get newsUpdates => 'ニュース更新';
 
   @override
+  String get enableNotificationsTitle => 'Enable Notifications';
+
+  @override
+  String get enableNotificationsDesc =>
+      'Get instant alerts when your stocks hit your target price.';
+
+  @override
+  String get enableNotificationsButton => 'Enable Notifications';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
   String get marketAlerts => '市場アラート';
 
   @override

@@ -56,6 +56,24 @@ class _OnboardingView extends StatelessWidget {
         description: l10n.chooseThemeDesc,
         imagePath: 'assets/images/onboarding/theme_selection.png',
       ),
+      _NotificationPermissionPage(
+        title: l10n.enableNotificationsTitle,
+        description: l10n.enableNotificationsDesc,
+        imagePath: 'assets/images/onboarding/notifications.png',
+        enableButtonText: l10n.enableNotificationsButton,
+        notNowButtonText: l10n.notNow,
+        onEnable: () async {
+          await controller.requestNotificationPermission();
+          if (context.mounted) {
+            controller.completeOnboarding(context);
+            context.go('/');
+          }
+        },
+        onNotNow: () {
+          controller.completeOnboarding(context);
+          context.go('/');
+        },
+      ),
     ];
 
     // Update total pages in controller if needed, or just use list length
@@ -67,16 +85,19 @@ class _OnboardingView extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: TextButton(
-                onPressed: () {
-                  controller.completeOnboarding(context);
-                  context.go('/');
-                },
-                child: const Text('Skip'),
-              ),
-            ),
+            if (!controller.isLastPage)
+              Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  onPressed: () {
+                    controller.completeOnboarding(context);
+                    context.go('/');
+                  },
+                  child: const Text('Skip'),
+                ),
+              )
+            else
+              const SizedBox(height: 48),
             Expanded(
               child: PageView(
                 controller: controller.pageController,
@@ -109,25 +130,14 @@ class _OnboardingView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Next/Get Started Button
-                  ElevatedButton(
-                    onPressed: () {
-                      if (controller.currentPage == pages.length - 1) {
-                        controller.completeOnboarding(context);
-                        context.go('/');
-                      } else {
+                  // Next/Get Started Button (Hide on last page as it has its own buttons)
+                  if (!controller.isLastPage)
+                    ElevatedButton(
+                      onPressed: () {
                         controller.nextPage();
-                      }
-                    },
-                    child: Text(
-                      controller.currentPage == pages.length - 1
-                          ? l10n
-                                .next // "Get Started" or "Done" - using "Next" or "Done" from l10n? reusing "Next" logic or custom
-                          : l10n.next,
+                      },
+                      child: Text(l10n.next),
                     ),
-                    // Note: Ideally "Get Started" for last page. using l10n.done for now if available or hardcoded if strictly needed,
-                    // but "Next" works. Let's check if we have "Get Started" or "Done". We have "Done" in ARB.
-                  ),
                 ],
               ),
             ),
@@ -473,6 +483,95 @@ class _ThemePreviewCard extends StatelessWidget {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NotificationPermissionPage extends StatefulWidget {
+  final VoidCallback onEnable;
+  final VoidCallback onNotNow;
+  final String imagePath;
+  final String title;
+  final String description;
+  final String enableButtonText;
+  final String notNowButtonText;
+
+  const _NotificationPermissionPage({
+    required this.onEnable,
+    required this.onNotNow,
+    required this.imagePath,
+    required this.title,
+    required this.description,
+    required this.enableButtonText,
+    required this.notNowButtonText,
+  });
+
+  @override
+  State<_NotificationPermissionPage> createState() =>
+      _NotificationPermissionPageState();
+}
+
+class _NotificationPermissionPageState
+    extends State<_NotificationPermissionPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(widget.imagePath, height: 250),
+          const SizedBox(height: 32),
+          Text(
+            widget.title,
+            style: Theme.of(context).textTheme.headlineLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            widget.description,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
+            textAlign: TextAlign.center,
+          ),
+          const Spacer(),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: widget.onEnable,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryGreen,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                widget.enableButtonText,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextButton(
+            onPressed: widget.onNotNow,
+            child: Text(
+              widget.notNowButtonText,
+              style: TextStyle(
+                color: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.color?.withValues(alpha: 0.5),
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
         ],
       ),
     );

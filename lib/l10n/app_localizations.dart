@@ -154,6 +154,30 @@ abstract class AppLocalizations {
   /// **'News updates'**
   String get newsUpdates;
 
+  /// No description provided for @enableNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Notifications'**
+  String get enableNotificationsTitle;
+
+  /// No description provided for @enableNotificationsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get instant alerts when your stocks hit your target price.'**
+  String get enableNotificationsDesc;
+
+  /// No description provided for @enableNotificationsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Notifications'**
+  String get enableNotificationsButton;
+
+  /// No description provided for @notNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNow;
+
   /// No description provided for @marketAlerts.
   ///
   /// In en, this message translates to:
