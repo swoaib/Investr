@@ -16,10 +16,10 @@ class LanguagePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final options = [
-      _LanguageOption(l10n.system, null, '📱'),
-      _LanguageOption('English', const Locale('en'), '🇺🇸'),
-      _LanguageOption('Norsk', const Locale('no'), '🇳🇴'),
-      _LanguageOption('日本語', const Locale('ja'), '🇯🇵'),
+      _LanguageOption(l10n.system, null),
+      _LanguageOption('English', const Locale('en')),
+      _LanguageOption('Norsk', const Locale('no')),
+      _LanguageOption('日本語', const Locale('ja')),
     ];
 
     final selectedIndex = options.indexWhere(
@@ -42,7 +42,7 @@ class LanguagePicker extends StatelessWidget {
         children: options.map((option) {
           return Center(
             child: Text(
-              '${option.flag}  ${option.label}',
+              option.label,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight:
                     option.locale?.languageCode == selectedLocale?.languageCode
@@ -60,7 +60,6 @@ class LanguagePicker extends StatelessWidget {
 class _LanguageOption {
   final String label;
   final Locale? locale;
-  final String flag;
 
-  _LanguageOption(this.label, this.locale, this.flag);
+  _LanguageOption(this.label, this.locale);
 }
