@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:investr/l10n/app_localizations.dart';
+import 'package:investr/src/features/onboarding/presentation/widgets/simplified_stock_widgets.dart';
 import 'package:investr/src/shared/locale/locale_controller.dart';
 import 'package:investr/src/shared/theme/theme_controller.dart';
 import 'onboarding_controller.dart';
@@ -36,10 +37,9 @@ class _OnboardingView extends StatelessWidget {
         description: l10n.chooseLanguageDesc,
         imagePath: 'assets/images/onboarding/language_selection.png',
       ),
-      OnboardingPage(
+      _StockTrackingPage(
         title: l10n.trackYourStocks,
         description: l10n.trackYourStocksDesc,
-        imagePath: 'assets/images/onboarding/track_stocks.png',
       ),
       OnboardingPage(
         title: l10n.learnToInvest,
@@ -182,6 +182,83 @@ class OnboardingPage extends StatelessWidget {
             ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
             textAlign: TextAlign.center,
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StockTrackingPage extends StatefulWidget {
+  final String title;
+  final String description;
+
+  const _StockTrackingPage({required this.title, required this.description});
+
+  @override
+  State<_StockTrackingPage> createState() => _StockTrackingPageState();
+}
+
+class _StockTrackingPageState extends State<_StockTrackingPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _offsetAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(0, 1.5),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutQuart));
+
+    // Start animation immediately
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Spacer(),
+          Text(
+            widget.title,
+            style: Theme.of(context).textTheme.headlineLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            widget.description,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
+            textAlign: TextAlign.center,
+          ),
+          const Spacer(),
+          SlideTransition(
+            position: _offsetAnimation,
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SimplifiedStockOverviewCard(),
+                SizedBox(width: 16),
+                SimplifiedEarningsCard(),
+              ],
+            ),
+          ),
+          const Spacer(flex: 2), // Gives more bottom space for the widgets
         ],
       ),
     );
