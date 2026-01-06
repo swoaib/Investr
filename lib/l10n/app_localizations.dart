@@ -163,7 +163,7 @@ abstract class AppLocalizations {
   /// No description provided for @enableNotificationsDesc.
   ///
   /// In en, this message translates to:
-  /// **'Get instant alerts when your stocks hit your target price.'**
+  /// **'Enable notifications to get alerts when your stocks hit your target price.'**
   String get enableNotificationsDesc;
 
   /// No description provided for @enableNotificationsButton.
@@ -1135,13 +1135,13 @@ abstract class AppLocalizations {
   /// No description provided for @trackYourStocks.
   ///
   /// In en, this message translates to:
-  /// **'Track Your Stocks'**
+  /// **'Track Companies'**
   String get trackYourStocks;
 
   /// No description provided for @trackYourStocksDesc.
   ///
   /// In en, this message translates to:
-  /// **'Get real-time updates on your favorite stocks and market trends.'**
+  /// **'Follow your favorite companies to check prices, earnings, and key statistics.'**
   String get trackYourStocksDesc;
 
   /// No description provided for @learnToInvest.
@@ -1159,13 +1159,13 @@ abstract class AppLocalizations {
   /// No description provided for @valueYourPortfolio.
   ///
   /// In en, this message translates to:
-  /// **'Value Your Portfolio'**
+  /// **'Calculate Intrinsic Value'**
   String get valueYourPortfolio;
 
   /// No description provided for @valueYourPortfolioDesc.
   ///
   /// In en, this message translates to:
-  /// **'Use advanced tools to calculate intrinsic value and make informed decisions.'**
+  /// **'Use our calculator to calculate the intrinsic value of a company and make informed decisions.'**
   String get valueYourPortfolioDesc;
 
   /// No description provided for @howToInvestTitle.

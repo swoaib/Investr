@@ -40,7 +40,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enableNotificationsDesc =>
-      'Get instant alerts when your stocks hit your target price.';
+      'Enable notifications to get alerts when your stocks hit your target price.';
 
   @override
   String get enableNotificationsButton => 'Enable Notifications';

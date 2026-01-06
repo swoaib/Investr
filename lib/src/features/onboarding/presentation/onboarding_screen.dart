@@ -288,33 +288,35 @@ class _LanguageSelectionPage extends StatelessWidget {
     final localeController = context.watch<LocaleController>();
     return Padding(
       padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(imagePath, height: 180),
-          const SizedBox(height: 24),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headlineLarge,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            description,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 32),
-          // Language Picker
-          LanguagePicker(
-            selectedLocale: localeController.locale,
-            onLocaleChanged: (val) {
-              if (val != null) localeController.updateLocale(val);
-            },
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(imagePath, height: 180),
+            const SizedBox(height: 24),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headlineLarge,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              description,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            // Language Picker
+            LanguagePicker(
+              selectedLocale: localeController.locale,
+              onLocaleChanged: (val) {
+                if (val != null) localeController.updateLocale(val);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -357,33 +359,40 @@ class _ThemeSelectionPage extends StatelessWidget {
           ),
           const SizedBox(height: 32),
           // Theme Preview Grid
-          Row(
+          // Theme Preview Grid
+          Column(
             children: [
-              Expanded(
-                child: _ThemePreviewCard(
-                  mode: ThemeMode.light,
-                  label: l10n.light,
-                  isSelected: themeController.themeMode == ThemeMode.light,
-                  onTap: () => themeController.updateThemeMode(ThemeMode.light),
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _ThemePreviewCard(
+                      mode: ThemeMode.light,
+                      label: l10n.light,
+                      isSelected: themeController.themeMode == ThemeMode.light,
+                      onTap: () =>
+                          themeController.updateThemeMode(ThemeMode.light),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _ThemePreviewCard(
+                      mode: ThemeMode.dark,
+                      label: l10n.dark,
+                      isSelected: themeController.themeMode == ThemeMode.dark,
+                      onTap: () =>
+                          themeController.updateThemeMode(ThemeMode.dark),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _ThemePreviewCard(
-                  mode: ThemeMode.dark,
-                  label: l10n.dark,
-                  isSelected: themeController.themeMode == ThemeMode.dark,
-                  onTap: () => themeController.updateThemeMode(ThemeMode.dark),
-                ),
+              const SizedBox(height: 12),
+              _ThemePreviewCard(
+                mode: ThemeMode.system,
+                label: l10n.system,
+                isSelected: themeController.themeMode == ThemeMode.system,
+                onTap: () => themeController.updateThemeMode(ThemeMode.system),
               ),
             ],
-          ),
-          const SizedBox(height: 12),
-          _ThemePreviewCard(
-            mode: ThemeMode.system,
-            label: l10n.system,
-            isSelected: themeController.themeMode == ThemeMode.system,
-            onTap: () => themeController.updateThemeMode(ThemeMode.system),
           ),
           const SizedBox(height: 24),
         ],
@@ -620,7 +629,7 @@ class _NotificationPermissionPageState
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 48),
-          const NotificationSimulationCard(),
+          const _SlideUpAnimation(child: NotificationSimulationCard()),
           const Spacer(),
           SizedBox(
             width: double.infinity,
@@ -699,6 +708,57 @@ class _GenericWidgetPage extends StatelessWidget {
           const Spacer(flex: 2),
         ],
       ),
+    );
+  }
+}
+
+class _SlideUpAnimation extends StatefulWidget {
+  final Widget child;
+  final Duration delay;
+
+  const _SlideUpAnimation({required this.child, this.delay = Duration.zero});
+
+  @override
+  State<_SlideUpAnimation> createState() => _SlideUpAnimationState();
+}
+
+class _SlideUpAnimationState extends State<_SlideUpAnimation>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _offsetAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.5), // Reduced start offset for smoother feel
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutQuart));
+
+    if (widget.delay == Duration.zero) {
+      _controller.forward();
+    } else {
+      Future.delayed(widget.delay, () {
+        if (mounted) _controller.forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: _offsetAnimation,
+      child: FadeTransition(opacity: _controller, child: widget.child),
     );
   }
 }

@@ -40,7 +40,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enableNotificationsDesc =>
-      'Get instant alerts when your stocks hit your target price.';
+      'Enable notifications to get alerts when your stocks hit your target price.';
 
   @override
   String get enableNotificationsButton => 'Enable Notifications';
@@ -573,11 +573,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Select a look that fits your style. You can change this later in settings.';
 
   @override
-  String get trackYourStocks => 'Track Your Stocks';
+  String get trackYourStocks => 'Track Companies';
 
   @override
   String get trackYourStocksDesc =>
-      'Get real-time updates on your favorite stocks and market trends.';
+      'Follow your favorite companies to check prices, earnings, and key statistics.';
 
   @override
   String get learnToInvest => 'Learn to Invest';
@@ -587,11 +587,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Master the basics of investing with our curated educational content.';
 
   @override
-  String get valueYourPortfolio => 'Value Your Portfolio';
+  String get valueYourPortfolio => 'Calculate Intrinsic Value';
 
   @override
   String get valueYourPortfolioDesc =>
-      'Use advanced tools to calculate intrinsic value and make informed decisions.';
+      'Use our calculator to calculate the intrinsic value of a company and make informed decisions.';
 
   @override
   String get howToInvestTitle => 'How to Invest';
