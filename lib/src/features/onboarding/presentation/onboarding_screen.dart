@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import 'package:investr/src/features/onboarding/presentation/widgets/simplified_stock_widgets.dart';
 import 'package:investr/src/features/onboarding/presentation/widgets/notification_simulation_card.dart';
+import 'package:investr/src/features/onboarding/presentation/widgets/simplified_learn_widget.dart';
+import 'package:investr/src/features/onboarding/presentation/widgets/simplified_valuation_widget.dart';
 import 'package:investr/src/shared/locale/locale_controller.dart';
 import 'package:investr/src/shared/theme/theme_controller.dart';
 import 'onboarding_controller.dart';
@@ -47,15 +49,15 @@ class _OnboardingView extends StatelessWidget {
         title: l10n.trackYourStocks,
         description: l10n.trackYourStocksDesc,
       ),
-      OnboardingPage(
+      _GenericWidgetPage(
         title: l10n.learnToInvest,
         description: l10n.learnToInvestDesc,
-        imagePath: 'assets/images/onboarding/learn_invest.png',
+        child: const SimplifiedLearnWidget(),
       ),
-      OnboardingPage(
+      _GenericWidgetPage(
         title: l10n.valueYourPortfolio,
         description: l10n.valueYourPortfolioDesc,
-        imagePath: 'assets/images/onboarding/value_portfolio.png',
+        child: const SimplifiedValuationWidget(),
       ),
       _NotificationPermissionPage(
         title: l10n.enableNotificationsTitle,
@@ -569,9 +571,6 @@ class _ThemePreviewCard extends StatelessWidget {
 class _NotificationPermissionPage extends StatefulWidget {
   final VoidCallback onEnable;
   final VoidCallback onNotNow;
-  // imagePath is no longer needed but kept for signature compatibility if simpler,
-  // or we can remove it. Let's remove it from usage but keep in constructor if necessary/easier refactor,
-  // OR better: remove it properly. Since checking the usage above, we can assume we can remove it.
 
   final String title;
   final String description;
@@ -581,7 +580,6 @@ class _NotificationPermissionPage extends StatefulWidget {
   const _NotificationPermissionPage({
     required this.onEnable,
     required this.onNotNow,
-    // required this.imagePath, // Removed
     required this.title,
     required this.description,
     required this.enableButtonText,
@@ -602,9 +600,7 @@ class _NotificationPermissionPageState
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Spacer(),
-          // Image.asset(widget.imagePath, height: 250),
-          const SizedBox(height: 60), // Add some top spacing
+          const SizedBox(height: 60),
           const NotificationSimulationCard(),
           const SizedBox(height: 48),
           Text(
@@ -655,6 +651,47 @@ class _NotificationPermissionPageState
             ),
           ),
           const SizedBox(height: 32),
+        ],
+      ),
+    );
+  }
+}
+
+class _GenericWidgetPage extends StatelessWidget {
+  final String title;
+  final String description;
+  final Widget child;
+
+  const _GenericWidgetPage({
+    required this.title,
+    required this.description,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Spacer(),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headlineLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            description,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
+            textAlign: TextAlign.center,
+          ),
+          const Spacer(),
+          child,
+          const Spacer(flex: 2),
         ],
       ),
     );
