@@ -37,6 +37,11 @@ class _OnboardingView extends StatelessWidget {
         description: l10n.chooseLanguageDesc,
         imagePath: 'assets/images/onboarding/language_selection.png',
       ),
+      _ThemeSelectionPage(
+        title: l10n.chooseTheme,
+        description: l10n.chooseThemeDesc,
+        imagePath: 'assets/images/onboarding/theme_selection.png',
+      ),
       _StockTrackingPage(
         title: l10n.trackYourStocks,
         description: l10n.trackYourStocksDesc,
@@ -50,11 +55,6 @@ class _OnboardingView extends StatelessWidget {
         title: l10n.valueYourPortfolio,
         description: l10n.valueYourPortfolioDesc,
         imagePath: 'assets/images/onboarding/value_portfolio.png',
-      ),
-      _ThemeSelectionPage(
-        title: l10n.chooseTheme,
-        description: l10n.chooseThemeDesc,
-        imagePath: 'assets/images/onboarding/theme_selection.png',
       ),
       _NotificationPermissionPage(
         title: l10n.enableNotificationsTitle,
