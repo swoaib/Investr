@@ -599,7 +599,7 @@ class _LessonCard extends StatelessWidget {
         );
       },
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         decoration: BoxDecoration(
           color: Theme.of(context).cardTheme.color,
           borderRadius: BorderRadius.circular(16),
@@ -636,39 +636,25 @@ class _LessonCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: LinearProgressIndicator(
-                            value: progress,
-                            backgroundColor: Theme.of(
-                              context,
-                            ).dividerColor.withValues(alpha: 0.2),
-                            valueColor: AlwaysStoppedAnimation(progressColor),
-                            minHeight: 6,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '${(progress * 100).toInt()}%',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: progressColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
             const SizedBox(width: 8),
-            Icon(
-              progress >= 1.0 ? Icons.check_circle : Icons.chevron_right,
-              color: progress >= 1.0 ? AppTheme.primaryGreen : Colors.grey,
-            ),
+            if (progress >= 1.0)
+              const Icon(Icons.check_circle, color: AppTheme.primaryGreen)
+            else if (progress > 0.0)
+              SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                  value: progress,
+                  strokeWidth: 3,
+                  backgroundColor: lesson.color.withValues(alpha: 0.2),
+                  valueColor: AlwaysStoppedAnimation(lesson.color),
+                ),
+              )
+            else
+              const Icon(Icons.chevron_right, color: Colors.grey),
           ],
         ),
       ),
