@@ -722,6 +722,31 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                       maxX: maxX,
                       minY: minY,
                       maxY: maxY,
+                      extraLinesData: ExtraLinesData(
+                        horizontalLines: [
+                          if (isIntraday && _stock.previousClose != null)
+                            HorizontalLine(
+                              y: _stock.previousClose!,
+                              color: Colors.grey.withValues(alpha: 0.5),
+                              strokeWidth: 1,
+                              dashArray: [5, 5],
+                              label: HorizontalLineLabel(
+                                show: true,
+                                alignment: Alignment.topRight,
+                                padding: const EdgeInsets.only(
+                                  right: 5,
+                                  bottom: 5,
+                                ),
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                labelResolver: (line) => 'Prev Close',
+                              ),
+                            ),
+                        ],
+                      ),
                       gridData: FlGridData(
                         show: true,
                         horizontalInterval: null,

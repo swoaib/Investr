@@ -71,6 +71,32 @@ class StockRepository {
               for (var item in results) item['T']: item,
             };
 
+            // Fetch previous close data for the dashed line
+            Map<String, double> prevCloseMap = {};
+            try {
+              DateTime prevDate = date.subtract(const Duration(days: 1));
+              while (prevDate.weekday == DateTime.saturday ||
+                  prevDate.weekday == DateTime.sunday) {
+                prevDate = prevDate.subtract(const Duration(days: 1));
+              }
+              final prevDateStr = DateFormat('yyyy-MM-dd').format(prevDate);
+              final prevUrl = Uri.parse(
+                '$_baseUrl/v2/aggs/grouped/locale/us/market/stocks/$prevDateStr?adjusted=true&apiKey=$_apiKey',
+              );
+              final prevResp = await http.get(prevUrl);
+              if (prevResp.statusCode == 200) {
+                final prevData = json.decode(prevResp.body);
+                final prevResults = prevData['results'] as List<dynamic>?;
+                if (prevResults != null) {
+                  for (var item in prevResults) {
+                    prevCloseMap[item['T']] = (item['c'] as num).toDouble();
+                  }
+                }
+              }
+            } catch (e) {
+              if (kDebugMode) print('Error fetching previous close map: $e');
+            }
+
             // Iterate through our PRESERVED watchlist order
             for (var ticker in watchlistMap.keys) {
               final item = resultsMap[ticker];
@@ -79,9 +105,11 @@ class StockRepository {
                 // Found data for this watchlist item
                 final double currentPrice = (item['c'] as num).toDouble();
                 final double openPrice = (item['o'] as num).toDouble();
-                final double change = currentPrice - openPrice;
-                final changePercent = (openPrice != 0)
-                    ? (change / openPrice) * 100
+                // Fix: Calculate change based on previous close, not open
+                final double prevClose = prevCloseMap[ticker] ?? openPrice;
+                final double change = currentPrice - prevClose;
+                final double changePercent = (prevClose != 0)
+                    ? (change / prevClose) * 100
                     : 0.0;
 
                 stocks.add(
@@ -91,6 +119,7 @@ class StockRepository {
                     price: currentPrice,
                     change: change,
                     changePercent: changePercent,
+                    previousClose: prevCloseMap[ticker],
                   ),
                 );
               }
@@ -259,6 +288,13 @@ class StockRepository {
   /// Uses intraday data filtered to market hours to match the graph.
   Future<Stock> getQuote(Stock stock) async {
     try {
+      // Fix: If Pre-Market, don't update/poll.
+      // This prevents "jumping" from the Official Daily Close (loaded initially)
+      // to the Intraday 5-min Close (which might differ slightly), preventing "changing" prices.
+      if (_isPreMarket(DateTime.now())) {
+        return stock;
+      }
+
       // Reuse getIntradayHistory to get the same data source as the graph
       final points = await getIntradayHistory(stock.symbol);
 
@@ -270,18 +306,33 @@ class StockRepository {
         final currentPrice = latestPoint.price;
 
         // Calculate change based on the stored previousClose
+        // FIX: Re-calculate previous close to respect the graph date
+        // If graph is showing yesterday's data, we need day-before-yesterday's close.
+        final chartDate = filteredPoints.first.date;
+        double? adjustedPreviousClose = stock.previousClose;
+
+        // Fetch correct previous close relative to chart date
+        final fetchedPrevClose = await _getPreviousCloseForDate(
+          stock.symbol,
+          chartDate,
+        );
+        if (fetchedPrevClose != null) {
+          adjustedPreviousClose = fetchedPrevClose;
+        }
+
         double change = stock.change;
         double changePercent = stock.changePercent;
 
-        if (stock.previousClose != null && stock.previousClose! > 0) {
-          change = currentPrice - stock.previousClose!;
-          changePercent = (change / stock.previousClose!) * 100;
+        if (adjustedPreviousClose != null && adjustedPreviousClose > 0) {
+          change = currentPrice - adjustedPreviousClose;
+          changePercent = (change / adjustedPreviousClose) * 100;
         }
 
         return stock.copyWith(
           price: currentPrice,
           change: change,
           changePercent: changePercent,
+          previousClose: adjustedPreviousClose,
         );
       }
     } catch (e) {
@@ -402,6 +453,13 @@ class StockRepository {
     try {
       // 1. Try fetching for "today" (or last known defined day if weekend)
       DateTime date = DateTime.now();
+
+      // Fix: If it's Pre-Market (before 9:30 AM ET), strictly use yesterday's data.
+      // This matches Apple Stocks/Yahoo behavior of hiding pre-market moves until Open.
+      if (_isPreMarket(date)) {
+        date = date.subtract(const Duration(days: 1));
+      }
+
       while (date.weekday == DateTime.saturday ||
           date.weekday == DateTime.sunday) {
         date = date.subtract(const Duration(days: 1));
@@ -600,6 +658,40 @@ class StockRepository {
       if (kDebugMode) print('Error searching ticker for $query: $e');
     }
     return [];
+  }
+
+  /// Helper to fetch the previous closing price relative to a specific date.
+  /// Used for determining the 'dashed line' on charts.
+  Future<double?> _getPreviousCloseForDate(String symbol, DateTime date) async {
+    try {
+      // Look back 5 days to ensure we find a trading day
+      final from = date.subtract(const Duration(days: 7));
+      final dateFormat = DateFormat('yyyy-MM-dd');
+
+      // Fetch daily bars ending exactly on the day BEFORE the target date
+      final toDate = date.subtract(const Duration(days: 1));
+
+      final url = Uri.parse(
+        '$_baseUrl/v2/aggs/ticker/$symbol/range/1/day/${dateFormat.format(from)}/${dateFormat.format(toDate)}?adjusted=true&sort=asc&apiKey=$_apiKey',
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] as List<dynamic>?;
+
+        if (results != null && results.isNotEmpty) {
+          // The last result in the sorted list is the most recent trading day in the range [from, date-1]
+          // This effectively gives us the "Previous Close" relative to 'date'.
+          final lastDay = results.last;
+          return (lastDay['c'] as num).toDouble();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching previous close for $symbol: $e');
+    }
+    return null;
   }
 
   /// Helper to safely cast JSON list
@@ -836,6 +928,23 @@ class StockRepository {
       }
       return true;
     }).toList();
+  }
+
+  bool _isPreMarket(DateTime now) {
+    // 09:30 ET is market open.
+    // UTC-5 (Std) -> 14:30 UTC
+    // UTC-4 (DST) -> 13:30 UTC
+    final utcTime = now.toUtc();
+    final isDST = isUSDST(utcTime);
+
+    final openHour = isDST ? 13 : 14;
+    final hour = utcTime.hour;
+    final minute = utcTime.minute;
+
+    if (hour < openHour) return true;
+    if (hour == openHour && minute < 30) return true;
+
+    return false;
   }
 
   bool isUSDST(DateTime utcTime) {

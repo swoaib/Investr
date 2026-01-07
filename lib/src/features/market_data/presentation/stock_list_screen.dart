@@ -253,6 +253,17 @@ class _StockListItem extends StatelessWidget {
                           titlesData: const FlTitlesData(show: false),
                           borderData: FlBorderData(show: false),
                           lineTouchData: const LineTouchData(enabled: false),
+                          extraLinesData: ExtraLinesData(
+                            horizontalLines: [
+                              if (stock.previousClose != null)
+                                HorizontalLine(
+                                  y: stock.previousClose!,
+                                  color: Colors.grey.withValues(alpha: 0.5),
+                                  strokeWidth: 1,
+                                  dashArray: [4, 4],
+                                ),
+                            ],
+                          ),
                           lineBarsData: [
                             LineChartBarData(
                               spots: stock.sparklineData!
