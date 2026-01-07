@@ -526,10 +526,10 @@ class _LearnScreenContent extends StatelessWidget {
                     children: [
                       if (showHeader)
                         Padding(
-                          padding: const EdgeInsets.only(top: 16, bottom: 8),
+                          padding: const EdgeInsets.only(top: 8, bottom: 8),
                           child: Text(
                             _getCategoryTitle(lesson.category, l10n),
-                            style: Theme.of(context).textTheme.titleLarge
+                            style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: AppTheme.primaryGreen,
@@ -628,12 +628,12 @@ class _LessonCard extends StatelessWidget {
                 children: [
                   Text(
                     lesson.title,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     lesson.description,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
                 ],
