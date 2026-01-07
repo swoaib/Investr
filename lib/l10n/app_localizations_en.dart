@@ -193,7 +193,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get theSpeculatorDesc =>
-      'Gambling and speculation can pay off, but they rely on chance and luck. It\'s betting on price, not value.';
+      'Speculators bet on price movements without understanding the underlying business. It\'s essentially gambling.';
 
   @override
   String get beAnInvestor => 'Be an Investor';
@@ -214,7 +214,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get valueRiskDesc =>
-      'Value investing reduces risk, but doesn\'t eliminate it. There are no guarantees in the market.';
+      'Value investing reduces risk, but doesn\'t eliminate it. There are no guarantees in the market. Investing is usually for the optimistic';
 
   @override
   String get startupSpeculationTitle => 'Strategic Speculation';

@@ -445,7 +445,7 @@ abstract class AppLocalizations {
   /// No description provided for @theSpeculatorDesc.
   ///
   /// In en, this message translates to:
-  /// **'Gambling and speculation can pay off, but they rely on chance and luck. It\'s betting on price, not value.'**
+  /// **'Speculators bet on price movements without understanding the underlying business. It\'s essentially gambling.'**
   String get theSpeculatorDesc;
 
   /// No description provided for @beAnInvestor.
@@ -481,7 +481,7 @@ abstract class AppLocalizations {
   /// No description provided for @valueRiskDesc.
   ///
   /// In en, this message translates to:
-  /// **'Value investing reduces risk, but doesn\'t eliminate it. There are no guarantees in the market.'**
+  /// **'Value investing reduces risk, but doesn\'t eliminate it. There are no guarantees in the market. Investing is usually for the optimistic'**
   String get valueRiskDesc;
 
   /// No description provided for @startupSpeculationTitle.
