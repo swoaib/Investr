@@ -602,7 +602,7 @@ class _LessonCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         decoration: BoxDecoration(
           color: Theme.of(context).cardTheme.color,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: lesson.color.withValues(alpha: 0.1),
@@ -619,7 +619,11 @@ class _LessonCard extends StatelessWidget {
                 color: lesson.color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(lesson.icon ?? Icons.school, color: lesson.color),
+              child: Icon(
+                lesson.icon ?? Icons.school,
+                color: lesson.color,
+                size: 20,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
