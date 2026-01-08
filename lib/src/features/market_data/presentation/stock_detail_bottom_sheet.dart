@@ -306,13 +306,17 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _stock.symbol,
+                        _stock.symbol.startsWith('^')
+                            ? _stock.companyName
+                            : _stock.symbol,
                         style: theme.textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        _stock.companyName,
+                        _stock.symbol.startsWith('^')
+                            ? _stock.symbol
+                            : _stock.companyName,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: Colors.grey,
                         ),

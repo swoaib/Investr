@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../market_data/presentation/stock_list_screen.dart';
 import '../../education/presentation/learn_screen.dart';
 import '../../valuation/presentation/valuation_calculator_screen.dart';
 import '../../settings/presentation/settings_screen.dart';
@@ -18,7 +17,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Placeholder pages for now
   final List<Widget> _pages = [
-    const StockListScreen(),
     const LearnScreen(),
     const ValuationCalculatorScreen(),
     const SettingsScreen(), // Real Settings
@@ -40,7 +38,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
         items: [
-          CustomNavItem(icon: Icons.show_chart, label: l10n.navStocks),
           CustomNavItem(
             icon: Icons.school_outlined,
             label: l10n.navLearn,

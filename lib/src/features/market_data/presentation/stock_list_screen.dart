@@ -223,14 +223,18 @@ class _StockListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    stock.symbol,
+                    stock.symbol.startsWith('^')
+                        ? stock.companyName
+                        : stock.symbol,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    stock.companyName,
+                    stock.symbol.startsWith('^')
+                        ? stock.symbol
+                        : stock.companyName,
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -294,7 +298,7 @@ class _StockListItem extends StatelessWidget {
             const SizedBox(width: 16),
             // Price and Change
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -361,14 +365,18 @@ class _SearchResultItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    stock.symbol,
+                    stock.symbol.startsWith('^')
+                        ? stock.companyName
+                        : stock.symbol,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    stock.companyName,
+                    stock.symbol.startsWith('^')
+                        ? stock.symbol
+                        : stock.companyName,
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                     overflow: TextOverflow.ellipsis,
                   ),
