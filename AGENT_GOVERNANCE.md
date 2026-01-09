@@ -1,0 +1,1 @@
+Always run flutter anayze and fix issues after changes

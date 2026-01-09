@@ -577,14 +577,6 @@ class _LessonCard extends StatelessWidget {
       (controller) => controller.getProgress(lesson.id, lesson.pages.length),
     );
 
-    final isCompleted = progress >= 1.0;
-    final isInProgress = progress > 0.0 && progress < 1.0;
-    final progressColor = isCompleted
-        ? AppTheme.primaryGreen
-        : isInProgress
-        ? const Color(0xFF2196F3)
-        : AppTheme.textGrey;
-
     return GestureDetector(
       onTap: () {
         // Pass the existing controller instance to the detail screen

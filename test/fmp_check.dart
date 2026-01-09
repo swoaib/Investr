@@ -1,98 +1,103 @@
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
+const baseUrl = 'https://financialmodelingprep.com/api/v3';
+
 Future<void> main() async {
   // Load .env manually since we are in a script
+  final Map<String, String> env = {};
   try {
     final envFile = File('.env');
     final envContent = await envFile.readAsString();
-    final Map<String, String> env = {};
     for (var line in envContent.split('\n')) {
       if (line.contains('=')) {
         final parts = line.split('=');
-        env[parts[0].trim()] = parts[1].trim();
+        if (parts.length >= 2) {
+          env[parts[0].trim()] = parts.sublist(1).join('=').trim();
+        }
       }
     }
-    dotenv.testLoad(fileInput: envContent);
   } catch (e) {
-    print('Error loading .env: $e');
+    debugPrint('Error loading .env: $e');
     return;
   }
 
-  final apiKey = dotenv.env['FMP_API_KEY'];
+  final apiKey = env['FMP_API_KEY'];
 
   // 0. Test Stock List (Basic Availability)
   try {
-    print('\n--- Testing Stock List ---');
+    debugPrint('\n--- Testing Stock List ---');
     final url = Uri.parse('$baseUrl/stock/list?limit=5&apikey=$apiKey');
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: stock/list');
+    if (response.statusCode == 200) debugPrint('SUCCESS: stock/list');
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // 1. Test Multiple Endpoints to find what works
-  print('\n--- Testing Endpoints ---');
+  debugPrint('\n--- Testing Endpoints ---');
 
   // A. Quote Short (Real-time price)
   try {
-    print('Testing /quote-short/AAPL ...');
+    debugPrint('Testing /quote-short/AAPL ...');
     final url = Uri.parse('$baseUrl/quote-short/AAPL?apikey=$apiKey');
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 100 ? response.body.substring(0, 100) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: quote-short');
+    if (response.statusCode == 200) debugPrint('SUCCESS: quote-short');
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // B. Company Profile
   try {
-    print('\nTesting /profile/AAPL ...');
+    debugPrint('\nTesting /profile/AAPL ...');
     final url = Uri.parse('$baseUrl/profile/AAPL?apikey=$apiKey');
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 100 ? response.body.substring(0, 100) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: profile');
+    if (response.statusCode == 200) debugPrint('SUCCESS: profile');
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // C. Historical Price Daily
   try {
-    print('\nTesting /historical-price-full/AAPL ...');
+    debugPrint('\nTesting /historical-price-full/AAPL ...');
     final url = Uri.parse(
       '$baseUrl/historical-price-full/AAPL?timeseries=1&apikey=$apiKey',
     );
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 100 ? response.body.substring(0, 100) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: historical-price-full');
+    if (response.statusCode == 200) {
+      debugPrint('SUCCESS: historical-price-full');
+    }
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // D. v4 Profile
   try {
-    print('\nTesting v4/profile/AAPL ...');
+    debugPrint('\nTesting v4/profile/AAPL ...');
     final url = Uri.parse(
       'https://financialmodelingprep.com/api/v4/profile/AAPL?apikey=$apiKey',
     );
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 100 ? response.body.substring(0, 100) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: v4/profile');
+    if (response.statusCode == 200) debugPrint('SUCCESS: v4/profile');
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // G. STABLE Endpoints (User confirmed working)
@@ -100,102 +105,106 @@ Future<void> main() async {
 
   // Search
   try {
-    print('\nTesting STABLE Search ...');
+    debugPrint('\nTesting STABLE Search ...');
     final url = Uri.parse(
       '$stableUrl/search?query=AAPL&limit=5&apikey=$apiKey',
     );
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: stable/search');
+    if (response.statusCode == 200) debugPrint('SUCCESS: stable/search');
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // Quote
   try {
-    print('\nTesting STABLE Quote ...');
+    debugPrint('\nTesting STABLE Quote ...');
     final url = Uri.parse('$stableUrl/quote?symbol=AAPL&apikey=$apiKey');
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: stable/quote');
+    if (response.statusCode == 200) debugPrint('SUCCESS: stable/quote');
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // Historical Variations (Verified from Search)
-  print('\n--- Testing VERIFIED STABLE History ---');
+  debugPrint('\n--- Testing VERIFIED STABLE History ---');
 
   // Daily Full History
   try {
-    print('Testing stable/historical-price-eod/full?symbol=AAPL ...');
+    debugPrint('Testing stable/historical-price-eod/full?symbol=AAPL ...');
     final url = Uri.parse(
       '$stableUrl/historical-price-eod/full?symbol=AAPL&apikey=$apiKey',
     );
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: historical-price-eod');
+    if (response.statusCode == 200) debugPrint('SUCCESS: historical-price-eod');
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // Intraday
   try {
-    print('\nTesting stable/historical-chart/5min?symbol=AAPL ...');
+    debugPrint('\nTesting stable/historical-chart/5min?symbol=AAPL ...');
     final url = Uri.parse(
       '$stableUrl/historical-chart/5min?symbol=AAPL&apikey=$apiKey',
     );
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: historical-chart/5min');
+    if (response.statusCode == 200) {
+      debugPrint('SUCCESS: historical-chart/5min');
+    }
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // Indices Check (S&P 500)
   try {
-    print('\nTesting stable/historical-price-eod/light?symbol=^GSPC ...');
+    debugPrint('\nTesting stable/historical-price-eod/light?symbol=^GSPC ...');
     final url = Uri.parse(
       '$stableUrl/historical-price-eod/light?symbol=^GSPC&apikey=$apiKey',
     );
     final response = await http.get(url);
-    print(
+    debugPrint(
       '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
     );
-    if (response.statusCode == 200) print('SUCCESS: Index ^GSPC');
+    if (response.statusCode == 200) {
+      debugPrint('SUCCESS: Index ^GSPC');
+    }
   } catch (e) {
-    print(e);
+    debugPrint(e.toString());
   }
 
   // 2. Search for Indices to find correct symbols
   final queries = ['S&P 500', 'Nikkei', 'Oslo', 'Nasdaq 100'];
 
   for (var q in queries) {
-    print('\n--- Searching for "$q" ---');
+    debugPrint('\n--- Searching for "$q" ---');
     try {
       // Searching specifically for indices if possible, general search otherwise
       final url = Uri.parse('$baseUrl/search?query=$q&limit=10&apikey=$apiKey');
       final response = await http.get(url);
-      print(
+      debugPrint(
         '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
       );
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as List<dynamic>;
         for (var item in data) {
-          print(
+          debugPrint(
             '${item['symbol']} (${item['stockExchange']}) - ${item['name']}',
           );
         }
       }
     } catch (e) {
-      print('Error searching $q: $e');
+      debugPrint('Error searching $q: $e');
     }
   }
 }

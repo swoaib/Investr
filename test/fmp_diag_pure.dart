@@ -1,9 +1,9 @@
-import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
 Future<void> main() async {
-  print('--- FMP 402 DIAGNOSIS (PURE DART) ---');
+  debugPrint('--- FMP 402 DIAGNOSIS (PURE DART) ---');
 
   // 1. Load API Key manually from .env
   String? apiKey;
@@ -18,15 +18,15 @@ Future<void> main() async {
       }
     }
   } catch (e) {
-    print('Error reading .env: $e');
+    debugPrint('Error reading .env: $e');
   }
 
   if (apiKey == null || apiKey.isEmpty) {
-    print('CRITICAL: Could not find FMP_API_KEY in .env');
+    debugPrint('CRITICAL: Could not find FMP_API_KEY in .env');
     return;
   }
 
-  print('API Key loaded: ${apiKey.substring(0, 4)}...');
+  debugPrint('API Key loaded: ${apiKey.substring(0, 4)}...');
 
   // 2. Test Endpoints
   // Case A: Single Stock Quote (Should work)
@@ -49,16 +49,16 @@ Future<void> main() async {
 }
 
 Future<void> _check(String name, String url) async {
-  print('\nChecking: $name');
+  debugPrint('\nChecking: $name');
   try {
     final response = await http.get(Uri.parse(url));
-    print('Status: ${response.statusCode}');
+    debugPrint('Status: ${response.statusCode}');
     if (response.statusCode == 200) {
-      print('Success. Data length: ${response.body.length}');
+      debugPrint('Success. Data length: ${response.body.length}');
     } else {
-      print('FAILED. Body: ${response.body}');
+      debugPrint('FAILED. Body: ${response.body}');
     }
   } catch (e) {
-    print('Exception: $e');
+    debugPrint('Exception: $e');
   }
 }
