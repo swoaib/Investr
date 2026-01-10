@@ -385,7 +385,7 @@ abstract class AppLocalizations {
   /// No description provided for @stocksVsBankDesc.
   ///
   /// In en, this message translates to:
-  /// **'Over the last 10 years, \$10k in a bank grew to just ~\$11k. In the S&P 500, it grew to over \$32k.'**
+  /// **'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.5%, turning \$10k into ~\$10,500. The S&P 500 returned ~11.3% annually, growing it to Over \$29,000.'**
   String get stocksVsBankDesc;
 
   /// No description provided for @supportBusinessTitle.
@@ -727,38 +727,26 @@ abstract class AppLocalizations {
   /// No description provided for @snowballEffect.
   ///
   /// In en, this message translates to:
-  /// **'Snowball Effect'**
+  /// **'What is Compounding?'**
   String get snowballEffect;
 
   /// No description provided for @snowballEffectDesc.
   ///
   /// In en, this message translates to:
-  /// **'Compounding is like a snowball rolling down a hill. As it grows, it gathers more snow, growing faster and faster.'**
+  /// **'It is when your profits earn their own profits. If you earn \$10 on \$100, next year you earn on \$110. Over time, this creates exponential wealth.'**
   String get snowballEffectDesc;
 
   /// No description provided for @timeIsKey.
   ///
   /// In en, this message translates to:
-  /// **'Time is Key'**
+  /// **'How to Achieve It'**
   String get timeIsKey;
 
   /// No description provided for @timeIsKeyDesc.
   ///
   /// In en, this message translates to:
-  /// **'The longer you stay invested, the more your money works for you. Starting 10 years earlier can double your result.'**
+  /// **'1. Reinvest your dividends (don\'t spend them).\n2. Start early. Time is the multiplier. \n\nThe longer you stay invested, the faster your snowball grows.'**
   String get timeIsKeyDesc;
-
-  /// No description provided for @exponentialGrowth.
-  ///
-  /// In en, this message translates to:
-  /// **'Exponential Growth'**
-  String get exponentialGrowth;
-
-  /// No description provided for @exponentialGrowthDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Simple interest is linear. Compound interest is exponential. Your interest earns interest, creating a curve of wealth.'**
-  String get exponentialGrowthDesc;
 
   /// No description provided for @dollarCostAveragingTitle.
   ///

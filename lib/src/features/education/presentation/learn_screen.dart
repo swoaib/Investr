@@ -65,12 +65,12 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.theSpeculator,
             description: l10n.theSpeculatorDesc,
-            imagePath: 'assets/images/education/speculation_gambling.svg',
+            imagePath: 'assets/images/education/speculation_gambling.png',
           ),
           LessonPage(
             title: l10n.valueInvestingTitle,
             description: l10n.valueInvestingDesc,
-            imagePath: 'assets/images/education/long_term_value.png',
+            imagePath: 'assets/images/education/value_investing.png',
           ),
           LessonPage(
             title: l10n.valueRiskTitle,
@@ -126,11 +126,6 @@ class LearnScreen extends StatelessWidget {
             title: l10n.timeIsKey,
             description: l10n.timeIsKeyDesc,
             imagePath: 'assets/images/education/compound_time.png',
-          ),
-          LessonPage(
-            title: l10n.exponentialGrowth,
-            description: l10n.exponentialGrowthDesc,
-            imagePath: 'assets/images/education/compound_graph.svg',
           ),
         ],
       ),
@@ -220,27 +215,30 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.theSecret,
             description: l10n.theSecretDesc,
-            imagePath: 'assets/images/education/bonds_stability.png',
+            imagePath: 'assets/images/education/margin_of_safety_secret.png',
           ),
           LessonPage(
             title: l10n.roomForError,
             description: l10n.roomForErrorDesc,
-            imagePath: 'assets/images/education/ms_room_error.png',
+            imagePath:
+                'assets/images/education/margin_of_safety_room_for_error.png',
           ),
           LessonPage(
             title: l10n.theEngineersBridge,
             description: l10n.theEngineersBridgeDesc,
-            imagePath: 'assets/images/education/ms_bridge.png',
+            imagePath: 'assets/images/education/margin_of_safety_bridge.png',
           ),
           LessonPage(
             title: l10n.diversification,
             description: l10n.diversificationDesc,
-            imagePath: 'assets/images/education/ms_diversification.png',
+            imagePath:
+                'assets/images/education/margin_of_safety_diversification.png',
           ),
           LessonPage(
             title: l10n.conservativeAssumptions,
             description: l10n.conservativeAssumptionsDesc,
-            imagePath: 'assets/images/education/ms_conservative.png',
+            imagePath:
+                'assets/images/education/margin_of_safety_conservative.png',
           ),
         ],
       ),

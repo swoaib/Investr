@@ -160,7 +160,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stocksVsBankDesc =>
-      'Over the last 10 years, \$10k in a bank grew to just ~\$11k. In the S&P 500, it grew to over \$32k.';
+      'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.5%, turning \$10k into ~\$10,500. The S&P 500 returned ~11.3% annually, growing it to Over \$29,000.';
 
   @override
   String get supportBusinessTitle => 'Support What You Love';
@@ -354,25 +354,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calcIntrinsicValueDesc => 'The science of valuation.';
 
   @override
-  String get snowballEffect => 'Snowball Effect';
+  String get snowballEffect => 'What is Compounding?';
 
   @override
   String get snowballEffectDesc =>
-      'Compounding is like a snowball rolling down a hill. As it grows, it gathers more snow, growing faster and faster.';
+      'It is when your profits earn their own profits. If you earn \$10 on \$100, next year you earn on \$110. Over time, this creates exponential wealth.';
 
   @override
-  String get timeIsKey => 'Time is Key';
+  String get timeIsKey => 'How to Achieve It';
 
   @override
   String get timeIsKeyDesc =>
-      'The longer you stay invested, the more your money works for you. Starting 10 years earlier can double your result.';
-
-  @override
-  String get exponentialGrowth => 'Exponential Growth';
-
-  @override
-  String get exponentialGrowthDesc =>
-      'Simple interest is linear. Compound interest is exponential. Your interest earns interest, creating a curve of wealth.';
+      '1. Reinvest your dividends (don\'t spend them).\n2. Start early. Time is the multiplier. \n\nThe longer you stay invested, the faster your snowball grows.';
 
   @override
   String get dollarCostAveragingTitle => 'Dollar Cost Averaging';

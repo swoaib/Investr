@@ -367,13 +367,6 @@ class AppLocalizationsNo extends AppLocalizations {
       'Jo lenger du er investert, jo mer jobber pengene dine for deg. Å starte 10 år tidligere kan doble resultatet ditt.';
 
   @override
-  String get exponentialGrowth => 'Eksponentiell vekst';
-
-  @override
-  String get exponentialGrowthDesc =>
-      'Enkel rente er lineær. Renters rente er eksponentiell. Rentene dine tjener renter, og skaper en formueskurve.';
-
-  @override
   String get dollarCostAveragingTitle => 'Kronerulling (DCA)';
 
   @override

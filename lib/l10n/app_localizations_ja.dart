@@ -358,13 +358,6 @@ class AppLocalizationsJa extends AppLocalizations {
       '投資期間が長いほど、お金はあなたのために働きます。10年早く始めれば、結果は倍増する可能性があります。';
 
   @override
-  String get exponentialGrowth => '指数関数的な成長';
-
-  @override
-  String get exponentialGrowthDesc =>
-      '単利は直線的です。複利は指数関数的です。利子が利子を生み、富の曲線を作り出します。';
-
-  @override
   String get dollarCostAveragingTitle => 'ドルコスト平均法';
 
   @override

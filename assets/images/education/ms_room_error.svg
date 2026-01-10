@@ -1,9 +1,0 @@
-<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="150" cy="150" r="100" stroke="#E0E0E0" stroke-width="20"/>
-  <circle cx="150" cy="150" r="70" stroke="#FFAB91" stroke-width="20"/>
-  <circle cx="150" cy="150" r="40" stroke="#FF5722" stroke-width="20"/>
-  <circle cx="150" cy="150" r="10" fill="#D84315"/>
-  
-  <path d="M220 150 L280 150" stroke="#757575" stroke-width="2"/>
-  <text x="285" y="155" font-family="Arial" font-size="12" fill="#757575">Safety</text>
-</svg>
