@@ -434,14 +434,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dcaHistoryCrashDesc =>
-      'In Sept 1929, if you invested \$12,000 lump sum in the S&P 500, 10 years later you\'d have only \$7,223 left (-40%).';
+      'In Sept 1929, if you invested \$12,000 lump sum in the S&P 500, 10 years later you\'d have only \$7,223 left (-40%). However, starting with \$100 and investing \$100 monthly (total \$12k), you\'d have \$15,571 by 1939 (+30%).';
 
   @override
   String get dcaHistoryGrowthTitle => 'The DCA Advantage';
 
   @override
   String get dcaHistoryGrowthDesc =>
-      'However, starting with \$100 and investing \$100 monthly (total \$12k), you\'d have \$15,571 by 1939 (+30%). Consistency beats timing.';
+      'Consistency beats timing, the graph above shows another example of starting with \$3000 and adding \$100 each month and also the corresponding S&P 500 index during Dec 99 and Dec 02.';
 
   @override
   String get done => 'Done';

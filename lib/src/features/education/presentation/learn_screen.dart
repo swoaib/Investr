@@ -298,7 +298,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.dcaHistoryGrowthTitle,
             description: l10n.dcaHistoryGrowthDesc,
-            imagePath: 'assets/images/education/dca_growth_1929.png',
+            imagePath: 'assets/images/education/dca_growth.png',
           ),
           LessonPage(
             title: l10n.removeEmotion,

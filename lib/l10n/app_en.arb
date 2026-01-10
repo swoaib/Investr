@@ -144,9 +144,9 @@
   "consistencyWins": "Consistency Wins",
   "consistencyWinsDesc": "The key is consistency. Over time, this disciplined approach builds significant wealth.",
   "dcaHistoryCrashTitle": "The Great Crash",
-  "dcaHistoryCrashDesc": "In Sept 1929, if you invested $12,000 lump sum in the S&P 500, 10 years later you'd have only $7,223 left (-40%).",
+  "dcaHistoryCrashDesc": "In Sept 1929, if you invested $12,000 lump sum in the S&P 500, 10 years later you'd have only $7,223 left (-40%). However, starting with $100 and investing $100 monthly (total $12k), you'd have $15,571 by 1939 (+30%).",
   "dcaHistoryGrowthTitle": "The DCA Advantage",
-  "dcaHistoryGrowthDesc": "However, starting with $100 and investing $100 monthly (total $12k), you'd have $15,571 by 1939 (+30%). Consistency beats timing.",
+  "dcaHistoryGrowthDesc": "Consistency beats timing, the graph above shows another example of starting with $3000 and adding $100 each month and also the corresponding S&P 500 index during Dec 99 and Dec 02.",
   "done": "Done",
   "next": "Next",
 

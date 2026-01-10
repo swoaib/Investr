@@ -6,34 +6,29 @@ import '../domain/stock.dart';
 import '../domain/price_point.dart';
 import '../domain/earnings_point.dart';
 import '../../valuation/domain/dcf_data.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class StockRepository {
   late final String _apiKey;
   String get apiKey => _apiKey;
-  // Use Stable Base URL
-  final String _baseUrl = 'https://financialmodelingprep.com/stable';
+  final String _baseUrl = 'https://api.polygon.io';
 
   StockRepository() {
-    // Load FMP Key
-    _apiKey = dotenv.env['FMP_API_KEY'] ?? '';
+    _apiKey = dotenv.env['POLYGON_API_KEY'] ?? '';
     if (_apiKey.isEmpty) {
       if (kDebugMode) {
-        print('WARNING: FMP_API_KEY is missing in .env');
+        print('WARNING: POLYGON_API_KEY is missing in .env');
       }
     }
   }
 
-  // Hardcoded list of popular stocks for the dashboard to simulate a "Watchlist"
-  static const String _watchlistKey = 'watchlist_v3'; // Bump key version
+  static const String _watchlistKey = 'watchlist_v2';
 
-  // Default stocks for new users - NOW USING DIRECT INDICES
+  // Default stocks for new users
   final Map<String, String> _defaultWatchlist = {
-    '^GSPC': 'S&P 500',
-    '^DJI': 'Dow Jones',
-    '^IXIC': 'Nasdaq 100', // Usually ^IXIC or ^NDX
-    '^N225': 'Nikkei 225',
+    'I:SPX': 'S&P 500',
+    'I:DJI': 'Dow Jones',
+    'I:NDX': 'Nasdaq 100', // Polygon uses I:NDX
     'AAPL': 'Apple Inc.',
     'GOOGL': 'Alphabet Inc.',
     'TSLA': 'Tesla Inc.',
@@ -43,54 +38,64 @@ class StockRepository {
   };
 
   /// Fetches current data for the watchlist.
-  /// NOTE: FMP Free Tier on Stable API blocks Batch Requests (402 Payment Required).
-  /// We must fetch symbols individually in parallel.
+  /// Polygon doesn't have a free "batch" endpoint easily.
+  /// We'll fetch individually for now to be safe, or use Grouped Daily (Previous Close) if we want "yesterday's" close for all.
+  /// But "current price" (delayed 15min) requires individual calls or specific endpoints.
+  /// For now, lets fetch individually to match the exact interface logic.
   Future<List<Stock>> getWatchlistStocks() async {
     List<Stock> stocks = [];
     try {
       final watchlistMap = await _loadWatchlistMap();
-      if (watchlistMap.isEmpty) {
-        return [];
-      }
+      if (watchlistMap.isEmpty) return [];
 
-      // Fetch all stocks in parallel to avoid batch restriction
-      // while keeping performance reasonable.
+      // Parallel fetch
       final futures = watchlistMap.entries.map((entry) async {
         final symbol = entry.key;
-        final name = entry.value; // Store name to pass to getStock
+        final name = entry.value;
         return await getStock(symbol, name: name);
       });
 
       final results = await Future.wait(futures);
-
-      // Filter out nulls (failed fetches)
       stocks = results.whereType<Stock>().toList();
     } catch (e) {
       if (kDebugMode) print('Error fetching watchlist: $e');
-      rethrow;
     }
-
     return stocks;
   }
 
   /// Fetches data for a single stock symbol.
+  /// Uses "Previous Close" endpoint for daily data, or "Aggs" for latest.
+  /// Previous Close is reliable for free tier.
   Future<Stock?> getStock(String symbol, {String? name}) async {
     try {
-      final url = Uri.parse('$_baseUrl/quote?symbol=$symbol&apikey=$_apiKey');
+      // Endpoint: /v2/aggs/ticker/{stocksTicker}/prev
+      final url = Uri.parse(
+        '$_baseUrl/v2/aggs/ticker/$symbol/prev?adjusted=true&apiKey=$_apiKey',
+      );
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final List<dynamic> results = json.decode(response.body);
-        if (results.isNotEmpty) {
-          final item = results.first;
+        final data = json.decode(response.body);
+        if (data['resultsCount'] > 0) {
+          final result = data['results'][0];
+
+          final double price = (result['c'] as num).toDouble();
+          final double open = (result['o'] as num).toDouble();
+
+          final double change = price - open;
+          final double changePercent = (open != 0)
+              ? (change / open) * 100
+              : 0.0;
+
           return Stock(
-            symbol: item['symbol'],
-            companyName: name ?? item['name'],
-            price: (item['price'] as num?)?.toDouble() ?? 0.0,
-            change: (item['change'] as num?)?.toDouble() ?? 0.0,
-            changePercent:
-                (item['changesPercentage'] as num?)?.toDouble() ?? 0.0,
-            previousClose: (item['previousClose'] as num?)?.toDouble() ?? 0.0,
+            symbol: data['ticker'],
+            companyName:
+                name ?? data['ticker'], // Polygon doesn't return Name here
+            price: price,
+            change: change,
+            changePercent: changePercent,
+            previousClose:
+                open, // Using Open as proxy for "baseline" of the candle
           );
         }
       }
@@ -101,32 +106,38 @@ class StockRepository {
   }
 
   /// Fetches detailed fundamental data (Market Cap, Employees, Description, etc.)
-  /// Note: FMP Profile endpoint might be premium for some fields or rate limited.
+  /// Uses Ticker Details v3.
   Future<Stock> getStockDetails(Stock stock) async {
-    // FMP Profile: /profile?symbol=...
-    // Warning: Check if accessing profile consumes a lot of quota
-    // For now, we return the stock as-is or implement minimal profile fetching
-    // if verified to work on free tier (Verification script didn't explicitly check Profile success, but assumed Quote worked)
-    // Actually, user's key failed strictly on Legacy. New Stable might work.
-
-    // Let's implement a safe try-catch for Profile
     try {
-      // Note: "stable/profile" endpoint check was not explicitly verified successful in last run
-      // Use "/quote" data we already have if possible, but for description/employees we need profile.
-      // We will skip strict implementation to avoid breaking if profile is restricted,
-      // unless we verified it.
-      // Verification showed 403 for v3/profile. Let's assume Stable Profile works similar to Quote?
-      // Let's perform a lightweight check or just return stock for now until Profile is verified.
-      return stock; // Placeholder until Profile endpoint verified text
+      // Endpoint: /v3/reference/tickers/{ticker}
+      final url = Uri.parse(
+        '$_baseUrl/v3/reference/tickers/${stock.symbol}?apiKey=$_apiKey',
+      );
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'OK' && data['results'] != null) {
+          final results = data['results'];
+          return stock.copyWith(
+            companyName: results['name'] ?? stock.companyName,
+            description: results['description'] ?? '',
+            employees: (results['total_employees'] as num?)?.toInt() ?? 0,
+            marketCap: (results['market_cap'] as num?)?.toDouble() ?? 0.0,
+            peRatio:
+                0.0, // Polygon Ticker Details doesn't usually have PE. Need financials.
+            dividendYield: 0.0, // Need separate endpoint
+          );
+        }
+      }
     } catch (e) {
-      return stock;
+      if (kDebugMode) print('Error fetching details for ${stock.symbol}: $e');
     }
+    return stock;
   }
 
-  /// Uses intraday data filtered to market hours to match the graph.
   Future<Stock> getQuote(Stock stock) async {
-    // FMP Quote is real-time/delayed, similar to getStock.
-    // We can just reuse getStock logic or call it directly.
+    // Just reuse getStock for now.
     final updated = await getStock(stock.symbol, name: stock.companyName);
     return updated ?? stock;
   }
@@ -136,126 +147,110 @@ class StockRepository {
     String symbol, {
     String frequency = 'quarterly',
   }) async {
-    // FMP Earnings: /earnings-calendar or /historical/earning_calendar
-    // This is often restricted.
-    // For now, return empty list to prevent crash.
+    // Earnings not easily available on Polygon Free Tier (usually).
     return [];
   }
 
-  /// Fetches historical data for a stock symbol.
-  /// Defaults to 1 Year of daily data (FMP "historical-price-eod/full").
+  /// Fetches historical data (Daily Bars).
   Future<List<PricePoint>> getStockHistory(String symbol) async {
     try {
-      // Verified Endpoint: /stable/historical-price-eod/full?symbol=...
+      // 1 Year of History.
+      final now = DateTime.now();
+      final from = now.subtract(const Duration(days: 365));
+      final toStr = now.toIso8601String().split('T')[0];
+      final fromStr = from.toIso8601String().split('T')[0];
+
+      // Endpoint: /v2/aggs/ticker/{stocksTicker}/range/1/day/{from}/{to}
       final url = Uri.parse(
-        '$_baseUrl/historical-price-eod/full?symbol=$symbol&apikey=$_apiKey',
+        '$_baseUrl/v2/aggs/ticker/$symbol/range/1/day/$fromStr/$toStr?adjusted=true&sort=asc&limit=500&apiKey=$_apiKey',
       );
 
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final dynamic data = json.decode(response.body);
-
-        List<dynamic> historicalData = [];
-        if (data is List) {
-          historicalData = data;
-        } else if (data is Map<String, dynamic>) {
-          historicalData = data['historical'] ?? [];
-        } else if (data is Map) {
-          // Handle generic map if type inference fails
-          historicalData = data['historical'] ?? [];
+        final data = json.decode(response.body);
+        if (data['resultsCount'] > 0) {
+          final List<dynamic> results = data['results'];
+          return results.map((candle) {
+            // Polygon timestamp is milliseconds
+            final date = DateTime.fromMillisecondsSinceEpoch(candle['t']);
+            final close = (candle['c'] as num).toDouble();
+            return PricePoint(date: date, price: close);
+          }).toList();
         }
-
-        return historicalData.map((candle) {
-          final dateStr = candle['date'] as String;
-          // Parse "yyyy-MM-dd"
-          final date = DateTime.parse(dateStr);
-          final close = (candle['close'] as num).toDouble();
-          return PricePoint(date: date, price: close);
-        }).toList();
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching history for $symbol: $e');
     }
-
     return [];
   }
 
-  /// Fetches intraday data for the "1D" chart.
   Future<List<PricePoint>> getIntradayHistory(String symbol) async {
     try {
-      // Verified Endpoint: /stable/historical-chart/5min?symbol=...
-      // Note: Verification script returned 402 Restricted for Query Param version?
-      // Wait, let's re-read Verification 76307291:
-      // "Testing stable/historical-chart/5min?symbol=AAPL ... 402: Restricted Endpoint"
-      // "Testing stable/historical-chart/5min/AAPL ... 404: []"
+      // Fetch last 4 days to ensure coverage over weekends/holidays
+      final now = DateTime.now();
+      final from = now.subtract(const Duration(days: 4));
+      final toStr = now.toIso8601String().split('T')[0];
+      final fromStr = from.toIso8601String().split('T')[0];
 
-      // CRITICAL: The user's verification run showed 402 (Payment Required) for Intraday!
-      // This means FMP Free Tier DOES NOT support Intraday charts via Stable API?
-      // Or maybe we need 15min/1hour?
+      // Endpoint: /v2/aggs/ticker/{ticker}/range/5/minute/...
+      final url = Uri.parse(
+        '$_baseUrl/v2/aggs/ticker/$symbol/range/5/minute/$fromStr/$toStr?adjusted=true&sort=asc&limit=5000&apiKey=$_apiKey',
+      );
 
-      // Fallback: If 5min is restricted, we try 1hour or just fail gracefully?
-      // Let's try 1hour in code, or just return empty for now.
-      // Actually, if Intraday is paid-only, we should warn user.
-      // But we can try /historical-chart/1hour?symbol=...
+      final response = await http.get(url);
 
-      // For now, let's assume usage of Daily data for 1D chart (flat line?) or try 1min?
-      // "Intraday Historical Data" is usually free for 1min/5min on FMP... strange.
-      // Maybe check verify output again?
-      // "Testing stable/historical-chart/5min?symbol=AAPL ... 402"
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['resultsCount'] > 0) {
+          final List<dynamic> results = data['results'];
+          final points = results.map((candle) {
+            final date = DateTime.fromMillisecondsSinceEpoch(candle['t']);
+            final close = (candle['c'] as num).toDouble();
+            return PricePoint(date: date, price: close);
+          }).toList();
 
-      // Okay, we will skip implementation of this specific method for now (return empty)
-      // to avoid 402 errors crashing/spamming.
-      return [];
+          return filterForMarketHours(points);
+        }
+      }
     } catch (e) {
       if (kDebugMode) print('Error fetching intraday for $symbol: $e');
     }
     return [];
   }
 
-  /// Fetches 30-minute data for the "1W" chart.
   Future<List<PricePoint>> getWeeklyHistory(String symbol) async {
-    // Similar issue as Intraday
-    return [];
+    return []; // Placeholder
   }
 
-  /// Fetches hourly data for the "1M" chart.
   Future<List<PricePoint>> getMonthlyHistory(String symbol) async {
-    // Similar issue as Intraday
-    return [];
+    return []; // Placeholder
   }
 
-  /// Searches for a stock ticker by symbol or name.
+  /// Searches for a stock ticker.
   Future<List<({String symbol, String name})>> searchTicker(
     String query,
   ) async {
     try {
-      // Verified Endpoint: /stable/search?query=...
-      // Note: Verification script said "Testing STABLE Search ... 404: []" ???
-      // Wait, User said "This worked: https://financialmodelingprep.com/stable/search-symbol?query=AAPL"
-      // But my script tested `/search?query=` NOT `/search-symbol?`
-      // My script output: "Testing STABLE Search ... 404: []" (using /search)
-      // User said: "/search-symbol"
-
-      // So we MUST use `/search-symbol`
+      // Endpoint: /v3/reference/tickers?search={query}
       final url = Uri.parse(
-        '$_baseUrl/search-symbol?query=$query&limit=10&apikey=$_apiKey',
+        '$_baseUrl/v3/reference/tickers?search=$query&active=true&sort=ticker&order=asc&limit=10&apiKey=$_apiKey',
       );
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final List<dynamic> results = json.decode(response.body);
-        // Auto-sorts by relevance usually?
-
-        return results
-            .map(
-              (result) => (
-                symbol: result['symbol'] as String,
-                name:
-                    result['name'] as String? ?? '', // FMP might not send name?
-              ),
-            )
-            .toList();
+        final data = json.decode(response.body);
+        if (data['status'] == 'OK') {
+          final List<dynamic> results = data['results'];
+          return results
+              .map(
+                (result) => (
+                  symbol: result['ticker'] as String,
+                  name: result['name'] as String,
+                ),
+              )
+              .toList();
+        }
       }
     } catch (e) {
       if (kDebugMode) print('Error searching ticker for $query: $e');
@@ -263,39 +258,30 @@ class StockRepository {
     return [];
   }
 
-  // Encryption/Persistence Helpers
-
+  // Encryption/Persistence Helpers (Same as before)
   Future<Map<String, String>> _loadWatchlistMap() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString(_watchlistKey);
-
     if (jsonString == null) {
-      // Seed with default
       await _saveWatchlistMap(_defaultWatchlist);
       return _defaultWatchlist;
     }
-
     try {
       final List<dynamic> list = json.decode(jsonString);
       if (list.isEmpty) {
-        if (kDebugMode) {
-          print('Watchlist is empty in prefs. Reseeding defaults.');
-        }
         await _saveWatchlistMap(_defaultWatchlist);
         return _defaultWatchlist;
       }
       return {for (var item in list) item['symbol']: item['name']};
     } catch (e) {
-      if (kDebugMode) print('Error parsing watchlist prefs: $e');
-      // Fallback if corrupted
       return _defaultWatchlist;
     }
   }
 
-  Future<void> _saveWatchlistMap(Map<String, String> watchlist) async {
+  Future<void> _saveWatchlistMap(Map<String, String> map) async {
     final prefs = await SharedPreferences.getInstance();
-    final list = watchlist.entries
-        .map((e) => {'symbol': e.key, 'name': e.value})
+    final list = map.entries
+        .map((entry) => {'symbol': entry.key, 'name': entry.value})
         .toList();
     await prefs.setString(_watchlistKey, json.encode(list));
   }
@@ -321,8 +307,6 @@ class StockRepository {
     await _saveWatchlistMap(newMap);
   }
 
-  /// Resets the watchlist to the hardcoded defaults.
-  /// Used when the watchlist appears corrupted or empty.
   Future<void> resetToDefaults() async {
     await _saveWatchlistMap(_defaultWatchlist);
   }
@@ -330,7 +314,7 @@ class StockRepository {
   /// Fetches data required for DCF calculation.
   Future<DCFData?> getDCFData(String symbol) async {
     try {
-      // 1. Get Current Price
+      // 1. Get Current Price (Previous Close)
       final priceUrl = Uri.parse(
         '$_baseUrl/v2/aggs/ticker/$symbol/prev?adjusted=true&apiKey=$_apiKey',
       );
@@ -338,13 +322,12 @@ class StockRepository {
       double price = 0.0;
       if (priceResponse.statusCode == 200) {
         final data = json.decode(priceResponse.body);
-        final results = data['results'] as List<dynamic>?;
-        if (results != null && results.isNotEmpty) {
-          price = (results.first['c'] as num).toDouble();
+        if (data['resultsCount'] > 0) {
+          price = (data['results'][0]['c'] as num).toDouble();
         }
       }
 
-      // 2. Get Financials
+      // Endpoint: /vX/reference/financials?ticker={ticker}
       final financialsUrl = Uri.parse(
         '$_baseUrl/vX/reference/financials?ticker=$symbol&limit=1&apiKey=$_apiKey',
       );
@@ -352,71 +335,63 @@ class StockRepository {
 
       if (finResponse.statusCode == 200) {
         final data = json.decode(finResponse.body);
-        final results = data['results'] as List<dynamic>?;
+        if (data['status'] == 'OK' && data['results'] != null) {
+          final results = data['results'] as List<dynamic>;
+          if (results.isNotEmpty) {
+            final financials = results[0]['financials'];
+            final income = financials?['income_statement'];
+            final balance = financials?['balance_sheet'];
+            final cashFlow = financials?['cash_flow_statement'];
 
-        if (results != null && results.isNotEmpty) {
-          final financials = results.first['financials'];
-          final income = financials?['income_statement'];
-          final balance = financials?['balance_sheet'];
-          final cashFlow = financials?['cash_flow_statement'];
+            // Shares Outstanding
+            final sharesNode =
+                income?['weighted_average_shares_outstanding_diluted'] ??
+                income?['basic_average_shares'];
+            final double shares =
+                (sharesNode?['value'] as num?)?.toDouble() ?? 0;
 
-          // Shares Outstanding (Weighted Average)
-          final sharesNode =
-              income?['weighted_average_shares_outstanding_diluted'] ??
-              income?['basic_average_shares'];
-          final double shares = (sharesNode?['value'] as num?)?.toDouble() ?? 0;
+            // Free Cash Flow
+            final double operatingCashFlow =
+                (cashFlow?['net_cash_flow_from_operating_activities']?['value']
+                        as num?)
+                    ?.toDouble() ??
+                0;
+            final double investingCashFlow =
+                (cashFlow?['net_cash_flow_from_investing_activities']?['value']
+                        as num?)
+                    ?.toDouble() ??
+                0;
+            final double freeCashFlow =
+                operatingCashFlow +
+                investingCashFlow; // Investing usually negative
 
-          // Free Cash Flow = Operating Cash Flow - CapEx
-          // Note: Polygon vX (Standardized) often lumps CapEx into 'net_cash_flow_from_investing_activities'.
-          // Valid keys verified: 'net_cash_flow_from_operating_activities', 'net_cash_flow_from_investing_activities'.
+            // Net Debt
+            double totalDebt =
+                (balance?['long_term_debt']?['value'] as num?)?.toDouble() ?? 0;
+            // If 'debt' is present it might be total debt
+            if (balance?['debt'] != null) {
+              totalDebt =
+                  (balance?['debt']['value'] as num?)?.toDouble() ?? totalDebt;
+            }
+            final double cash =
+                (balance?['cash_and_cash_equivalents']?['value'] as num?)
+                    ?.toDouble() ??
+                0;
+            final double shortTermInvestments =
+                (balance?['short_term_investments']?['value'] as num?)
+                    ?.toDouble() ??
+                0;
 
-          final double operatingCashFlow =
-              (cashFlow?['net_cash_flow_from_operating_activities']?['value']
-                      as num?)
-                  ?.toDouble() ??
-              0;
+            final double netDebt = totalDebt - (cash + shortTermInvestments);
 
-          // We use investing cash flow as a proxy for CapEx since specific 'capital_expenditures' key is missing for some symbols (e.g. AAPL).
-          // Investing flow is usually negative (outflow).
-          final double investingCashFlow =
-              (cashFlow?['net_cash_flow_from_investing_activities']?['value']
-                      as num?)
-                  ?.toDouble() ??
-              0;
-
-          final double freeCashFlow = operatingCashFlow + investingCashFlow;
-
-          // Net Debt = Total Debt - Cash
-          // Valid keys verified: 'long_term_debt'. 'total_debt' and 'short_term_debt' often missing.
-          // 'cash_and_cash_equivalents' also often missing, making Net Debt calc difficult.
-
-          double totalDebt =
-              (balance?['long_term_debt']?['value'] as num?)?.toDouble() ?? 0;
-          if (balance?['debt'] != null) {
-            totalDebt =
-                (balance?['debt']['value'] as num?)?.toDouble() ?? totalDebt;
+            return DCFData(
+              symbol: symbol,
+              freeCashFlow: freeCashFlow,
+              netDebt: netDebt,
+              sharesOutstanding: shares,
+              price: price,
+            );
           }
-
-          final double cash =
-              (balance?['cash_and_cash_equivalents']?['value'] as num?)
-                  ?.toDouble() ??
-              0;
-
-          // If short term investments key exists (rare), we use it.
-          final double shortTermInvestments =
-              (balance?['short_term_investments']?['value'] as num?)
-                  ?.toDouble() ??
-              0;
-
-          final double netDebt = totalDebt - (cash + shortTermInvestments);
-
-          return DCFData(
-            symbol: symbol,
-            freeCashFlow: freeCashFlow,
-            netDebt: netDebt,
-            sharesOutstanding: shares,
-            price: price,
-          );
         }
       }
     } catch (e) {
@@ -424,19 +399,6 @@ class StockRepository {
     }
     return null;
   }
-
-  /*
-  // Unused helpers - preserved for future intraday logic
-  Future<double?> _getPreviousCloseForDate(String symbol, DateTime date) async {
-    // Implementation ...
-    return null;
-  }
-  
-  Future<DateTime> _getLastTradingDay() async {
-    // Implementation ...
-    return DateTime.now();
-  }
-  */
 
   /// Filters a list of price points to only include those within regular market hours (09:30 - 16:00 ET).
   /// Handles DST automatically.
@@ -450,50 +412,51 @@ class StockRepository {
       final openHour = isDST ? 13 : 14;
       final closeHour = isDST ? 20 : 21;
 
+      if (utcTime.weekday >= 6) return false;
+
       final hour = utcTime.hour;
       final minute = utcTime.minute;
 
-      if (hour < openHour || (hour == openHour && minute < 30)) {
-        return false;
-      }
-      if (hour > closeHour || (hour == closeHour && minute > 0)) {
-        return false;
-      }
+      if (hour < openHour || hour > closeHour) return false;
+      if (hour == openHour && minute < 30) return false;
+      if (hour == closeHour && minute > 0) return false;
+
       return true;
     }).toList();
   }
 
-  // Used by filterForMarketHours
-  bool isUSDST(DateTime utcTime) {
-    final year = utcTime.year;
-    // DST starts 2nd Sunday in March
-    // DST ends 1st Sunday in November
+  /// Checks if a given UTC time is within US Daylight Saving Time.
+  /// DST starts on the second Sunday in March and ends on the first Sunday in November.
+  bool isUSDST(DateTime utcDate) {
+    final year = utcDate.year;
 
-    // Find 2nd Sunday in March
-    final march1 = DateTime.utc(year, 3, 1);
-    var secondSundayMarch = march1;
-    int sundayCount = 0;
-    for (int i = 0; i < 31; i++) {
-      if (march1.add(Duration(days: i)).weekday == DateTime.sunday) {
-        sundayCount++;
-        if (sundayCount == 2) {
-          secondSundayMarch = march1.add(Duration(days: i));
-          break;
-        }
+    // Find second Sunday in March
+    DateTime marchDstStart = DateTime.utc(year, 3, 1);
+    int marchSundayCount = 0;
+    while (marchSundayCount < 2) {
+      if (marchDstStart.weekday == DateTime.sunday) {
+        marchSundayCount++;
+      }
+      if (marchSundayCount < 2) {
+        marchDstStart = marchDstStart.add(const Duration(days: 1));
       }
     }
+    // Set to 2:00 AM EST which is 7:00 AM UTC (Standard) or 6:00 AM UTC?
+    // Actually DST change happens at 2AM local.
+    // EST is UTC-5. EDT is UTC-4.
+    // Change happens when Standard Time reaches 2AM (becoming 3AM EDT).
+    // So 2AM EST is 7AM UTC.
+    marchDstStart = marchDstStart.add(const Duration(hours: 7)); // 7:00 UTC
 
-    // Find 1st Sunday in November
-    final nov1 = DateTime.utc(year, 11, 1);
-    var firstSundayNov = nov1;
-    for (int i = 0; i < 31; i++) {
-      if (nov1.add(Duration(days: i)).weekday == DateTime.sunday) {
-        firstSundayNov = nov1.add(Duration(days: i));
-        break;
-      }
+    // Find first Sunday in November
+    DateTime novDstEnd = DateTime.utc(year, 11, 1);
+    while (novDstEnd.weekday != DateTime.sunday) {
+      novDstEnd = novDstEnd.add(const Duration(days: 1));
     }
+    // Change happens at 2AM EDT (becoming 1AM EST).
+    // 2AM EDT is 6AM UTC.
+    novDstEnd = novDstEnd.add(const Duration(hours: 6)); // 6:00 UTC
 
-    return utcTime.isAfter(secondSundayMarch) &&
-        utcTime.isBefore(firstSundayNov);
+    return utcDate.isAfter(marchDstStart) && utcDate.isBefore(novDstEnd);
   }
 }
