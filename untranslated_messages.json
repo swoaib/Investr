@@ -9,7 +9,11 @@
     "grossProfitTitle",
     "grossProfitDesc",
     "netIncomeTitle",
-    "netIncomeDesc"
+    "netIncomeDesc",
+    "adequiteDiversificationTitle",
+    "adequiteDiversificationDesc",
+    "bigCompaniesTitle",
+    "bigCompaniesDesc"
   ],
 
   "no": [
@@ -20,6 +24,10 @@
     "grossProfitTitle",
     "grossProfitDesc",
     "netIncomeTitle",
-    "netIncomeDesc"
+    "netIncomeDesc",
+    "adequiteDiversificationTitle",
+    "adequiteDiversificationDesc",
+    "bigCompaniesTitle",
+    "bigCompaniesDesc"
   ]
 }

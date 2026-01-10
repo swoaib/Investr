@@ -1408,6 +1408,30 @@ abstract class AppLocalizations {
   /// **'They should buy a high-grade index fund or maintain a 50/50 split between stocks and bonds, rebalancing automatically.'**
   String get defensiveStrategyDesc;
 
+  /// No description provided for @adequiteDiversificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Adequate Diversification'**
+  String get adequiteDiversificationTitle;
+
+  /// No description provided for @adequiteDiversificationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket.'**
+  String get adequiteDiversificationDesc;
+
+  /// No description provided for @bigCompaniesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Large & Prominent'**
+  String get bigCompaniesTitle;
+
+  /// No description provided for @bigCompaniesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones.'**
+  String get bigCompaniesDesc;
+
   /// No description provided for @theEnterpriseInvestor.
   ///
   /// In en, this message translates to:
@@ -1501,7 +1525,7 @@ abstract class AppLocalizations {
   /// No description provided for @theChoiceDesc.
   ///
   /// In en, this message translates to:
-  /// **'The choice isn\'t just about risk appetite, but your willingness to work. If you can\'t put in the hours, be defensive.'**
+  /// **'Most people are defensive investors. The Enterprise approach is strictly for those willing to treat it as a business and put in the necessary hours.'**
   String get theChoiceDesc;
 
   /// No description provided for @freeCashFlow.

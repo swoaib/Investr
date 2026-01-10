@@ -709,6 +709,20 @@ class AppLocalizationsJa extends AppLocalizations {
       '優良なインデックスファンドを購入するか、株式と債券を50/50の割合で維持し、自動的にリバランスする必要があります。';
 
   @override
+  String get adequiteDiversificationTitle => 'Adequate Diversification';
+
+  @override
+  String get adequiteDiversificationDesc =>
+      'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket.';
+
+  @override
+  String get bigCompaniesTitle => 'Large & Prominent';
+
+  @override
+  String get bigCompaniesDesc =>
+      'Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones.';
+
+  @override
   String get theEnterpriseInvestor => '積極的な投資家';
 
   @override

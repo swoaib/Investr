@@ -729,6 +729,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'They should buy a high-grade index fund or maintain a 50/50 split between stocks and bonds, rebalancing automatically.';
 
   @override
+  String get adequiteDiversificationTitle => 'Adequate Diversification';
+
+  @override
+  String get adequiteDiversificationDesc =>
+      'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket.';
+
+  @override
+  String get bigCompaniesTitle => 'Large & Prominent';
+
+  @override
+  String get bigCompaniesDesc =>
+      'Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones.';
+
+  @override
   String get theEnterpriseInvestor => 'The Enterprise Investor';
 
   @override
@@ -781,7 +795,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get theChoiceDesc =>
-      'The choice isn\'t just about risk appetite, but your willingness to work. If you can\'t put in the hours, be defensive.';
+      'Most people are defensive investors. The Enterprise approach is strictly for those willing to treat it as a business and put in the necessary hours.';
 
   @override
   String get freeCashFlow => 'Free Cash Flow';

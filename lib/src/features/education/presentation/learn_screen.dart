@@ -148,9 +148,9 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/defensive_investor.png',
           ),
           LessonPage(
-            title: l10n.defensiveStrategy,
-            description: l10n.defensiveStrategyDesc,
-            imagePath: 'assets/images/education/defensive_strategy.png',
+            title: l10n.adequiteDiversificationTitle,
+            description: l10n.adequiteDiversificationDesc + l10n.bigCompaniesDesc,
+            imagePath: 'assets/images/education/big_companies.png',
           ),
           LessonPage(
             title: l10n.theEnterpriseInvestor,
