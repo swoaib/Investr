@@ -258,7 +258,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.instantDiversification,
             description: l10n.instantDiversificationDesc,
-            imagePath: 'assets/images/education/diversification.png',
+            imagePath: 'assets/images/education/ms_diversification.png',
           ),
           LessonPage(
             title: l10n.lowCost,
@@ -283,12 +283,12 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.whatIsDCA,
             description: l10n.whatIsDCADesc,
-            imagePath: 'assets/images/education/dca_calendar.svg',
+            imagePath: 'assets/images/education/dca_calendar.png',
           ),
           LessonPage(
             title: l10n.smoothingTheRide,
             description: l10n.smoothingTheRideDesc,
-            imagePath: 'assets/images/education/dca_chart.svg',
+            imagePath: 'assets/images/education/dca_smoothing.png',
           ),
           LessonPage(
             title: l10n.dcaHistoryCrashTitle,
