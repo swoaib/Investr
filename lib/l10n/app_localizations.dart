@@ -1324,6 +1324,42 @@ abstract class AppLocalizations {
   /// **'The portion of a company\'s profit allocated to each share. It is the engine that drives the stock price in the long run.'**
   String get epsDesc;
 
+  /// No description provided for @revenueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue (Top Line)'**
+  String get revenueTitle;
+
+  /// No description provided for @revenueDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The total amount of money currently brought in by a company\'s sales. It\'s the starting point of the income statement.'**
+  String get revenueDesc;
+
+  /// No description provided for @grossProfitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gross Profit'**
+  String get grossProfitTitle;
+
+  /// No description provided for @grossProfitDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue minus the cost of making the product (COGS). It shows how efficiently a company produces its goods.'**
+  String get grossProfitDesc;
+
+  /// No description provided for @netIncomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Net Income (Bottom Line)'**
+  String get netIncomeTitle;
+
+  /// No description provided for @netIncomeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The profit left after *all* expenses (taxes, interest, salaries) are paid. This is what the company actually keeps.'**
+  String get netIncomeDesc;
+
   /// No description provided for @defensiveVsEnterpriseTitle.
   ///
   /// In en, this message translates to:

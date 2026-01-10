@@ -681,6 +681,27 @@ class AppLocalizationsEn extends AppLocalizations {
       'The portion of a company\'s profit allocated to each share. It is the engine that drives the stock price in the long run.';
 
   @override
+  String get revenueTitle => 'Revenue (Top Line)';
+
+  @override
+  String get revenueDesc =>
+      'The total amount of money currently brought in by a company\'s sales. It\'s the starting point of the income statement.';
+
+  @override
+  String get grossProfitTitle => 'Gross Profit';
+
+  @override
+  String get grossProfitDesc =>
+      'Revenue minus the cost of making the product (COGS). It shows how efficiently a company produces its goods.';
+
+  @override
+  String get netIncomeTitle => 'Net Income (Bottom Line)';
+
+  @override
+  String get netIncomeDesc =>
+      'The profit left after *all* expenses (taxes, interest, salaries) are paid. This is what the company actually keeps.';
+
+  @override
   String get defensiveVsEnterpriseTitle => 'Defensive vs Enterprise';
 
   @override

@@ -3,11 +3,23 @@
     "stocks101AttributionTitle",
     "stocks101AttributionDesc",
     "popularBrokersTitle",
-    "popularBrokersDesc"
+    "popularBrokersDesc",
+    "revenueTitle",
+    "revenueDesc",
+    "grossProfitTitle",
+    "grossProfitDesc",
+    "netIncomeTitle",
+    "netIncomeDesc"
   ],
 
   "no": [
     "popularBrokersTitle",
-    "popularBrokersDesc"
+    "popularBrokersDesc",
+    "revenueTitle",
+    "revenueDesc",
+    "grossProfitTitle",
+    "grossProfitDesc",
+    "netIncomeTitle",
+    "netIncomeDesc"
   ]
 }

@@ -375,6 +375,21 @@ class LearnScreen extends StatelessWidget {
             description: l10n.epsDesc,
             imagePath: 'assets/images/education/eps_engine.png',
           ),
+          LessonPage(
+            title: l10n.revenueTitle,
+            description: l10n.revenueDesc,
+            imagePath: 'assets/images/education/revenue_stream.png',
+          ),
+          LessonPage(
+            title: l10n.grossProfitTitle,
+            description: l10n.grossProfitDesc,
+            imagePath: 'assets/images/education/gross_profit_pie.png',
+          ),
+          LessonPage(
+            title: l10n.netIncomeTitle,
+            description: l10n.netIncomeDesc,
+            imagePath: 'assets/images/education/net_income_piggy.png',
+          ),
         ],
       ),
       Lesson(

@@ -235,6 +235,13 @@
   "epsTitle": "EPS (Earnings Per Share)",
   "epsDesc": "The portion of a company's profit allocated to each share. It is the engine that drives the stock price in the long run.",
   
+  "revenueTitle": "Revenue (Top Line)",
+  "revenueDesc": "The total amount of money currently brought in by a company's sales. It's the starting point of the income statement.",
+  "grossProfitTitle": "Gross Profit",
+  "grossProfitDesc": "Revenue minus the cost of making the product (COGS). It shows how efficiently a company produces its goods.",
+  "netIncomeTitle": "Net Income (Bottom Line)",
+  "netIncomeDesc": "The profit left after *all* expenses (taxes, interest, salaries) are paid. This is what the company actually keeps.",
+  
   "defensiveVsEnterpriseTitle": "Defensive vs Enterprise",
   "defensiveVsEnterpriseDesc": "Passive vs Active Investing.",
   
