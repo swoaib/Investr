@@ -75,6 +75,13 @@ class _PopularBrokersWidgetState extends State<PopularBrokersWidget> {
       {'name': 'DEGIRO', 'type': 'Low Fee'},
       {'name': 'Cornèrtrader', 'type': 'Bank Owned'},
     ],
+    'PK': [
+      {'name': 'KTrade', 'type': 'Mobile First'},
+      {'name': 'AKD Securities', 'type': 'Full Service'},
+      {'name': 'Arif Habib Limited', 'type': 'Established'},
+      {'name': 'FinPocket', 'type': 'Investment App'},
+      {'name': 'Interactive Brokers', 'type': 'Global Access'},
+    ],
   };
 
   final Map<String, String> _countryNames = {
@@ -88,6 +95,7 @@ class _PopularBrokersWidgetState extends State<PopularBrokersWidget> {
     'JP': 'Japan 🇯🇵',
     'FR': 'France 🇫🇷',
     'CH': 'Switzerland 🇨🇭',
+    'PK': 'Pakistan 🇵🇰',
   };
 
   @override

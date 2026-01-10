@@ -388,7 +388,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.netIncomeTitle,
             description: l10n.netIncomeDesc,
-            imagePath: 'assets/images/education/net_income_piggy.png',
+            imagePath: 'assets/images/education/net_income.png',
           ),
         ],
       ),
