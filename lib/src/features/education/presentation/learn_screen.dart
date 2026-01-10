@@ -634,6 +634,16 @@ class _LessonCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
+            if (progress > 0 && progress < 1.0)
+              Text(
+                '${(progress * 100).toInt()}%',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF2196F3),
+                ),
+              ),
+            const SizedBox(width: 8),
             if (progress >= 1.0)
               const Icon(Icons.check_circle, color: AppTheme.primaryGreen)
             else if (progress > 0.0)
@@ -643,8 +653,10 @@ class _LessonCard extends StatelessWidget {
                 child: CircularProgressIndicator(
                   value: progress,
                   strokeWidth: 3,
-                  backgroundColor: lesson.color.withValues(alpha: 0.2),
-                  valueColor: AlwaysStoppedAnimation(lesson.color),
+                  backgroundColor: const Color(
+                    0xFF2196F3,
+                  ).withValues(alpha: 0.2),
+                  valueColor: const AlwaysStoppedAnimation(Color(0xFF2196F3)),
                 ),
               )
             else

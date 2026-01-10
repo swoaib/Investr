@@ -235,7 +235,7 @@ abstract class AppLocalizations {
   /// No description provided for @learnTitle.
   ///
   /// In en, this message translates to:
-  /// **'Learn'**
+  /// **'Learn Value Investing'**
   String get learnTitle;
 
   /// No description provided for @overallProgress.

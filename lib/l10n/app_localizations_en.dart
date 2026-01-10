@@ -76,7 +76,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get upgradeNow => 'Upgrade Now';
 
   @override
-  String get learnTitle => 'Learn';
+  String get learnTitle => 'Learn Value Investing';
 
   @override
   String get overallProgress => 'Overall Progress';

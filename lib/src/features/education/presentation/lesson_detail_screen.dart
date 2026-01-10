@@ -26,7 +26,13 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     final initialPage = context.read<EducationController>().getRawProgress(
       widget.lesson.id,
     );
-    _currentPage = initialPage < widget.lesson.pages.length ? initialPage : 0;
+    // If completed (reached the last page), restart from 0
+    // Otherwise resume from where we left off
+    if (initialPage >= widget.lesson.pages.length - 1) {
+      _currentPage = 0;
+    } else {
+      _currentPage = initialPage;
+    }
     _pageController = PageController(initialPage: _currentPage);
   }
 
