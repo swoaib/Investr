@@ -1180,6 +1180,18 @@ abstract class AppLocalizations {
   /// **'Your broker is your gateway to the market. Today, this is typically a mobile app or a bank. They execute your buy and sell orders.'**
   String get theBrokerDesc;
 
+  /// No description provided for @popularBrokersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Brokers'**
+  String get popularBrokersTitle;
+
+  /// No description provided for @popularBrokersDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your country to see some of the most popular stock brokers available to you.'**
+  String get popularBrokersDesc;
+
   /// No description provided for @accountTypes.
   ///
   /// In en, this message translates to:

@@ -1,6 +1,13 @@
 {
   "ja": [
     "stocks101AttributionTitle",
-    "stocks101AttributionDesc"
+    "stocks101AttributionDesc",
+    "popularBrokersTitle",
+    "popularBrokersDesc"
+  ],
+
+  "no": [
+    "popularBrokersTitle",
+    "popularBrokersDesc"
   ]
 }

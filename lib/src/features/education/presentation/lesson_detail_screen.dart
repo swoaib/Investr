@@ -5,6 +5,7 @@ import 'education_controller.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../domain/lesson.dart';
+import 'widgets/popular_brokers_widget.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final Lesson lesson;
@@ -136,6 +137,37 @@ class _LessonPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (page.customContent == 'broker_list') {
+      return Padding(
+        padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+        child: Column(
+          children: [
+            if (page.title.isNotEmpty) ...[
+              Text(
+                page.title,
+                style: Theme.of(context).textTheme.headlineMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+            ],
+            if (page.description.isNotEmpty) ...[
+              Text(
+                page.description,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+            ],
+            const Expanded(child: PopularBrokersWidget()),
+            const SizedBox(height: 32),
+          ],
+        ),
+      );
+    }
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
       child: Column(

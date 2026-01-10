@@ -321,6 +321,11 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/broker_gateway.png',
           ),
           LessonPage(
+            title: l10n.popularBrokersTitle,
+            description: l10n.popularBrokersDesc,
+            customContent: 'broker_list',
+          ),
+          LessonPage(
             title: l10n.accountTypes,
             description: l10n.accountTypesDesc,
             imagePath: 'assets/images/education/account_types.png',

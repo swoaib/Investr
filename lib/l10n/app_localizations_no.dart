@@ -598,6 +598,13 @@ class AppLocalizationsNo extends AppLocalizations {
       'Megleren din er din port til markedet. I dag er dette typisk en mobilapp eller en bank. De utfører dine kjøps- og salgsordrer.';
 
   @override
+  String get popularBrokersTitle => 'Popular Brokers';
+
+  @override
+  String get popularBrokersDesc =>
+      'Select your country to see some of the most popular stock brokers available to you.';
+
+  @override
   String get accountTypes => 'Kontotyper';
 
   @override

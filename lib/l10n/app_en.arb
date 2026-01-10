@@ -200,6 +200,8 @@
   
   "theBroker": "The Broker",
   "theBrokerDesc": "Your broker is your gateway to the market. Today, this is typically a mobile app or a bank. They execute your buy and sell orders.",
+  "popularBrokersTitle": "Popular Brokers",
+  "popularBrokersDesc": "Select your country to see some of the most popular stock brokers available to you.",
   
   "accountTypes": "Account Types",
   "accountTypesDesc": "Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK). Using these can save you thousands in taxes over the long run.",

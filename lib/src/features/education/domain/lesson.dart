@@ -29,11 +29,13 @@ class LessonPage {
   final String description;
   final String? imagePath;
   final IconData? icon; // Fallback if no image
+  final String? customContent; // 'broker_list', etc.
 
   const LessonPage({
     required this.title,
     required this.description,
     this.imagePath,
     this.icon,
+    this.customContent,
   });
 }

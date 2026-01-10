@@ -584,6 +584,13 @@ class AppLocalizationsJa extends AppLocalizations {
       'ブローカーは市場への入り口です。今日では、これは通常モバイルアプリや銀行です。彼らはあなたの売買注文を執行します。';
 
   @override
+  String get popularBrokersTitle => 'Popular Brokers';
+
+  @override
+  String get popularBrokersDesc =>
+      'Select your country to see some of the most popular stock brokers available to you.';
+
+  @override
   String get accountTypes => '口座の種類';
 
   @override

@@ -600,6 +600,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your broker is your gateway to the market. Today, this is typically a mobile app or a bank. They execute your buy and sell orders.';
 
   @override
+  String get popularBrokersTitle => 'Popular Brokers';
+
+  @override
+  String get popularBrokersDesc =>
+      'Select your country to see some of the most popular stock brokers available to you.';
+
+  @override
   String get accountTypes => 'Account Types';
 
   @override
