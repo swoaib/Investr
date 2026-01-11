@@ -76,6 +76,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get upgradeNow => 'Upgrade Now';
 
   @override
+  String get feedbackTitle => 'Send Feedback';
+
+  @override
+  String get feedbackHint => 'Tell us what you think...';
+
+  @override
+  String get feedbackOptionalName => 'Name (Optional)';
+
+  @override
+  String get feedbackOptionalEmail => 'Email (Optional)';
+
+  @override
+  String get submitFeedback => 'Submit Feedback';
+
+  @override
+  String get feedbackThanks => 'Thank you for your feedback!';
+
+  @override
+  String get feedbackError => 'Could not send feedback. Please try again.';
+
+  @override
   String get learnTitle => 'Learn Value Investing';
 
   @override
@@ -347,8 +368,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Statistically, most actively managed funds fail to beat the market over the long term. If you can\'t beat them, join them.';
 
   @override
-  String get calcIntrinsicValueTitle =>
-      'Calculating Intrinsic Value (Advanced)';
+  String get calcIntrinsicValueTitle => 'Calculating Intrinsic Value';
 
   @override
   String get calcIntrinsicValueDesc => 'The science of valuation.';

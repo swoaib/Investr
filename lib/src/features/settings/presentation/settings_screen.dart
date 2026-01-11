@@ -6,7 +6,9 @@ import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/locale/locale_controller.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+
 import 'alerts_management_screen.dart';
+import 'widgets/feedback_bottom_sheet.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -184,6 +186,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const Icon(Icons.chevron_right, color: Colors.grey),
                   ],
                 ),
+              ),
+              _buildSettingsTile(
+                context,
+                title: l10n.feedbackTitle,
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const FeedbackBottomSheet(),
+                  );
+                },
               ),
               // Added Policy links that were in the intermediate version
               // _buildSettingsTile(

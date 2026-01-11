@@ -1,5 +1,12 @@
 {
   "ja": [
+    "feedbackTitle",
+    "feedbackHint",
+    "feedbackOptionalName",
+    "feedbackOptionalEmail",
+    "submitFeedback",
+    "feedbackThanks",
+    "feedbackError",
     "stocks101AttributionTitle",
     "stocks101AttributionDesc",
     "popularBrokersTitle",
@@ -17,6 +24,13 @@
   ],
 
   "no": [
+    "feedbackTitle",
+    "feedbackHint",
+    "feedbackOptionalName",
+    "feedbackOptionalEmail",
+    "submitFeedback",
+    "feedbackThanks",
+    "feedbackError",
     "popularBrokersTitle",
     "popularBrokersDesc",
     "revenueTitle",

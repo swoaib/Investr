@@ -232,6 +232,48 @@ abstract class AppLocalizations {
   /// **'Upgrade Now'**
   String get upgradeNow;
 
+  /// No description provided for @feedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Feedback'**
+  String get feedbackTitle;
+
+  /// No description provided for @feedbackHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what you think...'**
+  String get feedbackHint;
+
+  /// No description provided for @feedbackOptionalName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (Optional)'**
+  String get feedbackOptionalName;
+
+  /// No description provided for @feedbackOptionalEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email (Optional)'**
+  String get feedbackOptionalEmail;
+
+  /// No description provided for @submitFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Feedback'**
+  String get submitFeedback;
+
+  /// No description provided for @feedbackThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your feedback!'**
+  String get feedbackThanks;
+
+  /// No description provided for @feedbackError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send feedback. Please try again.'**
+  String get feedbackError;
+
   /// No description provided for @learnTitle.
   ///
   /// In en, this message translates to:
@@ -715,7 +757,7 @@ abstract class AppLocalizations {
   /// No description provided for @calcIntrinsicValueTitle.
   ///
   /// In en, this message translates to:
-  /// **'Calculating Intrinsic Value (Advanced)'**
+  /// **'Calculating Intrinsic Value'**
   String get calcIntrinsicValueTitle;
 
   /// No description provided for @calcIntrinsicValueDesc.

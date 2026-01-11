@@ -21,6 +21,14 @@
   "upgradeToPro": "Upgrade to Pro",
   "upgradeToProDesc": "Get advanced analysis and real-time data",
   "upgradeNow": "Upgrade Now",
+  
+  "feedbackTitle": "Send Feedback",
+  "feedbackHint": "Tell us what you think...",
+  "feedbackOptionalName": "Name (Optional)",
+  "feedbackOptionalEmail": "Email (Optional)",
+  "submitFeedback": "Submit Feedback",
+  "feedbackThanks": "Thank you for your feedback!",
+  "feedbackError": "Could not send feedback. Please try again.",
 
   "learnTitle": "Learn Value Investing",
   "overallProgress": "Overall Progress",
