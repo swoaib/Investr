@@ -312,7 +312,7 @@ class _LanguageSelectionPage extends StatelessWidget {
             LanguagePicker(
               selectedLocale: localeController.locale,
               onLocaleChanged: (val) {
-                if (val != null) localeController.updateLocale(val);
+                localeController.updateLocale(val);
               },
             ),
           ],
