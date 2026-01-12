@@ -331,7 +331,7 @@ abstract class AppLocalizations {
   /// No description provided for @cpiBasketDesc.
   ///
   /// In en, this message translates to:
-  /// **'Economists measure inflation by tracking the price of a \'basket\' of goods like food, housing, and fuel.'**
+  /// **'Economists measure inflation by tracking the price of a \'basket\' of goods like food, housing, and fuel. Historically, inflation has averaged around 3% per year.'**
   String get cpiBasketDesc;
 
   /// No description provided for @inflationShieldTitle.
@@ -403,7 +403,7 @@ abstract class AppLocalizations {
   /// No description provided for @stocks101AttributionDesc.
   ///
   /// In en, this message translates to:
-  /// **'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors like Warren Buffett is also included.'**
+  /// **'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors may also be included.'**
   String get stocks101AttributionDesc;
 
   /// No description provided for @whyInvestLessonTitle.
@@ -427,7 +427,7 @@ abstract class AppLocalizations {
   /// No description provided for @stocksVsBankDesc.
   ///
   /// In en, this message translates to:
-  /// **'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.5%, turning \$10k into ~\$10,500. The S&P 500 returned ~11.3% annually, growing it to Over \$29,000.'**
+  /// **'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.4%, turning \$10k into ~\$10,400. The S&P 500 returned ~12.0% annually, growing it to over \$31,000.'**
   String get stocksVsBankDesc;
 
   /// No description provided for @supportBusinessTitle.

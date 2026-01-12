@@ -164,7 +164,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get stocks101AttributionDesc =>
-      'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors like Warren Buffett is also included.';
+      'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors may also be included.';
 
   @override
   String get whyInvestLessonTitle => 'なぜ投資するのか？';

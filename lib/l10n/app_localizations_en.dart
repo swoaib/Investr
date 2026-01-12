@@ -127,7 +127,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cpiBasketDesc =>
-      'Economists measure inflation by tracking the price of a \'basket\' of goods like food, housing, and fuel.';
+      'Economists measure inflation by tracking the price of a \'basket\' of goods like food, housing, and fuel. Historically, inflation has averaged around 3% per year.';
 
   @override
   String get inflationShieldTitle => 'Beating Inflation';
@@ -168,7 +168,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stocks101AttributionDesc =>
-      'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors like Warren Buffett is also included.';
+      'The information in this app is based on the book \'The Intelligent Investor\' by Benjamin Graham. Other information from value investors may also be included.';
 
   @override
   String get whyInvestLessonTitle => 'Why Invest?';
@@ -181,7 +181,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stocksVsBankDesc =>
-      'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.5%, turning \$10k into ~\$10,500. The S&P 500 returned ~11.3% annually, growing it to Over \$29,000.';
+      'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.4%, turning \$10k into ~\$10,400. The S&P 500 returned ~12.0% annually, growing it to over \$31,000.';
 
   @override
   String get supportBusinessTitle => 'Support What You Love';
