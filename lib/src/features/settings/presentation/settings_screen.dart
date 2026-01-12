@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
@@ -177,12 +178,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               //   context,
               //   title: l10n.termsOfService,
               //   onTap: () {},
-              // ),
-              // _buildSettingsTile(
-              //   context,
-              //   title: l10n.privacyPolicy,
-              //   onTap: () {},
-              // ),
+              _buildSettingsTile(
+                context,
+                title: l10n.termsOfService,
+                onTap: () => context.push('/settings/terms-of-service'),
+              ),
+              _buildSettingsTile(
+                context,
+                title: l10n.privacyPolicy,
+                onTap: () => context.push('/settings/privacy-policy'),
+              ),
             ],
           ),
         ),
