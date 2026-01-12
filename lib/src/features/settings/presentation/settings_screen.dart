@@ -9,6 +9,7 @@ import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 
 import 'alerts_management_screen.dart';
 import 'widgets/feedback_bottom_sheet.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -199,17 +200,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   );
                 },
               ),
-              // Added Policy links that were in the intermediate version
-              // _buildSettingsTile(
-              //   context,
-              //   title: l10n.termsOfService,
-              //   onTap: () {},
-              // ),
-              // _buildSettingsTile(
-              //   context,
-              //   title: l10n.privacyPolicy,
-              //   onTap: () {},
-              // ),
+              _buildSettingsTile(
+                context,
+                title: l10n.privacyPolicy,
+                onTap: () async {
+                  final url = Uri.parse(
+                    'https://swoaib.github.io/Investr_pages/privacy_policy.html',
+                  );
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url, mode: LaunchMode.inAppWebView);
+                  }
+                },
+              ),
             ],
           ),
         ),
