@@ -752,14 +752,7 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get adequiteDiversificationDesc =>
-      'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket.';
-
-  @override
-  String get bigCompaniesTitle => 'Large & Prominent';
-
-  @override
-  String get bigCompaniesDesc =>
-      'Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones.';
+      'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding a index fund.';
 
   @override
   String get theEnterpriseInvestor => 'Den Aktive Investoren';

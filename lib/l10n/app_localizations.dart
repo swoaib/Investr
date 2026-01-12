@@ -1459,20 +1459,8 @@ abstract class AppLocalizations {
   /// No description provided for @adequiteDiversificationDesc.
   ///
   /// In en, this message translates to:
-  /// **'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket.'**
+  /// **'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding a index fund.'**
   String get adequiteDiversificationDesc;
-
-  /// No description provided for @bigCompaniesTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Large & Prominent'**
-  String get bigCompaniesTitle;
-
-  /// No description provided for @bigCompaniesDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones.'**
-  String get bigCompaniesDesc;
 
   /// No description provided for @theEnterpriseInvestor.
   ///

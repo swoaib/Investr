@@ -149,8 +149,7 @@ class LearnScreen extends StatelessWidget {
           ),
           LessonPage(
             title: l10n.adequiteDiversificationTitle,
-            description:
-                l10n.adequiteDiversificationDesc + l10n.bigCompaniesDesc,
+            description: l10n.adequiteDiversificationDesc,
             imagePath: 'assets/images/education/big_companies.png',
           ),
           LessonPage(

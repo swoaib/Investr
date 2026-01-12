@@ -18,9 +18,7 @@
     "netIncomeTitle",
     "netIncomeDesc",
     "adequiteDiversificationTitle",
-    "adequiteDiversificationDesc",
-    "bigCompaniesTitle",
-    "bigCompaniesDesc"
+    "adequiteDiversificationDesc"
   ],
 
   "no": [
@@ -40,8 +38,6 @@
     "netIncomeTitle",
     "netIncomeDesc",
     "adequiteDiversificationTitle",
-    "adequiteDiversificationDesc",
-    "bigCompaniesTitle",
-    "bigCompaniesDesc"
+    "adequiteDiversificationDesc"
   ]
 }
