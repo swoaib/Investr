@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
@@ -9,7 +10,6 @@ import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 
 import 'alerts_management_screen.dart';
 import 'widgets/feedback_bottom_sheet.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -203,13 +203,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildSettingsTile(
                 context,
                 title: l10n.privacyPolicy,
-                onTap: () async {
-                  final url = Uri.parse(
-                    'https://swoaib.github.io/Investr_pages/privacy_policy.html',
-                  );
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url, mode: LaunchMode.inAppWebView);
-                  }
+                onTap: () {
+                  context.push('/settings/privacy-policy');
                 },
               ),
             ],

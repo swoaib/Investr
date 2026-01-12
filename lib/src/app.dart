@@ -13,6 +13,8 @@ import 'features/market_data/presentation/stock_list_controller.dart';
 import 'features/onboarding/presentation/onboarding_screen.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
 import 'features/alerts/data/alerts_repository.dart';
+import 'features/settings/presentation/privacy_policy_screen.dart';
+import 'features/settings/presentation/terms_of_service_screen.dart';
 
 class InvestrApp extends StatefulWidget {
   final bool onboardingCompleted;
@@ -97,6 +99,14 @@ GoRouter _buildRouter(bool onboardingCompleted) {
         builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(path: '/', builder: (context, state) => const DashboardScreen()),
+      GoRoute(
+        path: '/settings/privacy-policy',
+        builder: (context, state) => const PrivacyPolicyScreen(),
+      ),
+      GoRoute(
+        path: '/settings/terms-of-service',
+        builder: (context, state) => const TermsOfServiceScreen(),
+      ),
     ],
   );
 }
