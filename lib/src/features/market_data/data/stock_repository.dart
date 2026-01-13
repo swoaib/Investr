@@ -11,24 +11,25 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class StockRepository {
   late final String _apiKey;
   String get apiKey => _apiKey;
-  final String _baseUrl = 'https://api.polygon.io';
+  final String _baseUrl = 'https://financialmodelingprep.com';
 
   StockRepository() {
-    _apiKey = dotenv.env['POLYGON_API_KEY'] ?? '';
+    _apiKey = dotenv.env['FMP_API_KEY'] ?? '';
     if (_apiKey.isEmpty) {
       if (kDebugMode) {
-        print('WARNING: POLYGON_API_KEY is missing in .env');
+        print('WARNING: FMP_API_KEY is missing in .env');
       }
     }
   }
 
-  static const String _watchlistKey = 'watchlist_v2';
+  static const String _watchlistKey = 'watchlist_v4';
 
   // Default stocks for new users
+  // Default stocks for new users
   final Map<String, String> _defaultWatchlist = {
-    'I:SPX': 'S&P 500',
-    'I:DJI': 'Dow Jones',
-    'I:NDX': 'Nasdaq 100', // Polygon uses I:NDX
+    '^GSPC': 'S&P 500', // FMP uses ^GSPC
+    '^DJI': 'Dow Jones', // FMP uses ^DJI
+    '^NDX': 'Nasdaq 100', // FMP uses ^NDX
     'AAPL': 'Apple Inc.',
     'GOOGL': 'Alphabet Inc.',
     'TSLA': 'Tesla Inc.',
@@ -68,35 +69,47 @@ class StockRepository {
   /// Previous Close is reliable for free tier.
   Future<Stock?> getStock(String symbol, {String? name}) async {
     try {
-      // Endpoint: /v2/aggs/ticker/{stocksTicker}/prev
+      // Endpoint: /stable/quote?symbol={symbol}
+      // "v3/quote" is legacy. "stable/quote" is the new standard.
       final url = Uri.parse(
-        '$_baseUrl/v2/aggs/ticker/$symbol/prev?adjusted=true&apiKey=$_apiKey',
+        '$_baseUrl/stable/quote?symbol=$symbol&apikey=$_apiKey',
       );
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['resultsCount'] > 0) {
-          final result = data['results'][0];
+        final dynamic jsonResponse = json.decode(response.body);
+        if (jsonResponse is Map) {
+          if (kDebugMode) {
+            print('FMP API Error for $symbol: $jsonResponse');
+          }
+          // API returned an error object (e.g. invalid key)
+          return null;
+        }
 
-          final double price = (result['c'] as num).toDouble();
-          final double open = (result['o'] as num).toDouble();
+        final List<dynamic> data = jsonResponse as List<dynamic>;
+        if (data.isNotEmpty) {
+          final result = data[0];
 
-          final double change = price - open;
-          final double changePercent = (open != 0)
-              ? (change / open) * 100
-              : 0.0;
+          final double price = (result['price'] as num?)?.toDouble() ?? 0.0;
+          // open is unused
+          final double previousClose =
+              (result['previousClose'] as num?)?.toDouble() ?? 0.0;
+          final double change = (result['change'] as num?)?.toDouble() ?? 0.0;
+          final double changePercent =
+              (result['changesPercentage'] as num?)?.toDouble() ?? 0.0;
 
           return Stock(
-            symbol: data['ticker'],
-            companyName:
-                name ?? data['ticker'], // Polygon doesn't return Name here
+            symbol: result['symbol'],
+            companyName: name ?? result['name'] ?? result['symbol'],
             price: price,
             change: change,
             changePercent: changePercent,
-            previousClose:
-                open, // Using Open as proxy for "baseline" of the candle
+            previousClose: previousClose,
           );
+        }
+      } else {
+        if (kDebugMode) {
+          print('FMP API HTTP Error ${response.statusCode}: ${response.body}');
         }
       }
     } catch (e) {
@@ -109,24 +122,25 @@ class StockRepository {
   /// Uses Ticker Details v3.
   Future<Stock> getStockDetails(Stock stock) async {
     try {
-      // Endpoint: /v3/reference/tickers/{ticker}
+      // Endpoint: /api/v3/profile/{symbol}
       final url = Uri.parse(
-        '$_baseUrl/v3/reference/tickers/${stock.symbol}?apiKey=$_apiKey',
+        '$_baseUrl/api/v3/profile/${stock.symbol}?apikey=$_apiKey',
       );
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['status'] == 'OK' && data['results'] != null) {
-          final results = data['results'];
+        final List<dynamic> data = json.decode(response.body);
+        if (data.isNotEmpty) {
+          final result = data[0];
           return stock.copyWith(
-            companyName: results['name'] ?? stock.companyName,
-            description: results['description'] ?? '',
-            employees: (results['total_employees'] as num?)?.toInt() ?? 0,
-            marketCap: (results['market_cap'] as num?)?.toDouble() ?? 0.0,
-            peRatio:
-                0.0, // Polygon Ticker Details doesn't usually have PE. Need financials.
-            dividendYield: 0.0, // Need separate endpoint
+            companyName: result['companyName'] ?? stock.companyName,
+            description: result['description'] ?? '',
+            employees: (result['fullTimeEmployees'] is String)
+                ? int.tryParse(result['fullTimeEmployees']) ?? 0
+                : (result['fullTimeEmployees'] as num?)?.toInt() ?? 0,
+            marketCap: (result['mktCap'] as num?)?.toDouble() ?? 0.0,
+            peRatio: 0.0, // FMP Profile doesn't have PE consistently here.
+            dividendYield: 0.0,
           );
         }
       }
@@ -160,23 +174,27 @@ class StockRepository {
       final toStr = now.toIso8601String().split('T')[0];
       final fromStr = from.toIso8601String().split('T')[0];
 
-      // Endpoint: /v2/aggs/ticker/{stocksTicker}/range/1/day/{from}/{to}
+      // Endpoint: /api/v3/historical-price-full/{symbol}?from={from}&to={to}
       final url = Uri.parse(
-        '$_baseUrl/v2/aggs/ticker/$symbol/range/1/day/$fromStr/$toStr?adjusted=true&sort=asc&limit=500&apiKey=$_apiKey',
+        '$_baseUrl/api/v3/historical-price-full/$symbol?from=$fromStr&to=$toStr&apikey=$_apiKey',
       );
 
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        if (data['resultsCount'] > 0) {
-          final List<dynamic> results = data['results'];
-          return results.map((candle) {
-            // Polygon timestamp is milliseconds
-            final date = DateTime.fromMillisecondsSinceEpoch(candle['t']);
-            final close = (candle['c'] as num).toDouble();
-            return PricePoint(date: date, price: close);
-          }).toList();
+        if (data['historical'] != null) {
+          final List<dynamic> historical = data['historical'];
+          return historical
+              .map((candle) {
+                // FMP date is "YYYY-MM-DD"
+                final date = DateTime.parse(candle['date']);
+                final close = (candle['close'] as num).toDouble();
+                return PricePoint(date: date, price: close);
+              })
+              .toList()
+              .reversed
+              .toList(); // FMP returns newest first
         }
       }
     } catch (e) {
@@ -188,27 +206,31 @@ class StockRepository {
   Future<List<PricePoint>> getIntradayHistory(String symbol) async {
     try {
       // Fetch last 4 days to ensure coverage over weekends/holidays
-      final now = DateTime.now();
-      final from = now.subtract(const Duration(days: 4));
-      final toStr = now.toIso8601String().split('T')[0];
-      final fromStr = from.toIso8601String().split('T')[0];
+      // Fetch last 4 days to ensure coverage over weekends/holidays
+      // final now = DateTime.now();
+      // final from = now.subtract(const Duration(days: 4));
+      // toStr and fromStr unused for this endpoint
 
-      // Endpoint: /v2/aggs/ticker/{ticker}/range/5/minute/...
+      // Endpoint: /api/v3/historical-chart/5min/{symbol}
       final url = Uri.parse(
-        '$_baseUrl/v2/aggs/ticker/$symbol/range/5/minute/$fromStr/$toStr?adjusted=true&sort=asc&limit=5000&apiKey=$_apiKey',
+        '$_baseUrl/api/v3/historical-chart/5min/$symbol?apikey=$_apiKey',
       );
 
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['resultsCount'] > 0) {
-          final List<dynamic> results = data['results'];
-          final points = results.map((candle) {
-            final date = DateTime.fromMillisecondsSinceEpoch(candle['t']);
-            final close = (candle['c'] as num).toDouble();
-            return PricePoint(date: date, price: close);
-          }).toList();
+        final List<dynamic> data = json.decode(response.body);
+        if (data.isNotEmpty) {
+          final points = data
+              .map((bucket) {
+                // FMP date might be "YYYY-MM-DD HH:MM:SS"
+                final date = DateTime.parse(bucket['date']);
+                final close = (bucket['close'] as num).toDouble();
+                return PricePoint(date: date, price: close);
+              })
+              .toList()
+              .reversed
+              .toList();
 
           return filterForMarketHours(points);
         }
@@ -232,25 +254,22 @@ class StockRepository {
     String query,
   ) async {
     try {
-      // Endpoint: /v3/reference/tickers?search={query}
+      // Endpoint: /api/v3/search?query={query}&limit=10
       final url = Uri.parse(
-        '$_baseUrl/v3/reference/tickers?search=$query&active=true&sort=ticker&order=asc&limit=10&apiKey=$_apiKey',
+        '$_baseUrl/api/v3/search?query=$query&limit=10&apikey=$_apiKey',
       );
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['status'] == 'OK') {
-          final List<dynamic> results = data['results'];
-          return results
-              .map(
-                (result) => (
-                  symbol: result['ticker'] as String,
-                  name: result['name'] as String,
-                ),
-              )
-              .toList();
-        }
+        final List<dynamic> data = json.decode(response.body);
+        return data
+            .map(
+              (result) => (
+                symbol: result['symbol'] as String,
+                name: result['name'] as String,
+              ),
+            )
+            .toList();
       }
     } catch (e) {
       if (kDebugMode) print('Error searching ticker for $query: $e');
@@ -314,84 +333,62 @@ class StockRepository {
   /// Fetches data required for DCF calculation.
   Future<DCFData?> getDCFData(String symbol) async {
     try {
-      // 1. Get Current Price (Previous Close)
+      // 1. Get Current Price (Quote)
       final priceUrl = Uri.parse(
-        '$_baseUrl/v2/aggs/ticker/$symbol/prev?adjusted=true&apiKey=$_apiKey',
+        '$_baseUrl/api/v3/quote/$symbol?apikey=$_apiKey',
       );
       final priceResponse = await http.get(priceUrl);
       double price = 0.0;
       if (priceResponse.statusCode == 200) {
-        final data = json.decode(priceResponse.body);
-        if (data['resultsCount'] > 0) {
-          price = (data['results'][0]['c'] as num).toDouble();
+        final List<dynamic> data = json.decode(priceResponse.body);
+        if (data.isNotEmpty) {
+          price = (data[0]['price'] as num).toDouble();
         }
       }
 
-      // Endpoint: /vX/reference/financials?ticker={ticker}
-      final financialsUrl = Uri.parse(
-        '$_baseUrl/vX/reference/financials?ticker=$symbol&limit=1&apiKey=$_apiKey',
+      // Needs multiple endpoints for FMP: Income, Balance Sheet, Cash Flow
+      // We'll fetch latest annual reports
+      final incomeUrl = Uri.parse(
+        '$_baseUrl/api/v3/income-statement/$symbol?limit=1&apikey=$_apiKey',
       );
-      final finResponse = await http.get(financialsUrl);
+      final balanceUrl = Uri.parse(
+        '$_baseUrl/api/v3/balance-sheet-statement/$symbol?limit=1&apikey=$_apiKey',
+      );
+      final cashFlowUrl = Uri.parse(
+        '$_baseUrl/api/v3/cash-flow-statement/$symbol?limit=1&apikey=$_apiKey',
+      );
 
-      if (finResponse.statusCode == 200) {
-        final data = json.decode(finResponse.body);
-        if (data['status'] == 'OK' && data['results'] != null) {
-          final results = data['results'] as List<dynamic>;
-          if (results.isNotEmpty) {
-            final financials = results[0]['financials'];
-            final income = financials?['income_statement'];
-            final balance = financials?['balance_sheet'];
-            final cashFlow = financials?['cash_flow_statement'];
+      final results = await Future.wait([
+        http.get(incomeUrl),
+        http.get(balanceUrl),
+        http.get(cashFlowUrl),
+      ]);
 
-            // Shares Outstanding
-            final sharesNode =
-                income?['weighted_average_shares_outstanding_diluted'] ??
-                income?['basic_average_shares'];
-            final double shares =
-                (sharesNode?['value'] as num?)?.toDouble() ?? 0;
+      if (results.every((r) => r.statusCode == 200)) {
+        final incomeData = json.decode(results[0].body) as List<dynamic>;
+        final balanceData = json.decode(results[1].body) as List<dynamic>;
+        final cashFlowData = json.decode(results[2].body) as List<dynamic>;
 
-            // Free Cash Flow
-            final double operatingCashFlow =
-                (cashFlow?['net_cash_flow_from_operating_activities']?['value']
-                        as num?)
-                    ?.toDouble() ??
-                0;
-            final double investingCashFlow =
-                (cashFlow?['net_cash_flow_from_investing_activities']?['value']
-                        as num?)
-                    ?.toDouble() ??
-                0;
-            final double freeCashFlow =
-                operatingCashFlow +
-                investingCashFlow; // Investing usually negative
+        if (incomeData.isNotEmpty &&
+            balanceData.isNotEmpty &&
+            cashFlowData.isNotEmpty) {
+          final income = incomeData[0];
+          final balance = balanceData[0];
+          final cashFlow = cashFlowData[0];
 
-            // Net Debt
-            double totalDebt =
-                (balance?['long_term_debt']?['value'] as num?)?.toDouble() ?? 0;
-            // If 'debt' is present it might be total debt
-            if (balance?['debt'] != null) {
-              totalDebt =
-                  (balance?['debt']['value'] as num?)?.toDouble() ?? totalDebt;
-            }
-            final double cash =
-                (balance?['cash_and_cash_equivalents']?['value'] as num?)
-                    ?.toDouble() ??
-                0;
-            final double shortTermInvestments =
-                (balance?['short_term_investments']?['value'] as num?)
-                    ?.toDouble() ??
-                0;
+          final double shares =
+              (income['weightedAverageShsOutDil'] as num?)?.toDouble() ?? 0;
+          final double freeCashFlow =
+              (cashFlow['freeCashFlow'] as num?)?.toDouble() ?? 0;
+          final double netDebt = (balance['netDebt'] as num?)?.toDouble() ?? 0;
 
-            final double netDebt = totalDebt - (cash + shortTermInvestments);
-
-            return DCFData(
-              symbol: symbol,
-              freeCashFlow: freeCashFlow,
-              netDebt: netDebt,
-              sharesOutstanding: shares,
-              price: price,
-            );
-          }
+          return DCFData(
+            symbol: symbol,
+            freeCashFlow: freeCashFlow,
+            netDebt: netDebt,
+            sharesOutstanding: shares,
+            price: price,
+          );
         }
       }
     } catch (e) {

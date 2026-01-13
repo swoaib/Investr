@@ -5,6 +5,8 @@ import '../../settings/presentation/settings_screen.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 
+import '../../market_data/presentation/stock_list_screen.dart';
+
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -17,6 +19,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Placeholder pages for now
   final List<Widget> _pages = [
+    const StockListScreen(),
     const LearnScreen(),
     const ValuationCalculatorScreen(),
     const SettingsScreen(), // Real Settings
@@ -38,6 +41,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
         items: [
+          CustomNavItem(
+            icon: Icons.show_chart_outlined,
+            label: l10n.navStocks,
+            activeIcon: Icons.show_chart,
+          ),
           CustomNavItem(
             icon: Icons.school_outlined,
             label: l10n.navLearn,
