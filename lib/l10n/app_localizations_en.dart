@@ -181,7 +181,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stocksVsBankDesc =>
-      'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.4%, turning \$10k into ~\$10,400. The S&P 500 returned ~12.0% annually, growing it to over \$31,000.';
+      'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.4%, turning \$10k into ~\$10,400. The S&P 500 (dividends reinvested) returned ~12.0% annually, growing it to over \$31,000.';
 
   @override
   String get supportBusinessTitle => 'Support What You Love';

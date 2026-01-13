@@ -115,7 +115,7 @@ class LearnScreen extends StatelessWidget {
           LessonPage(
             title: l10n.stocksVsBankTitle,
             description: l10n.stocksVsBankDesc,
-            imagePath: 'assets/images/education/compound_graph.png',
+            imagePath: 'assets/images/education/stocks_vs_bank_10y.png',
           ),
           LessonPage(
             title: l10n.snowballEffect,

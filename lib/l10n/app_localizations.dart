@@ -427,7 +427,7 @@ abstract class AppLocalizations {
   /// No description provided for @stocksVsBankDesc.
   ///
   /// In en, this message translates to:
-  /// **'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.4%, turning \$10k into ~\$10,400. The S&P 500 returned ~12.0% annually, growing it to over \$31,000.'**
+  /// **'Over the last 10 years (2014-2024), the avg. US savings rate was ~0.4%, turning \$10k into ~\$10,400. The S&P 500 (dividends reinvested) returned ~12.0% annually, growing it to over \$31,000.'**
   String get stocksVsBankDesc;
 
   /// No description provided for @supportBusinessTitle.
