@@ -29,7 +29,8 @@ class StockRepository {
   final Map<String, String> _defaultWatchlist = {
     '^GSPC': 'S&P 500', // FMP uses ^GSPC
     '^DJI': 'Dow Jones', // FMP uses ^DJI
-    '^NDX': 'Nasdaq 100', // FMP uses ^NDX
+    //'^NDX': 'Nasdaq 100', // FMP uses ^NDX
+    '^N225': 'Nikkei 225', // FMP uses ^N225
     'AAPL': 'Apple Inc.',
     'GOOGL': 'Alphabet Inc.',
     'TSLA': 'Tesla Inc.',
@@ -39,29 +40,23 @@ class StockRepository {
   };
 
   /// Fetches current data for the watchlist.
-  /// Polygon doesn't have a free "batch" endpoint easily.
-  /// We'll fetch individually for now to be safe, or use Grouped Daily (Previous Close) if we want "yesterday's" close for all.
-  /// But "current price" (delayed 15min) requires individual calls or specific endpoints.
-  /// For now, lets fetch individually to match the exact interface logic.
+  /// Uses individual requests in parallel to avoid "Premium Endpoint" (402) batch errors.
   Future<List<Stock>> getWatchlistStocks() async {
-    List<Stock> stocks = [];
     try {
       final watchlistMap = await _loadWatchlistMap();
       if (watchlistMap.isEmpty) return [];
 
-      // Parallel fetch
-      final futures = watchlistMap.entries.map((entry) async {
-        final symbol = entry.key;
-        final name = entry.value;
-        return await getStock(symbol, name: name);
+      // Fetch all stocks in parallel
+      final futures = watchlistMap.entries.map((entry) {
+        return getStock(entry.key, name: entry.value);
       });
 
       final results = await Future.wait(futures);
-      stocks = results.whereType<Stock>().toList();
+      return results.whereType<Stock>().toList();
     } catch (e) {
       if (kDebugMode) print('Error fetching watchlist: $e');
+      return [];
     }
-    return stocks;
   }
 
   /// Fetches data for a single stock symbol.
