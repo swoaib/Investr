@@ -145,6 +145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildSettingsTile(
                 context,
                 title: l10n.manageAlerts,
+                icon: Icons.notifications_outlined, // manage alerts icon
                 onTap: () {
                   Navigator.push(
                     context,
@@ -157,6 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildSettingsTile(
                 context,
                 title: l10n.themeMode,
+                icon: Icons.brightness_6_outlined, // theme mode icon
                 onTap: () =>
                     _showThemeSelection(context, themeController, l10n),
                 trailing: Row(
@@ -174,6 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildSettingsTile(
                 context,
                 title: l10n.language,
+                icon: Icons.language_outlined, // language icon
                 onTap: () =>
                     _showLanguageSelection(context, localeController, l10n),
                 trailing: Row(
@@ -191,6 +194,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildSettingsTile(
                 context,
                 title: l10n.feedbackTitle,
+                icon: Icons.chat_bubble_outline, // feedback icon
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
@@ -203,6 +207,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildSettingsTile(
                 context,
                 title: l10n.privacyPolicy,
+                icon: Icons.description_outlined, // privacy policy icon
                 onTap: () {
                   context.push('/settings/privacy-policy');
                 },
@@ -217,6 +222,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildSettingsTile(
     BuildContext context, {
     required String title,
+    required IconData icon,
     required VoidCallback onTap,
     Widget? trailing,
   }) {
@@ -224,6 +230,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       contentPadding: const EdgeInsets.symmetric(
         horizontal: AppTheme.screenPaddingHorizontal,
         vertical: 8,
+      ),
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardTheme.color,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(icon, size: 20, color: Theme.of(context).iconTheme.color),
       ),
       title: Text(
         title,
