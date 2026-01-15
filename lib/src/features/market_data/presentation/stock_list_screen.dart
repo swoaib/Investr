@@ -262,6 +262,8 @@ class _StockListItem extends StatelessWidget {
                         stock.sparklineData!.isNotEmpty
                     ? LineChart(
                         LineChartData(
+                          minX: 0,
+                          maxX: 78, // Fixed full trading day (6.5h / 5min)
                           gridData: const FlGridData(show: false),
                           titlesData: const FlTitlesData(show: false),
                           borderData: FlBorderData(show: false),

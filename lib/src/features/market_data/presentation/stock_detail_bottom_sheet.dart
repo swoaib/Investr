@@ -644,10 +644,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     final isIntraday = _selectedInterval == '1D';
 
     // Calculate dynamic axes
-    if (points.isNotEmpty) {
+    if (isIntraday) {
+      minX = 0;
+      maxX = 78; // Fixed full day (6.5 hours / 5 min = 78 intervals)
+    } else if (points.isNotEmpty) {
       minX = 0;
       maxX = (points.length - 1).toDouble();
+    }
 
+    if (points.isNotEmpty) {
       // Calculate interval to show ~5 labels
       interval = (points.length / 5).floorToDouble();
       if (interval == 0) interval = 1;
