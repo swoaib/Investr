@@ -108,8 +108,12 @@ class StockRepository {
           final double previousClose =
               (result['previousClose'] as num?)?.toDouble() ?? 0.0;
           final double change = (result['change'] as num?)?.toDouble() ?? 0.0;
-          final double changePercent =
+          double changePercent =
               (result['changesPercentage'] as num?)?.toDouble() ?? 0.0;
+
+          if (changePercent == 0.0 && previousClose != 0.0) {
+            changePercent = (change / previousClose) * 100;
+          }
 
           return Stock(
             symbol: result['symbol'],
@@ -118,6 +122,11 @@ class StockRepository {
             change: change,
             changePercent: changePercent,
             previousClose: previousClose,
+            marketCap: (result['marketCap'] as num?)?.toDouble(),
+            high52Week: (result['yearHigh'] as num?)?.toDouble(),
+            low52Week: (result['yearLow'] as num?)?.toDouble(),
+            peRatio: (result['pe'] as num?)?.toDouble(),
+            earningsPerShare: (result['eps'] as num?)?.toDouble(),
           );
         }
       } else {
@@ -132,12 +141,12 @@ class StockRepository {
   }
 
   /// Fetches detailed fundamental data (Market Cap, Employees, Description, etc.)
-  /// Uses Ticker Details v3.
+  /// Updated to use 'stable/profile' as v3 is legacy/restricted.
   Future<Stock> getStockDetails(Stock stock) async {
     try {
-      // Endpoint: /api/v3/profile/{symbol}
+      // Endpoint: /stable/profile?symbol={symbol}
       final url = Uri.parse(
-        '$_baseUrl/api/v3/profile/${stock.symbol}?apikey=$_apiKey',
+        '$_baseUrl/stable/profile?symbol=${stock.symbol}&apikey=$_apiKey',
       );
       final response = await http.get(url);
 
@@ -152,13 +161,39 @@ class StockRepository {
                 ? int.tryParse(result['fullTimeEmployees']) ?? 0
                 : (result['fullTimeEmployees'] as num?)?.toInt() ?? 0,
             marketCap: (result['mktCap'] as num?)?.toDouble() ?? 0.0,
-            peRatio: 0.0, // FMP Profile doesn't have PE consistently here.
-            dividendYield: 0.0,
+            // dividend etc. might be here, but using Metrics endpoint strictly for ratios.
           );
         }
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching details for ${stock.symbol}: $e');
+    }
+    return stock;
+  }
+
+  /// Fetches Key Metrics TTM (PE, DivYield, EPS)
+  /// Uses 'stable/key-metrics-ttm'.
+  Future<Stock> getKeyMetrics(Stock stock) async {
+    try {
+      final url = Uri.parse(
+        '$_baseUrl/stable/key-metrics-ttm?symbol=${stock.symbol}&apikey=$_apiKey',
+      );
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(response.body);
+        if (jsonResponse is List && jsonResponse.isNotEmpty) {
+          final result = jsonResponse[0];
+          return stock.copyWith(
+            peRatio: (result['peRatioTTM'] as num?)?.toDouble(),
+            dividendYield: (result['dividendYieldTTM'] as num?)?.toDouble(),
+            earningsPerShare: (result['netIncomePerShareTTM'] as num?)
+                ?.toDouble(),
+          );
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching metrics for ${stock.symbol}: $e');
     }
     return stock;
   }
@@ -249,7 +284,6 @@ class StockRepository {
       // Fallback: If 5-min fails/empty, try 1-hour
       final hourHistory = await _getStockHistory1Hour(symbol);
       if (hourHistory.isNotEmpty) {
-        final lastPoint = hourHistory.last;
         final lastDate =
             hourHistory.last.date; // Corrected to use hourHistory.last
         return hourHistory

@@ -102,28 +102,46 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
         widget.stock.symbol,
       );
       final quoteFuture = _repository.getStock(widget.stock.symbol);
+      final metricsFuture = _repository.getKeyMetrics(widget.stock);
 
       final results = await Future.wait([
         historyFuture,
         detailsFuture,
         intradayFuture,
         quoteFuture,
+        metricsFuture,
       ]);
 
       if (mounted) {
         setState(() {
           _history = results[0] as List<PricePoint>;
+
+          // Cascading merge: Start with Initial -> Details -> Metrics -> Quote
+          // 1. Details (Description, Employees, basic Market Cap)
           var loadedStock = results[1] as Stock;
           _intradayHistory = results[2] as List<PricePoint>;
+
+          // 2. Metrics (PE, DivYield, EPS)
+          final metricsStock = results[4] as Stock;
+          loadedStock = loadedStock.copyWith(
+            peRatio: metricsStock.peRatio,
+            dividendYield: metricsStock.dividendYield,
+            earningsPerShare: metricsStock.earningsPerShare,
+          );
+
+          // 3. Fresh Quote (Price, PrevClose, High/Low, Change%, overwrite MarketCap with live)
           final quoteStock = results[3] as Stock?;
 
-          // Merge fresh quote data (Price/PrevClose) into the detailed stock object
           if (quoteStock != null) {
             loadedStock = loadedStock.copyWith(
               price: quoteStock.price,
               previousClose: quoteStock.previousClose,
               change: quoteStock.change,
               changePercent: quoteStock.changePercent,
+              marketCap: quoteStock
+                  .marketCap, // Quote is usually more real-time than profile
+              high52Week: quoteStock.high52Week,
+              low52Week: quoteStock.low52Week,
             );
           }
 
@@ -990,6 +1008,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: [
+              _buildStatItem(
+                'Prev Close',
+                _stock.previousClose?.toStringAsFixed(2) ?? 'N/A',
+                theme,
+              ),
               _buildStatItem(
                 l10n.marketCap,
                 _formatMarketCap(_stock.marketCap),
