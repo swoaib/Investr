@@ -653,8 +653,12 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     }
 
     if (points.isNotEmpty) {
-      // Calculate interval to show ~5 labels
-      interval = (points.length / 5).floorToDouble();
+      // Calculate interval based on the range (maxX) to ensure consistent label spacing
+      // regardless of how many data points we currently have.
+      double range = (maxX ?? 0) - (minX ?? 0);
+      if (range == 0) range = 1; // Prevent division by zero if single point
+
+      interval = (range / 5).floorToDouble();
       if (interval == 0) interval = 1;
     }
 
