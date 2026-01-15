@@ -458,17 +458,98 @@ class _StockLogo extends StatelessWidget {
   }
 
   Widget _buildFallback(bool isDark) {
+    final countryCode = _getCountryCode(symbol);
+    final flagUrl = 'https://flagcdn.com/w40/$countryCode.png';
+
     return Container(
       color: isDark ? Colors.grey.shade900 : Colors.grey.shade200,
       alignment: Alignment.center,
-      child: Text(
-        symbol.isNotEmpty ? symbol[0] : '?',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: isDark ? Colors.white70 : Colors.black54,
-          fontSize: 14,
-        ),
+      child: Image.network(
+        flagUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Text(
+            symbol.isNotEmpty ? symbol[0] : '?',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: isDark ? Colors.white70 : Colors.black54,
+              fontSize: 14,
+            ),
+          );
+        },
       ),
     );
+  }
+
+  String _getCountryCode(String symbol) {
+    // 1. Handle Indices
+    if (symbol.startsWith('^')) {
+      const indexMap = {
+        '^GSPC': 'us', '^DJI': 'us', '^IXIC': 'us', '^RUT': 'us', // US
+        '^FTSE': 'gb', // UK
+        '^GDAXI': 'de', // Germany
+        '^FCHI': 'fr', // France
+        '^N225': 'jp', // Japan
+        '^HSI': 'hk', // Hong Kong
+        '^BSESN': 'in', // India
+        '^AXJO': 'au', // Australia
+        '^BVSP': 'br', // Brazil
+        '^KS11': 'kr', // South Korea
+        '^STOXX50E': 'eu', // Europe
+      };
+      return indexMap[symbol] ?? 'us';
+    }
+
+    // 2. Handle Suffixes (Exchange)
+    if (symbol.contains('.')) {
+      final suffix = symbol.split('.').last;
+      switch (suffix) {
+        case 'L':
+          return 'gb';
+        case 'TO':
+          return 'ca';
+        case 'PA':
+          return 'fr';
+        case 'DE':
+          return 'de';
+        case 'HK':
+          return 'hk';
+        case 'KS':
+          return 'kr';
+        case 'SI':
+          return 'sg';
+        case 'MI':
+          return 'it';
+        case 'MC':
+          return 'es';
+        case 'AS':
+          return 'nl';
+        case 'BR':
+          return 'be';
+        case 'SW':
+          return 'ch'; // Swiss
+        case 'SA':
+          return 'br'; // Sao Paulo
+        case 'V':
+          return 'ca'; // TSX Venture
+        case 'NE':
+          return 'ca'; // NEO
+      }
+    }
+
+    // 3. Handle Forex/Crypto (Rough heuristics)
+    if (!symbol.contains('.')) {
+      if (symbol.startsWith('EUR')) return 'eu';
+      if (symbol.startsWith('GBP')) return 'gb';
+      if (symbol.startsWith('JPY')) return 'jp';
+      if (symbol.startsWith('CAD')) return 'ca';
+      if (symbol.startsWith('AUD')) return 'au';
+      if (symbol.startsWith('CNY')) return 'cn';
+      // Crypto usually has no specific country, but let's default to generic or US.
+      // Many crypto tickers like BTCUSD might default to US logic below.
+    }
+
+    // 4. Default to US (NYSE/NASDAQ usually have no suffix)
+    return 'us';
   }
 }
