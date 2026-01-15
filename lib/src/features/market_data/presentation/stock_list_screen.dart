@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -98,7 +99,7 @@ class _StockListViewState extends State<_StockListView> {
             ),
             Expanded(
               child: controller.isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? _buildShimmerLoading(context)
                   : controller.error != null
                   ? Center(child: Text(controller.error!))
                   : controller.isSearching
@@ -188,6 +189,65 @@ class _StockListViewState extends State<_StockListView> {
           },
         );
       },
+    );
+  }
+
+  Widget _buildShimmerLoading(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Shimmer.fromColors(
+      baseColor: baseColor,
+      highlightColor: highlightColor,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(
+          left: AppTheme.screenPaddingHorizontal,
+          right: AppTheme.screenPaddingHorizontal,
+          bottom: CustomBottomNavigationBar.contentBottomPadding,
+        ),
+        itemCount: 10,
+        separatorBuilder: (_, _) => const Divider(height: 1),
+        itemBuilder: (_, _) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Row(
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(width: 40, height: 16, color: Colors.white),
+                    const SizedBox(height: 4),
+                    Container(width: 80, height: 12, color: Colors.white),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(child: Container(height: 30, color: Colors.white)),
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(width: 60, height: 16, color: Colors.white),
+                  const SizedBox(height: 4),
+                  Container(width: 40, height: 12, color: Colors.white),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
