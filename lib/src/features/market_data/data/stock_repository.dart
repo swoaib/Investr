@@ -179,49 +179,17 @@ class StockRepository {
   }
 
   /// Fetches historical data (Daily Bars).
+  /// Updated to use EOD Light endpoint for compatibility.
   Future<List<PricePoint>> getStockHistory(String symbol) async {
     try {
-      // 1 Year of History.
-      final now = DateTime.now();
-      final from = now.subtract(const Duration(days: 365));
-      final toStr = now.toIso8601String().split('T')[0];
-      final fromStr = from.toIso8601String().split('T')[0];
-
-      // Endpoint: /api/v3/historical-price-full/{symbol}?from={from}&to={to}
-      final url = Uri.parse(
-        '$_baseUrl/api/v3/historical-price-full/$symbol?from=$fromStr&to=$toStr&apikey=$_apiKey',
-      );
-
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['historical'] != null) {
-          final List<dynamic> historical = data['historical'];
-          return historical
-              .map((candle) {
-                // FMP date is "YYYY-MM-DD"
-                final date = DateTime.parse(candle['date']);
-                final close = (candle['close'] as num).toDouble();
-                return PricePoint(date: date, price: close);
-              })
-              .toList()
-              .reversed
-              .toList(); // FMP returns newest first
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) print('Error fetching history for $symbol: $e');
-    }
-    return [];
-  }
-
-  Future<List<PricePoint>> getIntradayHistory(String symbol) async {
-    try {
-      // Intraday (1min/5min) endpoints are restricted (403 Forbidden - Legacy).
-      // We fall back to Daily EOD data which is available on the free/basic tier.
+      // 1-Year implied default for the 'history' field used by 1Y/All/Custom logic,
+      // but we should fetch as much as possible or at least enough for 'All' if manageable,
+      // or default to 5 years.
+      // EOD Light returns *all* available data by default if no date component is simpler,
+      // or we can just fetch it all.
       // Endpoint: /stable/historical-price-eod/light?symbol={symbol}
-      // This ensures we always have *some* sparkline data.
+      // This returns full history.
+
       final url = Uri.parse(
         '$_baseUrl/stable/historical-price-eod/light?symbol=$symbol&apikey=$_apiKey',
       );
@@ -232,18 +200,9 @@ class StockRepository {
         final dynamic jsonResponse = json.decode(response.body);
         if (jsonResponse is List) {
           final points = <PricePoint>[];
-          // Limit to last 30 days for a relevant sparkline/graph
-          // (Data comes newest first)
-          final limit = 30;
-          var count = 0;
-
           for (var item in jsonResponse) {
-            if (count >= limit) break;
             if (item is Map) {
-              // Date format: "YYYY-MM-DD"
               final dateStr = item['date'] as String?;
-              // API EOD Light returns 'price', not 'close' usually.
-              // We check both to be safe.
               final price =
                   (item['price'] as num?)?.toDouble() ??
                   (item['close'] as num?)?.toDouble();
@@ -252,30 +211,194 @@ class StockRepository {
                 points.add(
                   PricePoint(date: DateTime.parse(dateStr), price: price),
                 );
-                count++;
               }
             }
           }
-          // Reverse to make it chronological (Oldest -> Newest)
+          // FMP returns newest first. 1Y/All logic expects chronological?
+          // The previous code did .reversed.toList().
+          // Yes, UI usually expects chronological (Ascending).
           return points.reversed.toList();
-        }
-      } else {
-        if (kDebugMode) {
-          print('FMP EOD Error ${response.statusCode}: ${response.body}');
         }
       }
     } catch (e) {
-      if (kDebugMode) print('Error fetching intraday fallback for $symbol: $e');
+      if (kDebugMode) print('Error fetching history for $symbol: $e');
+    }
+    return [];
+  }
+
+  Future<List<PricePoint>> getIntradayHistory(String symbol) async {
+    try {
+      // Use 5-minute data for '1D' view (Best Resolution: ~78 points/day)
+      final fullHistory = await _getStockHistory5Min(symbol);
+
+      if (fullHistory.isNotEmpty) {
+        // Filter for the *latest* available trading day
+        final lastPoint = fullHistory.last;
+        final lastDate = lastPoint.date;
+
+        return fullHistory
+            .where(
+              (p) =>
+                  p.date.year == lastDate.year &&
+                  p.date.month == lastDate.month &&
+                  p.date.day == lastDate.day,
+            )
+            .toList();
+      }
+
+      // Fallback: If 5-min fails/empty, try 1-hour
+      final hourHistory = await _getStockHistory1Hour(symbol);
+      if (hourHistory.isNotEmpty) {
+        final lastPoint = hourHistory.last;
+        final lastDate =
+            hourHistory.last.date; // Corrected to use hourHistory.last
+        return hourHistory
+            .where(
+              (p) =>
+                  p.date.year == lastDate.year &&
+                  p.date.month == lastDate.month &&
+                  p.date.day == lastDate.day,
+            )
+            .toList();
+      }
+
+      return [];
+    } catch (e) {
+      if (kDebugMode) print('Error fetching intraday history for $symbol: $e');
+      return [];
+    }
+  }
+
+  // New 5-Minute Endpoint Helper
+  Future<List<PricePoint>> _getStockHistory5Min(String symbol) async {
+    try {
+      // Metric: 5min (~78 bars per day)
+      // Endpoint: /stable/historical-chart/5min?symbol={symbol}
+      final url = Uri.parse(
+        '$_baseUrl/stable/historical-chart/5min?symbol=$symbol&apikey=$_apiKey',
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(response.body);
+        if (jsonResponse is List) {
+          final points = <PricePoint>[];
+          for (var item in jsonResponse) {
+            if (item is Map) {
+              final dateStr = item['date'] as String?;
+              final price =
+                  (item['close'] as num?)?.toDouble() ??
+                  (item['price'] as num?)?.toDouble();
+
+              if (dateStr != null && price != null) {
+                points.add(
+                  PricePoint(date: DateTime.parse(dateStr), price: price),
+                );
+              }
+            }
+          }
+          // FMP returns newest first. Reverse to Ascending.
+          return points.reversed.toList();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching 5min history for $symbol: $e');
+    }
+    return [];
+  }
+
+  // New 1-Hour Endpoint Helper
+  Future<List<PricePoint>> _getStockHistory1Hour(String symbol) async {
+    try {
+      // Metric: 1hour (~7 bars per day)
+      // Query param format is required for 'stable' endpoint:
+      // /stable/historical-chart/1hour?symbol={symbol}
+      final url = Uri.parse(
+        '$_baseUrl/stable/historical-chart/1hour?symbol=$symbol&apikey=$_apiKey',
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(response.body);
+        if (jsonResponse is List) {
+          final points = <PricePoint>[];
+          for (var item in jsonResponse) {
+            if (item is Map) {
+              final dateStr = item['date'] as String?;
+              final price =
+                  (item['close'] as num?)?.toDouble() ??
+                  (item['price'] as num?)?.toDouble();
+
+              if (dateStr != null && price != null) {
+                points.add(
+                  PricePoint(date: DateTime.parse(dateStr), price: price),
+                );
+              }
+            }
+          }
+          // FMP returns newest first. Reverse to Ascending.
+          return points.reversed.toList();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching 1hour history for $symbol: $e');
     }
     return [];
   }
 
   Future<List<PricePoint>> getWeeklyHistory(String symbol) async {
-    return []; // Placeholder
+    try {
+      // Use 1-hour data for best granularity (approx 50 points)
+      final fullHistory = await _getStockHistory1Hour(symbol);
+      if (fullHistory.isEmpty) {
+        // Fallback to daily if 1hour fails
+        return _getWeeklyHistoryDaily(symbol);
+      }
+
+      // Filter for last 7 days (True 1 Week view)
+      final now = DateTime.now();
+      final cutoff = now.subtract(const Duration(days: 7));
+      return fullHistory.where((p) => p.date.isAfter(cutoff)).toList();
+    } catch (e) {
+      if (kDebugMode) print('Error fetching weekly history for $symbol: $e');
+      return [];
+    }
   }
 
   Future<List<PricePoint>> getMonthlyHistory(String symbol) async {
-    return []; // Placeholder
+    try {
+      // Use 1-hour data for best granularity (approx 200+ points)
+      final fullHistory = await _getStockHistory1Hour(symbol);
+      if (fullHistory.isEmpty) {
+        // Fallback to daily if 1hour fails
+        return _getMonthlyHistoryDaily(symbol);
+      }
+
+      // Filter for last 30 days (True 1 Month view)
+      final now = DateTime.now();
+      final cutoff = now.subtract(const Duration(days: 30));
+      return fullHistory.where((p) => p.date.isAfter(cutoff)).toList();
+    } catch (e) {
+      if (kDebugMode) print('Error fetching monthly history for $symbol: $e');
+      return [];
+    }
+  }
+
+  // Backup methods using Daily data if 4hour returns empty/fails
+  Future<List<PricePoint>> _getWeeklyHistoryDaily(String symbol) async {
+    final fullHistory = await getStockHistory(symbol);
+    final now = DateTime.now();
+    final cutoff = now.subtract(const Duration(days: 7));
+    return fullHistory.where((p) => p.date.isAfter(cutoff)).toList();
+  }
+
+  Future<List<PricePoint>> _getMonthlyHistoryDaily(String symbol) async {
+    final fullHistory = await getStockHistory(symbol);
+    final now = DateTime.now();
+    final cutoff = now.subtract(const Duration(days: 30));
+    return fullHistory.where((p) => p.date.isAfter(cutoff)).toList();
   }
 
   /// Searches for a stock ticker.

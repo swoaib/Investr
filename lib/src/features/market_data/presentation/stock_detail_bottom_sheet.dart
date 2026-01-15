@@ -606,9 +606,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     // If we tried to plot 30 days on a 6.5 hour axis it would break.
     // So we treat everything as Index-Based for now.
 
-    // final isIntraday = _selectedInterval == '1D'; // OLD logic
-    final isIntraday =
-        false; // Force index-based for all to support daily fallback
+    final isIntraday = _selectedInterval == '1D';
 
     // Calculate dynamic axes
     if (points.isNotEmpty) {
@@ -672,7 +670,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
           SizedBox(
             height: 200,
-            child: _isLoading && _history.isEmpty
+            child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : points.isEmpty
                 ? Center(
@@ -750,17 +748,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                             maxIncluded: !isIntraday,
                             getTitlesWidget: (value, meta) {
                               DateTime date;
-                              if (isIntraday) {
-                                date = DateTime.fromMillisecondsSinceEpoch(
-                                  value.toInt(),
-                                );
-                              } else {
-                                final index = value.toInt();
-                                if (index < 0 || index >= points.length) {
-                                  return const SizedBox();
-                                }
-                                date = points[index].date;
+                              final index = value.toInt();
+                              if (index < 0 || index >= points.length) {
+                                return const SizedBox();
                               }
+                              date = points[index].date;
 
                               if (isIntraday) {
                                 return Padding(
@@ -911,10 +903,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                               .entries
                               .map(
                                 (entry) => FlSpot(
-                                  isIntraday
-                                      ? entry.value.date.millisecondsSinceEpoch
-                                            .toDouble()
-                                      : entry.key.toDouble(),
+                                  entry.key.toDouble(),
                                   entry.value.price,
                                 ),
                               )
