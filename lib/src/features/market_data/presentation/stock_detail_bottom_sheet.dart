@@ -142,6 +142,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                   .marketCap, // Quote is usually more real-time than profile
               high52Week: quoteStock.high52Week,
               low52Week: quoteStock.low52Week,
+              exchange: quoteStock.exchange,
+              currency: quoteStock.currency,
             );
           }
 

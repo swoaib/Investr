@@ -25,6 +25,9 @@ class Stock {
     this.low52Week,
     this.sparklineData,
     this.earningsHistory,
+    this.country,
+    this.exchange,
+    this.currency,
   });
 
   final double? previousClose;
@@ -34,6 +37,9 @@ class Stock {
   final double? earningsPerShare;
   final String? description;
   final int? employees;
+  final String? country;
+  final String? exchange;
+  final String? currency;
   final double? high52Week;
   final double? low52Week;
 
@@ -65,6 +71,9 @@ class Stock {
     double? low52Week,
     List<PricePoint>? sparklineData,
     List<EarningsPoint>? earningsHistory,
+    String? country,
+    String? exchange,
+    String? currency,
   }) {
     return Stock(
       symbol: symbol ?? this.symbol,
@@ -83,6 +92,9 @@ class Stock {
       low52Week: low52Week ?? this.low52Week,
       sparklineData: sparklineData ?? this.sparklineData,
       earningsHistory: earningsHistory ?? this.earningsHistory,
+      country: country ?? this.country,
+      exchange: exchange ?? this.exchange,
+      currency: currency ?? this.currency,
     );
   }
 

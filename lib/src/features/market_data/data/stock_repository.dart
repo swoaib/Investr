@@ -127,6 +127,9 @@ class StockRepository {
             low52Week: (result['yearLow'] as num?)?.toDouble(),
             peRatio: (result['pe'] as num?)?.toDouble(),
             earningsPerShare: (result['eps'] as num?)?.toDouble(),
+            exchange: result['exchange'],
+            // Quote sometimes has currency, if not null use it
+            currency: result['currency'],
           );
         }
       } else {
@@ -161,7 +164,9 @@ class StockRepository {
                 ? int.tryParse(result['fullTimeEmployees']) ?? 0
                 : (result['fullTimeEmployees'] as num?)?.toInt() ?? 0,
             marketCap: (result['mktCap'] as num?)?.toDouble() ?? 0.0,
-            // dividend etc. might be here, but using Metrics endpoint strictly for ratios.
+            country: result['country'],
+            exchange: result['exchangeShortName'] ?? result['exchange'],
+            currency: result['currency'],
           );
         }
       }

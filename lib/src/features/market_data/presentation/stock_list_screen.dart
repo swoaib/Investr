@@ -217,7 +217,13 @@ class _StockListItem extends StatelessWidget {
         child: Row(
           children: [
             // Logo
-            _StockLogo(url: stock.imageUrl, symbol: stock.symbol),
+            _StockLogo(
+              url: stock.imageUrl,
+              symbol: stock.symbol,
+              countryCode: stock.country,
+              exchange: stock.exchange,
+              currency: stock.currency,
+            ),
             const SizedBox(width: 12),
             // Symbol and Name
             Expanded(
@@ -363,7 +369,11 @@ class _SearchResultItem extends StatelessWidget {
         child: Row(
           children: [
             // Logo
-            _StockLogo(url: stock.imageUrl, symbol: stock.symbol),
+            _StockLogo(
+              url: stock.imageUrl,
+              symbol: stock.symbol,
+              countryCode: stock.country,
+            ),
             const SizedBox(width: 12),
             // Symbol and Name
             Expanded(
@@ -431,8 +441,17 @@ class _SearchResultItem extends StatelessWidget {
 class _StockLogo extends StatelessWidget {
   final String url;
   final String symbol;
+  final String? countryCode;
+  final String? exchange;
+  final String? currency;
 
-  const _StockLogo({required this.url, required this.symbol});
+  const _StockLogo({
+    required this.url,
+    required this.symbol,
+    this.countryCode,
+    this.exchange,
+    this.currency,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -458,8 +477,10 @@ class _StockLogo extends StatelessWidget {
   }
 
   Widget _buildFallback(bool isDark) {
-    final countryCode = _getCountryCode(symbol);
-    final flagUrl = 'https://flagcdn.com/w40/$countryCode.png';
+    // 1. Use API provided country code if available (lowercase)
+    // 2. Otherwise infer from exchange/currency/symbol
+    final code = countryCode?.toLowerCase() ?? _inferCountryCode();
+    final flagUrl = 'https://flagcdn.com/w40/$code.png';
 
     return Container(
       color: isDark ? Colors.grey.shade900 : Colors.grey.shade200,
@@ -481,26 +502,57 @@ class _StockLogo extends StatelessWidget {
     );
   }
 
-  String _getCountryCode(String symbol) {
-    // 1. Handle Indices
-    if (symbol.startsWith('^')) {
-      const indexMap = {
-        '^GSPC': 'us', '^DJI': 'us', '^IXIC': 'us', '^RUT': 'us', // US
-        '^FTSE': 'gb', // UK
-        '^GDAXI': 'de', // Germany
-        '^FCHI': 'fr', // France
-        '^N225': 'jp', // Japan
-        '^HSI': 'hk', // Hong Kong
-        '^BSESN': 'in', // India
-        '^AXJO': 'au', // Australia
-        '^BVSP': 'br', // Brazil
-        '^KS11': 'kr', // South Korea
-        '^STOXX50E': 'eu', // Europe
-      };
-      return indexMap[symbol] ?? 'us';
+  String _inferCountryCode() {
+    // 1. Check Exchange
+    if (exchange != null) {
+      final ex = exchange!.toUpperCase();
+      if (ex.contains('LONDON') || ex == 'LSE' || ex == 'FTSE') return 'gb';
+      if (ex.contains('TORONTO') || ex == 'TSX') return 'ca';
+      if (ex.contains('PARIS') || ex == 'EURONEXT') {
+        return 'fr'; // Catch-all for Euronext often France
+      }
+      if (ex.contains('FRANKFURT') || ex.contains('XETRA') || ex == 'GER') {
+        return 'de';
+      }
+      if (ex.contains('HONG KONG') || ex == 'HKSE') return 'hk';
+      if (ex.contains('INDIA') || ex == 'NSE' || ex == 'BSE') return 'in';
+      if (ex.contains('AUSTRALIAN') || ex == 'ASX') return 'au';
+      if (ex.contains('SAO PAULO') || ex == 'BOVESPA') return 'br';
+      if (ex.contains('TOKYO') || ex == 'JPX') return 'jp';
+      if (ex.contains('KOREA') || ex == 'KSE') return 'kr';
+      if (ex.contains('SIX')) return 'ch';
     }
 
-    // 2. Handle Suffixes (Exchange)
+    // 2. Check Currency
+    if (currency != null) {
+      final cur = currency!.toUpperCase();
+      switch (cur) {
+        case 'GBP':
+          return 'gb';
+        case 'CAD':
+          return 'ca';
+        case 'JPY':
+          return 'jp';
+        case 'AUD':
+          return 'au';
+        case 'INR':
+          return 'in';
+        case 'HKD':
+          return 'hk';
+        case 'BRL':
+          return 'br';
+        case 'CHF':
+          return 'ch';
+        case 'CNY':
+          return 'cn';
+        case 'SGD':
+          return 'sg';
+        case 'EUR':
+          return 'eu'; // Generic EU flag for Euro
+      }
+    }
+
+    // 3. Handle Suffixes (Exchange) - Fallback
     if (symbol.contains('.')) {
       final suffix = symbol.split('.').last;
       switch (suffix) {
@@ -537,7 +589,7 @@ class _StockLogo extends StatelessWidget {
       }
     }
 
-    // 3. Handle Forex/Crypto (Rough heuristics)
+    // 4. Forex/Crypto heuristics
     if (!symbol.contains('.')) {
       if (symbol.startsWith('EUR')) return 'eu';
       if (symbol.startsWith('GBP')) return 'gb';
@@ -549,7 +601,7 @@ class _StockLogo extends StatelessWidget {
       // Many crypto tickers like BTCUSD might default to US logic below.
     }
 
-    // 4. Default to US (NYSE/NASDAQ usually have no suffix)
+    // 5. Default to US (NYSE/NASDAQ usually have no suffix)
     return 'us';
   }
 }
