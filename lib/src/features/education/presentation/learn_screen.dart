@@ -609,7 +609,7 @@ class _LessonCard extends StatelessWidget {
         );
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        // Remove padding to allow left strip to fill height
         decoration: BoxDecoration(
           color: Theme.of(context).cardTheme.color,
           borderRadius: BorderRadius.circular(12),
@@ -621,67 +621,95 @@ class _LessonCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: lesson.color.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                lesson.icon ?? Icons.school,
-                color: lesson.color,
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    lesson.title,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Full height left strip
+                Container(
+                  width: 70,
+                  color: lesson.color.withValues(alpha: 0.15),
+                  child: Center(
+                    child: Icon(
+                      lesson.icon ?? Icons.school,
+                      color: lesson.color,
+                      size: 24,
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    lesson.description,
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+                // Content
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                lesson.title,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                lesson.description,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        if (progress > 0 && progress < 1.0)
+                          Text(
+                            '${(progress * 100).toInt()}%',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF2196F3),
+                            ),
+                          ),
+                        const SizedBox(width: 8),
+                        if (progress >= 1.0)
+                          const Icon(
+                            Icons.check_circle,
+                            color: AppTheme.primaryGreen,
+                          )
+                        else if (progress > 0.0)
+                          SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                              value: progress,
+                              strokeWidth: 3,
+                              backgroundColor: const Color(
+                                0xFF2196F3,
+                              ).withValues(alpha: 0.2),
+                              valueColor: const AlwaysStoppedAnimation(
+                                Color(0xFF2196F3),
+                              ),
+                            ),
+                          )
+                        else
+                          const Icon(Icons.chevron_right, color: Colors.grey),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(width: 8),
-            if (progress > 0 && progress < 1.0)
-              Text(
-                '${(progress * 100).toInt()}%',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2196F3),
-                ),
-              ),
-            const SizedBox(width: 8),
-            if (progress >= 1.0)
-              const Icon(Icons.check_circle, color: AppTheme.primaryGreen)
-            else if (progress > 0.0)
-              SizedBox(
-                width: 18,
-                height: 18,
-                child: CircularProgressIndicator(
-                  value: progress,
-                  strokeWidth: 3,
-                  backgroundColor: const Color(
-                    0xFF2196F3,
-                  ).withValues(alpha: 0.2),
-                  valueColor: const AlwaysStoppedAnimation(Color(0xFF2196F3)),
-                ),
-              )
-            else
-              const Icon(Icons.chevron_right, color: Colors.grey),
-          ],
+          ),
         ),
       ),
     );
