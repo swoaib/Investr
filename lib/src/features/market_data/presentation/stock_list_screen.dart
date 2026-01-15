@@ -202,6 +202,25 @@ class _StockListItem extends StatelessWidget {
     final isPositive = stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
+    // Calculate Sparkline Y-Axis Range ensuring Previous Close is visible
+    double? minY;
+    double? maxY;
+    if (stock.sparklineData != null && stock.sparklineData!.isNotEmpty) {
+      final prices = stock.sparklineData!.map((p) => p.price);
+      var minPrice = prices.reduce((a, b) => a < b ? a : b);
+      var maxPrice = prices.reduce((a, b) => a > b ? a : b);
+
+      if (stock.previousClose != null) {
+        if (stock.previousClose! < minPrice) minPrice = stock.previousClose!;
+        if (stock.previousClose! > maxPrice) maxPrice = stock.previousClose!;
+      }
+
+      final range = maxPrice - minPrice;
+      final padding = range == 0 ? minPrice * 0.02 : range * 0.05; // 5% padding
+      minY = minPrice - padding;
+      maxY = maxPrice + padding;
+    }
+
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
@@ -263,7 +282,9 @@ class _StockListItem extends StatelessWidget {
                     ? LineChart(
                         LineChartData(
                           minX: 0,
-                          maxX: 78, // Fixed full trading day (6.5h / 5min)
+                          maxX: 78,
+                          minY: minY,
+                          maxY: maxY,
                           gridData: const FlGridData(show: false),
                           titlesData: const FlTitlesData(show: false),
                           borderData: FlBorderData(show: false),

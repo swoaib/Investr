@@ -663,8 +663,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     double? maxY;
     if (points.isNotEmpty) {
       final prices = points.map((p) => p.price);
-      final minPrice = prices.reduce((a, b) => a < b ? a : b);
-      final maxPrice = prices.reduce((a, b) => a > b ? a : b);
+      var minPrice = prices.reduce((a, b) => a < b ? a : b);
+      var maxPrice = prices.reduce((a, b) => a > b ? a : b);
+
+      if (isIntraday && _stock.previousClose != null) {
+        if (_stock.previousClose! < minPrice) minPrice = _stock.previousClose!;
+        if (_stock.previousClose! > maxPrice) maxPrice = _stock.previousClose!;
+      }
 
       final range = maxPrice - minPrice;
       final padding = range == 0 ? minPrice * 0.02 : range * 0.05; // 5% padding
