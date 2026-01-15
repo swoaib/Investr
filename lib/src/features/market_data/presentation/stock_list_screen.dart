@@ -216,6 +216,9 @@ class _StockListItem extends StatelessWidget {
         color: Colors.transparent, // Ensures hit test works on empty space
         child: Row(
           children: [
+            // Logo
+            _StockLogo(url: stock.imageUrl, symbol: stock.symbol),
+            const SizedBox(width: 12),
             // Symbol and Name
             Expanded(
               flex: 3,
@@ -359,6 +362,9 @@ class _SearchResultItem extends StatelessWidget {
         color: Colors.transparent, // Ensures hit test works on empty space
         child: Row(
           children: [
+            // Logo
+            _StockLogo(url: stock.imageUrl, symbol: stock.symbol),
+            const SizedBox(width: 12),
             // Symbol and Name
             Expanded(
               child: Column(
@@ -416,6 +422,51 @@ class _SearchResultItem extends StatelessWidget {
               onPressed: isInWatchlist ? null : onAddToWatchlist,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StockLogo extends StatelessWidget {
+  final String url;
+  final String symbol;
+
+  const _StockLogo({required this.url, required this.symbol});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        width: 40,
+        height: 40,
+        color: isDark ? Colors.grey.shade900 : Colors.white,
+        padding: const EdgeInsets.all(6.0),
+        child: (symbol.startsWith('^') || symbol.contains('FOREX'))
+            ? _buildFallback(isDark)
+            : Image.network(
+                url,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) =>
+                    _buildFallback(isDark),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildFallback(bool isDark) {
+    return Container(
+      color: isDark ? Colors.grey.shade900 : Colors.grey.shade200,
+      alignment: Alignment.center,
+      child: Text(
+        symbol.isNotEmpty ? symbol[0] : '?',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: isDark ? Colors.white70 : Colors.black54,
+          fontSize: 14,
         ),
       ),
     );

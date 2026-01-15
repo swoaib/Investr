@@ -45,6 +45,9 @@ class Stock {
 
   bool get isPositive => change >= 0;
 
+  String get imageUrl =>
+      'https://images.financialmodelingprep.com/symbol/$symbol.png';
+
   Stock copyWith({
     String? symbol,
     String? companyName,
