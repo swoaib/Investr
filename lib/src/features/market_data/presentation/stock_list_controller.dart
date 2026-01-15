@@ -49,11 +49,7 @@ class StockListController extends ChangeNotifier {
         fetchedStocks = await _repository.getWatchlistStocks();
       }
 
-      final stocksWithRef = fetchedStocks
-          .map((s) => s.copyWith(previousClose: s.price))
-          .toList();
-
-      _stocks = stocksWithRef;
+      _stocks = fetchedStocks;
 
       // Start Polling (REST API)
       _startPolling();
