@@ -267,7 +267,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
   String _formatDate(DateTime date) {
     if (_selectedInterval == '1D') {
-      return DateFormat('HH:mm').format(date);
+      // Since 1D now shows a "Daily Trend" of 30 days, we show MMM d format
+      return DateFormat('MMM d').format(date);
     } else if (_selectedInterval == '1W' || _selectedInterval == '1M') {
       return DateFormat('MMM d, yyyy').format(date);
     } else {
@@ -600,59 +601,23 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
     // For 1D, we use Time-based X-axis (millisecondsSinceEpoch) to show "filling from left".
     // For others (1M, 1W), we use Index-based X-axis (0, 1, 2...) to "skip" weekends/closed hours.
-    final isIntraday = _selectedInterval == '1D';
+    // UPDATE: Since we are falling back to Daily data for "Intraday" (due to API restrictions),
+    // we should use Index-based for 1D as well to show the trend of the last 30 days properly.
+    // If we tried to plot 30 days on a 6.5 hour axis it would break.
+    // So we treat everything as Index-Based for now.
 
-    if (isIntraday) {
-      // Always show full market day: 09:30 to 16:00
-      // We need a reference date. If we have points, use that date.
-      // If not, use today (or last trading day ideally, but today works for axis placeholder).
+    // final isIntraday = _selectedInterval == '1D'; // OLD logic
+    final isIntraday =
+        false; // Force index-based for all to support daily fallback
 
-      DateTime baseDate;
-      if (points.isNotEmpty) {
-        baseDate = points.first.date;
-      } else {
-        baseDate = DateTime.now();
-      }
+    // Calculate dynamic axes
+    if (points.isNotEmpty) {
+      minX = 0;
+      maxX = (points.length - 1).toDouble();
 
-      final baseDateUtc = baseDate.toUtc();
-      final isDST = _repository.isUSDST(baseDateUtc);
-
-      final openHour = isDST ? 13 : 14;
-      final closeHour = isDST ? 20 : 21;
-
-      // Construct Market Open/Close in UTC
-      final marketOpenUtc = DateTime.utc(
-        baseDateUtc.year,
-        baseDateUtc.month,
-        baseDateUtc.day,
-        openHour,
-        30,
-      );
-
-      final marketCloseUtc = DateTime.utc(
-        baseDateUtc.year,
-        baseDateUtc.month,
-        baseDateUtc.day,
-        closeHour,
-        0,
-      );
-
-      // Convert back to Local for the Axis (millisecondsSinceEpoch handles this correctly)
-      minX = marketOpenUtc.millisecondsSinceEpoch.toDouble();
-      maxX = marketCloseUtc.millisecondsSinceEpoch.toDouble();
-
-      // Calculate interval: 6.5 hours / 4 ~ 1.5 hours +
-      interval = (maxX - minX) / 4;
-    } else {
-      // Index based
-      if (points.isNotEmpty) {
-        minX = 0;
-        maxX = (points.length - 1).toDouble();
-
-        // Calculate interval to show ~5 labels
-        interval = (points.length / 5).floorToDouble();
-        if (interval == 0) interval = 1;
-      }
+      // Calculate interval to show ~5 labels
+      interval = (points.length / 5).floorToDouble();
+      if (interval == 0) interval = 1;
     }
 
     // Determine Y-Axis with padding

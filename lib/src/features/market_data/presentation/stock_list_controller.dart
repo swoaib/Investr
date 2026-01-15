@@ -53,21 +53,7 @@ class StockListController extends ChangeNotifier {
           .map((s) => s.copyWith(previousClose: s.price))
           .toList();
 
-      // Load sparklines
-      final stocksWithSparklines = await Future.wait(
-        stocksWithRef.map((stock) async {
-          try {
-            final sparkline = await _repository.getIntradayHistory(
-              stock.symbol,
-            );
-            return stock.copyWithSparkline(sparkline);
-          } catch (e) {
-            return stock;
-          }
-        }),
-      );
-
-      _stocks = stocksWithSparklines;
+      _stocks = stocksWithRef;
 
       // Start Polling (REST API)
       _startPolling();
@@ -82,7 +68,7 @@ class StockListController extends ChangeNotifier {
 
   void _startPolling() {
     _pollingTimer?.cancel();
-    _pollingTimer = Timer.periodic(const Duration(seconds: 30), (_) async {
+    _pollingTimer = Timer.periodic(const Duration(seconds: 60), (_) async {
       await _updateStockPrices();
     });
   }

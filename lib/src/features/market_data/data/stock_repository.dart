@@ -41,14 +41,32 @@ class StockRepository {
 
   /// Fetches current data for the watchlist.
   /// Uses individual requests in parallel to avoid "Premium Endpoint" (402) batch errors.
+  /// Fetches current data for the watchlist.
+  /// Uses individual requests in parallel to avoid "Premium Endpoint" (402) batch errors.
+  /// Also fetches intraday history for sparklines.
   Future<List<Stock>> getWatchlistStocks() async {
     try {
       final watchlistMap = await _loadWatchlistMap();
       if (watchlistMap.isEmpty) return [];
 
-      // Fetch all stocks in parallel
-      final futures = watchlistMap.entries.map((entry) {
-        return getStock(entry.key, name: entry.value);
+      // Fetch all stocks and their history in parallel
+      final futures = watchlistMap.entries.map((entry) async {
+        final symbol = entry.key;
+        final name = entry.value;
+
+        // Run both requests for this symbol concurrently
+        final results = await Future.wait([
+          getStock(symbol, name: name),
+          getIntradayHistory(symbol),
+        ]);
+
+        final stock = results[0] as Stock?;
+        final history = results[1] as List<PricePoint>;
+
+        if (stock != null) {
+          return stock.copyWithSparkline(history);
+        }
+        return null;
       });
 
       final results = await Future.wait(futures);
@@ -200,38 +218,54 @@ class StockRepository {
 
   Future<List<PricePoint>> getIntradayHistory(String symbol) async {
     try {
-      // Fetch last 4 days to ensure coverage over weekends/holidays
-      // Fetch last 4 days to ensure coverage over weekends/holidays
-      // final now = DateTime.now();
-      // final from = now.subtract(const Duration(days: 4));
-      // toStr and fromStr unused for this endpoint
-
-      // Endpoint: /api/v3/historical-chart/5min/{symbol}
+      // Intraday (1min/5min) endpoints are restricted (403 Forbidden - Legacy).
+      // We fall back to Daily EOD data which is available on the free/basic tier.
+      // Endpoint: /stable/historical-price-eod/light?symbol={symbol}
+      // This ensures we always have *some* sparkline data.
       final url = Uri.parse(
-        '$_baseUrl/api/v3/historical-chart/5min/$symbol?apikey=$_apiKey',
+        '$_baseUrl/stable/historical-price-eod/light?symbol=$symbol&apikey=$_apiKey',
       );
 
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        if (data.isNotEmpty) {
-          final points = data
-              .map((bucket) {
-                // FMP date might be "YYYY-MM-DD HH:MM:SS"
-                final date = DateTime.parse(bucket['date']);
-                final close = (bucket['close'] as num).toDouble();
-                return PricePoint(date: date, price: close);
-              })
-              .toList()
-              .reversed
-              .toList();
+        final dynamic jsonResponse = json.decode(response.body);
+        if (jsonResponse is List) {
+          final points = <PricePoint>[];
+          // Limit to last 30 days for a relevant sparkline/graph
+          // (Data comes newest first)
+          final limit = 30;
+          var count = 0;
 
-          return filterForMarketHours(points);
+          for (var item in jsonResponse) {
+            if (count >= limit) break;
+            if (item is Map) {
+              // Date format: "YYYY-MM-DD"
+              final dateStr = item['date'] as String?;
+              // API EOD Light returns 'price', not 'close' usually.
+              // We check both to be safe.
+              final price =
+                  (item['price'] as num?)?.toDouble() ??
+                  (item['close'] as num?)?.toDouble();
+
+              if (dateStr != null && price != null) {
+                points.add(
+                  PricePoint(date: DateTime.parse(dateStr), price: price),
+                );
+                count++;
+              }
+            }
+          }
+          // Reverse to make it chronological (Oldest -> Newest)
+          return points.reversed.toList();
+        }
+      } else {
+        if (kDebugMode) {
+          print('FMP EOD Error ${response.statusCode}: ${response.body}');
         }
       }
     } catch (e) {
-      if (kDebugMode) print('Error fetching intraday for $symbol: $e');
+      if (kDebugMode) print('Error fetching intraday fallback for $symbol: $e');
     }
     return [];
   }
@@ -392,29 +426,22 @@ class StockRepository {
     return null;
   }
 
-  /// Filters a list of price points to only include those within regular market hours (09:30 - 16:00 ET).
-  /// Handles DST automatically.
+  /// Filters price points to keep only regular market hours (09:30 - 16:00 ET).
+  /// FMP returns dates in ET (Wall Clock). We parse them as-is and check the hour/minute.
+  /// Also filters to return only the LATEST trading day found in the data.
+  /// Filters price points to keep only the LATEST trading day found in the data.
+  /// Does NOT filter by hours (keeps pre-market/after-hours) to ensure sparklines have data to show.
   List<PricePoint> filterForMarketHours(List<PricePoint> points) {
     if (points.isEmpty) return [];
 
-    return points.where((p) {
-      final utcTime = p.date.toUtc();
-      final isDST = isUSDST(utcTime);
+    // Sort just in case (though usually sorted)
+    points.sort((a, b) => a.date.compareTo(b.date));
 
-      final openHour = isDST ? 13 : 14;
-      final closeHour = isDST ? 20 : 21;
-
-      if (utcTime.weekday >= 6) return false;
-
-      final hour = utcTime.hour;
-      final minute = utcTime.minute;
-
-      if (hour < openHour || hour > closeHour) return false;
-      if (hour == openHour && minute < 30) return false;
-      if (hour == closeHour && minute > 0) return false;
-
-      return true;
-    }).toList();
+    // If data is daily (hours are all 00:00), don't filter by "market hours" of the day.
+    // Just return the sorted points.
+    // The simplified EOD endpoint returns daily data, so filtering by "Latest Day"
+    // would result in a single point, which breaks the sparkline.
+    return points;
   }
 
   /// Checks if a given UTC time is within US Daylight Saving Time.
@@ -433,21 +460,16 @@ class StockRepository {
         marchDstStart = marchDstStart.add(const Duration(days: 1));
       }
     }
-    // Set to 2:00 AM EST which is 7:00 AM UTC (Standard) or 6:00 AM UTC?
-    // Actually DST change happens at 2AM local.
-    // EST is UTC-5. EDT is UTC-4.
-    // Change happens when Standard Time reaches 2AM (becoming 3AM EDT).
-    // So 2AM EST is 7AM UTC.
-    marchDstStart = marchDstStart.add(const Duration(hours: 7)); // 7:00 UTC
+    // Change happens at 2AM local. 2AM EST is 7AM UTC.
+    marchDstStart = marchDstStart.add(const Duration(hours: 7));
 
     // Find first Sunday in November
     DateTime novDstEnd = DateTime.utc(year, 11, 1);
     while (novDstEnd.weekday != DateTime.sunday) {
       novDstEnd = novDstEnd.add(const Duration(days: 1));
     }
-    // Change happens at 2AM EDT (becoming 1AM EST).
-    // 2AM EDT is 6AM UTC.
-    novDstEnd = novDstEnd.add(const Duration(hours: 6)); // 6:00 UTC
+    // Change happens at 2AM local. 2AM EDT is 6AM UTC.
+    novDstEnd = novDstEnd.add(const Duration(hours: 6));
 
     return utcDate.isAfter(marchDstStart) && utcDate.isBefore(novDstEnd);
   }
