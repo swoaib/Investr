@@ -95,24 +95,39 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     });
 
     try {
-      // Fetch history, details, and intraday (since 1D is now default)
+      // Fetch history, details, intraday, AND fresh quote (for accurate PrevClose)
       final historyFuture = _repository.getStockHistory(widget.stock.symbol);
       final detailsFuture = _repository.getStockDetails(widget.stock);
       final intradayFuture = _repository.getIntradayHistory(
         widget.stock.symbol,
       );
+      final quoteFuture = _repository.getStock(widget.stock.symbol);
 
       final results = await Future.wait([
         historyFuture,
         detailsFuture,
         intradayFuture,
+        quoteFuture,
       ]);
 
       if (mounted) {
         setState(() {
           _history = results[0] as List<PricePoint>;
-          _stock = results[1] as Stock;
+          var loadedStock = results[1] as Stock;
           _intradayHistory = results[2] as List<PricePoint>;
+          final quoteStock = results[3] as Stock?;
+
+          // Merge fresh quote data (Price/PrevClose) into the detailed stock object
+          if (quoteStock != null) {
+            loadedStock = loadedStock.copyWith(
+              price: quoteStock.price,
+              previousClose: quoteStock.previousClose,
+              change: quoteStock.change,
+              changePercent: quoteStock.changePercent,
+            );
+          }
+
+          _stock = loadedStock;
           _isLoading = false;
 
           // Subscribe after loading initial details
