@@ -272,61 +272,68 @@ class _StockListItem extends StatelessWidget {
             ),
             SizedBox(width: 16),
             // Mini Sparkline Chart
-            Expanded(
-              flex: 1,
-              child: SizedBox(
-                width: 60,
-                height: 30,
-                child:
-                    stock.sparklineData != null &&
-                        stock.sparklineData!.isNotEmpty
-                    ? LineChart(
-                        LineChartData(
-                          minX: 0,
-                          maxX: 78,
-                          minY: minY,
-                          maxY: maxY,
-                          gridData: const FlGridData(show: false),
-                          titlesData: const FlTitlesData(show: false),
-                          borderData: FlBorderData(show: false),
-                          lineTouchData: const LineTouchData(enabled: false),
-                          extraLinesData: ExtraLinesData(
-                            horizontalLines: [
-                              if (stock.previousClose != null)
-                                HorizontalLine(
-                                  y: stock.previousClose!,
-                                  color: Colors.grey.withValues(alpha: 0.5),
-                                  strokeWidth: 1,
-                                  dashArray: [4, 4],
-                                ),
-                            ],
-                          ),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: stock.sparklineData!
-                                  .asMap()
-                                  .entries
-                                  .map(
-                                    (e) =>
-                                        FlSpot(e.key.toDouble(), e.value.price),
-                                  )
-                                  .toList(),
-                              isCurved: true,
-                              color: color,
-                              barWidth: 1.5,
-                              isStrokeCapRound: true,
-                              dotData: const FlDotData(show: false),
-                              belowBarData: BarAreaData(show: false),
-                            ),
+            SizedBox(
+              width: 60,
+              height: 30,
+              child:
+                  stock.sparklineData != null && stock.sparklineData!.isNotEmpty
+                  ? LineChart(
+                      LineChartData(
+                        minX: 0,
+                        maxX: (() {
+                          final points = stock.sparklineData!;
+                          final lastDate = points.last.date;
+                          final now = DateTime.now();
+                          final isToday =
+                              lastDate.year == now.year &&
+                              lastDate.month == now.month &&
+                              lastDate.day == now.day;
+                          return isToday
+                              ? 78.0
+                              : (points.length - 1).toDouble();
+                        })(),
+                        minY: minY,
+                        maxY: maxY,
+                        gridData: const FlGridData(show: false),
+                        titlesData: const FlTitlesData(show: false),
+                        borderData: FlBorderData(show: false),
+                        lineTouchData: const LineTouchData(enabled: false),
+                        extraLinesData: ExtraLinesData(
+                          horizontalLines: [
+                            if (stock.previousClose != null)
+                              HorizontalLine(
+                                y: stock.previousClose!,
+                                color: Colors.grey.withValues(alpha: 0.5),
+                                strokeWidth: 1,
+                                dashArray: [4, 4],
+                              ),
                           ],
                         ),
-                      )
-                    : Icon(
-                        isPositive ? Icons.trending_up : Icons.trending_down,
-                        color: color,
-                        size: 24,
+                        lineBarsData: [
+                          LineChartBarData(
+                            spots: stock.sparklineData!
+                                .asMap()
+                                .entries
+                                .map(
+                                  (e) =>
+                                      FlSpot(e.key.toDouble(), e.value.price),
+                                )
+                                .toList(),
+                            isCurved: true,
+                            color: color,
+                            barWidth: 1.5,
+                            isStrokeCapRound: true,
+                            dotData: const FlDotData(show: false),
+                            belowBarData: BarAreaData(show: false),
+                          ),
+                        ],
                       ),
-              ),
+                    )
+                  : Icon(
+                      isPositive ? Icons.trending_up : Icons.trending_down,
+                      color: color,
+                      size: 24,
+                    ),
             ),
             const SizedBox(width: 16),
             // Price and Change
