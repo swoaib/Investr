@@ -43,7 +43,7 @@ jobs:
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
       - name: Create .env
-        run: echo "POLYGON_API_KEY=${{ secrets.POLYGON_API_KEY }}" > .env
+        run: echo "FMP_API_KEY=${{ secrets.FMP_API_KEY }}" > .env
 
       - name: Create key.properties
         run: |
@@ -76,7 +76,7 @@ jobs:
         run: flutter pub get
 
       - name: Create .env
-        run: echo "POLYGON_API_KEY=${{ secrets.POLYGON_API_KEY }}" > .env
+        run: echo "FMP_API_KEY=${{ secrets.FMP_API_KEY }}" > .env
 
       - name: Import Code-Signing Certificates
         uses: apple-actions/import-codesign-certs@v3
