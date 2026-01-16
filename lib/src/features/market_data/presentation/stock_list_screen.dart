@@ -360,10 +360,14 @@ class _StockListItem extends StatelessWidget {
                               lastDate.year == now.year &&
                               lastDate.month == now.month &&
                               lastDate.day == now.day;
-                          final isUS = stock.country == 'US';
-                          return (isToday && isUS)
-                              ? 78.0
-                              : (points.length - 1).toDouble();
+
+                          // Standardize scaling: Min 78 points (US trading day) for "Today"
+                          // This ensures "In-Progress" look (Left-to-Right) for all markets.
+                          if (isToday) {
+                            final count = (points.length - 1).toDouble();
+                            return count < 78.0 ? 78.0 : count;
+                          }
+                          return (points.length - 1).toDouble();
                         })(),
                         minY: minY,
                         maxY: maxY,
