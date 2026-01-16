@@ -445,9 +445,9 @@ class StockRepository {
     String query,
   ) async {
     try {
-      // Endpoint: /api/v3/search?query={query}&limit=10
+      // Endpoint: /stable/search-symbol?query={query} (Stable Endpoint, not V3)
       final url = Uri.parse(
-        '$_baseUrl/api/v3/search?query=$query&limit=10&apikey=$_apiKey',
+        '$_baseUrl/stable/search-symbol?query=$query&limit=10&apikey=$_apiKey',
       );
       final response = await http.get(url);
 
@@ -463,8 +463,23 @@ class StockRepository {
             .toList();
       }
     } catch (e) {
-      if (kDebugMode) print('Error searching ticker for $query: $e');
+      if (kDebugMode) print('API Search failed: $e');
     }
+
+    // 2. Fallback: Local Search + Direct Quote Check
+    final q = query.toLowerCase();
+
+    // B. If query looks like a specific ticker (2-5 chars), try direct check
+    if (query.length >= 2 && query.length <= 5) {
+      try {
+        // Attempt to fetch quote. If successful, we found it.
+        final stock = await getStock(query.toUpperCase());
+        if (stock != null) {
+          return [(symbol: stock.symbol, name: stock.companyName)];
+        }
+      } catch (_) {}
+    }
+
     return [];
   }
 

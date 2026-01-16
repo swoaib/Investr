@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,11 @@ class _StockListView extends StatefulWidget {
 
 class _StockListViewState extends State<_StockListView> {
   final TextEditingController _searchController = TextEditingController();
+  Timer? _debounce;
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -91,6 +94,15 @@ class _StockListViewState extends State<_StockListView> {
                 textInputAction: TextInputAction.search,
                 onChanged: (value) {
                   setState(() {}); // Rebuild to show/hide clear button
+
+                  if (_debounce?.isActive ?? false) _debounce!.cancel();
+                  _debounce = Timer(const Duration(milliseconds: 500), () {
+                    if (value.isEmpty) {
+                      controller.clearSearch();
+                    } else {
+                      controller.searchStock(value);
+                    }
+                  });
                 },
                 onSubmitted: (value) {
                   controller.searchStock(value);
@@ -348,7 +360,8 @@ class _StockListItem extends StatelessWidget {
                               lastDate.year == now.year &&
                               lastDate.month == now.month &&
                               lastDate.day == now.day;
-                          return isToday
+                          final isUS = stock.country == 'US';
+                          return (isToday && isUS)
                               ? 78.0
                               : (points.length - 1).toDouble();
                         })(),

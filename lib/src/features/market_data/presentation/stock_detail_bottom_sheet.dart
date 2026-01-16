@@ -653,9 +653,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             lastDate.month == now.month &&
             lastDate.day == now.day;
 
-        // If today, project full day (78 intervals).
-        // If past, fit to data (removes empty space for early closes/past half-days).
-        if (isToday) {
+        // If today AND US Market, project full day (78 intervals, 6.5h).
+        // Non-US markets have different hours (e.g. JP is 5h, UK is 8.5h), so we cannot assume 78.
+        // For non-US or past days, fit to data.
+        final isUS = _stock.country == 'US';
+        if (isToday && isUS) {
           maxX = 78;
         } else {
           maxX = (points.length - 1).toDouble();

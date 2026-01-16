@@ -117,8 +117,8 @@ class StockListController extends ChangeNotifier {
       final tickerResults = await _repository.searchTicker(query);
 
       if (tickerResults.isNotEmpty) {
-        // Fetch stock data for only the top 15 relevant tickers to avoid 429 Rate Limits
-        final topResults = tickerResults.take(15).toList();
+        // Fetch stock data for only the top 5 relevant tickers to avoid 429 Rate Limits
+        final topResults = tickerResults.toList();
 
         final stocks = await Future.wait(
           topResults.map(
