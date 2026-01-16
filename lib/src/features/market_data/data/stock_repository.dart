@@ -177,26 +177,69 @@ class StockRepository {
   }
 
   /// Fetches Key Metrics TTM (PE, DivYield, EPS)
-  /// Uses 'stable/key-metrics-ttm'.
+  /// Uses 'stable/key-metrics-ttm' and 'stable/ratios-ttm'.
   Future<Stock> getKeyMetrics(Stock stock) async {
     try {
-      final url = Uri.parse(
+      final metricsUrl = Uri.parse(
         '$_baseUrl/stable/key-metrics-ttm?symbol=${stock.symbol}&apikey=$_apiKey',
       );
-      final response = await http.get(url);
+      final ratiosUrl = Uri.parse(
+        '$_baseUrl/stable/ratios-ttm?symbol=${stock.symbol}&apikey=$_apiKey',
+      );
 
-      if (response.statusCode == 200) {
-        final dynamic jsonResponse = json.decode(response.body);
+      final results = await Future.wait([
+        http.get(metricsUrl),
+        http.get(ratiosUrl),
+      ]);
+
+      final metricsResponse = results[0];
+      final ratiosResponse = results[1];
+
+      Map<String, dynamic> metrics = {};
+      Map<String, dynamic> ratios = {};
+
+      if (metricsResponse.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(metricsResponse.body);
         if (jsonResponse is List && jsonResponse.isNotEmpty) {
-          final result = jsonResponse[0];
-          return stock.copyWith(
-            peRatio: (result['peRatioTTM'] as num?)?.toDouble(),
-            dividendYield: (result['dividendYieldTTM'] as num?)?.toDouble(),
-            earningsPerShare: (result['netIncomePerShareTTM'] as num?)
-                ?.toDouble(),
-          );
+          metrics = jsonResponse[0];
         }
       }
+
+      if (ratiosResponse.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(ratiosResponse.body);
+        if (jsonResponse is List && jsonResponse.isNotEmpty) {
+          ratios = jsonResponse[0];
+        }
+      }
+
+      // Prioritize Metrics, fallback to Ratios
+      final pe =
+          (metrics['peRatioTTM'] as num?)?.toDouble() ??
+          (ratios['peRatioTTM'] as num?)?.toDouble();
+
+      // FMP Ratios often return '0.005' for 0.5%. We convert to percentage.
+      // We check multiple keys.
+      double? divYieldRaw =
+          (metrics['dividendYieldTTM'] as num?)?.toDouble() ??
+          (metrics['dividendYieldPercentageTTM'] as num?)?.toDouble() ??
+          (ratios['dividendYieldTTM'] as num?)?.toDouble() ??
+          (ratios['dividendYielTTM'] as num?)?.toDouble();
+
+      double? divYieldPercent;
+      if (divYieldRaw != null) {
+        // refined heuristic: if < 1.0, assume it's a ratio (e.g. 0.05) -> convert to 5.0
+        // if > 1.0, assume it's already percent? (Rare for FMP TTM, usually 0.0X).
+        // But safer to assume TTM field is ALWAYS ratio.
+        divYieldPercent = divYieldRaw * 100;
+      }
+
+      final eps = (metrics['netIncomePerShareTTM'] as num?)?.toDouble();
+
+      return stock.copyWith(
+        peRatio: pe,
+        dividendYield: divYieldPercent,
+        earningsPerShare: eps,
+      );
     } catch (e) {
       if (kDebugMode) print('Error fetching metrics for ${stock.symbol}: $e');
     }
@@ -210,11 +253,54 @@ class StockRepository {
   }
 
   /// Fetches historical earnings (EPS) and Revenue for the Earnings chart.
+  /// Uses 'stable/income-statement'.
   Future<List<EarningsPoint>> getEarningsHistory(
     String symbol, {
     String frequency = 'quarterly',
   }) async {
-    // Earnings not easily available on Polygon Free Tier (usually).
+    try {
+      final periodParam = frequency == 'quarterly' ? '&period=quarter' : '';
+      // Fetch last 12 periods (3 years quarterly, or 12 years annual)
+      // Note: "stable" endpoint requires 'symbol' as a query parameter, unlike v3 which uses path.
+      final url = Uri.parse(
+        '$_baseUrl/stable/income-statement?symbol=$symbol&apikey=$_apiKey$periodParam&limit=12',
+      );
+
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List data = json.decode(response.body);
+
+        // FMP returns Descending (Newest first). We reverse for Chart (Oldest first).
+        return data
+            .map<EarningsPoint>((item) {
+              final dateStr = item['date'] as String;
+              final date = DateTime.tryParse(dateStr) ?? DateTime.now();
+
+              // Format period label
+              String period = date.year.toString();
+              if (frequency == 'quarterly') {
+                final month = date.month;
+                final quarter = (month / 3).ceil();
+                period = 'Q$quarter ${date.year.toString().substring(2)}';
+              }
+
+              return EarningsPoint(
+                period: period,
+                eps: (item['eps'] as num?)?.toDouble() ?? 0.0,
+                revenue: (item['revenue'] as num?)?.toDouble() ?? 0.0,
+                netIncome: (item['netIncome'] as num?)?.toDouble() ?? 0.0,
+                grossProfit: (item['grossProfit'] as num?)?.toDouble() ?? 0.0,
+                operatingIncome:
+                    (item['operatingIncome'] as num?)?.toDouble() ?? 0.0,
+              );
+            })
+            .toList()
+            .reversed
+            .toList();
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching earnings for $symbol: $e');
+    }
     return [];
   }
 
