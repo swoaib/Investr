@@ -6,7 +6,7 @@ import 'package:investr/l10n/app_localizations.dart';
 
 import 'dart:math';
 
-class EarningsChart extends StatelessWidget {
+class EarningsChart extends StatefulWidget {
   final List<EarningsPoint> earnings;
   final bool isLoading;
   final String metric; // 'EPS' or 'Revenue'
@@ -17,6 +17,46 @@ class EarningsChart extends StatelessWidget {
     this.isLoading = false,
     this.metric = 'EPS',
   });
+
+  @override
+  State<EarningsChart> createState() => _EarningsChartState();
+}
+
+class _EarningsChartState extends State<EarningsChart> {
+  final ScrollController _scrollController = ScrollController();
+
+  List<EarningsPoint> get earnings => widget.earnings;
+  bool get isLoading => widget.isLoading;
+  String get metric => widget.metric;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(EarningsChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if ((oldWidget.isLoading && !widget.isLoading) ||
+        (oldWidget.earnings.length != widget.earnings.length)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients) {
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,141 +90,204 @@ class EarningsChart extends StatelessWidget {
                 ? const Center(child: CircularProgressIndicator())
                 : earnings.isEmpty
                 ? Center(child: Text(l10n.noEarningsHistory))
-                : BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceAround,
-                      maxY: scale.maxY,
-                      minY: scale.minY,
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                        touchTooltipData: BarTouchTooltipData(
-                          getTooltipColor: (group) => theme.cardColor,
-                          getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                            return BarTooltipItem(
-                              _formatValue(rod.toY, isRevenue),
-                              TextStyle(
-                                color: theme.textTheme.bodyLarge?.color,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 30,
-                            getTitlesWidget: (value, meta) {
-                              final index = value.toInt();
-                              if (index >= 0 && index < earnings.length) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    earnings[index].period,
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                );
-                              }
-                              return const SizedBox();
-                            },
-                          ),
-                        ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 45,
-                            interval: scale.interval,
-                            getTitlesWidget: (value, meta) {
-                              if (value == 0) return const SizedBox();
-                              // Avoid showing the top-most label if it's too close to the max and might get cut off
-                              // or if it creates the "double label" visual issue if not aligned perfectly.
-                              // But with "nice scale", it should align perfectly.
-
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Text(
-                                  _formatAxisValue(value, isRevenue),
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 10,
-                                  ),
-                                  textAlign: TextAlign.right,
+                : Row(
+                    children: [
+                      SizedBox(
+                        width: 45,
+                        child: BarChart(
+                          BarChartData(
+                            alignment: BarChartAlignment.center,
+                            maxY: scale.maxY,
+                            minY: scale.minY,
+                            barTouchData: BarTouchData(enabled: false),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 40,
+                                  interval: scale.interval,
+                                  getTitlesWidget: (value, meta) {
+                                    if (value == 0) return const SizedBox();
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 4.0,
+                                      ),
+                                      child: Text(
+                                        _formatAxisValue(value, isRevenue),
+                                        style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 10,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                        maxLines: 1,
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        rightTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                      ),
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        horizontalInterval: scale.interval,
-                        getDrawingHorizontalLine: (value) {
-                          // Highlight zero line slightly more visible
-                          if (value == 0) {
-                            return FlLine(
-                              color: Colors.grey.withValues(alpha: 0.3),
-                              strokeWidth: 1,
-                            );
-                          }
-                          return FlLine(
-                            color: Colors.grey.withValues(alpha: 0.1),
-                            strokeWidth: 1,
-                          );
-                        },
-                      ),
-                      borderData: FlBorderData(show: false),
-                      barGroups: earnings.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final point = entry.value;
-                        final val = switch (metric) {
-                          'Revenue' => point.revenue,
-                          'Net Income' => point.netIncome,
-                          'Gross Profit' => point.grossProfit,
-                          'Operating Income' => point.operatingIncome,
-                          _ => point.eps,
-                        };
-                        final isNegative = val < 0;
-
-                        return BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                              toY: val,
-                              color: isNegative
-                                  ? AppTheme.errorRed
-                                  : AppTheme.primaryGreen,
-                              width: 16,
-                              borderRadius: BorderRadius.only(
-                                topLeft: isNegative
-                                    ? Radius.zero
-                                    : const Radius.circular(4),
-                                topRight: isNegative
-                                    ? Radius.zero
-                                    : const Radius.circular(4),
-                                bottomLeft: isNegative
-                                    ? const Radius.circular(4)
-                                    : Radius.zero,
-                                bottomRight: isNegative
-                                    ? const Radius.circular(4)
-                                    : Radius.zero,
+                              ),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 32,
+                                  getTitlesWidget: (value, meta) =>
+                                      const SizedBox(),
+                                ),
+                              ),
+                              topTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
                               ),
                             ),
-                          ],
-                        );
-                      }).toList(),
-                    ),
+                            gridData: FlGridData(show: false),
+                            borderData: FlBorderData(show: false),
+                            barGroups: [],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          controller: _scrollController,
+                          scrollDirection: Axis.horizontal,
+                          child: SizedBox(
+                            width: max(
+                              MediaQuery.of(context).size.width - 32 - 35,
+                              earnings.length * 42.0,
+                            ),
+                            child: BarChart(
+                              BarChartData(
+                                alignment: BarChartAlignment.spaceAround,
+                                maxY: scale.maxY,
+                                minY: scale.minY,
+                                barTouchData: BarTouchData(
+                                  enabled: true,
+                                  touchTooltipData: BarTouchTooltipData(
+                                    fitInsideHorizontally: true,
+                                    fitInsideVertically: true,
+                                    getTooltipColor: (group) => theme.cardColor,
+                                    getTooltipItem:
+                                        (group, groupIndex, rod, rodIndex) {
+                                          return BarTooltipItem(
+                                            _formatValue(rod.toY, isRevenue),
+                                            TextStyle(
+                                              color: theme
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        },
+                                  ),
+                                ),
+                                titlesData: FlTitlesData(
+                                  show: true,
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      reservedSize: 30,
+                                      interval: 1,
+                                      getTitlesWidget: (value, meta) {
+                                        final index = value.toInt();
+                                        if (index >= 0 &&
+                                            index < earnings.length) {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 8.0,
+                                            ),
+                                            child: Text(
+                                              earnings[index].period,
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        return const SizedBox();
+                                      },
+                                    ),
+                                  ),
+                                  leftTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  topTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  rightTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                ),
+                                gridData: FlGridData(
+                                  show: true,
+                                  drawVerticalLine: false,
+                                  horizontalInterval: scale.interval,
+                                  getDrawingHorizontalLine: (value) {
+                                    // Highlight zero line slightly more visible
+                                    if (value == 0) {
+                                      return FlLine(
+                                        color: Colors.grey.withValues(
+                                          alpha: 0.3,
+                                        ),
+                                        strokeWidth: 1,
+                                      );
+                                    }
+                                    return FlLine(
+                                      color: Colors.grey.withValues(alpha: 0.1),
+                                      strokeWidth: 1,
+                                    );
+                                  },
+                                ),
+                                borderData: FlBorderData(show: false),
+                                barGroups: earnings.asMap().entries.map((
+                                  entry,
+                                ) {
+                                  final index = entry.key;
+                                  final point = entry.value;
+                                  final val = switch (metric) {
+                                    'Revenue' => point.revenue,
+                                    'Net Income' => point.netIncome,
+                                    'Gross Profit' => point.grossProfit,
+                                    'Operating Income' => point.operatingIncome,
+                                    _ => point.eps,
+                                  };
+                                  final isNegative = val < 0;
+
+                                  return BarChartGroupData(
+                                    x: index,
+                                    barRods: [
+                                      BarChartRodData(
+                                        toY: val,
+                                        color: isNegative
+                                            ? AppTheme.errorRed
+                                            : AppTheme.primaryGreen,
+                                        width: 25,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: isNegative
+                                              ? Radius.zero
+                                              : const Radius.circular(4),
+                                          topRight: isNegative
+                                              ? Radius.zero
+                                              : const Radius.circular(4),
+                                          bottomLeft: isNegative
+                                              ? const Radius.circular(4)
+                                              : Radius.zero,
+                                          bottomRight: isNegative
+                                              ? const Radius.circular(4)
+                                              : Radius.zero,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
           ),
         ],
@@ -260,10 +363,14 @@ class EarningsChart extends StatelessWidget {
   String _formatAxisValue(double value, bool isRevenue) {
     if (metric != 'EPS') {
       final absVal = value.abs();
-      if (absVal >= 1e9) return '\$${(value / 1e9).toStringAsFixed(1)}B';
-      if (absVal >= 1e6) return '\$${(value / 1e6).toStringAsFixed(1)}M';
-      return '\$${value.toStringAsFixed(0)}';
+      if (absVal >= 1e9) {
+        return '\$${(value / 1e9).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}B';
+      }
+      if (absVal >= 1e6) {
+        return '\$${(value / 1e6).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}M';
+      }
+      return '\$${value.toInt()}';
     }
-    return '\$${value.toStringAsFixed(1)}';
+    return '\$${value.toStringAsFixed(2)}';
   }
 }
