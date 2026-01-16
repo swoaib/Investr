@@ -441,43 +441,50 @@ class StockRepository {
   }
 
   /// Searches for a stock ticker.
+  /// Searches for a stock ticker by symbol or company name.
   Future<List<({String symbol, String name})>> searchTicker(
     String query,
   ) async {
     try {
-      // Endpoint: /stable/search-symbol?query={query} (Stable Endpoint, not V3)
-      final url = Uri.parse(
+      final symbolUrl = Uri.parse(
         '$_baseUrl/stable/search-symbol?query=$query&limit=10&apikey=$_apiKey',
       );
-      final response = await http.get(url);
+      final nameUrl = Uri.parse(
+        '$_baseUrl/stable/search-name?query=$query&limit=10&apikey=$_apiKey',
+      );
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        return data
-            .map(
-              (result) => (
-                symbol: result['symbol'] as String,
-                name: result['name'] as String,
-              ),
-            )
-            .toList();
+      final results = await Future.wait([
+        http.get(symbolUrl),
+        http.get(nameUrl),
+      ]);
+
+      final Map<String, ({String symbol, String name})> combinedResults = {};
+
+      // Helper to parse and add
+      void parseAndAdd(http.Response response) {
+        if (response.statusCode == 200) {
+          try {
+            final List<dynamic> data = json.decode(response.body);
+            for (var item in data) {
+              final sym = item['symbol'] as String;
+              final name = item['name'] as String;
+              // Prefer symbol match order, but map handles dedupe
+              if (!combinedResults.containsKey(sym)) {
+                combinedResults[sym] = (symbol: sym, name: name);
+              }
+            }
+          } catch (_) {}
+        }
       }
+
+      // Process Symbol matches first (higher priority)
+      parseAndAdd(results[0]); // Symbol Search
+      // Process Name matches second
+      parseAndAdd(results[1]); // Name Search
+
+      return combinedResults.values.toList();
     } catch (e) {
       if (kDebugMode) print('API Search failed: $e');
-    }
-
-    // 2. Fallback: Local Search + Direct Quote Check
-    final q = query.toLowerCase();
-
-    // B. If query looks like a specific ticker (2-5 chars), try direct check
-    if (query.length >= 2 && query.length <= 5) {
-      try {
-        // Attempt to fetch quote. If successful, we found it.
-        final stock = await getStock(query.toUpperCase());
-        if (stock != null) {
-          return [(symbol: stock.symbol, name: stock.companyName)];
-        }
-      } catch (_) {}
     }
 
     return [];
