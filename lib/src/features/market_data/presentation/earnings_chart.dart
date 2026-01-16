@@ -263,7 +263,7 @@ class _EarningsChartState extends State<EarningsChart> {
                                         color: isNegative
                                             ? AppTheme.errorRed
                                             : AppTheme.primaryGreen,
-                                        width: 25,
+                                        width: 28,
                                         borderRadius: BorderRadius.only(
                                           topLeft: isNegative
                                               ? Radius.zero

@@ -5,10 +5,10 @@ import os
 
 initialize_app()
 
-# Define the secret parameter
-POLYGON_API_KEY = params.SecretParam("POLYGON_API_KEY")
+# Define the secret parameter (Ensure FMP_API_KEY is set in Firebase secrets)
+FMP_API_KEY = params.SecretParam("FMP_API_KEY")
 
-@scheduler_fn.on_schedule(schedule="every 1 hours", secrets=[POLYGON_API_KEY])
+@scheduler_fn.on_schedule(schedule="every 1 hours", secrets=[FMP_API_KEY])
 def check_price_alerts(event: scheduler_fn.ScheduledEvent) -> None:
     db = firestore.client()
     alerts_ref = db.collection("alerts").where("isActive", "==", True)
@@ -73,8 +73,7 @@ def check_price_alerts(event: scheduler_fn.ScheduledEvent) -> None:
 
 def fetch_prices(symbols):
     """
-    Fetches prices for a list of symbols using Polygon's Snapshot API.
-    Uses chunking to handle URL length limits and efficient batch retrieval.
+    Fetches prices for a list of symbols using FMP's Quote API.
     """
     prices = {}
     
@@ -84,39 +83,31 @@ def fetch_prices(symbols):
         return prices
 
     # Chunk symbols into groups of 50 to avoid URL length limits
+    # FMP can handle more, but 50 is a safe batch size
     chunk_size = 50
     for i in range(0, len(unique_symbols), chunk_size):
         chunk = unique_symbols[i:i + chunk_size]
         tickers_param = ",".join(chunk)
         
         try:
-            # Use Snapshot API: https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers
-            url = f"https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?tickers={tickers_param}&apiKey={POLYGON_API_KEY.value}"
+            # Use FMP Quote API: https://financialmodelingprep.com/api/v3/quote/AAPL,MSFT?apikey=...
+            url = f"https://financialmodelingprep.com/api/v3/quote/{tickers_param}?apikey={FMP_API_KEY.value}"
             resp = requests.get(url, timeout=10)
             
             if resp.status_code == 200:
                 data = resp.json()
-                # Response usually contains 'tickers' or 'results' list
-                ticker_data_list = data.get('tickers', data.get('results', []))
-                
-                for item in ticker_data_list:
-                    ticker = item.get('ticker')
-                    price = None
-                    
-                    # Priority: Last Trade > Min Close > Day Close > Previous Close
-                    if 'lastTrade' in item and 'p' in item['lastTrade']:
-                        price = item['lastTrade']['p']
-                    elif 'min' in item and 'c' in item['min']:
-                        price = item['min']['c']
-                    elif 'day' in item and 'c' in item['day']:
-                        price = item['day']['c']
-                    elif 'prevDay' in item and 'c' in item['prevDay']:
-                        price = item['prevDay']['c']
-                    
-                    if ticker and price is not None:
-                        prices[ticker] = float(price)
+                # FMP returns a list of dictionaries
+                if isinstance(data, list):
+                    for item in data:
+                        symbol = item.get('symbol')
+                        price = item.get('price')
+                        
+                        if symbol and price is not None:
+                            prices[symbol] = float(price)
+                else:
+                    print(f"Unexpected FMP response format for chunk {chunk}: {data}")
             else:
-                print(f"Error fetching snapshot for chunk: Status {resp.status_code}, {resp.text}")
+                print(f"Error fetching quotes for chunk: Status {resp.status_code}, {resp.text}")
                 
         except Exception as e:
             print(f"Exception fetching prices for chunk {chunk}: {e}")
