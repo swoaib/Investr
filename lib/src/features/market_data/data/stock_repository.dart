@@ -473,13 +473,56 @@ class StockRepository {
     return [];
   }
 
+  // New 15-Minute Endpoint Helper
+  Future<List<PricePoint>> _getStockHistory15Min(String symbol) async {
+    try {
+      // Metric: 15min (~26 bars per day)
+      // Endpoint: /stable/historical-chart/15min?symbol={symbol}
+      final url = Uri.parse(
+        '$_baseUrl/stable/historical-chart/15min?symbol=$symbol&apikey=$_apiKey',
+      );
+
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(response.body);
+        if (jsonResponse is List) {
+          final points = <PricePoint>[];
+          for (var item in jsonResponse) {
+            if (item is Map) {
+              final dateStr = item['date'] as String?;
+              final price =
+                  (item['close'] as num?)?.toDouble() ??
+                  (item['price'] as num?)?.toDouble();
+
+              if (dateStr != null && price != null) {
+                points.add(
+                  PricePoint(date: DateTime.parse(dateStr), price: price),
+                );
+              }
+            }
+          }
+          // FMP returns newest first. Reverse to Ascending.
+          return points.reversed.toList();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching 15min history for $symbol: $e');
+    }
+    return [];
+  }
+
   Future<List<PricePoint>> getWeeklyHistory(String symbol) async {
     try {
-      // Use 1-hour data for best granularity (approx 50 points)
-      final fullHistory = await _getStockHistory1Hour(symbol);
+      // Use 15-minute data for better granularity (approx 180 points for a week)
+      final fullHistory = await _getStockHistory15Min(symbol);
       if (fullHistory.isEmpty) {
-        // Fallback to daily if 1hour fails
-        return _getWeeklyHistoryDaily(symbol);
+        // Fallback to 1-hour if 15min fails
+        final hourHistory = await _getStockHistory1Hour(symbol);
+        if (hourHistory.isEmpty) {
+          return _getWeeklyHistoryDaily(symbol);
+        }
+        fullHistory.addAll(hourHistory);
       }
 
       // Filter for last 7 days (True 1 Week view)
