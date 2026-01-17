@@ -582,11 +582,17 @@ class _StockLogo extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(8.0),
       child: Container(
         width: 30,
         height: 30,
-        color: isDark ? Colors.grey.shade900 : Colors.white,
+        color: (symbol == 'NIO' || symbol == 'AMZN')
+            ? Colors.grey.shade900
+            : symbol == 'SONY'
+            ? Colors.white
+            : isDark
+            ? Colors.grey.shade900
+            : Colors.white,
         padding:
             (symbol == 'AAPL' ||
                 symbol.startsWith('^') ||
