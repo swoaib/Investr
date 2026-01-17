@@ -90,8 +90,9 @@ def fetch_prices(symbols):
         tickers_param = ",".join(chunk)
         
         try:
-            # Use FMP Quote API: https://financialmodelingprep.com/api/v3/quote/AAPL,MSFT?apikey=...
-            url = f"https://financialmodelingprep.com/api/v3/quote/{tickers_param}?apikey={FMP_API_KEY.value}"
+            # Use FMP Stable Quote API (Preferred over v3 legacy)
+            # URL Structure: https://financialmodelingprep.com/stable/quote?symbol=AAPL,MSFT&apikey=...
+            url = f"https://financialmodelingprep.com/stable/quote?symbol={tickers_param}&apikey={FMP_API_KEY.value}"
             resp = requests.get(url, timeout=10)
             
             if resp.status_code == 200:
