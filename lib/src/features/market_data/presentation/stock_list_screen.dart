@@ -133,8 +133,6 @@ class _StockListViewState extends State<_StockListView> {
     }
     return ReorderableListView.builder(
       padding: const EdgeInsets.only(
-        left: AppTheme.screenPaddingHorizontal,
-        right: AppTheme.screenPaddingHorizontal,
         bottom: CustomBottomNavigationBar.contentBottomPadding,
       ),
       itemCount: controller.stocks.length,
@@ -169,7 +167,12 @@ class _StockListViewState extends State<_StockListView> {
               },
               child: _StockListItem(stock: stock),
             ),
-            if (index < controller.stocks.length - 1) const Divider(height: 1),
+            if (index < controller.stocks.length - 1)
+              const Divider(
+                height: 1,
+                indent: AppTheme.screenPaddingHorizontal,
+                endIndent: AppTheme.screenPaddingHorizontal,
+              ),
           ],
         );
       },
@@ -185,12 +188,14 @@ class _StockListViewState extends State<_StockListView> {
     }
     return ListView.separated(
       padding: const EdgeInsets.only(
-        left: AppTheme.screenPaddingHorizontal,
-        right: AppTheme.screenPaddingHorizontal,
         bottom: CustomBottomNavigationBar.contentBottomPadding,
       ),
       itemCount: controller.searchResults.length,
-      separatorBuilder: (context, index) => const Divider(height: 1),
+      separatorBuilder: (context, index) => const Divider(
+        height: 1,
+        indent: AppTheme.screenPaddingHorizontal,
+        endIndent: AppTheme.screenPaddingHorizontal,
+      ),
       itemBuilder: (context, index) {
         final stock = controller.searchResults[index];
         return _SearchResultItem(
@@ -215,14 +220,19 @@ class _StockListViewState extends State<_StockListView> {
       highlightColor: highlightColor,
       child: ListView.separated(
         padding: const EdgeInsets.only(
-          left: AppTheme.screenPaddingHorizontal,
-          right: AppTheme.screenPaddingHorizontal,
           bottom: CustomBottomNavigationBar.contentBottomPadding,
         ),
         itemCount: 10,
-        separatorBuilder: (_, _) => const Divider(height: 1),
+        separatorBuilder: (_, _) => const Divider(
+          height: 1,
+          indent: AppTheme.screenPaddingHorizontal,
+          endIndent: AppTheme.screenPaddingHorizontal,
+        ),
         itemBuilder: (_, _) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(
+            vertical: 12,
+            horizontal: AppTheme.screenPaddingHorizontal,
+          ),
           child: Row(
             children: [
               Container(
@@ -304,7 +314,10 @@ class _StockListItem extends StatelessWidget {
         );
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: AppTheme.screenPaddingHorizontal,
+        ),
         color: Colors.transparent, // Ensures hit test works on empty space
         child: Row(
           children: [
@@ -472,7 +485,10 @@ class _SearchResultItem extends StatelessWidget {
         );
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: AppTheme.screenPaddingHorizontal,
+        ),
         color: Colors.transparent, // Ensures hit test works on empty space
         child: Row(
           children: [
