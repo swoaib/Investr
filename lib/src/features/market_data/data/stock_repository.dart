@@ -767,7 +767,7 @@ class StockRepository {
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         if (data.isNotEmpty) {
-          return AdvancedDCFData.fromJson(data[0]);
+          return AdvancedDCFData.fromJson(data);
         }
       }
     } catch (e) {
