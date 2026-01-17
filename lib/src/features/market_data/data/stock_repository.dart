@@ -739,6 +739,25 @@ class StockRepository {
     return null;
   }
 
+  /// Fetches only the Intrinsic Value from FMP's specialized DCF endpoint.
+  Future<double?> getFMPDCFValue(String symbol) async {
+    try {
+      final url = Uri.parse(
+        '$_baseUrl/stable/discounted-cash-flow?symbol=$symbol&apikey=$_apiKey',
+      );
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        if (data.isNotEmpty) {
+          return (data[0]['dcf'] as num).toDouble();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching FMP DCF for $symbol: $e');
+    }
+    return null;
+  }
+
   /// Filters price points to keep only regular market hours (09:30 - 16:00 ET).
   /// FMP returns dates in ET (Wall Clock). We parse them as-is and check the hour/minute.
   /// Also filters to return only the LATEST trading day found in the data.
