@@ -6,6 +6,7 @@ import '../domain/stock.dart';
 import '../domain/price_point.dart';
 import '../domain/earnings_point.dart';
 import '../../valuation/domain/dcf_data.dart';
+import '../../valuation/domain/advanced_dcf_data.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class StockRepository {
@@ -739,21 +740,21 @@ class StockRepository {
     return null;
   }
 
-  /// Fetches only the Intrinsic Value from FMP's specialized DCF endpoint.
-  Future<double?> getFMPDCFValue(String symbol) async {
+  /// Fetches advanced DCF data including WACC, growth rate, etc.
+  Future<AdvancedDCFData?> getAdvancedDCF(String symbol) async {
     try {
       final url = Uri.parse(
-        '$_baseUrl/stable/discounted-cash-flow?symbol=$symbol&apikey=$_apiKey',
+        '$_baseUrl/stable/custom-discounted-cash-flow?symbol=$symbol&apikey=$_apiKey',
       );
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         if (data.isNotEmpty) {
-          return (data[0]['dcf'] as num).toDouble();
+          return AdvancedDCFData.fromJson(data[0]);
         }
       }
     } catch (e) {
-      if (kDebugMode) print('Error fetching FMP DCF for $symbol: $e');
+      if (kDebugMode) print('Error fetching Advanced DCF for $symbol: $e');
     }
     return null;
   }

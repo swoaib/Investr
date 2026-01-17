@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../market_data/data/stock_repository.dart';
+import '../../valuation/domain/advanced_dcf_data.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:investr/l10n/app_localizations.dart';
@@ -19,7 +20,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   final TextEditingController _symbolController = TextEditingController();
 
   bool _isLoading = false;
-  double? _fmpDcfValue;
+  AdvancedDCFData? _dcfData;
   double? _currentPrice;
 
   // Search State
@@ -86,8 +87,8 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     if (mounted) setState(() => _isLoading = true);
 
     try {
-      // 1. Fetch FMP DCF Value
-      final dcfValue = await _stockRepository.getFMPDCFValue(symbol);
+      // 1. Fetch Advanced DCF Value
+      final dcfData = await _stockRepository.getAdvancedDCF(symbol);
 
       // 2. Fetch Current Price
       final stock = await _stockRepository.getStock(symbol);
@@ -95,11 +96,11 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
       if (mounted) {
         setState(() {
-          _fmpDcfValue = dcfValue;
+          _dcfData = dcfData;
           _currentPrice = price;
         });
 
-        if (dcfValue == null) {
+        if (dcfData == null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Could not fetch valuation data for $symbol'),
@@ -320,9 +321,13 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
                 const SizedBox(height: 32),
 
-                if (_fmpDcfValue != null)
-                  _buildResultCard(context, l10n)
-                else if (!_isLoading)
+                if (_dcfData != null) ...[
+                  _buildResultCard(context, l10n),
+                  const SizedBox(height: 24),
+                  _buildBreakdownCard(context, l10n),
+                  const SizedBox(height: 24),
+                  _buildEnterpriseEquityCard(context, l10n),
+                ] else if (!_isLoading)
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.all(32.0),
@@ -354,7 +359,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
   Widget _buildResultCard(BuildContext context, AppLocalizations l10n) {
     final currency = NumberFormat.simpleCurrency();
-    final intrinsicValue = _fmpDcfValue!;
+    final intrinsicValue = _dcfData!.dcf;
     final currentPrice = _currentPrice ?? 0;
     final isUndervalued = intrinsicValue > currentPrice;
 
@@ -422,6 +427,144 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBreakdownRow(
+    BuildContext context,
+    String label,
+    String value, {
+    bool isHeader = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: isHeader
+                ? Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold)
+                : Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: AppTheme.textGrey),
+          ),
+          Text(
+            value,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: isHeader
+                  ? null
+                  : Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBreakdownCard(BuildContext context, AppLocalizations l10n) {
+    final percent = NumberFormat.percentPattern();
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Key Assumptions',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          _buildBreakdownRow(
+            context,
+            'WACC',
+            percent.format(_dcfData!.wacc / 100),
+          ),
+          const Divider(),
+          _buildBreakdownRow(
+            context,
+            'Tax Rate',
+            percent.format(_dcfData!.taxRate),
+          ),
+          const Divider(),
+          _buildBreakdownRow(
+            context,
+            'Long-Term Growth Rate',
+            percent.format(_dcfData!.longTermGrowthRate / 100),
+          ),
+          const Divider(),
+          _buildBreakdownRow(
+            context,
+            'Risk Free Rate',
+            percent.format(_dcfData!.riskFreeRate / 100),
+          ),
+          const Divider(),
+          _buildBreakdownRow(
+            context,
+            'Beta',
+            _dcfData!.beta.toStringAsFixed(2),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEnterpriseEquityCard(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
+    final currency = NumberFormat.compactSimpleCurrency();
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Valuation Components',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          _buildBreakdownRow(
+            context,
+            'Enterprise Value',
+            currency.format(_dcfData!.enterpriseValue),
+          ),
+          const Divider(),
+          _buildBreakdownRow(
+            context,
+            'Equity Value',
+            currency.format(_dcfData!.equityValue),
+          ),
+          const Divider(),
+          _buildBreakdownRow(
+            context,
+            'Stock Price (DCF Model)',
+            currency.format(_dcfData!.dcf),
           ),
         ],
       ),
