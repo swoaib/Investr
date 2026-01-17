@@ -123,7 +123,11 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not fetch financial data')),
+            const SnackBar(
+              content: Text('Could not fetch financial data'),
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+            ),
           );
         }
       }

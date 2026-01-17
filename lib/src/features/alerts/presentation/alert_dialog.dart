@@ -54,6 +54,8 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
           SnackBar(
             content: const Text('You can only create 3 alerts.'),
             backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
           ),
         );
         return;
@@ -80,13 +82,20 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
               'Alert set for ${widget.symbol} when price is $_condition \$${price.toStringAsFixed(2)}',
             ),
             backgroundColor: AppTheme.primaryGreen,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
           ),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+          ),
         );
       }
     } finally {

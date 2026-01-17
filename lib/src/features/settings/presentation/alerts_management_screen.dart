@@ -137,15 +137,23 @@ class AlertsManagementScreen extends StatelessWidget {
     try {
       await context.read<AlertsRepository>().deleteAlert(alert.id);
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Alert deleted')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Alert deleted'),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+          ),
+        );
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+          ),
+        );
       }
     }
   }
@@ -169,9 +177,13 @@ class AlertsManagementScreen extends StatelessWidget {
       await context.read<AlertsRepository>().updateAlert(updatedAlert);
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+          ),
+        );
       }
     }
   }

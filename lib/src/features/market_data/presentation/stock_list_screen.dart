@@ -160,8 +160,10 @@ class _StockListViewState extends State<_StockListView> {
                     content: Text(
                       '${stock.symbol} ${l10n.removedFromWatchlist}',
                     ),
-                    width: 400,
                     behavior: SnackBarBehavior.floating,
+                    margin: const EdgeInsets.all(
+                      AppTheme.screenPaddingHorizontal,
+                    ),
                   ),
                 );
               },

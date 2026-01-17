@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../shared/theme/app_theme.dart';
 import '../../data/feedback_repository.dart';
 import '../../domain/feedback_model.dart';
@@ -47,6 +48,8 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
           SnackBar(
             content: Text(l10n.feedbackThanks),
             backgroundColor: AppTheme.primaryGreen,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
           ),
         );
       }
@@ -79,11 +82,14 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              l10n.feedbackTitle,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                l10n.feedbackTitle,
+                style: GoogleFonts.outfit(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -95,6 +101,8 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 isDense: true,
+                filled: true,
+                //fillColor: Theme.of(context).cardTheme.color,
               ),
             ),
             const SizedBox(height: 16),
@@ -108,7 +116,7 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 filled: true,
-                fillColor: Theme.of(context).cardTheme.color,
+                //fillColor: Theme.of(context).cardTheme.color,
               ),
             ),
             if (_errorMessage != null) ...[
