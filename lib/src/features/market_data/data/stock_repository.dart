@@ -741,10 +741,27 @@ class StockRepository {
   }
 
   /// Fetches advanced DCF data including WACC, growth rate, etc.
-  Future<AdvancedDCFData?> getAdvancedDCF(String symbol) async {
+  /// parameters are typically percentages (e.g. 9.5 for 9.5%)
+  Future<AdvancedDCFData?> getAdvancedDCF(
+    String symbol, {
+    double? wacc,
+    double? taxRate,
+    double? riskFreeRate,
+    double? longTermGrowthRate,
+    double? beta,
+  }) async {
     try {
+      var query = 'symbol=$symbol&apikey=$_apiKey';
+      if (wacc != null) query += '&wacc=$wacc';
+      if (taxRate != null) query += '&taxRate=$taxRate';
+      if (riskFreeRate != null) query += '&riskFreeRate=$riskFreeRate';
+      if (longTermGrowthRate != null) {
+        query += '&longTermGrowthRate=$longTermGrowthRate';
+      }
+      if (beta != null) query += '&beta=$beta';
+
       final url = Uri.parse(
-        '$_baseUrl/stable/custom-discounted-cash-flow?symbol=$symbol&apikey=$_apiKey',
+        '$_baseUrl/stable/custom-discounted-cash-flow?$query',
       );
       final response = await http.get(url);
       if (response.statusCode == 200) {

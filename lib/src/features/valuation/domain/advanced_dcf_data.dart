@@ -14,6 +14,7 @@ class AdvancedDCFData {
   final double longTermGrowthRate;
   final double enterpriseValue;
   final double equityValue;
+  final List<YearlyDCFData> yearlyData;
 
   AdvancedDCFData({
     required this.symbol,
@@ -29,9 +30,28 @@ class AdvancedDCFData {
     this.longTermGrowthRate = 0.0,
     this.enterpriseValue = 0.0,
     this.equityValue = 0.0,
+    this.yearlyData = const [],
   });
 
-  factory AdvancedDCFData.fromJson(Map<String, dynamic> json) {
+  factory AdvancedDCFData.fromJson(dynamic jsonInput) {
+    Map<String, dynamic> json;
+    List<YearlyDCFData> yearlyData = [];
+
+    if (jsonInput is List && jsonInput.isNotEmpty) {
+      // The API returns a list of years. The first item often contains the summary for the terminal year
+      // OR the "current" valuation summary.
+      // We will take the first item as the "summary" source, but parse the whole list for charts.
+      json = jsonInput[0] as Map<String, dynamic>;
+      yearlyData = jsonInput
+          .map((e) => YearlyDCFData.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } else if (jsonInput is Map<String, dynamic>) {
+      json = jsonInput;
+    } else {
+      // Fallback
+      json = {};
+    }
+
     return AdvancedDCFData(
       symbol: json['symbol'] as String? ?? '',
       // For Custom DCF endpoint, 'equityValuePerShare' is the calculated intrinsic value
@@ -51,6 +71,38 @@ class AdvancedDCFData {
           (json['longTermGrowthRate'] as num?)?.toDouble() ?? 0.0,
       enterpriseValue: (json['enterpriseValue'] as num?)?.toDouble() ?? 0.0,
       equityValue: (json['equityValue'] as num?)?.toDouble() ?? 0.0,
+      yearlyData: yearlyData,
+    );
+  }
+}
+
+class YearlyDCFData {
+  final int year;
+  final double revenue;
+  final double ebitda;
+  final double ufcf; // Unlevered Free Cash Flow
+
+  YearlyDCFData({
+    required this.year,
+    required this.revenue,
+    required this.ebitda,
+    required this.ufcf,
+  });
+
+  factory YearlyDCFData.fromJson(Map<String, dynamic> json) {
+    // Parse year as int, handle potential string or dynamic
+    int parsedYear = 0;
+    if (json['year'] is int) {
+      parsedYear = json['year'];
+    } else if (json['year'] is String) {
+      parsedYear = int.tryParse(json['year']) ?? 0;
+    }
+
+    return YearlyDCFData(
+      year: parsedYear,
+      revenue: (json['revenue'] as num?)?.toDouble() ?? 0.0,
+      ebitda: (json['ebitda'] as num?)?.toDouble() ?? 0.0,
+      ufcf: (json['ufcf'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }

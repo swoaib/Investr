@@ -6,6 +6,7 @@ import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import 'dart:async';
+import 'package:fl_chart/fl_chart.dart';
 
 class ValuationCalculatorScreen extends StatefulWidget {
   const ValuationCalculatorScreen({super.key});
@@ -22,6 +23,13 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   bool _isLoading = false;
   AdvancedDCFData? _dcfData;
   double? _currentPrice;
+
+  // Custom Overrides
+  double? _customWacc;
+  double? _customTaxRate;
+  double? _customGrowthRate;
+  double? _customRiskFreeRate;
+  double? _customBeta;
 
   // Search State
   Timer? _searchDebounce;
@@ -88,7 +96,14 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
     try {
       // 1. Fetch Advanced DCF Value
-      final dcfData = await _stockRepository.getAdvancedDCF(symbol);
+      final dcfData = await _stockRepository.getAdvancedDCF(
+        symbol,
+        wacc: _customWacc,
+        taxRate: _customTaxRate,
+        longTermGrowthRate: _customGrowthRate,
+        riskFreeRate: _customRiskFreeRate,
+        beta: _customBeta,
+      );
 
       // 2. Fetch Current Price
       final stock = await _stockRepository.getStock(symbol);
@@ -187,6 +202,17 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
         ),
       ),
     );
+  }
+
+  void _resetAssumptions() {
+    setState(() {
+      _customWacc = null;
+      _customGrowthRate = null;
+      _customTaxRate = null;
+      _customRiskFreeRate = null;
+      _customBeta = null;
+    });
+    _fetchStockData();
   }
 
   @override
@@ -326,6 +352,8 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                   const SizedBox(height: 24),
                   _buildBreakdownCard(context, l10n),
                   const SizedBox(height: 24),
+                  _buildProjectionsCard(context),
+                  const SizedBox(height: 24),
                   _buildEnterpriseEquityCard(context, l10n),
                 ] else if (!_isLoading)
                   Center(
@@ -433,6 +461,134 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     );
   }
 
+  void _showCustomizationSheet() {
+    if (_dcfData == null) return;
+
+    final waccController = TextEditingController(
+      text: (_dcfData!.wacc).toStringAsFixed(2),
+    );
+    final growthController = TextEditingController(
+      text: (_dcfData!.longTermGrowthRate).toStringAsFixed(2),
+    );
+    final taxController = TextEditingController(
+      text: (_dcfData!.taxRate).toStringAsFixed(2),
+    );
+    final riskFreeController = TextEditingController(
+      text: (_dcfData!.riskFreeRate).toStringAsFixed(2),
+    );
+    final betaController = TextEditingController(
+      text: (_dcfData!.beta).toStringAsFixed(2),
+    );
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          left: 24,
+          right: 24,
+          top: 24,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Customize Assumptions',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 24),
+              _buildInputRow(context, 'WACC (%)', waccController),
+              const SizedBox(height: 16),
+              _buildInputRow(context, 'Long-Term Growth (%)', growthController),
+              const SizedBox(height: 16),
+              _buildInputRow(context, 'Tax Rate (%)', taxController),
+              const SizedBox(height: 16),
+              _buildInputRow(context, 'Risk Free Rate (%)', riskFreeController),
+              const SizedBox(height: 16),
+              _buildInputRow(context, 'Beta', betaController),
+              const SizedBox(height: 32),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _customWacc = double.tryParse(waccController.text);
+                      _customGrowthRate = double.tryParse(
+                        growthController.text,
+                      );
+                      _customTaxRate = double.tryParse(taxController.text);
+                      _customRiskFreeRate = double.tryParse(
+                        riskFreeController.text,
+                      );
+                      _customBeta = double.tryParse(betaController.text);
+                    });
+                    Navigator.pop(context);
+                    _fetchStockData();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: AppTheme.primaryGreen,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: const Text('Calculate'),
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputRow(
+    BuildContext context,
+    String label,
+    TextEditingController controller,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: AppTheme.textGrey),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Theme.of(context).cardTheme.color,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildBreakdownRow(
     BuildContext context,
     String label,
@@ -471,56 +627,132 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   Widget _buildBreakdownCard(BuildContext context, AppLocalizations l10n) {
     final percent = NumberFormat.percentPattern();
 
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardTheme.color,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+    final hasCustomizations =
+        _customWacc != null ||
+        _customGrowthRate != null ||
+        _customTaxRate != null ||
+        _customRiskFreeRate != null ||
+        _customBeta != null;
+
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardTheme.color,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Key Assumptions',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (hasCustomizations)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        'Custom',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppTheme.primaryGreen,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _buildBreakdownRow(
+                context,
+                'WACC',
+                percent.format(_dcfData!.wacc / 100),
+              ),
+              const Divider(),
+              _buildBreakdownRow(
+                context,
+                'Tax Rate',
+                percent.format(_dcfData!.taxRate),
+              ),
+              const Divider(),
+              _buildBreakdownRow(
+                context,
+                'Long-Term Growth Rate',
+                percent.format(_dcfData!.longTermGrowthRate / 100),
+              ),
+              const Divider(),
+              _buildBreakdownRow(
+                context,
+                'Risk Free Rate',
+                percent.format(_dcfData!.riskFreeRate / 100),
+              ),
+              const Divider(),
+              _buildBreakdownRow(
+                context,
+                'Beta',
+                _dcfData!.beta.toStringAsFixed(2),
+              ),
+            ],
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Key Assumptions',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          _buildBreakdownRow(
-            context,
-            'WACC',
-            percent.format(_dcfData!.wacc / 100),
-          ),
-          const Divider(),
-          _buildBreakdownRow(
-            context,
-            'Tax Rate',
-            percent.format(_dcfData!.taxRate),
-          ),
-          const Divider(),
-          _buildBreakdownRow(
-            context,
-            'Long-Term Growth Rate',
-            percent.format(_dcfData!.longTermGrowthRate / 100),
-          ),
-          const Divider(),
-          _buildBreakdownRow(
-            context,
-            'Risk Free Rate',
-            percent.format(_dcfData!.riskFreeRate / 100),
-          ),
-          const Divider(),
-          _buildBreakdownRow(
-            context,
-            'Beta',
-            _dcfData!.beta.toStringAsFixed(2),
-          ),
-        ],
-      ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: _showCustomizationSheet,
+                icon: const Icon(Icons.tune_rounded, size: 18),
+                label: const Text('Customize Assumptions'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  side: BorderSide(
+                    color: Theme.of(
+                      context,
+                    ).dividerColor.withValues(alpha: 0.2),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ),
+            ),
+            if (hasCustomizations) ...[
+              const SizedBox(width: 12),
+              TextButton.icon(
+                onPressed: _resetAssumptions,
+                icon: const Icon(Icons.refresh_rounded, size: 20),
+                label: const Text('Reset'),
+                style: TextButton.styleFrom(
+                  backgroundColor: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                  foregroundColor: AppTheme.primaryGreen,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ],
     );
   }
 
@@ -565,6 +797,148 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
             context,
             'Stock Price (DCF Model)',
             currency.format(_dcfData!.dcf),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProjectionsCard(BuildContext context) {
+    if (_dcfData == null || _dcfData!.yearlyData.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final data = List<YearlyDCFData>.from(_dcfData!.yearlyData)
+      ..sort((a, b) => a.year.compareTo(b.year));
+
+    // Take last 5 years if too many
+    final displayData = data.length > 5 ? data.sublist(data.length - 5) : data;
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Future Cash Flow Projections',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Unlevered Free Cash Flow (UFCF)',
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppTheme.textGrey),
+          ),
+          const SizedBox(height: 24),
+          AspectRatio(
+            aspectRatio: 1.5,
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY:
+                    displayData
+                        .map((e) => e.ufcf)
+                        .reduce((a, b) => a > b ? a : b) *
+                    1.2,
+                barTouchData: BarTouchData(
+                  touchTooltipData: BarTouchTooltipData(
+                    getTooltipColor: (_) => Theme.of(context).cardTheme.color!,
+                    tooltipMargin: 8,
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                      final year = displayData[group.x.toInt()].year;
+                      final value = NumberFormat.compactSimpleCurrency().format(
+                        rod.toY,
+                      );
+                      return BarTooltipItem(
+                        '$year\n',
+                        const TextStyle(
+                          color: AppTheme.textGrey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: value,
+                            style: const TextStyle(
+                              color: AppTheme.primaryGreen,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        if (value < 0 || value >= displayData.length) {
+                          return const SizedBox.shrink();
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            displayData[value.toInt()].year.toString(),
+                            style: const TextStyle(
+                              color: AppTheme.textGrey,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  leftTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                ),
+                gridData: const FlGridData(show: false),
+                borderData: FlBorderData(show: false),
+                barGroups: displayData.asMap().entries.map((entry) {
+                  return BarChartGroupData(
+                    x: entry.key,
+                    barRods: [
+                      BarChartRodData(
+                        toY: entry.value.ufcf,
+                        color: AppTheme.primaryGreen,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(4),
+                        backDrawRodData: BackgroundBarChartRodData(
+                          show: true,
+                          toY:
+                              displayData
+                                  .map((e) => e.ufcf)
+                                  .reduce((a, b) => a > b ? a : b) *
+                              1.1,
+                          color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ),
           ),
         ],
       ),
