@@ -14,6 +14,13 @@ class AdvancedDCFData {
   final double longTermGrowthRate;
   final double enterpriseValue;
   final double equityValue;
+  final double terminalValue;
+  final double presentTerminalValue;
+  final double sumPvUfcf;
+  final double netDebt;
+  final double totalDebt;
+  final double totalCash;
+  final double dilutedSharesOutstanding;
   final List<YearlyDCFData> yearlyData;
 
   AdvancedDCFData({
@@ -30,6 +37,13 @@ class AdvancedDCFData {
     this.longTermGrowthRate = 0.0,
     this.enterpriseValue = 0.0,
     this.equityValue = 0.0,
+    this.terminalValue = 0.0,
+    this.presentTerminalValue = 0.0,
+    this.sumPvUfcf = 0.0,
+    this.netDebt = 0.0,
+    this.totalDebt = 0.0,
+    this.totalCash = 0.0,
+    this.dilutedSharesOutstanding = 1.0,
     this.yearlyData = const [],
   });
 
@@ -71,6 +85,17 @@ class AdvancedDCFData {
           (json['longTermGrowthRate'] as num?)?.toDouble() ?? 0.0,
       enterpriseValue: (json['enterpriseValue'] as num?)?.toDouble() ?? 0.0,
       equityValue: (json['equityValue'] as num?)?.toDouble() ?? 0.0,
+
+      terminalValue: (json['terminalValue'] as num?)?.toDouble() ?? 0.0,
+      presentTerminalValue:
+          (json['presentTerminalValue'] as num?)?.toDouble() ?? 0.0,
+      sumPvUfcf: (json['sumPvUfcf'] as num?)?.toDouble() ?? 0.0,
+      netDebt: (json['netDebt'] as num?)?.toDouble() ?? 0.0,
+      totalDebt: (json['totalDebt'] as num?)?.toDouble() ?? 0.0,
+      totalCash: (json['totalCash'] as num?)?.toDouble() ?? 0.0,
+      dilutedSharesOutstanding:
+          (json['dilutedSharesOutstanding'] as num?)?.toDouble() ?? 1.0,
+
       yearlyData: yearlyData,
     );
   }

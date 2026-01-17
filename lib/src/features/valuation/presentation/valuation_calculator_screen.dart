@@ -427,6 +427,36 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
             ),
           ),
           const SizedBox(height: 12),
+          if (intrinsicValue < 0)
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.redAccent.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Colors.redAccent.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.redAccent,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'Intrinsic Value is negative. This usually happens when the Long-Term Growth Rate is higher than WACC.',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.redAccent,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           Text(
             currency.format(intrinsicValue),
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
@@ -775,7 +805,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Valuation Components',
+            'Valuation Bridge',
             style: Theme.of(
               context,
             ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -783,20 +813,55 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
           const SizedBox(height: 16),
           _buildBreakdownRow(
             context,
-            'Enterprise Value',
+            'Sum of PV Free Cash Flows',
+            currency.format(_dcfData!.sumPvUfcf),
+          ),
+          _buildBreakdownRow(
+            context,
+            '+ PV of Terminal Value',
+            currency.format(_dcfData!.presentTerminalValue),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Divider(thickness: 2),
+          ),
+          _buildBreakdownRow(
+            context,
+            '= Enterprise Value',
             currency.format(_dcfData!.enterpriseValue),
+            isHeader: true,
           ),
-          const Divider(),
+          const SizedBox(height: 8),
           _buildBreakdownRow(
             context,
-            'Equity Value',
+            '- Net Debt (Total Debt - Cash)',
+            currency.format(_dcfData!.netDebt),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Divider(thickness: 2),
+          ),
+          _buildBreakdownRow(
+            context,
+            '= Equity Value',
             currency.format(_dcfData!.equityValue),
+            isHeader: true,
           ),
-          const Divider(),
+          const SizedBox(height: 8),
           _buildBreakdownRow(
             context,
-            'Stock Price (DCF Model)',
+            '/ Shares Outstanding',
+            NumberFormat.compact().format(_dcfData!.dilutedSharesOutstanding),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Divider(thickness: 2),
+          ),
+          _buildBreakdownRow(
+            context,
+            '= Fair Value per Share',
             currency.format(_dcfData!.dcf),
+            isHeader: true,
           ),
         ],
       ),
