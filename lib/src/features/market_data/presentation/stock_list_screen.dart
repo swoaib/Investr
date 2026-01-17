@@ -230,7 +230,7 @@ class _StockListViewState extends State<_StockListView> {
         ),
         itemBuilder: (_, _) => Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 12,
+            vertical: 16,
             horizontal: AppTheme.screenPaddingHorizontal,
           ),
           child: Row(
@@ -256,15 +256,25 @@ class _StockListViewState extends State<_StockListView> {
                 ),
               ),
               const SizedBox(width: 16),
-              Expanded(child: Container(height: 30, color: Colors.white)),
+              Container(
+                width: 60,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
               const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(width: 60, height: 16, color: Colors.white),
-                  const SizedBox(height: 4),
-                  Container(width: 40, height: 12, color: Colors.white),
-                ],
+              Expanded(
+                flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(width: 60, height: 16, color: Colors.white),
+                    const SizedBox(height: 4),
+                    Container(width: 40, height: 12, color: Colors.white),
+                  ],
+                ),
               ),
             ],
           ),
