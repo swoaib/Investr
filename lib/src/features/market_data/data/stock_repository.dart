@@ -261,6 +261,7 @@ class StockRepository {
                 period: period,
                 eps: (item['eps'] as num?)?.toDouble() ?? 0.0,
                 revenue: (item['revenue'] as num?)?.toDouble() ?? 0.0,
+                reportedCurrency: item['reportedCurrency'] as String?,
                 netIncome: (item['netIncome'] as num?)?.toDouble() ?? 0.0,
                 grossProfit: (item['grossProfit'] as num?)?.toDouble() ?? 0.0,
                 operatingIncome:

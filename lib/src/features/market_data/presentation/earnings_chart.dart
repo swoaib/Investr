@@ -80,7 +80,9 @@ class _EarningsChartState extends State<EarningsChart> {
             ),
           ),
           Text(
-            isRevenue ? l10n.revenueUSD : l10n.earningsPerShare,
+            isRevenue
+                ? 'Revenue (${(earnings.isNotEmpty && earnings.first.reportedCurrency != null) ? earnings.first.reportedCurrency : "Unknown"})'
+                : l10n.earningsPerShare,
             style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
           const SizedBox(height: 24),
@@ -349,27 +351,44 @@ class _EarningsChartState extends State<EarningsChart> {
     return (maxY: finalMax, minY: finalMin, interval: interval);
   }
 
+  String _getCurrencySymbol() {
+    if (earnings.isEmpty) return ' '; // No data, generic space
+    final currency = earnings.first.reportedCurrency;
+    if (currency == null) return ''; // No symbol for unknown
+
+    return switch (currency) {
+      'USD' => '\$',
+      'CNY' => '¥',
+      'EUR' => '€',
+      'GBP' => '£',
+      'JPY' => '¥',
+      _ => '$currency ',
+    };
+  }
+
   String _formatValue(double value, bool isRevenue) {
-    // Large number formatting for Revenue, Net Income, etc.
     if (metric != 'EPS') {
+      final symbol = _getCurrencySymbol();
       final absVal = value.abs();
-      if (absVal >= 1e9) return '\$${(value / 1e9).toStringAsFixed(2)}B';
-      if (absVal >= 1e6) return '\$${(value / 1e6).toStringAsFixed(2)}M';
-      return '\$${value.toStringAsFixed(0)}';
+      // If no symbol (unknown), just show number
+      if (absVal >= 1e9) return '$symbol${(value / 1e9).toStringAsFixed(2)}B';
+      if (absVal >= 1e6) return '$symbol${(value / 1e6).toStringAsFixed(2)}M';
+      return '$symbol${value.toStringAsFixed(0)}';
     }
     return '\$${value.toStringAsFixed(2)}';
   }
 
   String _formatAxisValue(double value, bool isRevenue) {
     if (metric != 'EPS') {
+      final symbol = _getCurrencySymbol();
       final absVal = value.abs();
       if (absVal >= 1e9) {
-        return '\$${(value / 1e9).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}B';
+        return '$symbol${(value / 1e9).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}B';
       }
       if (absVal >= 1e6) {
-        return '\$${(value / 1e6).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}M';
+        return '$symbol${(value / 1e6).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}M';
       }
-      return '\$${value.toInt()}';
+      return '$symbol${value.toInt()}';
     }
     return '\$${value.toStringAsFixed(2)}';
   }
