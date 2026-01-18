@@ -644,6 +644,12 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     List<PricePoint> points,
     AppLocalizations l10n,
   ) {
+    // Downsample points for 'All' or large 'Custom' ranges to improve performance
+    // Target ~150 points for readability
+    if ((_selectedInterval == 'All' || _selectedInterval == 'Custom') &&
+        points.length > 150) {
+      points = _downsample(points, 150);
+    }
     // Determine dynamic axes for 1D to support any timezone (e.g. CET)
     // We assume the market session is 6.5 hours (standard US).
     // If we have data, we anchor 'minX' to the first point (Open).
@@ -1204,6 +1210,29 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
         ),
       ],
     );
+  }
+
+  List<PricePoint> _downsample(List<PricePoint> data, int targetCount) {
+    if (data.length <= targetCount) return data;
+
+    final sampled = <PricePoint>[];
+    // Always include the first point
+    sampled.add(data.first);
+
+    // Calculate step size to pick evenly spaced points
+    // We want (targetCount - 2) intermediate points
+    final step = (data.length - 2) / (targetCount - 2);
+
+    for (var i = 1; i < targetCount - 1; i++) {
+      final index = (i * step).round() + 1; // +1 because we skipped index 0
+      if (index < data.length - 1) {
+        sampled.add(data[index]);
+      }
+    }
+
+    // Always include the last point
+    sampled.add(data.last);
+    return sampled;
   }
 
   Widget _buildToggleOption(
