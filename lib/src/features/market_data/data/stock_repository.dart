@@ -219,6 +219,31 @@ class StockRepository {
     return stock;
   }
 
+  /// Fetches the current exchange rate between two currencies (e.g. CNY -> USD).
+  /// Uses "stable/quote" for pairs like "CNYUSD".
+  Future<double?> getExchangeRate(String from, String to) async {
+    if (from == to) return 1.0;
+    try {
+      // FMP uses direct concatenation for pairs: e.g. "EURUSD".
+      // Some pairs might need inversion if API only provides one way, but FMP usually covers major pairs.
+      final symbol = '$from$to';
+      final url = Uri.parse(
+        '$_baseUrl/stable/quote?symbol=$symbol&apikey=$_apiKey',
+      );
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        if (data.isNotEmpty) {
+          // Quote endpoint returns 'price' which is the rate
+          return (data[0]['price'] as num?)?.toDouble();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) print('Error fetching FX rate for $from$to: $e');
+    }
+    return null;
+  }
+
   Future<Stock> getQuote(Stock stock) async {
     // Just reuse getStock for now.
     final updated = await getStock(stock.symbol, name: stock.companyName);
@@ -230,11 +255,10 @@ class StockRepository {
   Future<List<EarningsPoint>> getEarningsHistory(
     String symbol, {
     String frequency = 'quarterly',
+    String? targetCurrency,
   }) async {
     try {
       final periodParam = frequency == 'quarterly' ? '&period=quarter' : '';
-      // Fetch last 12 periods (3 years quarterly, or 12 years annual)
-      // Note: "stable" endpoint requires 'symbol' as a query parameter, unlike v3 which uses path.
       final url = Uri.parse(
         '$_baseUrl/stable/income-statement?symbol=$symbol&apikey=$_apiKey$periodParam&limit=12',
       );
@@ -243,13 +267,23 @@ class StockRepository {
       if (response.statusCode == 200) {
         final List data = json.decode(response.body);
 
-        // FMP returns Descending (Newest first). We reverse for Chart (Oldest first).
+        // Pre-fetch conversion rate if needed
+        // We assume the reported currency is consistent for the batch (usually is)
+        double? rate;
+        String? fromCurrency;
+
+        if (data.isNotEmpty && targetCurrency != null) {
+          fromCurrency = data.first['reportedCurrency'] as String?;
+          if (fromCurrency != null && fromCurrency != targetCurrency) {
+            rate = await getExchangeRate(fromCurrency, targetCurrency);
+          }
+        }
+
         return data
             .map<EarningsPoint>((item) {
               final dateStr = item['date'] as String;
               final date = DateTime.tryParse(dateStr) ?? DateTime.now();
 
-              // Format period label
               String period = date.year.toString();
               if (frequency == 'quarterly') {
                 final month = date.month;
@@ -257,15 +291,36 @@ class StockRepository {
                 period = 'Q$quarter ${date.year.toString().substring(2)}';
               }
 
+              double revenue = (item['revenue'] as num?)?.toDouble() ?? 0.0;
+              double eps = (item['eps'] as num?)?.toDouble() ?? 0.0;
+              double netIncome = (item['netIncome'] as num?)?.toDouble() ?? 0.0;
+              double grossProfit =
+                  (item['grossProfit'] as num?)?.toDouble() ?? 0.0;
+              double operatingIncome =
+                  (item['operatingIncome'] as num?)?.toDouble() ?? 0.0;
+              String? finalCurrency = item['reportedCurrency'] as String?;
+
+              // Apply conversion if we have a rate
+              if (rate != null) {
+                revenue *= rate;
+                eps *=
+                    rate; // Basic conversion for EPS (though EPS often complex, simple FX is standard approx)
+                netIncome *= rate;
+                grossProfit *= rate;
+                operatingIncome *= rate;
+                finalCurrency = targetCurrency; // now it's in target
+              }
+
               return EarningsPoint(
                 period: period,
-                eps: (item['eps'] as num?)?.toDouble() ?? 0.0,
-                revenue: (item['revenue'] as num?)?.toDouble() ?? 0.0,
-                reportedCurrency: item['reportedCurrency'] as String?,
-                netIncome: (item['netIncome'] as num?)?.toDouble() ?? 0.0,
-                grossProfit: (item['grossProfit'] as num?)?.toDouble() ?? 0.0,
-                operatingIncome:
-                    (item['operatingIncome'] as num?)?.toDouble() ?? 0.0,
+                eps: eps,
+                revenue: revenue,
+                reportedCurrency: finalCurrency,
+                exchangeRateUsed: rate,
+                originalCurrency: rate != null ? fromCurrency : null,
+                netIncome: netIncome,
+                grossProfit: grossProfit,
+                operatingIncome: operatingIncome,
               );
             })
             .toList()

@@ -85,6 +85,17 @@ class _EarningsChartState extends State<EarningsChart> {
                 : l10n.earningsPerShare,
             style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
+          if (earnings.isNotEmpty &&
+              earnings.first.exchangeRateUsed != null) ...[
+            const SizedBox(height: 4),
+            Text(
+              'Converted from ${earnings.first.originalCurrency} at rate ${earnings.first.exchangeRateUsed!.toStringAsFixed(2)}',
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.secondary,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
           const SizedBox(height: 24),
           SizedBox(
             height: 250,

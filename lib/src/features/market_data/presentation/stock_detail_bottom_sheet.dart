@@ -15,6 +15,7 @@ import 'earnings_chart.dart';
 import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
 import '../../alerts/presentation/alert_dialog.dart';
 import '../../../shared/widgets/sliding_segmented_control.dart';
+import '../../../shared/currency/currency_controller.dart';
 
 enum StockDetailView { overview, earnings }
 
@@ -205,9 +206,12 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
   Future<void> _fetchEarnings() async {
     setState(() => _isEarningsLoading = true);
+    final currencyController = context
+        .read<CurrencyController>(); // Access controller
     final data = await _repository.getEarningsHistory(
       _stock.symbol,
       frequency: _earningsFrequency,
+      targetCurrency: currencyController.currency, // Pass selected currency
     );
     if (mounted) {
       setState(() {

@@ -6,8 +6,8 @@ import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/locale/locale_controller.dart';
+import '../../../shared/currency/currency_controller.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
-
 import 'alerts_management_screen.dart';
 import 'widgets/feedback_bottom_sheet.dart';
 
@@ -23,6 +23,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final themeController = context.watch<ThemeController>();
     final localeController = context.watch<LocaleController>();
+    final currencyController = context.watch<CurrencyController>();
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -48,100 +49,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // Upgrade Banner
-              // Container(
-              //   margin: const EdgeInsets.symmetric(
-              //     horizontal: AppTheme.screenPaddingHorizontal,
-              //   ),
-              //   padding: const EdgeInsets.all(16),
-              //   decoration: BoxDecoration(
-              //     color: Theme.of(context).cardTheme.color,
-              //     borderRadius: BorderRadius.circular(16),
-              //     boxShadow: [
-              //       BoxShadow(
-              //         color: Theme.of(
-              //           context,
-              //         ).shadowColor.withValues(alpha: 0.05),
-              //         blurRadius: 10,
-              //         offset: const Offset(0, 4),
-              //       ),
-              //     ],
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       Container(
-              //         padding: const EdgeInsets.all(12),
-              //         decoration: BoxDecoration(
-              //           color: AppTheme.primaryGreen.withValues(alpha: 0.1),
-              //           borderRadius: BorderRadius.circular(12),
-              //         ),
-              //         child: const Icon(
-              //           Icons.workspace_premium_rounded,
-              //           color: AppTheme.primaryGreen,
-              //           size: 32,
-              //         ),
-              //       ),
-              //       const SizedBox(width: 16),
-              //       Expanded(
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Text(
-              //               l10n.upgradeToPro,
-              //               style: GoogleFonts.outfit(
-              //                 fontWeight: FontWeight.bold,
-              //                 fontSize: 16,
-              //               ),
-              //             ),
-              //             Text(
-              //               l10n.upgradeToProDesc,
-              //               style: TextStyle(
-              //                 color: Theme.of(
-              //                   context,
-              //                 ).textTheme.bodyMedium?.color,
-              //                 fontSize: 12,
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       const SizedBox(width: 16),
-              //       Expanded(
-              //         child: ElevatedButton(
-              //           onPressed: () {},
-              //           style: ElevatedButton.styleFrom(
-              //             padding: const EdgeInsets.symmetric(
-              //               horizontal: 16,
-              //               vertical: 8,
-              //             ),
-              //             minimumSize: Size.zero,
-              //             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              //             backgroundColor: AppTheme.primaryGreen,
-              //             foregroundColor: Colors.white,
-              //           ),
-              //           child: Text(
-              //             l10n.upgradeNow,
-              //             textAlign: TextAlign.center,
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // const SizedBox(height: 16),
-              // Settings List
-              // _buildSettingsTile(
-              //   context,
-              //   title: l10n
-              //       .about, // Reused 'about' as placeholder for Account since Account wasn't localized
-              //   onTap: () {},
-              // ), // Using 'About' or 'Account' - old code had Account. I don't have Account string. Using About for now or keep hardcoded if needed? The user wants design. I'll stick to 'Account' hardcoded as placeholder or remove it? The l10n file doesn't have Account. I'll omit it or use a placeholder. I'll skip Account to be safe on l10n.
-              // _buildSwitchTile(
-              //   context,
-              //   title: l10n.enableNotifications,
-              //   value: _notificationsEnabled,
-              //   onChanged: (val) => setState(() => _notificationsEnabled = val),
-              // ),
               _buildSettingsTile(
                 context,
                 title: l10n.manageAlerts,
@@ -184,6 +91,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Text(
                       _getLocaleText(localeController.locale, l10n),
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.chevron_right, color: Colors.grey),
+                  ],
+                ),
+              ),
+              _buildSettingsTile(
+                context,
+                title: "Currency",
+                icon: Icons.attach_money_rounded,
+                onTap: () =>
+                    _showCurrencySelection(context, currencyController),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      currencyController.currency,
                       style: const TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                     const SizedBox(width: 8),
@@ -286,45 +211,57 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       builder: (context) {
         return SafeArea(
-          child: RadioGroup<ThemeMode>(
-            groupValue: controller.themeMode,
-            onChanged: (value) {
-              if (value != null) {
-                controller.updateThemeMode(value);
-                Navigator.pop(context);
-              }
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Text(
-                    l10n.themeMode,
-                    style: GoogleFonts.outfit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  l10n.themeMode,
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                _buildThemeOption(
-                  context,
-                  title: l10n.system,
-                  mode: ThemeMode.system,
-                ),
-                _buildThemeOption(
-                  context,
-                  title: l10n.light,
-                  mode: ThemeMode.light,
-                ),
-                _buildThemeOption(
-                  context,
-                  title: l10n.dark,
-                  mode: ThemeMode.dark,
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
+              ),
+              _buildThemeOption(
+                context,
+                title: l10n.system,
+                mode: ThemeMode.system,
+                groupValue: controller.themeMode,
+                onChanged: (value) {
+                  if (value != null) {
+                    controller.updateThemeMode(value);
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              _buildThemeOption(
+                context,
+                title: l10n.light,
+                mode: ThemeMode.light,
+                groupValue: controller.themeMode,
+                onChanged: (value) {
+                  if (value != null) {
+                    controller.updateThemeMode(value);
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              _buildThemeOption(
+                context,
+                title: l10n.dark,
+                mode: ThemeMode.dark,
+                groupValue: controller.themeMode,
+                onChanged: (value) {
+                  if (value != null) {
+                    controller.updateThemeMode(value);
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
         );
       },
@@ -335,10 +272,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BuildContext context, {
     required String title,
     required ThemeMode mode,
+    required ThemeMode groupValue,
+    required ValueChanged<ThemeMode?> onChanged,
   }) {
     return RadioListTile<ThemeMode>(
       title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
       value: mode,
+      groupValue: groupValue,
+      onChanged: onChanged,
       activeColor: AppTheme.primaryGreen,
     );
   }
@@ -356,44 +297,61 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       builder: (context) {
         return SafeArea(
-          child: RadioGroup<Locale?>(
-            groupValue: controller.locale,
-            onChanged: (value) {
-              controller.updateLocale(value);
-              Navigator.pop(context);
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Text(
-                    l10n.language,
-                    style: GoogleFonts.outfit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  l10n.language,
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                _buildLanguageOption(context, title: l10n.system, locale: null),
-                _buildLanguageOption(
-                  context,
-                  title: 'English',
-                  locale: const Locale('en'),
-                ),
-                _buildLanguageOption(
-                  context,
-                  title: 'Norsk',
-                  locale: const Locale('no'),
-                ),
-                _buildLanguageOption(
-                  context,
-                  title: '日本語',
-                  locale: const Locale('ja'),
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
+              ),
+              _buildLanguageOption(
+                context,
+                title: l10n.system,
+                locale: null,
+                groupValue: controller.locale,
+                onChanged: (value) {
+                  controller.updateLocale(value);
+                  Navigator.pop(context);
+                },
+              ),
+              _buildLanguageOption(
+                context,
+                title: 'English',
+                locale: const Locale('en'),
+                groupValue: controller.locale,
+                onChanged: (value) {
+                  controller.updateLocale(value);
+                  Navigator.pop(context);
+                },
+              ),
+              _buildLanguageOption(
+                context,
+                title: 'Norsk',
+                locale: const Locale('no'),
+                groupValue: controller.locale,
+                onChanged: (value) {
+                  controller.updateLocale(value);
+                  Navigator.pop(context);
+                },
+              ),
+              _buildLanguageOption(
+                context,
+                title: '日本語',
+                locale: const Locale('ja'),
+                groupValue: controller.locale,
+                onChanged: (value) {
+                  controller.updateLocale(value);
+                  Navigator.pop(context);
+                },
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
         );
       },
@@ -404,11 +362,85 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BuildContext context, {
     required String title,
     required Locale? locale,
+    required Locale? groupValue,
+    required ValueChanged<Locale?> onChanged,
   }) {
-    // Handle equality for Locale objects potentially
     return RadioListTile<Locale?>(
       title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
       value: locale,
+      groupValue: groupValue,
+      onChanged: onChanged,
+      activeColor: AppTheme.primaryGreen,
+    );
+  }
+
+  void _showCurrencySelection(
+    BuildContext context,
+    CurrencyController controller,
+  ) {
+    // List of major currencies
+    final currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CNY', 'AUD', 'CAD'];
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.6,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      "Default Currency",
+                      style: GoogleFonts.outfit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  ...currencies.map(
+                    (code) => _buildCurrencyOption(
+                      context,
+                      code: code,
+                      groupValue: controller.currency,
+                      onChanged: (value) {
+                        if (value != null) {
+                          controller.setCurrency(value);
+                          Navigator.pop(context);
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCurrencyOption(
+    BuildContext context, {
+    required String code,
+    required String groupValue,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return RadioListTile<String>(
+      title: Text(code, style: GoogleFonts.outfit(fontSize: 16)),
+      value: code,
+      groupValue: groupValue,
+      onChanged: onChanged,
       activeColor: AppTheme.primaryGreen,
     );
   }

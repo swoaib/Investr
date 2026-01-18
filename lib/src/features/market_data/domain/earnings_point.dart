@@ -3,6 +3,8 @@ class EarningsPoint {
   final double eps;
   final double revenue;
   final String? reportedCurrency;
+  final double? exchangeRateUsed;
+  final String? originalCurrency;
   final double netIncome;
   final double grossProfit;
   final double operatingIncome;
@@ -12,6 +14,8 @@ class EarningsPoint {
     required this.eps,
     required this.revenue,
     this.reportedCurrency,
+    this.exchangeRateUsed,
+    this.originalCurrency,
     this.netIncome = 0.0,
     this.grossProfit = 0.0,
     this.operatingIncome = 0.0,
