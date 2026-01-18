@@ -691,35 +691,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AnimatedCrossFade(
-            firstChild: const SizedBox(width: double.infinity),
-            secondChild: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildDateButton(
-                    'Start Date',
-                    _customStartDate,
-                    _pickStartDate,
-                    theme,
-                    color,
-                  ),
-                  _buildDateButton(
-                    'End Date',
-                    _customEndDate,
-                    _pickEndDate,
-                    theme,
-                    color,
-                  ),
-                ],
-              ),
-            ),
-            crossFadeState: _selectedInterval == 'Custom'
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-            duration: const Duration(milliseconds: 300),
-          ),
+          // Removed previous date buttons as they will be integrated into the range selector
+          const SizedBox.shrink(),
 
           SizedBox(
             height: 200,
@@ -975,40 +948,155 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
           ),
           const SizedBox(height: 16),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: ['1D', '1W', '1M', '1Y', 'All', 'Custom'].map((interval) {
-              final isSelected = _selectedInterval == interval;
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedInterval = interval;
-                    if (interval != 'Custom') {
-                      _customStartDate = null;
-                      _customEndDate = null;
-                      _fetchDataForInterval();
-                    }
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 5,
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            switchInCurve: Curves.easeOutCubic,
+            switchOutCurve: Curves.easeInCubic,
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              final offsetAnimation =
+                  child.key == const ValueKey('custom_range')
+                  ? Tween<Offset>(
+                      begin: const Offset(1.0, 0.0), // Slide in from Right
+                      end: Offset.zero,
+                    ).animate(animation)
+                  : Tween<Offset>(
+                      begin: const Offset(-1.0, 0.0), // Slide in from Left
+                      end: Offset.zero,
+                    ).animate(animation);
+              return SlideTransition(position: offsetAnimation, child: child);
+            },
+            child: _selectedInterval == 'Custom'
+                ? Row(
+                    key: const ValueKey('custom_range'),
+                    children: [
+                      // Back Button (Pill style)
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedInterval = '1D'; // Default back to 1D
+                            _fetchDataForInterval();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12, // Slightly less padding for icon
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back,
+                            size: 20,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+
+                      // Start Date (Pill style)
+                      GestureDetector(
+                        onTap: _pickStartDate,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _customStartDate != null
+                                ? color
+                                : Colors.grey.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            _customStartDate != null
+                                ? DateFormat(
+                                    'MMM d, y',
+                                  ).format(_customStartDate!)
+                                : 'Start Date',
+                            style: TextStyle(
+                              color: _customStartDate != null
+                                  ? Colors.white
+                                  : Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      // End Date (Pill style)
+                      GestureDetector(
+                        onTap: _pickEndDate,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _customEndDate != null
+                                ? color
+                                : Colors.grey.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            _customEndDate != null
+                                ? DateFormat('MMM d, y').format(_customEndDate!)
+                                : 'End Date',
+                            style: TextStyle(
+                              color: _customEndDate != null
+                                  ? Colors.white
+                                  : Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    key: const ValueKey('standard_interval'),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: ['1D', '1W', '1M', '1Y', 'All', 'Custom'].map((
+                      interval,
+                    ) {
+                      final isSelected = _selectedInterval == interval;
+                      return GestureDetector(
+                        onTap: () {
+                          if (interval == 'Custom') {
+                            setState(() {
+                              _selectedInterval = interval;
+                              // Reset dates when entering custom mode
+                              _customStartDate = null;
+                              _customEndDate = null;
+                            });
+                          } else {
+                            setState(() {
+                              _selectedInterval = interval;
+                              _fetchDataForInterval();
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected ? color : Colors.transparent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            interval,
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                  decoration: BoxDecoration(
-                    color: isSelected ? color : Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    interval,
-                    style: TextStyle(
-                      color: isSelected ? Colors.white : Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
           ),
           const SizedBox(height: 16),
 
@@ -1110,38 +1198,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildDateButton(
-    String text,
-    DateTime? date,
-    VoidCallback onTap,
-    ThemeData theme,
-    Color color,
-  ) {
-    return Column(
-      children: [
-        Text(
-          text,
-          style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
-        ),
-        const SizedBox(height: 4),
-        ElevatedButton(
-          onPressed: onTap,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: theme.canvasColor,
-            foregroundColor: color,
-            side: BorderSide(color: color),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: Text(
-            date != null ? DateFormat('MMM d, y').format(date) : 'Select',
-          ),
-        ),
-      ],
     );
   }
 }
