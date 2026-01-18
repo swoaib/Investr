@@ -331,7 +331,24 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     final theme = Theme.of(context);
     final currencyFormat = NumberFormat.currency(symbol: '\$');
     final points = _filteredHistory;
-    final isPositive = _stock.isPositive;
+
+    // Calculate dynamic values based on interval
+    double displayPrice = _stock.price;
+    double displayChangePercent = _stock.changePercent;
+    bool isPositive = _stock.isPositive;
+
+    if (_selectedInterval != '1D' && points.isNotEmpty) {
+      final firstPrice = points.first.price;
+      final lastPrice = points.last.price;
+
+      displayPrice = lastPrice;
+      final change = lastPrice - firstPrice;
+      displayChangePercent = firstPrice != 0
+          ? (change / firstPrice) * 100
+          : 0.0;
+      isPositive = change >= 0;
+    }
+
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
     final l10n = AppLocalizations.of(context)!;
 
@@ -387,7 +404,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                           Text(
                             _selectedPoint != null
                                 ? currencyFormat.format(_selectedPoint!.price)
-                                : currencyFormat.format(_stock.price),
+                                : currencyFormat.format(displayPrice),
                             style: theme.textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -397,7 +414,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                       Text(
                         _selectedPoint != null
                             ? _formatDate(_selectedPoint!.date)
-                            : '${isPositive ? '+' : ''}${_stock.changePercent.toStringAsFixed(2)}%',
+                            : '${isPositive ? '+' : ''}${displayChangePercent.toStringAsFixed(2)}%',
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: _selectedPoint != null ? Colors.grey : color,
                           fontWeight: FontWeight.bold,
