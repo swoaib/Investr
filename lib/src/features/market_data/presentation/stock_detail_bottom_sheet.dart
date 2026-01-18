@@ -14,6 +14,7 @@ import '../domain/earnings_point.dart';
 import 'earnings_chart.dart';
 import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
 import '../../alerts/presentation/alert_dialog.dart';
+import '../../../shared/widgets/sliding_segmented_control.dart';
 
 enum StockDetailView { overview, earnings }
 
@@ -402,24 +403,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: [
-                SegmentedButton<StockDetailView>(
-                  segments: [
-                    ButtonSegment<StockDetailView>(
-                      value: StockDetailView.overview,
-                      label: Text(l10n.overview),
-                    ),
-                    ButtonSegment<StockDetailView>(
-                      value: StockDetailView.earnings,
-                      label: Text(l10n.earnings),
-                    ),
-                  ],
-                  selected: _selectedView,
-                  onSelectionChanged: _handleViewSelection,
-                  showSelectedIcon: false,
-                  style: ButtonStyle(
-                    visualDensity: VisualDensity.compact,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
+                SlidingSegmentedControl<StockDetailView>(
+                  groupValue: _selectedView.first,
+                  children: {
+                    StockDetailView.overview: l10n.overview,
+                    StockDetailView.earnings: l10n.earnings,
+                  },
+                  onValueChanged: (value) => _handleViewSelection({value}),
                 ),
                 const Spacer(),
                 // Alert Button
