@@ -182,8 +182,79 @@ class _EarningsChartState extends State<EarningsChart> {
                                     getTooltipColor: (group) => theme.cardColor,
                                     getTooltipItem:
                                         (group, groupIndex, rod, rodIndex) {
+                                          final point = earnings[groupIndex];
+                                          final currentValStr = _formatValue(
+                                            rod.toY,
+                                            isRevenue,
+                                          );
+
+                                          // Check for original value
+                                          double? originalVal;
+                                          switch (metric) {
+                                            case 'Revenue':
+                                              originalVal =
+                                                  point.originalRevenue;
+                                              break;
+                                            case 'Net Income':
+                                              originalVal =
+                                                  point.originalNetIncome;
+                                              break;
+                                            case 'Gross Profit':
+                                              originalVal =
+                                                  point.originalGrossProfit;
+                                              break;
+                                            case 'Operating Income':
+                                              originalVal =
+                                                  point.originalOperatingIncome;
+                                              break;
+                                            // Handle EPS default
+                                            default:
+                                              originalVal = point.originalEps;
+                                          }
+
+                                          if (originalVal != null &&
+                                              point.originalCurrency != null) {
+                                            final originalSymbol =
+                                                _getExplicitCurrencySymbol(
+                                                  point.originalCurrency!,
+                                                );
+                                            final originalFormatted =
+                                                _formatRawValue(
+                                                  originalVal,
+                                                  originalSymbol,
+                                                );
+
+                                            // Combine with newline
+                                            return BarTooltipItem(
+                                              '$currentValStr\n',
+                                              TextStyle(
+                                                color: theme
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: '($originalFormatted)',
+                                                  style: TextStyle(
+                                                    color:
+                                                        theme
+                                                            .textTheme
+                                                            .bodySmall
+                                                            ?.color ??
+                                                        Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }
+
                                           return BarTooltipItem(
-                                            _formatValue(rod.toY, isRevenue),
+                                            currentValStr,
                                             TextStyle(
                                               color: theme
                                                   .textTheme
@@ -402,5 +473,28 @@ class _EarningsChartState extends State<EarningsChart> {
       return '$symbol${value.toInt()}';
     }
     return '\$${value.toStringAsFixed(2)}';
+  }
+
+  String _getExplicitCurrencySymbol(String currencyCode) {
+    return switch (currencyCode) {
+      'USD' => '\$',
+      'CNY' => '¥',
+      'EUR' => '€',
+      'GBP' => '£',
+      'JPY' => '¥',
+      _ => '$currencyCode ',
+    };
+  }
+
+  String _formatRawValue(double value, String symbol) {
+    final absVal = value.abs();
+    // Use standard formatting logic but with explicit symbol
+    // Note: This logic mirrors _formatValue but allows any symbol
+    if (metric != 'EPS') {
+      if (absVal >= 1e9) return '$symbol${(value / 1e9).toStringAsFixed(2)}B';
+      if (absVal >= 1e6) return '$symbol${(value / 1e6).toStringAsFixed(2)}M';
+      return '$symbol${value.toStringAsFixed(0)}';
+    }
+    return '$symbol${value.toStringAsFixed(2)}';
   }
 }

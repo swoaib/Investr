@@ -224,10 +224,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ),
-              _buildThemeOption(
-                context,
-                title: l10n.system,
-                mode: ThemeMode.system,
+              RadioGroup<ThemeMode>(
                 groupValue: controller.themeMode,
                 onChanged: (value) {
                   if (value != null) {
@@ -235,30 +232,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Navigator.pop(context);
                   }
                 },
-              ),
-              _buildThemeOption(
-                context,
-                title: l10n.light,
-                mode: ThemeMode.light,
-                groupValue: controller.themeMode,
-                onChanged: (value) {
-                  if (value != null) {
-                    controller.updateThemeMode(value);
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              _buildThemeOption(
-                context,
-                title: l10n.dark,
-                mode: ThemeMode.dark,
-                groupValue: controller.themeMode,
-                onChanged: (value) {
-                  if (value != null) {
-                    controller.updateThemeMode(value);
-                    Navigator.pop(context);
-                  }
-                },
+                child: Column(
+                  children: [
+                    _buildThemeOption(
+                      context,
+                      title: l10n.system,
+                      mode: ThemeMode.system,
+                    ),
+                    _buildThemeOption(
+                      context,
+                      title: l10n.light,
+                      mode: ThemeMode.light,
+                    ),
+                    _buildThemeOption(
+                      context,
+                      title: l10n.dark,
+                      mode: ThemeMode.dark,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
             ],
@@ -272,14 +264,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BuildContext context, {
     required String title,
     required ThemeMode mode,
-    required ThemeMode groupValue,
-    required ValueChanged<ThemeMode?> onChanged,
   }) {
     return RadioListTile<ThemeMode>(
       title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
       value: mode,
-      groupValue: groupValue,
-      onChanged: onChanged,
       activeColor: AppTheme.primaryGreen,
     );
   }
@@ -310,45 +298,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ),
-              _buildLanguageOption(
-                context,
-                title: l10n.system,
-                locale: null,
+              RadioGroup<Locale?>(
                 groupValue: controller.locale,
                 onChanged: (value) {
                   controller.updateLocale(value);
                   Navigator.pop(context);
                 },
-              ),
-              _buildLanguageOption(
-                context,
-                title: 'English',
-                locale: const Locale('en'),
-                groupValue: controller.locale,
-                onChanged: (value) {
-                  controller.updateLocale(value);
-                  Navigator.pop(context);
-                },
-              ),
-              _buildLanguageOption(
-                context,
-                title: 'Norsk',
-                locale: const Locale('no'),
-                groupValue: controller.locale,
-                onChanged: (value) {
-                  controller.updateLocale(value);
-                  Navigator.pop(context);
-                },
-              ),
-              _buildLanguageOption(
-                context,
-                title: '日本語',
-                locale: const Locale('ja'),
-                groupValue: controller.locale,
-                onChanged: (value) {
-                  controller.updateLocale(value);
-                  Navigator.pop(context);
-                },
+                child: Column(
+                  children: [
+                    _buildLanguageOption(
+                      context,
+                      title: l10n.system,
+                      locale: null,
+                    ),
+                    _buildLanguageOption(
+                      context,
+                      title: 'English',
+                      locale: const Locale('en'),
+                    ),
+                    _buildLanguageOption(
+                      context,
+                      title: 'Norsk',
+                      locale: const Locale('no'),
+                    ),
+                    _buildLanguageOption(
+                      context,
+                      title: '日本語',
+                      locale: const Locale('ja'),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
             ],
@@ -362,14 +341,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BuildContext context, {
     required String title,
     required Locale? locale,
-    required Locale? groupValue,
-    required ValueChanged<Locale?> onChanged,
   }) {
     return RadioListTile<Locale?>(
       title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
       value: locale,
-      groupValue: groupValue,
-      onChanged: onChanged,
       activeColor: AppTheme.primaryGreen,
     );
   }
@@ -407,17 +382,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-                  ...currencies.map(
-                    (code) => _buildCurrencyOption(
-                      context,
-                      code: code,
-                      groupValue: controller.currency,
-                      onChanged: (value) {
-                        if (value != null) {
-                          controller.setCurrency(value);
-                          Navigator.pop(context);
-                        }
-                      },
+                  RadioGroup<String>(
+                    groupValue: controller.currency,
+                    onChanged: (value) {
+                      if (value != null) {
+                        controller.setCurrency(value);
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Column(
+                      children: currencies
+                          .map(
+                            (code) => _buildCurrencyOption(context, code: code),
+                          )
+                          .toList(),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -430,17 +408,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildCurrencyOption(
-    BuildContext context, {
-    required String code,
-    required String groupValue,
-    required ValueChanged<String?> onChanged,
-  }) {
+  Widget _buildCurrencyOption(BuildContext context, {required String code}) {
     return RadioListTile<String>(
       title: Text(code, style: GoogleFonts.outfit(fontSize: 16)),
       value: code,
-      groupValue: groupValue,
-      onChanged: onChanged,
       activeColor: AppTheme.primaryGreen,
     );
   }

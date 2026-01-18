@@ -8,6 +8,11 @@ class EarningsPoint {
   final double netIncome;
   final double grossProfit;
   final double operatingIncome;
+  final double? originalRevenue;
+  final double? originalEps;
+  final double? originalNetIncome;
+  final double? originalGrossProfit;
+  final double? originalOperatingIncome;
 
   EarningsPoint({
     required this.period,
@@ -19,5 +24,10 @@ class EarningsPoint {
     this.netIncome = 0.0,
     this.grossProfit = 0.0,
     this.operatingIncome = 0.0,
+    this.originalRevenue,
+    this.originalEps,
+    this.originalNetIncome,
+    this.originalGrossProfit,
+    this.originalOperatingIncome,
   });
 }

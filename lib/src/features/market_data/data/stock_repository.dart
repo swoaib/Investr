@@ -300,8 +300,20 @@ class StockRepository {
                   (item['operatingIncome'] as num?)?.toDouble() ?? 0.0;
               String? finalCurrency = item['reportedCurrency'] as String?;
 
+              double? finalOriginalRevenue;
+              double? finalOriginalEps;
+              double? finalOriginalNetIncome;
+              double? finalOriginalGrossProfit;
+              double? finalOriginalOperatingIncome;
+
               // Apply conversion if we have a rate
               if (rate != null) {
+                finalOriginalRevenue = revenue;
+                finalOriginalEps = eps;
+                finalOriginalNetIncome = netIncome;
+                finalOriginalGrossProfit = grossProfit;
+                finalOriginalOperatingIncome = operatingIncome;
+
                 revenue *= rate;
                 eps *=
                     rate; // Basic conversion for EPS (though EPS often complex, simple FX is standard approx)
@@ -321,6 +333,11 @@ class StockRepository {
                 netIncome: netIncome,
                 grossProfit: grossProfit,
                 operatingIncome: operatingIncome,
+                originalRevenue: finalOriginalRevenue,
+                originalEps: finalOriginalEps,
+                originalNetIncome: finalOriginalNetIncome,
+                originalGrossProfit: finalOriginalGrossProfit,
+                originalOperatingIncome: finalOriginalOperatingIncome,
               );
             })
             .toList()
