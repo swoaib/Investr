@@ -265,10 +265,17 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
   Future<void> _pickStartDate() async {
     final now = DateTime.now();
+    // Determine the earliest available date from history
+    final firstAvailableDate = _history.isNotEmpty
+        ? _history
+              .first
+              .date // Assumes sorted ascending, which is typical for charts
+        : DateTime(1970);
+
     final picked = await showDatePicker(
       context: context,
       initialDate: _customStartDate ?? now,
-      firstDate: DateTime(1970),
+      firstDate: firstAvailableDate,
       lastDate: _customEndDate ?? now,
     );
     if (picked != null) {
@@ -280,10 +287,17 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
   Future<void> _pickEndDate() async {
     final now = DateTime.now();
+    // Determine the earliest available date from history
+    final firstAvailableDate = _history.isNotEmpty
+        ? _history.first.date
+        : DateTime(1970);
+
     final picked = await showDatePicker(
       context: context,
       initialDate: _customEndDate ?? now,
-      firstDate: _customStartDate ?? DateTime(1970),
+      firstDate:
+          _customStartDate ??
+          firstAvailableDate, // Limit to start date or earliest history
       lastDate: now,
     );
     if (picked != null) {
