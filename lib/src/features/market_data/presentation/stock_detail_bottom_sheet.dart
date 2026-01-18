@@ -122,16 +122,16 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
           var loadedStock = results[1] as Stock;
           _intradayHistory = results[2] as List<PricePoint>;
 
+          // 3. Fresh Quote (Price, PrevClose, High/Low, Change%, overwrite MarketCap with live)
+          final quoteStock = results[3] as Stock?;
+
           // 2. Metrics (PE, DivYield, EPS)
           final metricsStock = results[4] as Stock;
           loadedStock = loadedStock.copyWith(
-            peRatio: metricsStock.peRatio,
+            peRatio: metricsStock.peRatio ?? quoteStock?.peRatio,
             dividendYield: metricsStock.dividendYield,
             earningsPerShare: metricsStock.earningsPerShare,
           );
-
-          // 3. Fresh Quote (Price, PrevClose, High/Low, Change%, overwrite MarketCap with live)
-          final quoteStock = results[3] as Stock?;
 
           if (quoteStock != null) {
             loadedStock = loadedStock.copyWith(

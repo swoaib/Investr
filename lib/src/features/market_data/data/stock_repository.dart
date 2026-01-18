@@ -178,63 +178,35 @@ class StockRepository {
   }
 
   /// Fetches Key Metrics TTM (PE, DivYield, EPS)
-  /// Uses 'stable/key-metrics-ttm' and 'stable/ratios-ttm'.
+  /// Uses 'stable/ratios-ttm' only as it contains all required fields.
   Future<Stock> getKeyMetrics(Stock stock) async {
     try {
-      final metricsUrl = Uri.parse(
-        '$_baseUrl/stable/key-metrics-ttm?symbol=${stock.symbol}&apikey=$_apiKey',
-      );
-      final ratiosUrl = Uri.parse(
+      final url = Uri.parse(
         '$_baseUrl/stable/ratios-ttm?symbol=${stock.symbol}&apikey=$_apiKey',
       );
 
-      final results = await Future.wait([
-        http.get(metricsUrl),
-        http.get(ratiosUrl),
-      ]);
-
-      final metricsResponse = results[0];
-      final ratiosResponse = results[1];
-
-      Map<String, dynamic> metrics = {};
+      final response = await http.get(url);
       Map<String, dynamic> ratios = {};
 
-      if (metricsResponse.statusCode == 200) {
-        final dynamic jsonResponse = json.decode(metricsResponse.body);
-        if (jsonResponse is List && jsonResponse.isNotEmpty) {
-          metrics = jsonResponse[0];
-        }
-      }
-
-      if (ratiosResponse.statusCode == 200) {
-        final dynamic jsonResponse = json.decode(ratiosResponse.body);
+      if (response.statusCode == 200) {
+        final dynamic jsonResponse = json.decode(response.body);
         if (jsonResponse is List && jsonResponse.isNotEmpty) {
           ratios = jsonResponse[0];
         }
       }
 
-      // Prioritize Metrics, fallback to Ratios
-      final pe =
-          (metrics['peRatioTTM'] as num?)?.toDouble() ??
-          (ratios['peRatioTTM'] as num?)?.toDouble();
+      final pe = (ratios['priceToEarningsRatioTTM'] as num?)?.toDouble();
+      final eps = (ratios['netIncomePerShareTTM'] as num?)?.toDouble();
 
-      // FMP Ratios often return '0.005' for 0.5%. We convert to percentage.
-      // We check multiple keys.
-      double? divYieldRaw =
-          (metrics['dividendYieldTTM'] as num?)?.toDouble() ??
-          (metrics['dividendYieldPercentageTTM'] as num?)?.toDouble() ??
+      // FMP Ratios sometimes uses different keys for yield
+      final double? divYieldRaw =
           (ratios['dividendYieldTTM'] as num?)?.toDouble() ??
           (ratios['dividendYielTTM'] as num?)?.toDouble();
 
       double? divYieldPercent;
       if (divYieldRaw != null) {
-        // refined heuristic: if < 1.0, assume it's a ratio (e.g. 0.05) -> convert to 5.0
-        // if > 1.0, assume it's already percent? (Rare for FMP TTM, usually 0.0X).
-        // But safer to assume TTM field is ALWAYS ratio.
         divYieldPercent = divYieldRaw * 100;
       }
-
-      final eps = (metrics['netIncomePerShareTTM'] as num?)?.toDouble();
 
       return stock.copyWith(
         peRatio: pe,
