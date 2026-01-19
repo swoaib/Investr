@@ -311,12 +311,16 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     }
   }
 
-  String _formatMarketCap(double? marketCap) {
+  String _formatMarketCap(double? marketCap, double rate, String symbol) {
     if (marketCap == null) return 'N/A';
-    if (marketCap >= 1e12) return '\$${(marketCap / 1e12).toStringAsFixed(2)}T';
-    if (marketCap >= 1e9) return '\$${(marketCap / 1e9).toStringAsFixed(2)}B';
-    if (marketCap >= 1e6) return '\$${(marketCap / 1e6).toStringAsFixed(2)}M';
-    return '\$${marketCap.toStringAsFixed(0)}';
+    final convertedCap = marketCap * rate;
+    if (convertedCap >= 1e12)
+      return '$symbol${(convertedCap / 1e12).toStringAsFixed(2)}T';
+    if (convertedCap >= 1e9)
+      return '$symbol${(convertedCap / 1e9).toStringAsFixed(2)}B';
+    if (convertedCap >= 1e6)
+      return '$symbol${(convertedCap / 1e6).toStringAsFixed(2)}M';
+    return '$symbol${convertedCap.toStringAsFixed(0)}';
   }
 
   String _formatDate(DateTime date) {
@@ -333,17 +337,21 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final currencyFormat = NumberFormat.currency(symbol: '\$');
+    final currencyController = context.watch<CurrencyController>();
+    final rate = currencyController.exchangeRate;
+    final currencySymbol = currencyController.currencySymbol;
+
+    final currencyFormat = NumberFormat.currency(symbol: currencySymbol);
     final points = _filteredHistory;
 
     // Calculate dynamic values based on interval
-    double displayPrice = _stock.price;
+    double displayPrice = _stock.price * rate; // Convert
     double displayChangePercent = _stock.changePercent;
     bool isPositive = _stock.isPositive;
 
     if (_selectedInterval != '1D' && points.isNotEmpty) {
-      final firstPrice = points.first.price;
-      final lastPrice = points.last.price;
+      final firstPrice = points.first.price * rate; // Convert
+      final lastPrice = points.last.price * rate; // Convert
 
       displayPrice = lastPrice;
       final change = lastPrice - firstPrice;
@@ -407,7 +415,9 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                         children: [
                           Text(
                             _selectedPoint != null
-                                ? currencyFormat.format(_selectedPoint!.price)
+                                ? currencyFormat.format(
+                                    _selectedPoint!.price * rate,
+                                  ) // Convert selected point
                                 : currencyFormat.format(displayPrice),
                             style: theme.textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.bold,
@@ -513,7 +523,14 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             curve: Curves.fastOutSlowIn,
             alignment: Alignment.topCenter,
             child: _selectedView.contains(StockDetailView.overview)
-                ? _buildOverviewTab(theme, color, points, l10n)
+                ? _buildOverviewTab(
+                    theme,
+                    color,
+                    points,
+                    l10n,
+                    rate,
+                    currencySymbol,
+                  ) // Pass rate and symbol
                 : _buildEarningsTab(theme, color, l10n),
           ),
         ],
@@ -647,6 +664,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     Color color,
     List<PricePoint> points,
     AppLocalizations l10n,
+    double rate,
+    String currencySymbol, // Receive symbol
   ) {
     // Downsample points for 'All' or large 'Custom' ranges to improve performance
     // Target ~150 points for readability
@@ -654,23 +673,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
         points.length > 150) {
       points = _downsample(points, 150);
     }
-    // Determine dynamic axes for 1D to support any timezone (e.g. CET)
-    // We assume the market session is 6.5 hours (standard US).
-    // If we have data, we anchor 'minX' to the first point (Open).
-    // 'maxX' is Open + 6.5 hours.
-    // If no data, we fallback to a default 9:30-16:00 Local assumption or just wait for data.
 
     // Determine dynamic axes
     double? minX;
     double? maxX;
     double? interval;
-
-    // For 1D, we use Time-based X-axis (millisecondsSinceEpoch) to show "filling from left".
-    // For others (1M, 1W), we use Index-based X-axis (0, 1, 2...) to "skip" weekends/closed hours.
-    // UPDATE: Since we are falling back to Daily data for "Intraday" (due to API restrictions),
-    // we should use Index-based for 1D as well to show the trend of the last 30 days properly.
-    // If we tried to plot 30 days on a 6.5 hour axis it would break.
-    // So we treat everything as Index-Based for now.
 
     final isIntraday = _selectedInterval == '1D';
 
@@ -711,13 +718,14 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     double? minY;
     double? maxY;
     if (points.isNotEmpty) {
-      final prices = points.map((p) => p.price);
+      final prices = points.map((p) => p.price * rate); // Use converted prices
       var minPrice = prices.reduce((a, b) => a < b ? a : b);
       var maxPrice = prices.reduce((a, b) => a > b ? a : b);
 
       if (isIntraday && _stock.previousClose != null) {
-        if (_stock.previousClose! < minPrice) minPrice = _stock.previousClose!;
-        if (_stock.previousClose! > maxPrice) maxPrice = _stock.previousClose!;
+        final prevClose = _stock.previousClose! * rate; // Convert prevClose
+        if (prevClose < minPrice) minPrice = prevClose;
+        if (prevClose > maxPrice) maxPrice = prevClose;
       }
 
       final range = maxPrice - minPrice;
@@ -760,7 +768,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                         horizontalLines: [
                           if (isIntraday && _stock.previousClose != null)
                             HorizontalLine(
-                              y: _stock.previousClose!,
+                              y: _stock.previousClose! * rate,
                               color: Colors.grey.withValues(alpha: 0.5),
                               strokeWidth: 1,
                               dashArray: [5, 5],
@@ -868,7 +876,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                               return Padding(
                                 padding: const EdgeInsets.only(left: 8),
                                 child: Text(
-                                  '\$${value.toStringAsFixed(0)}',
+                                  '$currencySymbol${value.toStringAsFixed(0)}',
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 10,
@@ -971,7 +979,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                               .map(
                                 (entry) => FlSpot(
                                   entry.key.toDouble(),
-                                  entry.value.price,
+                                  entry.value.price * rate,
                                 ),
                               )
                               .toList(),
@@ -1159,12 +1167,14 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             children: [
               _buildStatItem(
                 'Prev Close',
-                _stock.previousClose?.toStringAsFixed(2) ?? 'N/A',
+                _stock.previousClose != null
+                    ? '$currencySymbol${(_stock.previousClose! * rate).toStringAsFixed(2)}'
+                    : 'N/A',
                 theme,
               ),
               _buildStatItem(
                 l10n.marketCap,
-                _formatMarketCap(_stock.marketCap),
+                _formatMarketCap(_stock.marketCap, rate, currencySymbol),
                 theme,
               ),
               _buildStatItem(
@@ -1181,7 +1191,9 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
               ),
               _buildStatItem(
                 l10n.eps,
-                _stock.earningsPerShare?.toStringAsFixed(2) ?? 'N/A',
+                _stock.earningsPerShare != null
+                    ? '$currencySymbol${(_stock.earningsPerShare! * rate).toStringAsFixed(2)}'
+                    : 'N/A',
                 theme,
               ),
               _buildStatItem(

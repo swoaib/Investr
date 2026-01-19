@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../../../shared/currency/currency_controller.dart';
 import '../../market_data/data/stock_repository.dart';
 import '../../valuation/domain/advanced_dcf_data.dart';
 import '../../../shared/theme/app_theme.dart';
@@ -218,6 +220,8 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final currencyController = context.watch<CurrencyController>();
+
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -248,11 +252,31 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  'FMP DCF Model',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppTheme.textGrey),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'FMP DCF Model',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppTheme.textGrey,
+                      ),
+                    ),
+                    if (currencyController.currency != 'USD')
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).chipTheme.backgroundColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '1 USD = ${currencyController.exchangeRate.toStringAsFixed(2)} ${currencyController.currency}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                  ],
                 ),
                 const SizedBox(height: 24),
 
@@ -386,9 +410,17 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   }
 
   Widget _buildResultCard(BuildContext context, AppLocalizations l10n) {
-    final currency = NumberFormat.simpleCurrency();
-    final intrinsicValue = _dcfData!.dcf;
-    final currentPrice = _currentPrice ?? 0;
+    final currencyController = context.watch<CurrencyController>();
+    final rate = currencyController.exchangeRate;
+
+    // Actually NumberFormat.simpleCurrency(name: 'EUR') gives € symbol.
+    // currencyController.currency is 'EUR'.
+    final currencyFormat = NumberFormat.simpleCurrency(
+      name: currencyController.currency,
+    );
+
+    final intrinsicValue = _dcfData!.dcf * rate;
+    final currentPrice = (_currentPrice ?? 0) * rate;
     final isUndervalued = intrinsicValue > currentPrice;
 
     return Container(
@@ -458,7 +490,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               ),
             ),
           Text(
-            currency.format(intrinsicValue),
+            currencyFormat.format(intrinsicValue),
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
               color: isUndervalued ? AppTheme.primaryGreen : Colors.redAccent,
               fontWeight: FontWeight.bold,
@@ -480,7 +512,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                   style: const TextStyle(color: AppTheme.textGrey),
                 ),
                 Text(
-                  currency.format(currentPrice),
+                  currencyFormat.format(currentPrice),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
@@ -790,7 +822,11 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     BuildContext context,
     AppLocalizations l10n,
   ) {
-    final currency = NumberFormat.compactSimpleCurrency();
+    final currencyController = context.watch<CurrencyController>();
+    final rate = currencyController.exchangeRate;
+    final currencyFormat = NumberFormat.compactSimpleCurrency(
+      name: currencyController.currency,
+    );
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -814,12 +850,12 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
           _buildBreakdownRow(
             context,
             'Sum of PV Free Cash Flows',
-            currency.format(_dcfData!.sumPvUfcf),
+            currencyFormat.format(_dcfData!.sumPvUfcf * rate),
           ),
           _buildBreakdownRow(
             context,
             '+ PV of Terminal Value',
-            currency.format(_dcfData!.presentTerminalValue),
+            currencyFormat.format(_dcfData!.presentTerminalValue * rate),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -828,14 +864,14 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
           _buildBreakdownRow(
             context,
             '= Enterprise Value',
-            currency.format(_dcfData!.enterpriseValue),
+            currencyFormat.format(_dcfData!.enterpriseValue * rate),
             isHeader: true,
           ),
           const SizedBox(height: 8),
           _buildBreakdownRow(
             context,
             '- Net Debt (Total Debt - Cash)',
-            currency.format(_dcfData!.netDebt),
+            currencyFormat.format(_dcfData!.netDebt * rate),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -844,7 +880,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
           _buildBreakdownRow(
             context,
             '= Equity Value',
-            currency.format(_dcfData!.equityValue),
+            currencyFormat.format(_dcfData!.equityValue * rate),
             isHeader: true,
           ),
           const SizedBox(height: 8),
@@ -860,7 +896,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
           _buildBreakdownRow(
             context,
             '= Fair Value per Share',
-            currency.format(_dcfData!.dcf),
+            currencyFormat.format(_dcfData!.dcf * rate),
             isHeader: true,
           ),
         ],
@@ -872,6 +908,12 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     if (_dcfData == null || _dcfData!.yearlyData.isEmpty) {
       return const SizedBox.shrink();
     }
+
+    final currencyController = context.watch<CurrencyController>();
+    final rate = currencyController.exchangeRate;
+    final currencyFormat = NumberFormat.compactSimpleCurrency(
+      name: currencyController.currency,
+    );
 
     final data = List<YearlyDCFData>.from(_dcfData!.yearlyData)
       ..sort((a, b) => a.year.compareTo(b.year));
@@ -912,7 +954,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                 alignment: BarChartAlignment.spaceAround,
                 maxY:
                     displayData
-                        .map((e) => e.ufcf)
+                        .map((e) => e.ufcf * rate)
                         .reduce((a, b) => a > b ? a : b) *
                     1.2,
                 barTouchData: BarTouchData(
@@ -921,9 +963,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                     tooltipMargin: 8,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       final year = displayData[group.x.toInt()].year;
-                      final value = NumberFormat.compactSimpleCurrency().format(
-                        rod.toY,
-                      );
+                      final value = currencyFormat.format(rod.toY);
                       return BarTooltipItem(
                         '$year\n',
                         const TextStyle(
@@ -981,11 +1021,12 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                 gridData: const FlGridData(show: false),
                 borderData: FlBorderData(show: false),
                 barGroups: displayData.asMap().entries.map((entry) {
+                  final convertedUfcf = entry.value.ufcf * rate;
                   return BarChartGroupData(
                     x: entry.key,
                     barRods: [
                       BarChartRodData(
-                        toY: entry.value.ufcf,
+                        toY: convertedUfcf,
                         color: AppTheme.primaryGreen,
                         width: 16,
                         borderRadius: BorderRadius.circular(4),
@@ -993,7 +1034,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                           show: true,
                           toY:
                               displayData
-                                  .map((e) => e.ufcf)
+                                  .map((e) => e.ufcf * rate)
                                   .reduce((a, b) => a > b ? a : b) *
                               1.1,
                           color: AppTheme.primaryGreen.withValues(alpha: 0.1),

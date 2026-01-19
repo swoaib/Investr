@@ -131,6 +131,21 @@ Future<void> main() async {
     debugPrint(e.toString());
   }
 
+  // Currency Exchange Rate
+  try {
+    debugPrint('\nTesting Exchange Rate (USD -> EUR) ...');
+    // FMP pairs: USDEUR
+    final url = Uri.parse('$stableUrl/quote?symbol=USDEUR&apikey=$apiKey');
+    final response = await http.get(url);
+    debugPrint(
+      '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
+    );
+    if (response.statusCode == 200)
+      debugPrint('SUCCESS: Currency Exchange Rate');
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+
   // Historical Variations (Verified from Search)
   debugPrint('\n--- Testing VERIFIED STABLE History ---');
 

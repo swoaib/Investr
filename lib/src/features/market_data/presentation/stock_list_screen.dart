@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+import '../../../shared/currency/currency_controller.dart';
 import '../domain/stock.dart';
 import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
@@ -47,6 +48,7 @@ class _StockListViewState extends State<_StockListView> {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<StockListController>();
+    final currencyController = context.watch<CurrencyController>();
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
@@ -64,9 +66,29 @@ class _StockListViewState extends State<_StockListView> {
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  l10n.stockMarketTitle,
-                  style: theme.textTheme.headlineLarge,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      l10n.stockMarketTitle,
+                      style: theme.textTheme.headlineLarge,
+                    ),
+                    if (currencyController.currency != 'USD')
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.chipTheme.backgroundColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '1 USD = ${currencyController.exchangeRate.toStringAsFixed(2)} ${currencyController.currency}',
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -293,9 +315,17 @@ class _StockListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$');
+    final currencyController = context.watch<CurrencyController>();
+    final currencySymbol = currencyController.currencySymbol;
+    final rate = currencyController.exchangeRate;
+
+    final currencyFormat = NumberFormat.currency(symbol: currencySymbol);
     final isPositive = stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
+
+    // Convert values
+    final displayPrice = stock.price * rate;
+    final displayChange = stock.change * rate;
 
     // Calculate Sparkline Y-Axis Range ensuring Previous Close is visible
     double? minY;
@@ -405,7 +435,7 @@ class _StockListItem extends StatelessWidget {
                             if (stock.previousClose != null)
                               HorizontalLine(
                                 y: stock.previousClose!,
-                                color: Colors.grey.withValues(alpha: 0.5),
+                                color: Colors.grey.withOpacity(0.5),
                                 strokeWidth: 1,
                                 dashArray: [4, 4],
                               ),
@@ -445,14 +475,14 @@ class _StockListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    currencyFormat.format(stock.price),
+                    currencyFormat.format(displayPrice),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
+                    '${isPositive ? '+' : ''}${displayChange.toStringAsFixed(2)}%',
                     style: TextStyle(
                       color: color,
                       fontWeight: FontWeight.bold,
@@ -483,9 +513,16 @@ class _SearchResultItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(symbol: '\$');
+    final currencyController = context.watch<CurrencyController>();
+    final currencySymbol = currencyController.currencySymbol;
+    final rate = currencyController.exchangeRate;
+
+    final currencyFormat = NumberFormat.currency(symbol: currencySymbol);
     final isPositive = stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
+
+    // Convert values
+    final displayPrice = stock.price * rate;
 
     return GestureDetector(
       onTap: () {
@@ -540,7 +577,7 @@ class _SearchResultItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  currencyFormat.format(stock.price),
+                  currencyFormat.format(displayPrice),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
