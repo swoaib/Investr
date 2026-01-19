@@ -354,7 +354,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     CurrencyController controller,
   ) {
     // List of major currencies
-    final currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CNY', 'AUD', 'CAD'];
+    final currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CNY', 'AUD', 'CAD', 'NOK'];
 
     showModalBottomSheet(
       context: context,
@@ -366,41 +366,86 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return SafeArea(
           child: Container(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.6,
+              maxHeight:
+                  MediaQuery.of(context).size.height * 0.75, // Increased height
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
-                      "Default Currency",
-                      style: GoogleFonts.outfit(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Default Currency",
+                        style: GoogleFonts.outfit(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest
+                              .withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.outline.withValues(alpha: 0.1),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.info_outline_rounded,
+                              size: 20,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                "Default values are sourced in USD. Changing the currency will apply a conversion, but for the most accurate financial data, we recommend using USD.",
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                      height: 1.3,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: RadioGroup<String>(
+                      groupValue: controller.currency,
+                      onChanged: (value) {
+                        if (value != null) {
+                          controller.setCurrency(value);
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Column(
+                        children: currencies
+                            .map(
+                              (code) =>
+                                  _buildCurrencyOption(context, code: code),
+                            )
+                            .toList(),
                       ),
                     ),
                   ),
-                  RadioGroup<String>(
-                    groupValue: controller.currency,
-                    onChanged: (value) {
-                      if (value != null) {
-                        controller.setCurrency(value);
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Column(
-                      children: currencies
-                          .map(
-                            (code) => _buildCurrencyOption(context, code: code),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
