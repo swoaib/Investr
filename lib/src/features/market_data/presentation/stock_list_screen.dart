@@ -325,7 +325,6 @@ class _StockListItem extends StatelessWidget {
 
     // Convert values
     final displayPrice = stock.price * rate;
-    final displayChange = stock.change * rate;
 
     // Calculate Sparkline Y-Axis Range ensuring Previous Close is visible
     double? minY;
@@ -477,7 +476,7 @@ class _StockListItem extends StatelessWidget {
                     maxLines: 1,
                   ),
                   Text(
-                    '${isPositive ? '+' : ''}${displayChange.toStringAsFixed(2)}%',
+                    '${isPositive ? '+' : ''}${stock.changePercent.toStringAsFixed(2)}%',
                     style: TextStyle(
                       color: color,
                       fontWeight: FontWeight.bold,
