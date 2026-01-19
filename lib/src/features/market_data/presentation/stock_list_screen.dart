@@ -319,7 +319,9 @@ class _StockListItem extends StatelessWidget {
     final currencySymbol = currencyController.currencySymbol;
     final rate = currencyController.exchangeRate;
 
-    final currencyFormat = NumberFormat.currency(symbol: '$currencySymbol ');
+    final currencyFormat = currencySymbol == 'kr'
+        ? NumberFormat.currency(symbol: '$currencySymbol ')
+        : NumberFormat.currency(symbol: currencySymbol);
     final isPositive = stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
@@ -471,8 +473,8 @@ class _StockListItem extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      overflow: TextOverflow.ellipsis,
                     ),
+                    overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                   Text(
