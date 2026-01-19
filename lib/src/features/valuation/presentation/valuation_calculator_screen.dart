@@ -308,10 +308,10 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(16),
                           suffixIcon: _isLoading
-                              ? const Padding(
-                                  padding: EdgeInsets.all(12),
+                              ? Transform.scale(
+                                  scale: 0.5,
                                   child: CircularProgressIndicator(
-                                    strokeWidth: 2,
+                                    strokeWidth: 5,
                                   ),
                                 )
                               : IconButton(
@@ -413,11 +413,11 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     final currencyController = context.watch<CurrencyController>();
     final rate = currencyController.exchangeRate;
 
-    // Actually NumberFormat.simpleCurrency(name: 'EUR') gives € symbol.
-    // currencyController.currency is 'EUR'.
-    final currencyFormat = NumberFormat.simpleCurrency(
-      name: currencyController.currency,
-    );
+    // Use controller's symbol (handles 'NOK' override) and add space
+    final currencySymbol = currencyController.currencySymbol;
+    final currencyFormat = currencySymbol == 'kr'
+        ? NumberFormat.currency(symbol: '$currencySymbol ')
+        : NumberFormat.currency(symbol: currencySymbol);
 
     final intrinsicValue = _dcfData!.dcf * rate;
     final currentPrice = (_currentPrice ?? 0) * rate;
@@ -824,8 +824,9 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   ) {
     final currencyController = context.watch<CurrencyController>();
     final rate = currencyController.exchangeRate;
-    final currencyFormat = NumberFormat.compactSimpleCurrency(
-      name: currencyController.currency,
+    final currencySymbol = currencyController.currencySymbol;
+    final currencyFormat = NumberFormat.compactCurrency(
+      symbol: '$currencySymbol ',
     );
 
     return Container(
@@ -911,8 +912,9 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
     final currencyController = context.watch<CurrencyController>();
     final rate = currencyController.exchangeRate;
-    final currencyFormat = NumberFormat.compactSimpleCurrency(
-      name: currencyController.currency,
+    final currencySymbol = currencyController.currencySymbol;
+    final currencyFormat = NumberFormat.compactCurrency(
+      symbol: '$currencySymbol ',
     );
 
     final data = List<YearlyDCFData>.from(_dcfData!.yearlyData)
