@@ -29,7 +29,7 @@ class StockRepository {
   // Default stocks for new users
   final Map<String, String> _defaultWatchlist = {
     '^GSPC': 'S&P 500', // FMP uses ^GSPC
-    '^DJI': 'Dow Jones', // FMP uses ^DJI
+    // '^DJI': 'Dow Jones', // FMP uses ^DJI
     //'^NDX': 'Nasdaq 100', // FMP uses ^NDX
     '^N225': 'Nikkei 225', // FMP uses ^N225
     'AAPL': 'Apple Inc.',

@@ -315,15 +315,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     if (marketCap == null) return 'N/A';
     final convertedCap = marketCap * rate;
     if (convertedCap >= 1e12) {
-      return '$symbol${(convertedCap / 1e12).toStringAsFixed(2)}T';
+      return '$symbol ${(convertedCap / 1e12).toStringAsFixed(2)}T';
     }
     if (convertedCap >= 1e9) {
-      return '$symbol${(convertedCap / 1e9).toStringAsFixed(2)}B';
+      return '$symbol ${(convertedCap / 1e9).toStringAsFixed(2)}B';
     }
     if (convertedCap >= 1e6) {
-      return '$symbol${(convertedCap / 1e6).toStringAsFixed(2)}M';
+      return '$symbol ${(convertedCap / 1e6).toStringAsFixed(2)}M';
     }
-    return '$symbol${convertedCap.toStringAsFixed(0)}';
+    return '$symbol ${convertedCap.toStringAsFixed(0)}';
   }
 
   String _formatDate(DateTime date) {
@@ -344,7 +344,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     final rate = currencyController.exchangeRate;
     final currencySymbol = currencyController.currencySymbol;
 
-    final currencyFormat = NumberFormat.currency(symbol: currencySymbol);
+    final currencyFormat = NumberFormat.currency(symbol: '$currencySymbol ');
     final points = _filteredHistory;
 
     // Calculate dynamic values based on interval
@@ -879,7 +879,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                               return Padding(
                                 padding: const EdgeInsets.only(left: 8),
                                 child: Text(
-                                  '$currencySymbol${value.toStringAsFixed(0)}',
+                                  '$currencySymbol ${value.toStringAsFixed(0)}',
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 10,
@@ -931,7 +931,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                                 setState(() {
                                   _selectedPoint = PricePoint(
                                     date: date,
-                                    price: spot.y,
+                                    price: spot.y / rate,
                                   );
                                 });
                               } else {
@@ -1171,7 +1171,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
               _buildStatItem(
                 'Prev Close',
                 _stock.previousClose != null
-                    ? '$currencySymbol${(_stock.previousClose! * rate).toStringAsFixed(2)}'
+                    ? '$currencySymbol ${(_stock.previousClose! * rate).toStringAsFixed(2)}'
                     : 'N/A',
                 theme,
               ),
@@ -1195,7 +1195,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
               _buildStatItem(
                 l10n.eps,
                 _stock.earningsPerShare != null
-                    ? '$currencySymbol${(_stock.earningsPerShare! * rate).toStringAsFixed(2)}'
+                    ? '$currencySymbol ${(_stock.earningsPerShare! * rate).toStringAsFixed(2)}'
                     : 'N/A',
                 theme,
               ),

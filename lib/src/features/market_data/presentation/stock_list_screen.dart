@@ -319,7 +319,7 @@ class _StockListItem extends StatelessWidget {
     final currencySymbol = currencyController.currencySymbol;
     final rate = currencyController.exchangeRate;
 
-    final currencyFormat = NumberFormat.currency(symbol: currencySymbol);
+    final currencyFormat = NumberFormat.currency(symbol: '$currencySymbol ');
     final isPositive = stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
@@ -386,6 +386,8 @@ class _StockListItem extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     stock.symbol.startsWith('^')
@@ -393,80 +395,71 @@ class _StockListItem extends StatelessWidget {
                         : stock.companyName,
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ],
               ),
             ),
             SizedBox(width: 16),
-            // Mini Sparkline Chart
-            SizedBox(
-              width: 60,
-              height: 30,
-              child:
-                  stock.sparklineData != null && stock.sparklineData!.isNotEmpty
-                  ? LineChart(
-                      LineChartData(
-                        minX: 0,
-                        maxX: (() {
-                          final points = stock.sparklineData!;
-                          final lastDate = points.last.date;
-                          final now = DateTime.now();
-                          final isToday =
-                              lastDate.year == now.year &&
-                              lastDate.month == now.month &&
-                              lastDate.day == now.day;
+            if (stock.sparklineData != null && stock.sparklineData!.isNotEmpty)
+              SizedBox(
+                width: 60,
+                height: 30,
+                child: LineChart(
+                  LineChartData(
+                    minX: 0,
+                    maxX: (() {
+                      final points = stock.sparklineData!;
+                      final lastDate = points.last.date;
+                      final now = DateTime.now();
+                      final isToday =
+                          lastDate.year == now.year &&
+                          lastDate.month == now.month &&
+                          lastDate.day == now.day;
 
-                          // Standardize scaling: Min 78 points (US trading day) for "Today"
-                          // This ensures "In-Progress" look (Left-to-Right) for all markets.
-                          if (isToday) {
-                            final count = (points.length - 1).toDouble();
-                            return count < 78.0 ? 78.0 : count;
-                          }
-                          return (points.length - 1).toDouble();
-                        })(),
-                        minY: minY,
-                        maxY: maxY,
-                        gridData: const FlGridData(show: false),
-                        titlesData: const FlTitlesData(show: false),
-                        borderData: FlBorderData(show: false),
-                        lineTouchData: const LineTouchData(enabled: false),
-                        extraLinesData: ExtraLinesData(
-                          horizontalLines: [
-                            if (stock.previousClose != null)
-                              HorizontalLine(
-                                y: stock.previousClose!,
-                                color: Colors.grey.withValues(alpha: 0.5),
-                                strokeWidth: 1,
-                                dashArray: [4, 4],
-                              ),
-                          ],
-                        ),
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: stock.sparklineData!
-                                .asMap()
-                                .entries
-                                .map(
-                                  (e) =>
-                                      FlSpot(e.key.toDouble(), e.value.price),
-                                )
-                                .toList(),
-                            isCurved: true,
-                            color: color,
-                            barWidth: 1.5,
-                            isStrokeCapRound: true,
-                            dotData: const FlDotData(show: false),
-                            belowBarData: BarAreaData(show: false),
+                      // Standardize scaling: Min 78 points (US trading day) for "Today"
+                      // This ensures "In-Progress" look (Left-to-Right) for all markets.
+                      if (isToday) {
+                        final count = (points.length - 1).toDouble();
+                        return count < 78.0 ? 78.0 : count;
+                      }
+                      return (points.length - 1).toDouble();
+                    })(),
+                    minY: minY,
+                    maxY: maxY,
+                    gridData: const FlGridData(show: false),
+                    titlesData: const FlTitlesData(show: false),
+                    borderData: FlBorderData(show: false),
+                    lineTouchData: const LineTouchData(enabled: false),
+                    extraLinesData: ExtraLinesData(
+                      horizontalLines: [
+                        if (stock.previousClose != null)
+                          HorizontalLine(
+                            y: stock.previousClose!,
+                            color: Colors.grey.withValues(alpha: 0.5),
+                            strokeWidth: 1,
+                            dashArray: [4, 4],
                           ),
-                        ],
-                      ),
-                    )
-                  : Icon(
-                      isPositive ? Icons.trending_up : Icons.trending_down,
-                      color: color,
-                      size: 24,
+                      ],
                     ),
-            ),
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: stock.sparklineData!
+                            .asMap()
+                            .entries
+                            .map((e) => FlSpot(e.key.toDouble(), e.value.price))
+                            .toList(),
+                        isCurved: true,
+                        color: color,
+                        barWidth: 1.5,
+                        isStrokeCapRound: true,
+                        dotData: const FlDotData(show: false),
+                        belowBarData: BarAreaData(show: false),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             const SizedBox(width: 16),
             // Price and Change
             Expanded(
@@ -479,7 +472,9 @@ class _StockListItem extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
+                      overflow: TextOverflow.ellipsis,
                     ),
+                    maxLines: 1,
                   ),
                   Text(
                     '${isPositive ? '+' : ''}${displayChange.toStringAsFixed(2)}%',
