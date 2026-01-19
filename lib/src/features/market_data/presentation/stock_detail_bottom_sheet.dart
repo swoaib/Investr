@@ -314,12 +314,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   String _formatMarketCap(double? marketCap, double rate, String symbol) {
     if (marketCap == null) return 'N/A';
     final convertedCap = marketCap * rate;
-    if (convertedCap >= 1e12)
+    if (convertedCap >= 1e12) {
       return '$symbol${(convertedCap / 1e12).toStringAsFixed(2)}T';
-    if (convertedCap >= 1e9)
+    }
+    if (convertedCap >= 1e9) {
       return '$symbol${(convertedCap / 1e9).toStringAsFixed(2)}B';
-    if (convertedCap >= 1e6)
+    }
+    if (convertedCap >= 1e6) {
       return '$symbol${(convertedCap / 1e6).toStringAsFixed(2)}M';
+    }
     return '$symbol${convertedCap.toStringAsFixed(0)}';
   }
 

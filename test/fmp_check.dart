@@ -140,8 +140,9 @@ Future<void> main() async {
     debugPrint(
       '${response.statusCode}: ${response.body.length > 50 ? response.body.substring(0, 50) : response.body}',
     );
-    if (response.statusCode == 200)
+    if (response.statusCode == 200) {
       debugPrint('SUCCESS: Currency Exchange Rate');
+    }
   } catch (e) {
     debugPrint(e.toString());
   }

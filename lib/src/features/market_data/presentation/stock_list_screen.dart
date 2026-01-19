@@ -435,7 +435,7 @@ class _StockListItem extends StatelessWidget {
                             if (stock.previousClose != null)
                               HorizontalLine(
                                 y: stock.previousClose!,
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withValues(alpha: 0.5),
                                 strokeWidth: 1,
                                 dashArray: [4, 4],
                               ),
