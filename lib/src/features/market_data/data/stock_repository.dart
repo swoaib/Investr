@@ -223,9 +223,29 @@ class StockRepository {
   /// Uses "stable/quote" for pairs like "CNYUSD".
   Future<double?> getExchangeRate(String from, String to) async {
     if (from == to) return 1.0;
+
+    // 1. Try Direct
+    final direct = await _fetchPair(from, to);
+    if (direct != null) return direct;
+
+    // 2. Try Inverse
+    final inverse = await _fetchPair(to, from);
+    if (inverse != null && inverse != 0) return 1.0 / inverse;
+
+    // 3. Bridge via USD
+    if (from != 'USD' && to != 'USD') {
+      final fromUSD = await getExchangeRate(from, 'USD');
+      final toUSD = await getExchangeRate('USD', to);
+      if (fromUSD != null && toUSD != null) {
+        return fromUSD * toUSD;
+      }
+    }
+    return null;
+  }
+
+  Future<double?> _fetchPair(String from, String to) async {
     try {
       // FMP uses direct concatenation for pairs: e.g. "EURUSD".
-      // Some pairs might need inversion if API only provides one way, but FMP usually covers major pairs.
       final symbol = '$from$to';
       final url = Uri.parse(
         '$_baseUrl/stable/quote?symbol=$symbol&apikey=$_apiKey',
