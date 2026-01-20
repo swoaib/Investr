@@ -2,6 +2,7 @@ from firebase_functions import scheduler_fn, params
 from firebase_admin import initialize_app, firestore, messaging
 import requests
 import os
+import time
 
 initialize_app()
 
@@ -15,26 +16,35 @@ def check_price_alerts(event: scheduler_fn.ScheduledEvent) -> None:
     docs = alerts_ref.stream()
 
     alerts = []
-    symbols = set()
-
     for doc in docs:
         data = doc.to_dict()
         data['id'] = doc.id
         alerts.append(data)
-        symbols.add(data['symbol'])
     
-    if not symbols:
+    if not alerts:
         print("No active alerts.")
         return
 
-    # Fetch current prices for all symbols
-    prices = fetch_prices(list(symbols))
+    # Cache locally within this execution to avoid hitting API multiple times for same symbol
+    # if multiple alerts track the same stock. But each Fetch is done INDIVIDUALLY.
+    symbol_price_cache = {}
 
     for alert in alerts:
         symbol = alert['symbol']
-        current_price = prices.get(symbol)
         
+        # Check cache first
+        if symbol in symbol_price_cache:
+            current_price = symbol_price_cache[symbol]
+        else:
+            # Fetch individually as requested (No batching)
+            current_price = fetch_single_price(symbol)
+            symbol_price_cache[symbol] = current_price # Store even if None to avoid re-fetching
+            
+            # Rate limiting / politeness sleep if needed (optional, keeping it simple for now)
+            # time.sleep(0.1) 
+
         if current_price is None:
+            print(f"Skipping alert {alert['id']} for {symbol}: Could not fetch price.")
             continue
             
         target = alert['targetPrice']
@@ -45,75 +55,54 @@ def check_price_alerts(event: scheduler_fn.ScheduledEvent) -> None:
         new_status = None
         
         # Logic: Trigger only when crossing the threshold (Change of status)
-        
         if condition == 'above':
             if current_price > target:
                 new_status = 'above'
-                # Trigger if we were NOT above previously (i.e. 'below' or None)
                 if last_status != 'above':
                     should_alert = True
             else:
-                new_status = 'below' # Reset state (arming the alert for next crossing)
+                new_status = 'below'
                 
         elif condition == 'below':
             if current_price < target:
                 new_status = 'below'
-                # Trigger if we were NOT below previously
                 if last_status != 'below':
                     should_alert = True
             else:
-                new_status = 'above' # Reset state
+                new_status = 'above'
 
         if should_alert:
             send_notification(alert, current_price)
         
-        # Update status if changed
         if new_status and new_status != last_status:
             db.collection("alerts").document(alert['id']).update({"lastStatus": new_status})
 
-def fetch_prices(symbols):
+def fetch_single_price(symbol):
     """
-    Fetches prices for a list of symbols using FMP's Quote API.
+    Fetches price for a SINGLE symbol using FMP's Quote API.
+    No batching is performed.
     """
-    prices = {}
-    
-    # Remove duplicates and filter empty
-    unique_symbols = [s for s in set(symbols) if s]
-    if not unique_symbols:
-        return prices
-
-    # Chunk symbols into groups of 50 to avoid URL length limits
-    # FMP can handle more, but 50 is a safe batch size
-    chunk_size = 50
-    for i in range(0, len(unique_symbols), chunk_size):
-        chunk = unique_symbols[i:i + chunk_size]
-        tickers_param = ",".join(chunk)
+    try:
+        # Fetching strictly for one symbol
+        url = f"https://financialmodelingprep.com/stable/quote?symbol={symbol}&apikey={FMP_API_KEY.value}"
+        resp = requests.get(url, timeout=10)
         
-        try:
-            # Use FMP Stable Quote API (Preferred over v3 legacy)
-            # URL Structure: https://financialmodelingprep.com/stable/quote?symbol=AAPL,MSFT&apikey=...
-            url = f"https://financialmodelingprep.com/stable/quote?symbol={tickers_param}&apikey={FMP_API_KEY.value}"
-            resp = requests.get(url, timeout=10)
-            
-            if resp.status_code == 200:
-                data = resp.json()
-                # FMP returns a list of dictionaries
-                if isinstance(data, list):
-                    for item in data:
-                        symbol = item.get('symbol')
-                        price = item.get('price')
-                        
-                        if symbol and price is not None:
-                            prices[symbol] = float(price)
-                else:
-                    print(f"Unexpected FMP response format for chunk {chunk}: {data}")
+        if resp.status_code == 200:
+            data = resp.json()
+            if isinstance(data, list) and len(data) > 0:
+                item = data[0]
+                price = item.get('price')
+                if price is not None:
+                    return float(price)
             else:
-                print(f"Error fetching quotes for chunk: Status {resp.status_code}, {resp.text}")
-                
-        except Exception as e:
-            print(f"Exception fetching prices for chunk {chunk}: {e}")
+                print(f"Empty or invalid data for {symbol}: {data}")
+        else:
+            print(f"Error fetching {symbol}: Status {resp.status_code}")
             
-    return prices
+    except Exception as e:
+        print(f"Exception fetching {symbol}: {e}")
+        
+    return None
 
 def send_notification(alert, current_price):
     token = alert.get('fcmToken')
@@ -141,6 +130,3 @@ def send_notification(alert, current_price):
          print(f"Sender ID mismatch for alert {alert['id']}.")
     except Exception as e:
         print(f"Error sending FCM: {e}")
-        # Build logic to cleanup garbage tokens (e.g. 'InvalidArgument')
-        # if "some_error_code" in str(e):
-        #    db.collection("alerts").document(alert['id']).delete()
