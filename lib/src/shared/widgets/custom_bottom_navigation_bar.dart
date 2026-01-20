@@ -51,6 +51,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   final itemWidth = constraints.maxWidth / items.length;
+                  final itemHeight = constraints.maxHeight;
                   return Stack(
                     children: [
                       // Animated Pill Background
@@ -63,12 +64,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
                         width: itemWidth,
                         child: Center(
                           child: Container(
-                            width: itemWidth * 0.7,
-                            height: 44,
+                            width: itemWidth * 0.8,
+                            height: itemHeight * 0.7,
                             decoration: BoxDecoration(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.primary.withValues(alpha: 0.15),
+                              color: Colors.grey.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(22),
                             ),
                           ),
