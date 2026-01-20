@@ -379,7 +379,6 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                                   countryCode: stock.country,
                                   exchange: stock.exchange,
                                   currency: stock.currency,
-                                  size: 40,
                                 ),
                                 title: Text(
                                   stock.symbol,

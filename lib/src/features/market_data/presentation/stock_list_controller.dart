@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../data/stock_repository.dart';
 import 'dart:async';
 import '../domain/stock.dart';
-// import '../domain/price_point.dart'; // Unused import
+import '../domain/price_point.dart';
 
 class StockListController extends ChangeNotifier {
   final StockRepository _repository;
@@ -79,18 +79,22 @@ class StockListController extends ChangeNotifier {
 
     for (int i = 0; i < _stocks.length; i++) {
       try {
-        final updatedStock = await _repository.getQuote(
-          _stocks[i],
-        ); // Refresh price
+        final results = await Future.wait([
+          _repository.getQuote(_stocks[i]),
+          _repository.getIntradayHistory(_stocks[i].symbol),
+        ]);
+
+        final updatedStock = results[0] as Stock;
+        final sparkline = results[1] as List<PricePoint>;
 
         _stocks[i] = _stocks[i].copyWith(
           price: updatedStock.price,
           change: updatedStock.change,
           changePercent: updatedStock.changePercent,
+          sparklineData: sparkline.isNotEmpty
+              ? sparkline
+              : _stocks[i].sparklineData,
         );
-
-        // Optionally refresh sparkline if needed, but maybe too heavy for 30s poll.
-        // Let's stick to price for now.
       } catch (e) {
         // ignore error
       }
