@@ -48,12 +48,46 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 color: cardColor.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: items.map((item) {
-                  final index = items.indexOf(item);
-                  return _buildNavItem(index, item);
-                }).toList(),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final itemWidth = constraints.maxWidth / items.length;
+                  return Stack(
+                    children: [
+                      // Animated Pill Background
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.fastOutSlowIn,
+                        left: selectedIndex * itemWidth,
+                        top: 0,
+                        bottom: 0,
+                        width: itemWidth,
+                        child: Center(
+                          child: Container(
+                            width: itemWidth * 0.7,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Navigation Items
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: items.asMap().entries.map((entry) {
+                          return Expanded(
+                            child: Center(
+                              child: _buildNavItem(entry.key, entry.value),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -74,6 +108,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
         size: 24,
       ),
       tooltip: item.label,
+      style: IconButton.styleFrom(
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+      ),
     );
   }
 }
