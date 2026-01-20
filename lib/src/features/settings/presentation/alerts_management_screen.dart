@@ -7,6 +7,7 @@ import '../../alerts/domain/stock_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../shared/theme/theme_controller.dart';
+import '../../alerts/presentation/alert_dialog.dart';
 
 class AlertsManagementScreen extends StatelessWidget {
   const AlertsManagementScreen({super.key});
@@ -189,54 +190,13 @@ class AlertsManagementScreen extends StatelessWidget {
   }
 
   void _editAlert(BuildContext context, StockAlert alert) {
-    final TextEditingController priceController = TextEditingController(
-      text: alert.targetPrice.toString(),
-    );
-
     showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          title: Text('Edit Alert for ${alert.symbol}'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: priceController,
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                decoration: const InputDecoration(labelText: 'Target Price'),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () async {
-                final newPrice = double.tryParse(priceController.text);
-                if (newPrice != null) {
-                  final updatedAlert = StockAlert(
-                    id: alert.id,
-                    symbol: alert.symbol,
-                    targetPrice: newPrice,
-                    condition: alert.condition,
-                    isActive: alert.isActive,
-                    userId: alert.userId,
-                    createdAt: alert.createdAt,
-                  );
-                  await context.read<AlertsRepository>().updateAlert(
-                    updatedAlert,
-                  );
-                  if (context.mounted) Navigator.pop(ctx);
-                }
-              },
-              child: const Text('Save'),
-            ),
-          ],
+        return SetAlertDialog(
+          symbol: alert.symbol,
+          currentPrice: alert.targetPrice, // Ignored when existingAlert is set
+          existingAlert: alert,
         );
       },
     );

@@ -10,11 +10,13 @@ import '../../../shared/theme/app_theme.dart';
 class SetAlertDialog extends StatefulWidget {
   final String symbol;
   final double currentPrice;
+  final StockAlert? existingAlert;
 
   const SetAlertDialog({
     super.key,
     required this.symbol,
     required this.currentPrice,
+    this.existingAlert,
   });
 
   @override
@@ -29,8 +31,12 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.currentPrice.toStringAsFixed(2);
-    // Determine default based on logic, but user can change it
+    if (widget.existingAlert != null) {
+      _condition = widget.existingAlert!.condition;
+      _controller.text = widget.existingAlert!.targetPrice.toStringAsFixed(2);
+    } else {
+      _controller.text = widget.currentPrice.toStringAsFixed(2);
+    }
   }
 
   Future<void> _saveAlert() async {
@@ -46,40 +52,50 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
       }
 
       final repo = context.read<AlertsRepository>();
-      final currentCount = await repo.getAlertCount(userId);
 
-      if (currentCount >= 3) {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('You can only create 3 alerts.'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-          ),
-        );
-        return;
+      // Only check limit if creating a NEW alert
+      if (widget.existingAlert == null) {
+        final currentCount = await repo.getAlertCount(userId);
+        if (currentCount >= 3) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('You can only create 3 alerts.'),
+              backgroundColor: Colors.red,
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+            ),
+          );
+          return;
+        }
       }
 
       final alert = StockAlert(
-        id: const Uuid().v4(),
+        id: widget.existingAlert?.id ?? const Uuid().v4(),
         symbol: widget.symbol,
         targetPrice: price,
         condition: _condition,
         isActive: true,
         userId: userId,
-        createdAt: DateTime.now(),
+        createdAt: widget.existingAlert?.createdAt ?? DateTime.now(),
       );
 
       if (!mounted) return;
-      await context.read<AlertsRepository>().createAlert(alert);
+
+      if (widget.existingAlert != null) {
+        await repo.updateAlert(alert);
+      } else {
+        await repo.createAlert(alert);
+      }
 
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Alert set for ${widget.symbol} when price is $_condition \$${price.toStringAsFixed(2)}',
+              widget.existingAlert != null
+                  ? 'Alert updated for ${widget.symbol}'
+                  : 'Alert set for ${widget.symbol} when price is $_condition \$${price.toStringAsFixed(2)}',
             ),
             backgroundColor: AppTheme.primaryGreen,
             behavior: SnackBarBehavior.floating,
@@ -106,9 +122,13 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isEditing = widget.existingAlert != null;
+
     return AlertDialog(
       title: Text(
-        'Set Alert for ${widget.symbol}',
+        isEditing
+            ? 'Edit Alert for ${widget.symbol}'
+            : 'Set Alert for ${widget.symbol}',
         style: theme.textTheme.titleLarge,
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -188,7 +208,11 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
                     color: Colors.white,
                   ),
                 )
-              : const Text('Create Alert'),
+              : Text(
+                  widget.existingAlert != null
+                      ? 'Save Changes'
+                      : 'Create Alert',
+                ),
         ),
       ],
     );
