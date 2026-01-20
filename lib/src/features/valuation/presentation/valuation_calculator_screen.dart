@@ -3,9 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/currency/currency_controller.dart';
 import '../../market_data/data/stock_repository.dart';
+import '../../market_data/domain/stock.dart';
 import '../../valuation/domain/advanced_dcf_data.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+import '../../../shared/widgets/stock_logo.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
@@ -35,7 +37,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
   // Search State
   Timer? _searchDebounce;
-  List<({String symbol, String name})> _searchResults = [];
+  List<Stock> _searchResults = [];
   bool _isSearching = false;
 
   @override
@@ -62,10 +64,32 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
     _searchDebounce = Timer(const Duration(milliseconds: 500), () async {
       try {
-        final results = await _stockRepository.searchTicker(query);
+        // 1. Search for tickers
+        final tickerResults = await _stockRepository.searchTicker(query);
+
+        if (tickerResults.isEmpty) {
+          if (mounted) {
+            setState(() {
+              _searchResults = [];
+              _isSearching = false;
+            });
+          }
+          return;
+        }
+
+        // 2. Fetch details (enrichment) for logos, etc.
+        // Limit to top 5 to avoid heavy API usage if needed, though searchTicker limits to 10.
+        final stocks = await Future.wait(
+          tickerResults.map(
+            (t) => _stockRepository.getStock(t.symbol, name: t.name),
+          ),
+        );
+
+        final validStocks = stocks.whereType<Stock>().toList();
+
         if (mounted) {
           setState(() {
-            _searchResults = results;
+            _searchResults = validStocks;
             _isSearching = false;
           });
         }
@@ -349,6 +373,14 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                               final stock = _searchResults[index];
                               return ListTile(
                                 dense: true,
+                                leading: StockLogo(
+                                  url: stock.imageUrl,
+                                  symbol: stock.symbol,
+                                  countryCode: stock.country,
+                                  exchange: stock.exchange,
+                                  currency: stock.currency,
+                                  size: 40,
+                                ),
                                 title: Text(
                                   stock.symbol,
                                   style: const TextStyle(
@@ -356,7 +388,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  stock.name,
+                                  stock.companyName,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
