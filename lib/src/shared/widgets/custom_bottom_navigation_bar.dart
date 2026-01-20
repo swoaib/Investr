@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import '../theme/app_theme.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -22,12 +23,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardColor = Theme.of(context).cardTheme.color ?? Colors.white;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, bottomPadding),
       child: Container(
         height: height,
         decoration: BoxDecoration(
-          color: Theme.of(context).cardTheme.color,
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
@@ -37,12 +39,24 @@ class CustomBottomNavigationBar extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: items.map((item) {
-            final index = items.indexOf(item);
-            return _buildNavItem(index, item);
-          }).toList(),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: cardColor.withValues(alpha: 0.7),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: items.map((item) {
+                  final index = items.indexOf(item);
+                  return _buildNavItem(index, item);
+                }).toList(),
+              ),
+            ),
+          ),
         ),
       ),
     );
