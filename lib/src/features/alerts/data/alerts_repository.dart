@@ -97,6 +97,8 @@ class AlertsRepository {
       final data = alert.toMap();
       // Remove createdAt so we don't overwrite it (optional, but good practice)
       data.remove('createdAt');
+      // Reset lastStatus to null to re-enable notifications for this alert
+      data['lastStatus'] = null;
       await _firestore.collection('alerts').doc(alert.id).update(data);
     } catch (e) {
       debugPrint('Error updating alert: $e');
