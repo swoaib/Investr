@@ -1,4 +1,5 @@
-// import 'dart:io';
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -34,11 +35,10 @@ void main() {
         final repository = StockRepository();
         // 1. Fetch FMP Data
         final fmpStock = await repository.getStock(symbol);
-        expect(
-          fmpStock,
-          isNotNull,
-          reason: 'Failed to fetch FMP data for $symbol',
-        );
+
+        if (fmpStock == null) {
+          fail('Failed to fetch FMP data for $symbol');
+        }
 
         // 2. Fetch Yahoo Data
         // Using query1.finance.yahoo.com/v8/finance/chart/SYMBOL?interval=1d&range=1d
@@ -72,13 +72,13 @@ void main() {
 
         print('\n--- $symbol Comparison ---');
         print(
-          'FMP Price: \${fmpStock!.price.toStringAsFixed(2)} | Yahoo Price: \${yahooPrice.toStringAsFixed(2)}',
+          'FMP Price: \${fmpStock.price.toStringAsFixed(2)} | Yahoo Price: \${yahooPrice.toStringAsFixed(2)}',
         );
         print(
           'FMP Prev Close: \${fmpStock.previousClose?.toStringAsFixed(2)} | Yahoo Prev Close: \${yahooPrevClose.toStringAsFixed(2)}',
         );
         print(
-          'FMP Change %: ${fmpStock!.changePercent.toStringAsFixed(2)}% | Yahoo Change %: ${yahooChangePercent.toStringAsFixed(2)}%',
+          'FMP Change %: ${fmpStock.changePercent.toStringAsFixed(2)}% | Yahoo Change %: ${yahooChangePercent.toStringAsFixed(2)}%',
         );
 
         // 3. Assertions (Allowing for small differences due to delay/source)
@@ -86,15 +86,15 @@ void main() {
         // Note: If market is closed, they should be identical. If open, may vary slightly.
 
         final priceDiffPercent =
-            ((fmpStock!.price - yahooPrice).abs() / yahooPrice) * 100;
+            ((fmpStock.price - yahooPrice).abs() / yahooPrice) * 100;
         if (priceDiffPercent > 1.0) {
           print('WARNING: Price difference > 1% ($priceDiffPercent%)');
         }
 
         // Prev Close should be identical (static value)
         // Allow very small epsilon for float precision
-        if (fmpStock!.previousClose != null) {
-          final prevCloseDiff = (fmpStock!.previousClose! - yahooPrevClose)
+        if (fmpStock.previousClose != null) {
+          final prevCloseDiff = (fmpStock.previousClose! - yahooPrevClose)
               .abs();
           expect(
             prevCloseDiff,
