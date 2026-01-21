@@ -12,6 +12,7 @@ import '../../../shared/currency/currency_controller.dart';
 import '../domain/stock.dart';
 import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
+import '../../../shared/services/analytics_service.dart';
 import 'package:investr/l10n/app_localizations.dart';
 
 class StockListScreen extends StatelessWidget {
@@ -123,11 +124,19 @@ class _StockListViewState extends State<_StockListView> {
                     if (value.isEmpty) {
                       controller.clearSearch();
                     } else {
+                      context.read<AnalyticsService>().logSearch(
+                        value,
+                      ); // [NEW] Track search
                       controller.searchStock(value);
                     }
                   });
                 },
                 onSubmitted: (value) {
+                  if (value.isNotEmpty) {
+                    context.read<AnalyticsService>().logSearch(
+                      value,
+                    ); // [NEW] Track search
+                  }
                   controller.searchStock(value);
                 },
               ),

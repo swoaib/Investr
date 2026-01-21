@@ -11,6 +11,7 @@ import '../../../shared/widgets/stock_logo.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
+import '../../../shared/services/analytics_service.dart';
 
 class ValuationCalculatorScreen extends StatefulWidget {
   const ValuationCalculatorScreen({super.key});
@@ -130,6 +131,16 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
         riskFreeRate: _customRiskFreeRate,
         beta: _customBeta,
       );
+
+      if (dcfData != null && mounted) {
+        context.read<AnalyticsService>().logCalculatorUsage(
+          symbol: symbol,
+          result: dcfData.dcf,
+          wacc: dcfData.wacc,
+          growthRate: dcfData.longTermGrowthRate,
+        );
+        print("logged yyey");
+      }
 
       // 2. Fetch Current Price
       final stock = await _stockRepository.getStock(symbol);

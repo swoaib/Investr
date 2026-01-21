@@ -16,11 +16,13 @@ import 'features/alerts/data/alerts_repository.dart';
 import 'features/settings/presentation/privacy_policy_screen.dart';
 import 'features/settings/presentation/terms_of_service_screen.dart';
 
+import 'shared/services/analytics_service.dart';
+
 class InvestrApp extends StatefulWidget {
   final bool onboardingCompleted;
   final SharedPreferences prefs;
   final StockListController? stockListController;
-  final StockRepository? stockRepository; // [NEW]
+  final StockRepository? stockRepository;
   final ThemeController? themeController;
 
   const InvestrApp({
@@ -28,7 +30,7 @@ class InvestrApp extends StatefulWidget {
     required this.onboardingCompleted,
     required this.prefs,
     this.stockListController,
-    this.stockRepository, // [NEW]
+    this.stockRepository,
     this.themeController,
   });
 
@@ -38,17 +40,19 @@ class InvestrApp extends StatefulWidget {
 
 class _InvestrAppState extends State<InvestrApp> {
   late final GoRouter _router;
+  final _analyticsService = AnalyticsService();
 
   @override
   void initState() {
     super.initState();
-    _router = _buildRouter(widget.onboardingCompleted);
+    _router = _buildRouter(widget.onboardingCompleted, _analyticsService);
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<AnalyticsService>.value(value: _analyticsService),
         Provider<StockRepository>(
           create: (_) => widget.stockRepository ?? StockRepository(),
         ),
@@ -91,9 +95,10 @@ class _InvestrAppState extends State<InvestrApp> {
   }
 }
 
-GoRouter _buildRouter(bool onboardingCompleted) {
+GoRouter _buildRouter(bool onboardingCompleted, AnalyticsService analytics) {
   return GoRouter(
     initialLocation: onboardingCompleted ? '/' : '/onboarding',
+    observers: [analytics.observer],
     routes: [
       GoRoute(
         path: '/onboarding',
