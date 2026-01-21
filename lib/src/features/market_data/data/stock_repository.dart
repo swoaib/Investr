@@ -14,7 +14,9 @@ class StockRepository {
   String get apiKey => _apiKey;
   final String _baseUrl = 'https://financialmodelingprep.com';
 
-  StockRepository() {
+  final http.Client _client;
+
+  StockRepository({http.Client? client}) : _client = client ?? http.Client() {
     _apiKey = dotenv.env['FMP_API_KEY'] ?? '';
     if (_apiKey.isEmpty) {
       if (kDebugMode) {
@@ -88,7 +90,7 @@ class StockRepository {
       final url = Uri.parse(
         '$_baseUrl/stable/quote?symbol=$symbol&apikey=$_apiKey',
       );
-      final response = await http.get(url);
+      final response = await _client.get(url);
 
       if (response.statusCode == 200) {
         final dynamic jsonResponse = json.decode(response.body);
@@ -152,7 +154,7 @@ class StockRepository {
       final url = Uri.parse(
         '$_baseUrl/stable/profile?symbol=${stock.symbol}&apikey=$_apiKey',
       );
-      final response = await http.get(url);
+      final response = await _client.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -185,7 +187,7 @@ class StockRepository {
         '$_baseUrl/stable/ratios-ttm?symbol=${stock.symbol}&apikey=$_apiKey',
       );
 
-      final response = await http.get(url);
+      final response = await _client.get(url);
       Map<String, dynamic> ratios = {};
 
       if (response.statusCode == 200) {
@@ -250,7 +252,7 @@ class StockRepository {
       final url = Uri.parse(
         '$_baseUrl/stable/quote?symbol=$symbol&apikey=$_apiKey',
       );
-      final response = await http.get(url);
+      final response = await _client.get(url);
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         if (data.isNotEmpty) {
@@ -283,7 +285,7 @@ class StockRepository {
         '$_baseUrl/stable/income-statement?symbol=$symbol&apikey=$_apiKey$periodParam&limit=12',
       );
 
-      final response = await http.get(url);
+      final response = await _client.get(url);
       if (response.statusCode == 200) {
         final List data = json.decode(response.body);
 
@@ -386,7 +388,7 @@ class StockRepository {
         '$_baseUrl/stable/historical-price-eod/light?symbol=$symbol&apikey=$_apiKey',
       );
 
-      final response = await http.get(url);
+      final response = await _client.get(url);
 
       if (response.statusCode == 200) {
         final dynamic jsonResponse = json.decode(response.body);
@@ -469,7 +471,7 @@ class StockRepository {
         '$_baseUrl/stable/historical-chart/5min?symbol=$symbol&apikey=$_apiKey',
       );
 
-      final response = await http.get(url);
+      final response = await _client.get(url);
 
       if (response.statusCode == 200) {
         final dynamic jsonResponse = json.decode(response.body);
@@ -509,7 +511,7 @@ class StockRepository {
         '$_baseUrl/stable/historical-chart/1hour?symbol=$symbol&apikey=$_apiKey',
       );
 
-      final response = await http.get(url);
+      final response = await _client.get(url);
 
       if (response.statusCode == 200) {
         final dynamic jsonResponse = json.decode(response.body);
@@ -548,7 +550,7 @@ class StockRepository {
         '$_baseUrl/stable/historical-chart/15min?symbol=$symbol&apikey=$_apiKey',
       );
 
-      final response = await http.get(url);
+      final response = await _client.get(url);
 
       if (response.statusCode == 200) {
         final dynamic jsonResponse = json.decode(response.body);
@@ -649,8 +651,8 @@ class StockRepository {
       );
 
       final results = await Future.wait([
-        http.get(symbolUrl),
-        http.get(nameUrl),
+        _client.get(symbolUrl),
+        _client.get(nameUrl),
       ]);
 
       final Map<String, ({String symbol, String name})> combinedResults = {};
@@ -745,7 +747,7 @@ class StockRepository {
       final priceUrl = Uri.parse(
         '$_baseUrl/api/v3/quote/$symbol?apikey=$_apiKey',
       );
-      final priceResponse = await http.get(priceUrl);
+      final priceResponse = await _client.get(priceUrl);
       double price = 0.0;
       if (priceResponse.statusCode == 200) {
         final List<dynamic> data = json.decode(priceResponse.body);
@@ -767,9 +769,9 @@ class StockRepository {
       );
 
       final results = await Future.wait([
-        http.get(incomeUrl),
-        http.get(balanceUrl),
-        http.get(cashFlowUrl),
+        _client.get(incomeUrl),
+        _client.get(balanceUrl),
+        _client.get(cashFlowUrl),
       ]);
 
       if (results.every((r) => r.statusCode == 200)) {
@@ -818,7 +820,7 @@ class StockRepository {
     try {
       var query = 'symbol=$symbol&apikey=$_apiKey';
       if (wacc != null) query += '&wacc=$wacc';
-      if (taxRate != null) query += '&taxRate=$taxRate';
+      if (taxRate != null) query += '&taxRate=${taxRate / 100}';
       if (riskFreeRate != null) query += '&riskFreeRate=$riskFreeRate';
       if (longTermGrowthRate != null) {
         query += '&longTermGrowthRate=$longTermGrowthRate';
@@ -828,7 +830,7 @@ class StockRepository {
       final url = Uri.parse(
         '$_baseUrl/stable/custom-discounted-cash-flow?$query',
       );
-      final response = await http.get(url);
+      final response = await _client.get(url);
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         if (data.isNotEmpty) {
