@@ -922,24 +922,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                               final spot = touchResponse.lineBarSpots!.first;
                               final val = spot.x;
 
-                              if (isIntraday) {
-                                final date =
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                      val.toInt(),
-                                    );
-                                setState(() {
-                                  _selectedPoint = PricePoint(
-                                    date: date,
-                                    price: spot.y / rate,
-                                  );
-                                });
-                              } else {
                               final index = val.toInt();
                               if (index >= 0 && index < points.length) {
                                 setState(() {
                                   _selectedPoint = points[index];
                                 });
-                                }
                               }
                             },
                         handleBuiltInTouches: true,
