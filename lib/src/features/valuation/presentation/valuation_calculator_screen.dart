@@ -139,7 +139,6 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
           wacc: dcfData.wacc,
           growthRate: dcfData.longTermGrowthRate,
         );
-        print("logged yyey");
       }
 
       // 2. Fetch Current Price
