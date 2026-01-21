@@ -328,8 +328,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
   String _formatDate(DateTime date) {
     if (_selectedInterval == '1D') {
-      // Since 1D now shows a "Daily Trend" of 30 days, we show MMM d format
-      return DateFormat('MMM d').format(date);
+      return DateFormat('MMM d, HH:mm').format(date);
     } else if (_selectedInterval == '1W' || _selectedInterval == '1M') {
       return DateFormat('MMM d, yyyy').format(date);
     } else {
@@ -935,11 +934,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                                   );
                                 });
                               } else {
-                                final index = val.toInt();
-                                if (index >= 0 && index < points.length) {
-                                  setState(() {
-                                    _selectedPoint = points[index];
-                                  });
+                              final index = val.toInt();
+                              if (index >= 0 && index < points.length) {
+                                setState(() {
+                                  _selectedPoint = points[index];
+                                });
                                 }
                               }
                             },
