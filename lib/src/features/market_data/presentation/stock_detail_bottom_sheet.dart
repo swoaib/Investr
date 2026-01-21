@@ -737,6 +737,17 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
       maxY = maxPrice + padding;
     }
 
+    double yAxisReservedSize = 35;
+    if (minY != null && maxY != null) {
+      String format(double v) =>
+          v >= 100 ? v.toStringAsFixed(0) : v.toStringAsFixed(2);
+      final maxLen = format(maxY).length;
+      final minLen = format(minY).length;
+      final length = maxLen > minLen ? maxLen : minLen;
+      // Approx width: ~7px per char for size 10 font + 8px left padding + buffer
+      yAxisReservedSize = (length * 7.0) + 12.0;
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -871,14 +882,16 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                         rightTitles: AxisTitles(
                           sideTitles: SideTitles(
                             showTitles: true,
-                            reservedSize: 35,
+                            reservedSize: yAxisReservedSize,
                             maxIncluded: false,
                             minIncluded: false,
                             getTitlesWidget: (value, meta) {
                               return Padding(
                                 padding: const EdgeInsets.only(left: 8),
                                 child: Text(
-                                  '$currencySymbol ${value.toStringAsFixed(0)}',
+                                  value >= 100
+                                      ? value.toStringAsFixed(0)
+                                      : value.toStringAsFixed(2),
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 10,
