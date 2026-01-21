@@ -327,12 +327,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   }
 
   String _formatDate(DateTime date) {
+    final localDate = date.toLocal();
     if (_selectedInterval == '1D') {
-      return DateFormat('MMM d, HH:mm').format(date);
+      return DateFormat('MMM d, HH:mm').format(localDate);
     } else if (_selectedInterval == '1W' || _selectedInterval == '1M') {
-      return DateFormat('MMM d, yyyy').format(date);
+      return DateFormat('MMM d, yyyy').format(localDate);
     } else {
-      return DateFormat('MMM yyyy').format(date);
+      return DateFormat('MMM yyyy').format(localDate);
     }
   }
 
