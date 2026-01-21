@@ -403,7 +403,7 @@ class StockRepository {
 
               if (dateStr != null && price != null) {
                 points.add(
-                  PricePoint(date: DateTime.parse(dateStr), price: price),
+                  PricePoint(date: _parseETDate(dateStr), price: price),
                 );
               }
             }
@@ -486,7 +486,7 @@ class StockRepository {
 
               if (dateStr != null && price != null) {
                 points.add(
-                  PricePoint(date: DateTime.parse(dateStr), price: price),
+                  PricePoint(date: _parseETDate(dateStr), price: price),
                 );
               }
             }
@@ -526,7 +526,7 @@ class StockRepository {
 
               if (dateStr != null && price != null) {
                 points.add(
-                  PricePoint(date: DateTime.parse(dateStr), price: price),
+                  PricePoint(date: _parseETDate(dateStr), price: price),
                 );
               }
             }
@@ -565,7 +565,7 @@ class StockRepository {
 
               if (dateStr != null && price != null) {
                 points.add(
-                  PricePoint(date: DateTime.parse(dateStr), price: price),
+                  PricePoint(date: _parseETDate(dateStr), price: price),
                 );
               }
             }
@@ -861,13 +861,46 @@ class StockRepository {
     return points;
   }
 
-  /// Checks if a given UTC time is within US Daylight Saving Time.
-  /// DST starts on the second Sunday in March and ends on the first Sunday in November.
-  bool isUSDST(DateTime utcDate) {
-    final year = utcDate.year;
+  /// Parses an ET date string (from FMP) into a UTC DateTime.
+  DateTime _parseETDate(String dateStr) {
+    // Parse as "local" just to get components (year, month, day, hour...)
+    // independent of device timezone for now.
+    // FMP format is usually "yyyy-MM-dd HH:mm:ss" or just "yyyy-MM-dd"
+    final local = DateTime.parse(dateStr);
+
+    // If just a date (no time), assuming EOD close (16:00 ET) or simpler handling?
+    // The previous code used DateTime.parse which defaults to midnight if no time.
+    // But EOD history usually implies the close of that day.
+    // FMP Daily History: "2023-10-27". 00:00:00.
+    // If we want "Market Close", we might add 16 hours.
+    // But for daily charts, 00:00 is often assumed.
+    // Let's preserve the existing behavior of taking the time as given,
+    // but correcting the timezone from "Device Local" to "ET".
+
+    final bool isDst = _isUSDST(local);
+    final int offset = isDst ? 4 : 5; // EDT is UTC-4, EST is UTC-5
+
+    // Create UTC date by adding the offset to the wall clock time
+    return DateTime.utc(
+      local.year,
+      local.month,
+      local.day,
+      local.hour,
+      local.minute,
+      local.second,
+      local.millisecond,
+      local.microsecond,
+    ).add(Duration(hours: offset));
+  }
+
+  /// Checks if a given ET Time is within US Daylight Saving Time.
+  /// DST starts on the second Sunday in March at 02:00.
+  /// DST ends on the first Sunday in November at 02:00.
+  bool _isUSDST(DateTime etDate) {
+    final year = etDate.year;
 
     // Find second Sunday in March
-    DateTime marchDstStart = DateTime.utc(year, 3, 1);
+    DateTime marchDstStart = DateTime(year, 3, 1, 2, 0, 0); // Start at 2AM
     int marchSundayCount = 0;
     while (marchSundayCount < 2) {
       if (marchDstStart.weekday == DateTime.sunday) {
@@ -877,17 +910,14 @@ class StockRepository {
         marchDstStart = marchDstStart.add(const Duration(days: 1));
       }
     }
-    // Change happens at 2AM local. 2AM EST is 7AM UTC.
-    marchDstStart = marchDstStart.add(const Duration(hours: 7));
 
     // Find first Sunday in November
-    DateTime novDstEnd = DateTime.utc(year, 11, 1);
+    DateTime novDstEnd = DateTime(year, 11, 1, 2, 0, 0); // End at 2AM
     while (novDstEnd.weekday != DateTime.sunday) {
       novDstEnd = novDstEnd.add(const Duration(days: 1));
     }
-    // Change happens at 2AM local. 2AM EDT is 6AM UTC.
-    novDstEnd = novDstEnd.add(const Duration(hours: 6));
 
-    return utcDate.isAfter(marchDstStart) && utcDate.isBefore(novDstEnd);
+    // Check if etDate is between start and end
+    return etDate.isAfter(marchDstStart) && etDate.isBefore(novDstEnd);
   }
 }
