@@ -119,7 +119,7 @@ class _EarningsChartState extends State<EarningsChart> {
                               : minStr;
 
                           // Increase buffer: 8px per char + 12px padding to be safe for all fonts/negative signs
-                          final yAxisWidth = (longest.length * 8.0) + 12.0;
+                          final yAxisWidth = (longest.length * 8.0) + 8.0;
 
                           return SizedBox(
                             width: yAxisWidth, // width matches reservedSize
@@ -148,7 +148,7 @@ class _EarningsChartState extends State<EarningsChart> {
                                               color: Colors.grey,
                                               fontSize: 10,
                                             ),
-                                            textAlign: TextAlign.right,
+                                            textAlign: TextAlign.left,
                                             maxLines: 1,
                                           ),
                                         );
