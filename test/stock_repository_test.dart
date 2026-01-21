@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -7,10 +8,20 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
   setUpAll(() async {
-    // Load test environment variables
-    await dotenv.load(
-      fileName: '/Users/sohaibahmed/Developer/Investr/test/.env',
-    );
+    // Create a temporary .env file for testing to ensure dotenv initializes successfully
+    // Use absolute path to ensure robustness in CI/different runners
+    final path = '${Directory.current.path}/test_env';
+    final file = File(path);
+    await file.writeAsString('FMP_API_KEY=test_key');
+    await dotenv.load(fileName: path);
+  });
+
+  tearDownAll(() async {
+    final path = '${Directory.current.path}/test_env';
+    final file = File(path);
+    if (await file.exists()) {
+      await file.delete();
+    }
   });
 
   group('StockRepository DCF Tests', () {
