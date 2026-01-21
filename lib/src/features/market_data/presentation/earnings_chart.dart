@@ -105,60 +105,78 @@ class _EarningsChartState extends State<EarningsChart> {
                 ? Center(child: Text(l10n.noEarningsHistory))
                 : Row(
                     children: [
-                      SizedBox(
-                        width: 45,
-                        child: BarChart(
-                          BarChartData(
-                            alignment: BarChartAlignment.center,
-                            maxY: scale.maxY,
-                            minY: scale.minY,
-                            barTouchData: BarTouchData(enabled: false),
-                            titlesData: FlTitlesData(
-                              show: true,
-                              leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  reservedSize: 40,
-                                  interval: scale.interval,
-                                  getTitlesWidget: (value, meta) {
-                                    if (value == 0) return const SizedBox();
-                                    return Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 4.0,
-                                      ),
-                                      child: Text(
-                                        _formatAxisValue(value, isRevenue),
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 10,
-                                        ),
-                                        textAlign: TextAlign.right,
-                                        maxLines: 1,
-                                      ),
-                                    );
-                                  },
+                      // Calculate Y-axis size dynamically
+                      Builder(
+                        builder: (context) {
+                          final maxVal = scale.maxY;
+                          final minVal = scale.minY;
+                          final isRev = metric == 'Revenue';
+
+                          final maxStr = _formatAxisValue(maxVal, isRev);
+                          final minStr = _formatAxisValue(minVal, isRev);
+                          final longest = maxStr.length > minStr.length
+                              ? maxStr
+                              : minStr;
+
+                          // Increase buffer: 8px per char + 12px padding to be safe for all fonts/negative signs
+                          final yAxisWidth = (longest.length * 8.0) + 12.0;
+
+                          return SizedBox(
+                            width: yAxisWidth, // width matches reservedSize
+                            child: BarChart(
+                              BarChartData(
+                                alignment: BarChartAlignment.center,
+                                maxY: scale.maxY,
+                                minY: scale.minY,
+                                barTouchData: BarTouchData(enabled: false),
+                                titlesData: FlTitlesData(
+                                  show: true,
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      reservedSize: yAxisWidth,
+                                      interval: scale.interval,
+                                      getTitlesWidget: (value, meta) {
+                                        if (value == 0) return const SizedBox();
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 4.0,
+                                          ),
+                                          child: Text(
+                                            _formatAxisValue(value, isRevenue),
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 10,
+                                            ),
+                                            textAlign: TextAlign.right,
+                                            maxLines: 1,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      reservedSize: 32,
+                                      getTitlesWidget: (value, meta) =>
+                                          const SizedBox(),
+                                    ),
+                                  ),
+                                  topTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  rightTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
                                 ),
-                              ),
-                              bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  reservedSize: 32,
-                                  getTitlesWidget: (value, meta) =>
-                                      const SizedBox(),
-                                ),
-                              ),
-                              topTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
-                              ),
-                              rightTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
+                                gridData: FlGridData(show: false),
+                                borderData: FlBorderData(show: false),
+                                barGroups: [],
                               ),
                             ),
-                            gridData: FlGridData(show: false),
-                            borderData: FlBorderData(show: false),
-                            barGroups: [],
-                          ),
-                        ),
+                          );
+                        },
                       ),
                       Expanded(
                         child: SingleChildScrollView(
