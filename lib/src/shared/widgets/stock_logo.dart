@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../market/market_schedule_service.dart';
 
 class StockLogo extends StatelessWidget {
   final String url;
@@ -55,8 +56,7 @@ class StockLogo extends StatelessWidget {
   }
 
   Widget _buildFallback(bool isDark) {
-    // If it's a known index or has a known country code, show a flag.
-    // Otherwise show the first letter.
+    // Use the duplicate logic from _inferCountryCode but rely on MarketScheduleService now
     final code = countryCode?.toLowerCase() ?? _inferCountryCode();
 
     // Check if we have this asset locally (using the same set as before)
@@ -285,7 +285,7 @@ class StockLogo extends StatelessWidget {
       'sy',
       'sz',
       'ta',
-      'tc',
+
       'td',
       'tf',
       'tg',
@@ -357,113 +357,10 @@ class StockLogo extends StatelessWidget {
   }
 
   String _inferCountryCode() {
-    // 0. Explicit Index Overrides
-    if (symbol == '^N225') return 'jp'; // Nikkei 225
-    if (symbol == '^HSI') return 'hk'; // Hang Seng
-    if (symbol == '^FTSE') return 'gb'; // FTSE 100
-    if (symbol == '^GDAXI') return 'de'; // DAX
-    if (symbol == '^FCHI') return 'fr'; // CAC 40
-    if (symbol == '^KS11') return 'kr'; // KOSPI
-    if (symbol == '^BSESN') return 'in'; // BSE Sensex
-    if (symbol == '^STI') return 'sg'; // Straits Times
-
-    // 1. Check Exchange
-    if (exchange != null) {
-      final ex = exchange!.toUpperCase();
-      if (ex.contains('LONDON') || ex == 'LSE' || ex == 'FTSE') return 'gb';
-      if (ex.contains('TORONTO') || ex == 'TSX') return 'ca';
-      if (ex.contains('PARIS') || ex == 'EURONEXT') {
-        return 'fr'; // Catch-all for Euronext often France
-      }
-      if (ex.contains('FRANKFURT') || ex.contains('XETRA') || ex == 'GER') {
-        return 'de';
-      }
-      if (ex.contains('HONG KONG') || ex == 'HKSE') return 'hk';
-      if (ex.contains('INDIA') || ex == 'NSE' || ex == 'BSE') return 'in';
-      if (ex.contains('AUSTRALIAN') || ex == 'ASX') return 'au';
-      if (ex.contains('SAO PAULO') || ex == 'BOVESPA') return 'br';
-      if (ex.contains('TOKYO') || ex == 'JPX') return 'jp';
-      if (ex.contains('KOREA') || ex == 'KSE') return 'kr';
-      if (ex.contains('SIX')) return 'ch';
-    }
-
-    // 2. Check Currency
-    if (currency != null) {
-      final cur = currency!.toUpperCase();
-      switch (cur) {
-        case 'GBP':
-          return 'gb';
-        case 'CAD':
-          return 'ca';
-        case 'JPY':
-          return 'jp';
-        case 'AUD':
-          return 'au';
-        case 'INR':
-          return 'in';
-        case 'HKD':
-          return 'hk';
-        case 'BRL':
-          return 'br';
-        case 'CHF':
-          return 'ch';
-        case 'CNY':
-          return 'cn';
-        case 'SGD':
-          return 'sg';
-        case 'EUR':
-          return 'eu'; // Generic EU flag for Euro
-      }
-    }
-
-    // 3. Handle Suffixes (Exchange) - Fallback
-    if (symbol.contains('.')) {
-      final suffix = symbol.split('.').last;
-      switch (suffix) {
-        case 'L':
-          return 'gb';
-        case 'TO':
-          return 'ca';
-        case 'PA':
-          return 'fr';
-        case 'DE':
-          return 'de';
-        case 'HK':
-          return 'hk';
-        case 'KS':
-          return 'kr';
-        case 'SI':
-          return 'sg';
-        case 'MI':
-          return 'it';
-        case 'MC':
-          return 'es';
-        case 'AS':
-          return 'nl';
-        case 'BR':
-          return 'be';
-        case 'SW':
-          return 'ch'; // Swiss
-        case 'SA':
-          return 'br'; // Sao Paulo
-        case 'V':
-          return 'ca'; // TSX Venture
-        case 'NE':
-          return 'ca'; // NEO
-      }
-    }
-
-    // 4. Forex/Crypto heuristics
-    if (!symbol.contains('.')) {
-      if (symbol.startsWith('EUR')) return 'eu';
-      if (symbol.startsWith('GBP')) return 'gb';
-      if (symbol.startsWith('JPY')) return 'jp';
-      if (symbol.startsWith('CAD')) return 'ca';
-      if (symbol.startsWith('AUD')) return 'au';
-      if (symbol.startsWith('CNY')) return 'cn';
-    }
-
-    // 5. Default to US
-    return 'us';
+    return MarketScheduleService.getCountryCode(
+      symbol,
+      exchange: exchange,
+      currency: currency,
+    );
   }
 }

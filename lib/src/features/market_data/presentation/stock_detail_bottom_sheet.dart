@@ -12,6 +12,7 @@ import '../domain/price_point.dart';
 import '../domain/stock.dart';
 import '../domain/earnings_point.dart';
 import 'earnings_chart.dart';
+import '../../../shared/market/market_schedule_service.dart';
 import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
 import '../../alerts/presentation/alert_dialog.dart';
 import '../../../shared/widgets/sliding_segmented_control.dart';
@@ -224,7 +225,10 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
   List<PricePoint> get _filteredHistory {
     if (_selectedInterval == '1D') {
       if (_intradayHistory != null && _intradayHistory!.isNotEmpty) {
-        return _repository.filterForMarketHours(_intradayHistory!);
+        return _repository.filterForMarketHours(
+          _intradayHistory!,
+          _stock.symbol,
+        );
       }
       return [];
     }
@@ -698,9 +702,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
 
         // If today, project full day (min 78 intervals).
         // This ensures the graph grows from left to right for ALL markets.
+        // If today, project full day based on market schedule (e.g., 78 for US, 60 for Nikkei).
+        // This ensures the graph grows from left to right for ALL markets.
         if (isToday) {
+          final schedule = MarketScheduleService.getSchedule(_stock.symbol);
+          // Assuming 5-minute intervals for intraday (1D) view
+          final expectedPoints = schedule.expectedPoints(5);
+
           double count = (points.length - 1).toDouble();
-          maxX = count < 78.0 ? 78.0 : count;
+          maxX = count < expectedPoints ? expectedPoints : count;
         } else {
           maxX = (points.length - 1).toDouble();
         }

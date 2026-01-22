@@ -8,6 +8,7 @@ import '../domain/earnings_point.dart';
 import '../../valuation/domain/dcf_data.dart';
 import '../../valuation/domain/advanced_dcf_data.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../../shared/market/market_schedule_service.dart';
 
 class StockRepository {
   late final String _apiKey;
@@ -403,7 +404,10 @@ class StockRepository {
 
               if (dateStr != null && price != null) {
                 points.add(
-                  PricePoint(date: _parseETDate(dateStr), price: price),
+                  PricePoint(
+                    date: _parseMarketDate(dateStr, symbol),
+                    price: price,
+                  ),
                 );
               }
             }
@@ -486,7 +490,10 @@ class StockRepository {
 
               if (dateStr != null && price != null) {
                 points.add(
-                  PricePoint(date: _parseETDate(dateStr), price: price),
+                  PricePoint(
+                    date: _parseMarketDate(dateStr, symbol),
+                    price: price,
+                  ),
                 );
               }
             }
@@ -526,7 +533,10 @@ class StockRepository {
 
               if (dateStr != null && price != null) {
                 points.add(
-                  PricePoint(date: _parseETDate(dateStr), price: price),
+                  PricePoint(
+                    date: _parseMarketDate(dateStr, symbol),
+                    price: price,
+                  ),
                 );
               }
             }
@@ -565,7 +575,10 @@ class StockRepository {
 
               if (dateStr != null && price != null) {
                 points.add(
-                  PricePoint(date: _parseETDate(dateStr), price: price),
+                  PricePoint(
+                    date: _parseMarketDate(dateStr, symbol),
+                    price: price,
+                  ),
                 );
               }
             }
@@ -843,81 +856,92 @@ class StockRepository {
     return null;
   }
 
-  /// Filters price points to keep only regular market hours (09:30 - 16:00 ET).
-  /// FMP returns dates in ET (Wall Clock). We parse them as-is and check the hour/minute.
+  /// Filters price points to keep only regular market hours.
+  /// Uses MarketScheduleService to determine specific hours for the symbol (or default).
   /// Also filters to return only the LATEST trading day found in the data.
-  /// Filters price points to keep only the LATEST trading day found in the data.
-  /// Does NOT filter by hours (keeps pre-market/after-hours) to ensure sparklines have data to show.
-  List<PricePoint> filterForMarketHours(List<PricePoint> points) {
+  List<PricePoint> filterForMarketHours(
+    List<PricePoint> points,
+    String symbol,
+  ) {
     if (points.isEmpty) return [];
 
-    // Sort just in case (though usually sorted)
+    // Sort just in case
     points.sort((a, b) => a.date.compareTo(b.date));
 
-    // If data is daily (hours are all 00:00), don't filter by "market hours" of the day.
-    // Just return the sorted points.
-    // The simplified EOD endpoint returns daily data, so filtering by "Latest Day"
-    // would result in a single point, which breaks the sparkline.
-    return points;
+    // 1. Identify "Latest Trading Day" from the data in LOCAL time (wall clock of the market)
+    // We need to know the market's timezone to correctly interpret "Latest Day".
+    // ... Actually, for now, let's just take the last point's date components as the "Day".
+    // This assumes the API returns data that is generally correct for that day.
+
+    final lastPoint = points.last;
+    // We want all points that fall on this same calendar day (in the data's terms)
+    // Note: FMP dates are usually ET for US stocks, or local for others.
+    // We treating them as "wall clock" dates in PricePoint.
+
+    final targetYear = lastPoint.date.year;
+    final targetMonth = lastPoint.date.month;
+    final targetDay = lastPoint.date.day;
+
+    final dayPoints = points
+        .where(
+          (p) =>
+              p.date.year == targetYear &&
+              p.date.month == targetMonth &&
+              p.date.day == targetDay,
+        )
+        .toList();
+
+    // 2. Filter by Schedule (Hours/Minutes)
+    // Fetch schedule
+    final schedule = MarketScheduleService.getSchedule(symbol);
+
+    return dayPoints.where((p) {
+      // Convert stored UTC time back to Market Wall Clock time for checking against schedule
+      final offset = MarketScheduleService.getUtcOffset(symbol, p.date);
+      final marketTime = p.date.add(Duration(hours: offset));
+
+      // Convert to Minutes from Midnight (Market Time)
+      final mins = marketTime.hour * 60 + marketTime.minute;
+
+      final startMins = schedule.startHour * 60 + schedule.startMinute;
+      final endMins = schedule.endHour * 60 + schedule.endMinute;
+
+      // Check for Lunch Break
+      if (schedule.lunchStartHour != null && schedule.lunchEndHour != null) {
+        final lunchStart =
+            schedule.lunchStartHour! * 60 + (schedule.lunchStartMinute ?? 0);
+        final lunchEnd =
+            schedule.lunchEndHour! * 60 + (schedule.lunchEndMinute ?? 0);
+        if (mins >= lunchStart && mins < lunchEnd) return false;
+      }
+
+      // Allow slightly out of bounds if it's within a reasonable margin?
+      // Or strict? strict for now.
+      return mins >= startMins && mins <= endMins;
+    }).toList();
   }
 
-  /// Parses an ET date string (from FMP) into a UTC DateTime.
-  DateTime _parseETDate(String dateStr) {
-    // Parse as "local" just to get components (year, month, day, hour...)
-    // independent of device timezone for now.
-    // FMP format is usually "yyyy-MM-dd HH:mm:ss" or just "yyyy-MM-dd"
-    final local = DateTime.parse(dateStr);
+  /// FMP 'historical-chart' usually returns "Wall Clock" time of the exchange.
+  /// e.g. Nikkei 9:00 is 9:00 JST. AAPL 9:30 is 9:30 ET.
+  DateTime _parseMarketDate(String dateStr, String symbol) {
+    // 1. Parse the string to get the "Wall Clock" components
+    final localComponents = DateTime.parse(dateStr);
 
-    // If just a date (no time), assuming EOD close (16:00 ET) or simpler handling?
-    // The previous code used DateTime.parse which defaults to midnight if no time.
-    // But EOD history usually implies the close of that day.
-    // FMP Daily History: "2023-10-27". 00:00:00.
-    // If we want "Market Close", we might add 16 hours.
-    // But for daily charts, 00:00 is often assumed.
-    // Let's preserve the existing behavior of taking the time as given,
-    // but correcting the timezone from "Device Local" to "ET".
+    // 2. Get timezone offset from service
+    final offsetHours = MarketScheduleService.getUtcOffset(
+      symbol,
+      localComponents,
+    );
 
-    final bool isDst = _isUSDST(local);
-    final int offset = isDst ? 4 : 5; // EDT is UTC-4, EST is UTC-5
-
-    // Create UTC date by adding the offset to the wall clock time
+    // 3. Convert: UTC = WallClock - Offset
     return DateTime.utc(
-      local.year,
-      local.month,
-      local.day,
-      local.hour,
-      local.minute,
-      local.second,
-      local.millisecond,
-      local.microsecond,
-    ).add(Duration(hours: offset));
-  }
-
-  /// Checks if a given ET Time is within US Daylight Saving Time.
-  /// DST starts on the second Sunday in March at 02:00.
-  /// DST ends on the first Sunday in November at 02:00.
-  bool _isUSDST(DateTime etDate) {
-    final year = etDate.year;
-
-    // Find second Sunday in March
-    DateTime marchDstStart = DateTime(year, 3, 1, 2, 0, 0); // Start at 2AM
-    int marchSundayCount = 0;
-    while (marchSundayCount < 2) {
-      if (marchDstStart.weekday == DateTime.sunday) {
-        marchSundayCount++;
-      }
-      if (marchSundayCount < 2) {
-        marchDstStart = marchDstStart.add(const Duration(days: 1));
-      }
-    }
-
-    // Find first Sunday in November
-    DateTime novDstEnd = DateTime(year, 11, 1, 2, 0, 0); // End at 2AM
-    while (novDstEnd.weekday != DateTime.sunday) {
-      novDstEnd = novDstEnd.add(const Duration(days: 1));
-    }
-
-    // Check if etDate is between start and end
-    return etDate.isAfter(marchDstStart) && etDate.isBefore(novDstEnd);
+      localComponents.year,
+      localComponents.month,
+      localComponents.day,
+      localComponents.hour,
+      localComponents.minute,
+      localComponents.second,
+      localComponents.millisecond,
+    ).subtract(Duration(hours: offsetHours));
   }
 }

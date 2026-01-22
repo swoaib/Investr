@@ -14,6 +14,7 @@ import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
 import '../../../shared/services/analytics_service.dart';
 import 'package:investr/l10n/app_localizations.dart';
+import '../../../shared/market/market_schedule_service.dart';
 
 class StockListScreen extends StatelessWidget {
   const StockListScreen({super.key});
@@ -431,11 +432,17 @@ class _StockListItem extends StatelessWidget {
                           lastDate.month == now.month &&
                           lastDate.day == now.day;
 
-                      // Standardize scaling: Min 78 points (US trading day) for "Today"
-                      // This ensures "In-Progress" look (Left-to-Right) for all markets.
+                      // Standardize scaling based on market schedule
                       if (isToday) {
+                        final schedule = MarketScheduleService.getSchedule(
+                          stock.symbol,
+                        );
+                        final expectedPoints = schedule.expectedPoints(
+                          5,
+                        ); // 5-min intervals
+
                         final count = (points.length - 1).toDouble();
-                        return count < 78.0 ? 78.0 : count;
+                        return count < expectedPoints ? expectedPoints : count;
                       }
                       return (points.length - 1).toDouble();
                     })(),
