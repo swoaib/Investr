@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -11,8 +12,9 @@ Future<void> main() async {
     for (var line in envContent.split('\n')) {
       if (line.contains('=')) {
         final parts = line.split('=');
-        if (parts.length >= 2)
+        if (parts.length >= 2) {
           env[parts[0].trim()] = parts.sublist(1).join('=').trim();
+        }
       }
     }
   } catch (e) {

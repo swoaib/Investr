@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'package:investr/src/shared/market/market_schedule_service.dart';
 
 void main() {

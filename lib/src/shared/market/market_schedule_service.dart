@@ -137,14 +137,16 @@ class MarketScheduleService {
     if (symbol == '^N225') return MarketSchedule.tokyo;
     if (symbol == '^HSI') return MarketSchedule.hongKong;
     if (symbol == '^FTSE') return MarketSchedule.london;
-    if (symbol == '^GDAXI')
+    if (symbol == '^GDAXI') {
       return MarketSchedule.euronext.copyWith(
         countryCode: 'de',
         timezone: 'Europe/Berlin',
       );
-    if (symbol == '^FCHI')
+    }
+    if (symbol == '^FCHI') {
       return MarketSchedule.euronext.copyWith(countryCode: 'fr');
-    if (symbol == '^KS11')
+    }
+    if (symbol == '^KS11') {
       return MarketSchedule(
         timezone: 'Asia/Seoul',
         startHour: 9,
@@ -153,7 +155,8 @@ class MarketScheduleService {
         endMinute: 30,
         countryCode: 'kr',
       );
-    if (symbol == '^BSESN')
+    }
+    if (symbol == '^BSESN') {
       return MarketSchedule(
         timezone: 'Asia/Kolkata',
         startHour: 9,
@@ -162,22 +165,26 @@ class MarketScheduleService {
         endMinute: 30,
         countryCode: 'in',
       );
+    }
 
     // 2. Exchange Logic
     if (exchange != null) {
       final ex = exchange.toUpperCase();
       if (ex.contains('TOKYO') || ex == 'JPX') return MarketSchedule.tokyo;
-      if (ex.contains('HONG KONG') || ex == 'HKSE')
+      if (ex.contains('HONG KONG') || ex == 'HKSE') {
         return MarketSchedule.hongKong;
+      }
       if (ex.contains('LONDON') || ex == 'LSE') return MarketSchedule.london;
-      if (ex.contains('PARIS') || ex == 'EURONEXT')
+      if (ex.contains('PARIS') || ex == 'EURONEXT') {
         return MarketSchedule.euronext.copyWith(countryCode: 'fr');
+      }
       if (ex.contains('TORONTO') || ex == 'TSX') return MarketSchedule.toronto;
-      if (ex.contains('GER') || ex.contains('XETRA'))
+      if (ex.contains('GER') || ex.contains('XETRA')) {
         return MarketSchedule.euronext.copyWith(
           countryCode: 'de',
           timezone: 'Europe/Berlin',
         );
+      }
     }
 
     // 3. Suffix Logic
@@ -381,10 +388,10 @@ extension MarketScheduleCopyWith on MarketSchedule {
       endHour: endHour ?? this.endHour,
       endMinute: endMinute ?? this.endMinute,
       countryCode: countryCode ?? this.countryCode,
-      lunchStartHour: this.lunchStartHour,
-      lunchStartMinute: this.lunchStartMinute,
-      lunchEndHour: this.lunchEndHour,
-      lunchEndMinute: this.lunchEndMinute,
+      lunchStartHour: lunchStartHour,
+      lunchStartMinute: lunchStartMinute,
+      lunchEndHour: lunchEndHour,
+      lunchEndMinute: lunchEndMinute,
     );
   }
 }
