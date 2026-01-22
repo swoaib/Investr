@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/foundation.dart';
 
 class AnalyticsService {
   static final AnalyticsService _instance = AnalyticsService._internal();
