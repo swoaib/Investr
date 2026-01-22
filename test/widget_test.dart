@@ -13,6 +13,7 @@ void main() {
     final mockStockListController = MockStockListController();
     final mockStockRepository = MockStockRepository();
     final mockThemeController = MockThemeController();
+    final mockAnalyticsService = MockAnalyticsService();
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(
@@ -22,6 +23,7 @@ void main() {
         stockListController: mockStockListController,
         stockRepository: mockStockRepository,
         themeController: mockThemeController,
+        analyticsService: mockAnalyticsService,
       ),
     );
   });

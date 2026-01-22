@@ -24,6 +24,7 @@ class InvestrApp extends StatefulWidget {
   final StockListController? stockListController;
   final StockRepository? stockRepository;
   final ThemeController? themeController;
+  final AnalyticsService? analyticsService;
 
   const InvestrApp({
     super.key,
@@ -32,6 +33,7 @@ class InvestrApp extends StatefulWidget {
     this.stockListController,
     this.stockRepository,
     this.themeController,
+    this.analyticsService,
   });
 
   @override
@@ -40,11 +42,12 @@ class InvestrApp extends StatefulWidget {
 
 class _InvestrAppState extends State<InvestrApp> {
   late final GoRouter _router;
-  final _analyticsService = AnalyticsService();
+  late final AnalyticsService _analyticsService;
 
   @override
   void initState() {
     super.initState();
+    _analyticsService = widget.analyticsService ?? AnalyticsService();
     _router = _buildRouter(widget.onboardingCompleted, _analyticsService);
   }
 

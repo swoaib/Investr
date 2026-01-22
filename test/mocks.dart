@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:investr/src/shared/services/analytics_service.dart';
 import 'package:investr/src/features/market_data/domain/stock.dart';
 import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
 import 'package:investr/src/shared/theme/theme_controller.dart';
@@ -60,6 +61,28 @@ class MockThemeController extends ChangeNotifier implements ThemeController {
 class MockStockRepository implements StockRepository {
   @override
   String get apiKey => 'test_key';
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class MockAnalyticsService implements AnalyticsService {
+  @override
+  NavigatorObserver get observer => NavigatorObserver();
+
+  @override
+  Future<void> logScreenView(String screenName) async {}
+
+  @override
+  Future<void> logSearch(String query) async {}
+
+  @override
+  Future<void> logCalculatorUsage({
+    required String symbol,
+    required double result,
+    required double wacc,
+    required double growthRate,
+  }) async {}
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);

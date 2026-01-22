@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 
@@ -5,11 +6,14 @@ class AnalyticsService {
   static final AnalyticsService _instance = AnalyticsService._internal();
   factory AnalyticsService() => _instance;
 
-  AnalyticsService._internal();
+  AnalyticsService._internal() : _analytics = FirebaseAnalytics.instance;
 
-  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  /// Visible for testing
+  AnalyticsService.test(this._analytics);
 
-  FirebaseAnalyticsObserver get observer =>
+  final FirebaseAnalytics _analytics;
+
+  NavigatorObserver get observer =>
       FirebaseAnalyticsObserver(analytics: _analytics);
 
   Future<void> logScreenView(String screenName) async {
