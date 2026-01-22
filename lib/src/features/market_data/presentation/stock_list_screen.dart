@@ -329,7 +329,10 @@ class _StockListItem extends StatelessWidget {
     final currencySymbol = currencyController.currencySymbol;
     final rate = currencyController.exchangeRate;
 
-    final currencyFormat = currencySymbol == 'kr'
+    final isIndex = stock.symbol.startsWith('^');
+    final currencyFormat = isIndex
+        ? NumberFormat.currency(symbol: '')
+        : currencySymbol == 'kr'
         ? NumberFormat.currency(symbol: '$currencySymbol ')
         : NumberFormat.currency(symbol: currencySymbol);
     final isPositive = stock.isPositive;
@@ -523,7 +526,9 @@ class _SearchResultItem extends StatelessWidget {
     final currencySymbol = currencyController.currencySymbol;
     final rate = currencyController.exchangeRate;
 
-    final currencyFormat = NumberFormat.currency(symbol: currencySymbol);
+    final currencyFormat = NumberFormat.currency(
+      symbol: stock.symbol.startsWith('^') ? '' : currencySymbol,
+    );
     final isPositive = stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 

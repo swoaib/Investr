@@ -344,7 +344,9 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     final rate = currencyController.exchangeRate;
     final currencySymbol = currencyController.currencySymbol;
 
-    final currencyFormat = NumberFormat.currency(symbol: '$currencySymbol ');
+    final currencyFormat = NumberFormat.currency(
+      symbol: _stock.symbol.startsWith('^') ? '' : '$currencySymbol ',
+    );
     final points = _filteredHistory;
 
     // Calculate dynamic values based on interval

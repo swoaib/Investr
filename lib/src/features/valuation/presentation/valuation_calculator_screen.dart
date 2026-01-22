@@ -456,7 +456,10 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
     // Use controller's symbol (handles 'NOK' override) and add space
     final currencySymbol = currencyController.currencySymbol;
-    final currencyFormat = currencySymbol == 'kr'
+    final isIndex = _symbolController.text.trim().startsWith('^');
+    final currencyFormat = isIndex
+        ? NumberFormat.currency(symbol: '')
+        : currencySymbol == 'kr'
         ? NumberFormat.currency(symbol: '$currencySymbol ')
         : NumberFormat.currency(symbol: currencySymbol);
 
@@ -867,7 +870,9 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     final rate = currencyController.exchangeRate;
     final currencySymbol = currencyController.currencySymbol;
     final currencyFormat = NumberFormat.compactCurrency(
-      symbol: '$currencySymbol ',
+      symbol: _symbolController.text.trim().startsWith('^')
+          ? ''
+          : '$currencySymbol ',
     );
 
     return Container(
@@ -955,7 +960,9 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
     final rate = currencyController.exchangeRate;
     final currencySymbol = currencyController.currencySymbol;
     final currencyFormat = NumberFormat.compactCurrency(
-      symbol: '$currencySymbol ',
+      symbol: _symbolController.text.trim().startsWith('^')
+          ? ''
+          : '$currencySymbol ',
     );
 
     final data = List<YearlyDCFData>.from(_dcfData!.yearlyData)
