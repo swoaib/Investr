@@ -171,10 +171,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Icon(Icons.search, color: Colors.grey),
-                      ),
                       Expanded(
                         child: TextField(
                           controller: _searchController,
@@ -189,10 +185,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            contentPadding: const EdgeInsets.only(bottom: 4),
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                            ),
+                            suffixIcon: _searchController.text.isNotEmpty
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.cancel,
+                                      color: Colors.grey,
+                                      size: 20,
+                                    ),
+                                    onPressed: () {
+                                      _searchController.clear();
+                                      context
+                                          .read<StockListController>()
+                                          .clearSearch();
+                                      setState(() {});
+                                    },
+                                  )
+                                : null,
                           ),
                           textInputAction: TextInputAction.search,
-                          onChanged: _handleSearch,
+                          onChanged: (value) {
+                            _handleSearch(value);
+                            setState(() {});
+                          },
                           onSubmitted: _handleSearch,
                         ),
                       ),
