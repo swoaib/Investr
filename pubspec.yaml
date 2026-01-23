@@ -55,6 +55,7 @@ dependencies:
   flutter_slidable: ^4.0.3
   shimmer: ^3.0.0
   firebase_analytics: ^12.1.1
+  flutter_markdown_plus: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +96,7 @@ flutter:
     - assets/images/education/
     - assets/images/onboarding/
     - assets/flags/
+    - assets/privacy_policy.md
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
