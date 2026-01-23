@@ -9,7 +9,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   // Layout Constants
   static const double height = 50.0;
-  static const double bottomPadding = 10.0;
+  static const double bottomPadding = 24.0;
   static const double totalHeight = height + bottomPadding;
   // Standard content padding to ensure items above navbar are clickable
   static const double contentBottomPadding = totalHeight + 16.0;
@@ -137,7 +137,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 color: cardColor.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: const Center(child: Icon(Icons.search, size: 24)),
+              child: const Center(
+                child: Icon(Icons.search, size: 24, color: Colors.grey),
+              ),
             ),
           ),
         ),

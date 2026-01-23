@@ -9,6 +9,7 @@ import '../../valuation/presentation/valuation_calculator_screen.dart';
 import '../../settings/presentation/settings_screen.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+import '../../../shared/theme/app_theme.dart';
 
 import '../../market_data/presentation/stock_list_screen.dart';
 
@@ -133,64 +134,104 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final cardColor = Theme.of(context).cardTheme.color ?? Colors.white;
     final l10n = AppLocalizations.of(context)!;
 
-    return Container(
-      height: CustomBottomNavigationBar.height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+    return Row(
+      children: [
+        Expanded(
           child: Container(
+            height: CustomBottomNavigationBar.height,
             decoration: BoxDecoration(
-              color: cardColor.withValues(alpha: 0.7),
               borderRadius: BorderRadius.circular(30),
-            ),
-            child: Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Icon(Icons.search, color: Colors.grey),
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    focusNode: _searchFocusNode,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: InputDecoration(
-                      hintText: l10n.searchHint,
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(bottom: 4),
-                    ),
-                    textInputAction: TextInputAction.search,
-                    onChanged: _handleSearch,
-                    onSubmitted: _handleSearch,
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    setState(() {
-                      _isSearchActive = false;
-                    });
-                    _searchController.clear();
-                    context.read<StockListController>().clearSearch();
-                    _searchFocusNode.unfocus();
-                  },
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
                 ),
               ],
             ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: cardColor.withValues(alpha: 0.7),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Icon(Icons.search, color: Colors.grey),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          focusNode: _searchFocusNode,
+                          style: const TextStyle(fontSize: 16),
+                          cursorColor: AppTheme.textGrey,
+                          decoration: InputDecoration(
+                            hintText: l10n.searchHint,
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            contentPadding: const EdgeInsets.only(bottom: 4),
+                          ),
+                          textInputAction: TextInputAction.search,
+                          onChanged: _handleSearch,
+                          onSubmitted: _handleSearch,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
-      ),
+        const SizedBox(width: 12),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _isSearchActive = false;
+            });
+            _searchController.clear();
+            context.read<StockListController>().clearSearch();
+            _searchFocusNode.unfocus();
+          },
+          child: Container(
+            height: CustomBottomNavigationBar.height,
+            width: CustomBottomNavigationBar.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: cardColor.withValues(alpha: 0.7),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: const Center(
+                    child: Icon(Icons.close, color: Colors.grey),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
