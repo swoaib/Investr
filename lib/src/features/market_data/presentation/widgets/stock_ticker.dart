@@ -7,6 +7,7 @@ import '../../../../shared/theme/app_theme.dart';
 import '../../../../shared/widgets/stock_logo.dart';
 import '../../../../shared/currency/currency_controller.dart';
 import '../../../../shared/settings/settings_controller.dart';
+import '../../../../shared/market/market_schedule_service.dart';
 import '../../domain/stock.dart';
 
 class StockTicker extends StatefulWidget {
@@ -153,7 +154,29 @@ class _StockTickerItem extends StatelessWidget {
               child: LineChart(
                 LineChartData(
                   minX: 0,
-                  maxX: (stock.sparklineData!.length - 1).toDouble(),
+                  maxX: (() {
+                    final points = stock.sparklineData!;
+                    final lastDate = points.last.date;
+                    final now = DateTime.now();
+                    final isToday =
+                        lastDate.year == now.year &&
+                        lastDate.month == now.month &&
+                        lastDate.day == now.day;
+
+                    // Standardize scaling based on market schedule
+                    if (isToday) {
+                      final schedule = MarketScheduleService.getSchedule(
+                        stock.symbol,
+                      );
+                      final expectedPoints = schedule.expectedPoints(
+                        5,
+                      ); // 5-min intervals
+
+                      final count = (points.length - 1).toDouble();
+                      return count < expectedPoints ? expectedPoints : count;
+                    }
+                    return (points.length - 1).toDouble();
+                  })(),
                   minY: (() {
                     final prices = stock.sparklineData!.map((p) => p.price);
                     return prices.reduce((a, b) => a < b ? a : b);
