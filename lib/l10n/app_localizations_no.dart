@@ -928,5 +928,11 @@ class AppLocalizationsNo extends AppLocalizations {
   String get epsAndRev => 'EPS & Oms';
 
   @override
+  String get stockTicker => 'Stock Ticker';
+
+  @override
+  String get stockTickerDesc => 'Show market data at top of dashboard';
+
+  @override
   String get appleInc => 'Apple Inc.';
 }

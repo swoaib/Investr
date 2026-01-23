@@ -1780,6 +1780,18 @@ abstract class AppLocalizations {
   /// **'EPS & Rev'**
   String get epsAndRev;
 
+  /// No description provided for @stockTicker.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock Ticker'**
+  String get stockTicker;
+
+  /// No description provided for @stockTickerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Show market data at top of dashboard'**
+  String get stockTickerDesc;
+
   /// No description provided for @appleInc.
   ///
   /// In en, this message translates to:

@@ -49,7 +49,7 @@ class AppearanceScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Stock Ticker', // TODO: Add to L10n
+                        l10n.stockTicker,
                         style: GoogleFonts.outfit(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -57,7 +57,7 @@ class AppearanceScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Show market data at top of dashboard', // TODO: Add to L10n
+                        l10n.stockTickerDesc,
                         style: Theme.of(
                           context,
                         ).textTheme.bodySmall?.copyWith(color: Colors.grey),
@@ -66,7 +66,7 @@ class AppearanceScreen extends StatelessWidget {
                   ),
                   Switch.adaptive(
                     value: settingsController.showStockTicker,
-                    activeColor: AppTheme.primaryGreen,
+                    activeTrackColor: AppTheme.primaryGreen,
                     onChanged: (value) {
                       settingsController.toggleStockTicker(value);
                     },
