@@ -1815,6 +1815,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Apple Inc.'**
   String get appleInc;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
 }
 
 class _AppLocalizationsDelegate

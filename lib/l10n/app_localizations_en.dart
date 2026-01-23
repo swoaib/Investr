@@ -945,4 +945,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appleInc => 'Apple Inc.';
+
+  @override
+  String get undo => 'Undo';
 }

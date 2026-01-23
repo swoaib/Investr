@@ -143,6 +143,12 @@ class _StockListViewState extends State<_StockListView> {
                     margin: const EdgeInsets.all(
                       AppTheme.screenPaddingHorizontal,
                     ),
+                    action: SnackBarAction(
+                      label: l10n.undo,
+                      onPressed: () {
+                        controller.addToWatchlist(stock, insertAt: index);
+                      },
+                    ),
                   ),
                 );
               },

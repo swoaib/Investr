@@ -337,5 +337,6 @@
   "showStockLogosDesc": "Show company logos in list and ticker",
   "stockTicker": "Stock Ticker",
   "stockTickerDesc": "Show market data at top of dashboard",
-  "appleInc": "Apple Inc."
+  "appleInc": "Apple Inc.",
+  "undo": "Undo"
 }

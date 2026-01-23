@@ -37,7 +37,8 @@
     "showStockLogos",
     "showStockLogosDesc",
     "stockTicker",
-    "stockTickerDesc"
+    "stockTickerDesc",
+    "undo"
   ],
 
   "no": [
@@ -76,6 +77,7 @@
     "showStockLogos",
     "showStockLogosDesc",
     "stockTicker",
-    "stockTickerDesc"
+    "stockTickerDesc",
+    "undo"
   ]
 }

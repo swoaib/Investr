@@ -17,7 +17,7 @@ class MockStockListController extends ChangeNotifier
   void clearSearch() {}
 
   @override
-  Future<void> addToWatchlist(Stock stock) async {}
+  Future<void> addToWatchlist(Stock stock, {int? insertAt}) async {}
 
   @override
   Future<void> removeFromWatchlist(Stock stock) async {}
