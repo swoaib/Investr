@@ -521,7 +521,9 @@ class AppLocalizationsNo extends AppLocalizations {
   String get loading => 'Laster...';
 
   @override
-  String get error => 'Feil';
+  String error(Object error) {
+    return 'Feil';
+  }
 
   @override
   String get navStocks => 'Aksjer';
@@ -947,4 +949,93 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get undo => 'Undo';
+
+  @override
+  String get manageAlertsTitle => 'Manage Alerts';
+
+  @override
+  String get alertLimitMessage =>
+      'You can currently create up to 3 alerts. We are working on increasing this limit!';
+
+  @override
+  String get loginToManageAlerts => 'Please log in to manage alerts';
+
+  @override
+  String get noActiveAlerts => 'No active alerts';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String targetAbove(Object price) {
+    return 'Target: Above $price';
+  }
+
+  @override
+  String targetBelow(Object price) {
+    return 'Target: Below $price';
+  }
+
+  @override
+  String get alertDeleted => 'Alert deleted';
+
+  @override
+  String get defaultCurrency => 'Default Currency';
+
+  @override
+  String get currencyDisclaimer =>
+      'Default values are sourced in USD. Changing the currency will apply a conversion, but for the most accurate financial data, we recommend using USD.';
+
+  @override
+  String get currencyTitle => 'Currency';
+
+  @override
+  String editAlertTitle(Object symbol) {
+    return 'Edit Alert for $symbol';
+  }
+
+  @override
+  String setAlertTitle(Object symbol) {
+    return 'Set Alert for $symbol';
+  }
+
+  @override
+  String get notifyWhenPrice => 'Notify me when price goes:';
+
+  @override
+  String get above => 'Above';
+
+  @override
+  String get below => 'Below';
+
+  @override
+  String get targetPrice => 'Target Price:';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get createAlert => 'Create Alert';
+
+  @override
+  String get userNotSignedIn => 'User not signed in';
+
+  @override
+  String alertUpdated(Object symbol) {
+    return 'Alert updated for $symbol';
+  }
+
+  @override
+  String alertSet(Object condition, Object price, Object symbol) {
+    return 'Alert set for $symbol when price is $condition \$$price';
+  }
+
+  @override
+  String get alertLimitReached => 'You can only create 3 alerts.';
 }

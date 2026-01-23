@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:investr/l10n/app_localizations.dart';
 
 import '../data/alerts_repository.dart';
 import '../domain/stock_alert.dart';
@@ -52,6 +53,7 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
       }
 
       final repo = context.read<AlertsRepository>();
+      final l10n = AppLocalizations.of(context)!;
 
       // Only check limit if creating a NEW alert
       if (widget.existingAlert == null) {
@@ -60,7 +62,7 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
           if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('You can only create 3 alerts.'),
+              content: Text(l10n.alertLimitReached),
               backgroundColor: Colors.red,
               behavior: SnackBarBehavior.floating,
               margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
@@ -94,8 +96,12 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
           SnackBar(
             content: Text(
               widget.existingAlert != null
-                  ? 'Alert updated for ${widget.symbol}'
-                  : 'Alert set for ${widget.symbol} when price is $_condition \$${price.toStringAsFixed(2)}',
+                  ? l10n.alertUpdated(widget.symbol)
+                  : l10n.alertSet(
+                      widget.symbol,
+                      _condition == 'above' ? l10n.above : l10n.below,
+                      price.toStringAsFixed(2),
+                    ),
             ),
             backgroundColor: AppTheme.primaryGreen,
             behavior: SnackBarBehavior.floating,
@@ -107,7 +113,7 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error: $e'),
+            content: Text(AppLocalizations.of(context)!.error(e.toString())),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
             margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
@@ -123,12 +129,13 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isEditing = widget.existingAlert != null;
+    final l10n = AppLocalizations.of(context)!;
 
     return AlertDialog(
       title: Text(
         isEditing
-            ? 'Edit Alert for ${widget.symbol}'
-            : 'Set Alert for ${widget.symbol}',
+            ? l10n.editAlertTitle(widget.symbol)
+            : l10n.setAlertTitle(widget.symbol),
         style: theme.textTheme.titleLarge,
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -136,19 +143,19 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Notify me when price goes:', style: theme.textTheme.bodyMedium),
+          Text(l10n.notifyWhenPrice, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 12),
           SegmentedButton<String>(
-            segments: const [
+            segments: [
               ButtonSegment<String>(
                 value: 'above',
-                label: Text('Above'),
-                icon: Icon(Icons.trending_up),
+                label: Text(l10n.above),
+                icon: const Icon(Icons.trending_up),
               ),
               ButtonSegment<String>(
                 value: 'below',
-                label: Text('Below'),
-                icon: Icon(Icons.trending_down),
+                label: Text(l10n.below),
+                icon: const Icon(Icons.trending_down),
               ),
             ],
             selected: <String>{_condition},
@@ -157,13 +164,13 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
                 _condition = newSelection.first;
               });
             },
-            style: ButtonStyle(
+            style: const ButtonStyle(
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               visualDensity: VisualDensity.compact,
             ),
           ),
           const SizedBox(height: 24),
-          Text('Target Price:', style: theme.textTheme.bodyMedium),
+          Text(l10n.targetPrice, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 8),
           TextField(
             controller: _controller,
@@ -190,7 +197,7 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: _isLoading ? null : _saveAlert,
@@ -210,8 +217,8 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
                 )
               : Text(
                   widget.existingAlert != null
-                      ? 'Save Changes'
-                      : 'Create Alert',
+                      ? l10n.saveChanges
+                      : l10n.createAlert,
                 ),
         ),
       ],

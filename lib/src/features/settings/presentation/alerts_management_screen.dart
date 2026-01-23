@@ -7,6 +7,7 @@ import '../../alerts/domain/stock_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../shared/theme/theme_controller.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/widgets/info_container.dart';
 import '../../../shared/widgets/stock_logo.dart';
 import '../../alerts/presentation/alert_dialog.dart';
@@ -24,26 +25,27 @@ class AlertsManagementScreen extends StatelessWidget {
             MediaQuery.platformBrightnessOf(context) == Brightness.dark);
 
     if (userId == null) {
-      return const Scaffold(
-        body: Center(child: Text('Please log in to manage alerts')),
+      return Scaffold(
+        body: Center(
+          child: Text(AppLocalizations.of(context)!.loginToManageAlerts),
+        ),
       );
     }
+
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Manage Alerts',
+          l10n.manageAlertsTitle,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
       ),
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: InfoContainer(
-              text:
-                  'You can currently create up to 3 alerts. We are working on increasing this limit!',
-            ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: InfoContainer(text: l10n.alertLimitMessage),
           ),
           Expanded(
             child: StreamBuilder<List<StockAlert>>(
@@ -70,7 +72,7 @@ class AlertsManagementScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No active alerts',
+                          l10n.noActiveAlerts,
                           style: TextStyle(
                             fontSize: 16,
                             color: isDark ? Colors.white54 : Colors.grey,
@@ -98,7 +100,7 @@ class AlertsManagementScreen extends StatelessWidget {
                             backgroundColor: Colors.orange,
                             foregroundColor: Colors.white,
                             icon: Icons.edit,
-                            label: 'Edit',
+                            label: l10n.edit,
                           ),
                           SlidableAction(
                             onPressed: (ctx) {
@@ -107,7 +109,7 @@ class AlertsManagementScreen extends StatelessWidget {
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white,
                             icon: Icons.delete,
-                            label: 'Delete',
+                            label: l10n.delete,
                           ),
                         ],
                       ),
@@ -126,7 +128,13 @@ class AlertsManagementScreen extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          'Target: ${alert.condition == "above" ? "Above" : "Below"} \$${alert.targetPrice.toStringAsFixed(2)}',
+                          alert.condition == "above"
+                              ? l10n.targetAbove(
+                                  alert.targetPrice.toStringAsFixed(2),
+                                )
+                              : l10n.targetBelow(
+                                  alert.targetPrice.toStringAsFixed(2),
+                                ),
                           style: TextStyle(
                             color: Colors.grey.shade600,
                             fontSize: 12,
@@ -160,10 +168,10 @@ class AlertsManagementScreen extends StatelessWidget {
       await context.read<AlertsRepository>().deleteAlert(alert.id);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Alert deleted'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.alertDeleted),
             behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(AppTheme.screenPaddingHorizontal),
+            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
           ),
         );
       }
@@ -171,7 +179,7 @@ class AlertsManagementScreen extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error: $e'),
+            content: Text(AppLocalizations.of(context)!.error(e.toString())),
             behavior: SnackBarBehavior.floating,
             margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
           ),
@@ -201,7 +209,7 @@ class AlertsManagementScreen extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error: $e'),
+            content: Text(AppLocalizations.of(context)!.error(e.toString())),
             behavior: SnackBarBehavior.floating,
             margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
           ),

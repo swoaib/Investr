@@ -96,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               _buildSettingsTile(
                 context,
-                title: "Currency",
+                title: l10n.currencyTitle,
                 icon: Icons.attach_money_rounded,
                 onTap: () =>
                     _showCurrencySelection(context, currencyController),
@@ -266,6 +266,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ) {
     // List of major currencies
     final currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CNY', 'AUD', 'CAD', 'NOK'];
+    final l10n = AppLocalizations.of(context)!;
 
     showModalBottomSheet(
       context: context,
@@ -288,17 +289,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Column(
                     children: [
                       Text(
-                        "Default Currency",
+                        l10n.defaultCurrency,
                         style: GoogleFonts.outfit(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 12),
-                      const InfoContainer(
-                        text:
-                            "Default values are sourced in USD. Changing the currency will apply a conversion, but for the most accurate financial data, we recommend using USD.",
-                      ),
+                      InfoContainer(text: l10n.currencyDisclaimer),
                     ],
                   ),
                 ),

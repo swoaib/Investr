@@ -1039,8 +1039,8 @@ abstract class AppLocalizations {
   /// No description provided for @error.
   ///
   /// In en, this message translates to:
-  /// **'Error'**
-  String get error;
+  /// **'Error: {error}'**
+  String error(Object error);
 
   /// No description provided for @navStocks.
   ///
@@ -1821,6 +1821,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Undo'**
   String get undo;
+
+  /// No description provided for @manageAlertsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Alerts'**
+  String get manageAlertsTitle;
+
+  /// No description provided for @alertLimitMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can currently create up to 3 alerts. We are working on increasing this limit!'**
+  String get alertLimitMessage;
+
+  /// No description provided for @loginToManageAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in to manage alerts'**
+  String get loginToManageAlerts;
+
+  /// No description provided for @noActiveAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'No active alerts'**
+  String get noActiveAlerts;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @targetAbove.
+  ///
+  /// In en, this message translates to:
+  /// **'Target: Above {price}'**
+  String targetAbove(Object price);
+
+  /// No description provided for @targetBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'Target: Below {price}'**
+  String targetBelow(Object price);
+
+  /// No description provided for @alertDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert deleted'**
+  String get alertDeleted;
+
+  /// No description provided for @defaultCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Currency'**
+  String get defaultCurrency;
+
+  /// No description provided for @currencyDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Default values are sourced in USD. Changing the currency will apply a conversion, but for the most accurate financial data, we recommend using USD.'**
+  String get currencyDisclaimer;
+
+  /// No description provided for @currencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currencyTitle;
+
+  /// No description provided for @editAlertTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Alert for {symbol}'**
+  String editAlertTitle(Object symbol);
+
+  /// No description provided for @setAlertTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Alert for {symbol}'**
+  String setAlertTitle(Object symbol);
+
+  /// No description provided for @notifyWhenPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify me when price goes:'**
+  String get notifyWhenPrice;
+
+  /// No description provided for @above.
+  ///
+  /// In en, this message translates to:
+  /// **'Above'**
+  String get above;
+
+  /// No description provided for @below.
+  ///
+  /// In en, this message translates to:
+  /// **'Below'**
+  String get below;
+
+  /// No description provided for @targetPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Target Price:'**
+  String get targetPrice;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @createAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Alert'**
+  String get createAlert;
+
+  /// No description provided for @userNotSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'User not signed in'**
+  String get userNotSignedIn;
+
+  /// No description provided for @alertUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert updated for {symbol}'**
+  String alertUpdated(Object symbol);
+
+  /// No description provided for @alertSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert set for {symbol} when price is {condition} \${price}'**
+  String alertSet(Object condition, Object price, Object symbol);
+
+  /// No description provided for @alertLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only create 3 alerts.'**
+  String get alertLimitReached;
 }
 
 class _AppLocalizationsDelegate
