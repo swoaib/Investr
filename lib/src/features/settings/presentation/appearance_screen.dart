@@ -77,41 +77,26 @@ class AppearanceScreen extends StatelessWidget {
             const SizedBox(height: 16),
             // Stock Low Toggle
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               decoration: BoxDecoration(
-                color: Theme.of(context).cardTheme.color,
+                color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.showStockLogos,
-                        style: GoogleFonts.outfit(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Icon(Icons.logo_dev_rounded, size: 20, color: Colors.grey),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      l10n.showStockLogos,
+                      style: GoogleFonts.outfit(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        l10n.showStockLogosDesc,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodySmall?.copyWith(color: Colors.grey),
-                      ),
-                    ],
+                    ),
                   ),
-                  Switch.adaptive(
+                  const SizedBox(width: 8),
+                  Switch(
                     value: settingsController.showStockLogos,
                     activeTrackColor: AppTheme.primaryGreen,
                     onChanged: (value) {
@@ -124,49 +109,85 @@ class AppearanceScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Theme Selection (Reusing style from Onboarding)
-            Text(
-              l10n.themeMode,
-              style: GoogleFonts.outfit(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            // Theme Selection (Reusing style from Onboarding)
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardTheme.color,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 16),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: _ThemePreviewCard(
-                        mode: ThemeMode.light,
-                        label: l10n.light,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.brightness_6_rounded,
+                        size: 20,
+                        color: Colors.grey.shade300,
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          l10n.themeMode,
+                          style: GoogleFonts.outfit(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _ThemePreviewCard(
+                              mode: ThemeMode.light,
+                              label: l10n.light,
+                              isSelected:
+                                  themeController.themeMode == ThemeMode.light,
+                              onTap: () => themeController.updateThemeMode(
+                                ThemeMode.light,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _ThemePreviewCard(
+                              mode: ThemeMode.dark,
+                              label: l10n.dark,
+                              isSelected:
+                                  themeController.themeMode == ThemeMode.dark,
+                              onTap: () => themeController.updateThemeMode(
+                                ThemeMode.dark,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      _ThemePreviewCard(
+                        mode: ThemeMode.system,
+                        label: l10n.system,
                         isSelected:
-                            themeController.themeMode == ThemeMode.light,
+                            themeController.themeMode == ThemeMode.system,
                         onTap: () =>
-                            themeController.updateThemeMode(ThemeMode.light),
+                            themeController.updateThemeMode(ThemeMode.system),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _ThemePreviewCard(
-                        mode: ThemeMode.dark,
-                        label: l10n.dark,
-                        isSelected: themeController.themeMode == ThemeMode.dark,
-                        onTap: () =>
-                            themeController.updateThemeMode(ThemeMode.dark),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                _ThemePreviewCard(
-                  mode: ThemeMode.system,
-                  label: l10n.system,
-                  isSelected: themeController.themeMode == ThemeMode.system,
-                  onTap: () =>
-                      themeController.updateThemeMode(ThemeMode.system),
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
