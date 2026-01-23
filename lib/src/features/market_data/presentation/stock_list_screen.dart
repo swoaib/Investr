@@ -13,6 +13,7 @@ import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/market/market_schedule_service.dart';
+import 'widgets/stock_ticker.dart';
 
 class StockListScreen extends StatelessWidget {
   const StockListScreen({super.key});
@@ -79,6 +80,10 @@ class _StockListViewState extends State<_StockListView> {
               ),
             ),
             const SizedBox(height: 16),
+            if (controller.stocks.isNotEmpty) ...[
+              StockTicker(stocks: controller.stocks),
+              const SizedBox(height: 8),
+            ],
 
             Expanded(
               child: controller.isLoading
