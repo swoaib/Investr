@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import '../../../shared/currency/currency_controller.dart';
 import '../domain/stock.dart';
 import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
-import '../../../shared/services/analytics_service.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/market/market_schedule_service.dart';
 
@@ -33,21 +31,6 @@ class _StockListView extends StatefulWidget {
 }
 
 class _StockListViewState extends State<_StockListView> {
-  final TextEditingController _searchController = TextEditingController();
-  Timer? _debounce;
-
-  @override
-  void dispose() {
-    _debounce?.cancel();
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _clearSearch() {
-    _searchController.clear();
-    context.read<StockListController>().clearSearch();
-  }
-
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<StockListController>();
@@ -95,53 +78,8 @@ class _StockListViewState extends State<_StockListView> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: l10n.searchHint,
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon:
-                      _searchController.text.isNotEmpty ||
-                          controller.isSearching
-                      ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: _clearSearch,
-                        )
-                      : null,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                ),
-                textInputAction: TextInputAction.search,
-                onChanged: (value) {
-                  setState(() {}); // Rebuild to show/hide clear button
+            const SizedBox(height: 16),
 
-                  if (_debounce?.isActive ?? false) _debounce!.cancel();
-                  _debounce = Timer(const Duration(milliseconds: 500), () {
-                    if (value.isEmpty) {
-                      controller.clearSearch();
-                    } else {
-                      context.read<AnalyticsService>().logSearch(
-                        value,
-                      ); // [NEW] Track search
-                      controller.searchStock(value);
-                    }
-                  });
-                },
-                onSubmitted: (value) {
-                  if (value.isNotEmpty) {
-                    context.read<AnalyticsService>().logSearch(
-                      value,
-                    ); // [NEW] Track search
-                  }
-                  controller.searchStock(value);
-                },
-              ),
-            ),
             Expanded(
               child: controller.isLoading
                   ? _buildShimmerLoading(context)
