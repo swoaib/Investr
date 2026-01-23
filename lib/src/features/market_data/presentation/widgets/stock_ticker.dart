@@ -7,7 +7,6 @@ import '../../../../shared/theme/app_theme.dart';
 import '../../../../shared/widgets/stock_logo.dart';
 import '../../../../shared/currency/currency_controller.dart';
 import '../../domain/stock.dart';
-import '../../../../shared/market/market_schedule_service.dart';
 
 class StockTicker extends StatefulWidget {
   final List<Stock> stocks;
@@ -106,7 +105,9 @@ class _StockTickerItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        border: Border(right: BorderSide(color: Colors.grey.withOpacity(0.1))),
+        border: Border(
+          right: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
