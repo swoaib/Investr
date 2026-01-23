@@ -8,7 +8,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final List<CustomNavItem> items;
 
   // Layout Constants
-  static const double height = 50.0;
+  static const double height = 55.0;
   static const double bottomPadding = 24.0;
   static const double totalHeight = height + bottomPadding;
   // Standard content padding to ensure items above navbar are clickable

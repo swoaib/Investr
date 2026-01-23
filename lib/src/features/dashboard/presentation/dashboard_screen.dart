@@ -138,7 +138,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       children: [
         Expanded(
           child: Container(
-            height: CustomBottomNavigationBar.height,
+            height: 45.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
@@ -202,8 +202,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _searchFocusNode.unfocus();
           },
           child: Container(
-            height: CustomBottomNavigationBar.height,
-            width: CustomBottomNavigationBar.height,
+            height: 45.0,
+            width: 45.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
