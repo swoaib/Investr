@@ -18,7 +18,7 @@ class AppearanceScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          l10n.themeMode, // We'll rename this key to "Appearance" in arb later, or use existing for now
+          l10n.appearance,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -30,41 +30,30 @@ class AppearanceScreen extends StatelessWidget {
           children: [
             // Stock Ticker Toggle
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               decoration: BoxDecoration(
-                color: Theme.of(context).cardTheme.color,
+                color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.stockTicker,
-                        style: GoogleFonts.outfit(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        l10n.stockTickerDesc,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodySmall?.copyWith(color: Colors.grey),
-                      ),
-                    ],
+                  Icon(
+                    Icons.bar_chart_rounded,
+                    size: 20,
+                    color: Theme.of(context).iconTheme.color,
                   ),
-                  Switch.adaptive(
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      l10n.stockTicker,
+                      style: GoogleFonts.outfit(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Switch(
                     value: settingsController.showStockTicker,
                     activeTrackColor: AppTheme.primaryGreen,
                     onChanged: (value) {
@@ -84,7 +73,11 @@ class AppearanceScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.logo_dev_rounded, size: 20, color: Colors.grey),
+                  Icon(
+                    Icons.business_rounded,
+                    size: 20,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -109,19 +102,11 @@ class AppearanceScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Theme Selection (Reusing style from Onboarding)
-            // Theme Selection (Reusing style from Onboarding)
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Theme.of(context).cardTheme.color,
+                color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +116,7 @@ class AppearanceScreen extends StatelessWidget {
                       Icon(
                         Icons.brightness_6_rounded,
                         size: 20,
-                        color: Colors.grey.shade300,
+                        color: Theme.of(context).iconTheme.color,
                       ),
                       const SizedBox(width: 8),
                       Flexible(
