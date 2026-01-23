@@ -172,6 +172,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           cursorColor: AppTheme.textGrey,
                           decoration: InputDecoration(
                             hintText: l10n.searchHint,
+                            filled: false,
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
