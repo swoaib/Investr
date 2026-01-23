@@ -81,7 +81,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   padding: const EdgeInsets.only(
                     left: 16,
                     right: 16,
-                    bottom: CustomBottomNavigationBar.bottomPadding,
+                    bottom: 8.0,
                   ),
                   child: _buildSearchBar(context),
                 ),
