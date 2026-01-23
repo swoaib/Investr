@@ -40,6 +40,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
+        onSearchTap: () {
+          // TODO: Implement global search
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.searchHint), // Using localized 'Search...'
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(16),
+            ),
+          );
+        },
         items: [
           CustomNavItem(
             icon: Icons.show_chart_outlined,
