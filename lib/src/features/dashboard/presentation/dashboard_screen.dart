@@ -74,29 +74,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Stack(
         children: [
           IndexedStack(index: _selectedIndex, children: _pages),
-          if (_isSearchActive)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    bottom: isKeyboardOpen
-                        ? 8.0
-                        : CustomBottomNavigationBar.bottomPadding,
-                  ),
-                  child: _buildSearchBar(context),
-                ),
-              ),
-            ),
-        ],
-      ),
-      bottomNavigationBar: _isSearchActive
-          ? const SizedBox.shrink()
-          : CustomBottomNavigationBar(
+          // Animated Navigation Bar
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            left: 0,
+            right: 0,
+            bottom: _isSearchActive ? -200 : 0,
+            child: CustomBottomNavigationBar(
               selectedIndex: _selectedIndex,
               onItemTapped: _onItemTapped,
               onSearchTap: () {
@@ -132,6 +117,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ],
             ),
+          ),
+          // Animated Search Bar
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            left: 0,
+            right: 0,
+            bottom: _isSearchActive ? 0 : -200,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                bottom: isKeyboardOpen
+                    ? 8.0
+                    : CustomBottomNavigationBar.bottomPadding,
+              ),
+              child: _buildSearchBar(context),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
