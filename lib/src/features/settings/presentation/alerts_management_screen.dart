@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/widgets/info_container.dart';
+import '../../../shared/widgets/stock_logo.dart';
 import '../../alerts/presentation/alert_dialog.dart';
 
 class AlertsManagementScreen extends StatelessWidget {
@@ -41,7 +42,7 @@ class AlertsManagementScreen extends StatelessWidget {
             padding: EdgeInsets.all(16.0),
             child: InfoContainer(
               text:
-                  'You can create up to 3 alerts. We are working on increasing this limit!',
+                  'You can currently create up to 3 alerts. We are working on increasing this limit!',
             ),
           ),
           Expanded(
@@ -92,54 +93,56 @@ class AlertsManagementScreen extends StatelessWidget {
                         children: [
                           SlidableAction(
                             onPressed: (ctx) {
+                              _editAlert(context, alert);
+                            },
+                            backgroundColor: Colors.orange,
+                            foregroundColor: Colors.white,
+                            icon: Icons.edit,
+                            label: 'Edit',
+                          ),
+                          SlidableAction(
+                            onPressed: (ctx) {
                               _deleteAlert(context, alert);
                             },
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white,
                             icon: Icons.delete,
                             label: 'Delete',
-                            borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(12),
-                            ),
                           ),
                         ],
                       ),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 4,
+                      child: ListTile(
+                        dense: true,
+                        leading: StockLogo(
+                          url:
+                              'https://images.financialmodelingprep.com/symbol/${alert.symbol}.png',
+                          symbol: alert.symbol,
                         ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(12),
+                        title: Text(
+                          alert.symbol,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                        child: ListTile(
-                          title: Text(
-                            alert.symbol,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                        subtitle: Text(
+                          'Target: ${alert.condition == "above" ? "Above" : "Below"} \$${alert.targetPrice.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 12,
                           ),
-                          subtitle: Text(
-                            'Target: ${alert.condition == "above" ? "Above" : "Below"} \$${alert.targetPrice.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontSize: 12,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          trailing: Switch(
-                            value: alert.isActive,
-                            activeTrackColor: AppTheme.primaryGreen,
-                            onChanged: (val) {
-                              _toggleActive(context, alert, val);
-                            },
-                          ),
-                          onTap: () {
-                            _editAlert(context, alert);
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: Switch(
+                          value: alert.isActive,
+                          activeTrackColor: AppTheme.primaryGreen,
+                          onChanged: (val) {
+                            _toggleActive(context, alert, val);
                           },
                         ),
+                        onTap: () {
+                          _editAlert(context, alert);
+                        },
                       ),
                     );
                   },
