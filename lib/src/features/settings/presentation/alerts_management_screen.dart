@@ -7,6 +7,7 @@ import '../../alerts/domain/stock_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../shared/theme/theme_controller.dart';
+import '../../../shared/widgets/info_container.dart';
 import '../../alerts/presentation/alert_dialog.dart';
 
 class AlertsManagementScreen extends StatelessWidget {
@@ -34,102 +35,119 @@ class AlertsManagementScreen extends StatelessWidget {
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
       ),
-      body: StreamBuilder<List<StockAlert>>(
-        stream: context.read<AlertsRepository>().getUserAlerts(userId),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: InfoContainer(
+              text:
+                  'You can create up to 3 alerts. We are working on increasing this limit!',
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder<List<StockAlert>>(
+              stream: context.read<AlertsRepository>().getUserAlerts(userId),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-          final alerts = snapshot.data ?? [];
+                final alerts = snapshot.data ?? [];
 
-          if (alerts.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.notifications_off_outlined,
-                    size: 48,
-                    color: isDark ? Colors.white54 : Colors.grey,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No active alerts',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: isDark ? Colors.white54 : Colors.grey,
+                if (alerts.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.notifications_off_outlined,
+                          size: 48,
+                          color: isDark ? Colors.white54 : Colors.grey,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'No active alerts',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: isDark ? Colors.white54 : Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
+                  );
+                }
 
-          return ListView.builder(
-            padding: const EdgeInsets.only(top: 16),
-            itemCount: alerts.length,
-            itemBuilder: (context, index) {
-              final alert = alerts[index];
-              return Slidable(
-                key: Key(alert.id),
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      onPressed: (ctx) {
-                        _deleteAlert(context, alert);
-                      },
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Delete',
-                      borderRadius: const BorderRadius.horizontal(
-                        right: Radius.circular(12),
+                return ListView.builder(
+                  padding: const EdgeInsets.only(top: 0, bottom: 16),
+                  itemCount: alerts.length,
+                  itemBuilder: (context, index) {
+                    final alert = alerts[index];
+                    return Slidable(
+                      key: Key(alert.id),
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                          SlidableAction(
+                            onPressed: (ctx) {
+                              _deleteAlert(context, alert);
+                            },
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            icon: Icons.delete,
+                            label: 'Delete',
+                            borderRadius: const BorderRadius.horizontal(
+                              right: Radius.circular(12),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      alert.symbol,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            alert.symbol,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'Target: ${alert.condition == "above" ? "Above" : "Below"} \$${alert.targetPrice.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 12,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          trailing: Switch(
+                            value: alert.isActive,
+                            activeTrackColor: AppTheme.primaryGreen,
+                            onChanged: (val) {
+                              _toggleActive(context, alert, val);
+                            },
+                          ),
+                          onTap: () {
+                            _editAlert(context, alert);
+                          },
+                        ),
                       ),
-                    ),
-                    subtitle: Text(
-                      'Target: ${alert.condition == "above" ? "Above" : "Below"} \$${alert.targetPrice.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 12,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    trailing: Switch(
-                      value: alert.isActive,
-                      activeTrackColor: AppTheme.primaryGreen,
-                      onChanged: (val) {
-                        _toggleActive(context, alert, val);
-                      },
-                    ),
-                    onTap: () {
-                      _editAlert(context, alert);
-                    },
-                  ),
-                ),
-              );
-            },
-          );
-        },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

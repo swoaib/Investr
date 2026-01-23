@@ -11,6 +11,7 @@ import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import 'alerts_management_screen.dart';
 import 'widgets/feedback_bottom_sheet.dart';
 import 'appearance_screen.dart';
+import '../../../shared/widgets/info_container.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -294,42 +295,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest
-                              .withValues(alpha: 0.3),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.outline.withValues(alpha: 0.1),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.info_outline_rounded,
-                              size: 20,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Text(
-                                "Default values are sourced in USD. Changing the currency will apply a conversion, but for the most accurate financial data, we recommend using USD.",
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurfaceVariant,
-                                      height: 1.3,
-                                    ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      const InfoContainer(
+                        text:
+                            "Default values are sourced in USD. Changing the currency will apply a conversion, but for the most accurate financial data, we recommend using USD.",
                       ),
                     ],
                   ),
