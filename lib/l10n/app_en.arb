@@ -214,7 +214,23 @@
   "popularBrokersDesc": "Select your country to see some of the most popular stock brokers available to you.",
   
   "accountTypes": "Account Types",
-  "accountTypesDesc": "Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK). Using these can save you thousands in taxes over the long run.",
+  "accountTypesDesc": "You usually need a separate brokerage account for stocks. Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK) to save on taxes.",
+  
+  "howToBuyTitle": "How to Buy",
+  "howToBuyDesc": "1. Search for the stock you want, lets take Apple as an example. Search for AAPL.\n\n2. Click 'Buy'.\n\n3. Enter amount (e.g. 5 share) and the amount you are willing to but it for (e.g. 100$). This will cost you 500$\n\n4. Confirm Order, and when the price hits you bidding price, you will earn your shares. \n\nCongratulations, you are now a part-owner of Apple!",
+  "bidAskExplainer": "The Bid vs Ask",
+  "bidAskExplainerDesc": "You buy at the 'Ask' price (what sellers want) and sell at the 'Bid' price (what buyers offer). The difference is the 'Spread'.",
+  "buyingExampleAAPL": "Example: Apple (AAPL)",
+  "buyingExampleAAPLDesc": "1. Search for AAPL.\n2. Click 'Trade' or 'Buy'.\n3. Enter amount (e.g. 1 share).\n4. Confirm Order. \n\nCongratulations, you are now a part-owner of Apple!",
+  "marketOrder": "Market Order",
+  "marketOrderDesc": "Buys immediately at the best available price. Simplest way to start.",
+
+  "howToSellTitle": "How to Sell",
+  "howToSellDesc": "Turning stocks back into cash.",
+  "sellingProcess": "The Process",
+  "sellingProcessDesc": "Go to your portfolio, select the stock, tap 'Sell', and choose the amount. The cash will settle in your account (usually takes 2 days).",
+  "whenToSell": "When to Sell?",
+  "whenToSellDesc": "Sell if the company's fundamentals deteriorate, the price becomes insanely high (overvalued), or you find a much better opportunity elsewhere.",
   
   "etfs": "ETFs",
   "etfsDesc": "Exchange Traded Funds (ETFs) are baskets of stocks that trade like a single stock. They are modern, low-cost, and diverse.",

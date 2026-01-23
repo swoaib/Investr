@@ -631,7 +631,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountTypesDesc =>
-      'Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK). Using these can save you thousands in taxes over the long run.';
+      'You usually need a separate brokerage account for stocks. Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK) to save on taxes.';
+
+  @override
+  String get howToBuyTitle => 'How to Buy';
+
+  @override
+  String get howToBuyDesc =>
+      '1. Search for the stock you want, lets take Apple as an example. Search for AAPL.\n\n2. Click \'Buy\'.\n\n3. Enter amount (e.g. 5 share) and the amount you are willing to but it for (e.g. 100\$). This will cost you 500\$\n\n4. Confirm Order, and when the price hits you bidding price, you will earn your shares. \n\nCongratulations, you are now a part-owner of Apple!';
+
+  @override
+  String get bidAskExplainer => 'The Bid vs Ask';
+
+  @override
+  String get bidAskExplainerDesc =>
+      'You buy at the \'Ask\' price (what sellers want) and sell at the \'Bid\' price (what buyers offer). The difference is the \'Spread\'.';
+
+  @override
+  String get buyingExampleAAPL => 'Example: Apple (AAPL)';
+
+  @override
+  String get buyingExampleAAPLDesc =>
+      '1. Search for AAPL.\n2. Click \'Trade\' or \'Buy\'.\n3. Enter amount (e.g. 1 share).\n4. Confirm Order. \n\nCongratulations, you are now a part-owner of Apple!';
+
+  @override
+  String get marketOrder => 'Market Order';
+
+  @override
+  String get marketOrderDesc =>
+      'Buys immediately at the best available price. Simplest way to start.';
+
+  @override
+  String get howToSellTitle => 'How to Sell';
+
+  @override
+  String get howToSellDesc => 'Turning stocks back into cash.';
+
+  @override
+  String get sellingProcess => 'The Process';
+
+  @override
+  String get sellingProcessDesc =>
+      'Go to your portfolio, select the stock, tap \'Sell\', and choose the amount. The cash will settle in your account (usually takes 2 days).';
+
+  @override
+  String get whenToSell => 'When to Sell?';
+
+  @override
+  String get whenToSellDesc =>
+      'Sell if the company\'s fundamentals deteriorate, the price becomes insanely high (overvalued), or you find a much better opportunity elsewhere.';
 
   @override
   String get etfs => 'ETFs';

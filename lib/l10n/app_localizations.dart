@@ -1243,8 +1243,92 @@ abstract class AppLocalizations {
   /// No description provided for @accountTypesDesc.
   ///
   /// In en, this message translates to:
-  /// **'Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK). Using these can save you thousands in taxes over the long run.'**
+  /// **'You usually need a separate brokerage account for stocks. Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK) to save on taxes.'**
   String get accountTypesDesc;
+
+  /// No description provided for @howToBuyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to Buy'**
+  String get howToBuyTitle;
+
+  /// No description provided for @howToBuyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Search for the stock you want, lets take Apple as an example. Search for AAPL.\n\n2. Click \'Buy\'.\n\n3. Enter amount (e.g. 5 share) and the amount you are willing to but it for (e.g. 100\$). This will cost you 500\$\n\n4. Confirm Order, and when the price hits you bidding price, you will earn your shares. \n\nCongratulations, you are now a part-owner of Apple!'**
+  String get howToBuyDesc;
+
+  /// No description provided for @bidAskExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'The Bid vs Ask'**
+  String get bidAskExplainer;
+
+  /// No description provided for @bidAskExplainerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You buy at the \'Ask\' price (what sellers want) and sell at the \'Bid\' price (what buyers offer). The difference is the \'Spread\'.'**
+  String get bidAskExplainerDesc;
+
+  /// No description provided for @buyingExampleAAPL.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: Apple (AAPL)'**
+  String get buyingExampleAAPL;
+
+  /// No description provided for @buyingExampleAAPLDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Search for AAPL.\n2. Click \'Trade\' or \'Buy\'.\n3. Enter amount (e.g. 1 share).\n4. Confirm Order. \n\nCongratulations, you are now a part-owner of Apple!'**
+  String get buyingExampleAAPLDesc;
+
+  /// No description provided for @marketOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Market Order'**
+  String get marketOrder;
+
+  /// No description provided for @marketOrderDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Buys immediately at the best available price. Simplest way to start.'**
+  String get marketOrderDesc;
+
+  /// No description provided for @howToSellTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to Sell'**
+  String get howToSellTitle;
+
+  /// No description provided for @howToSellDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Turning stocks back into cash.'**
+  String get howToSellDesc;
+
+  /// No description provided for @sellingProcess.
+  ///
+  /// In en, this message translates to:
+  /// **'The Process'**
+  String get sellingProcess;
+
+  /// No description provided for @sellingProcessDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to your portfolio, select the stock, tap \'Sell\', and choose the amount. The cash will settle in your account (usually takes 2 days).'**
+  String get sellingProcessDesc;
+
+  /// No description provided for @whenToSell.
+  ///
+  /// In en, this message translates to:
+  /// **'When to Sell?'**
+  String get whenToSell;
+
+  /// No description provided for @whenToSellDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell if the company\'s fundamentals deteriorate, the price becomes insanely high (overvalued), or you find a much better opportunity elsewhere.'**
+  String get whenToSellDesc;
 
   /// No description provided for @etfs.
   ///
