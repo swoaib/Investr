@@ -1780,6 +1780,24 @@ abstract class AppLocalizations {
   /// **'EPS & Rev'**
   String get epsAndRev;
 
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @showStockLogos.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Stock Logos'**
+  String get showStockLogos;
+
+  /// No description provided for @showStockLogosDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Show company logos in list and ticker'**
+  String get showStockLogosDesc;
+
   /// No description provided for @stockTicker.
   ///
   /// In en, this message translates to:

@@ -64,8 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               _buildSettingsTile(
                 context,
-                title: l10n
-                    .themeMode, // Renaming to "Appearance" in UI logic since l10n might be fixed
+                title: l10n.appearance,
                 icon: Icons.palette_outlined, // appearance icon
                 onTap: () {
                   Navigator.push(

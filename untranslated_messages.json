@@ -33,6 +33,9 @@
     "netIncomeDesc",
     "adequiteDiversificationTitle",
     "adequiteDiversificationDesc",
+    "appearance",
+    "showStockLogos",
+    "showStockLogosDesc",
     "stockTicker",
     "stockTickerDesc"
   ],
@@ -69,6 +72,9 @@
     "netIncomeDesc",
     "adequiteDiversificationTitle",
     "adequiteDiversificationDesc",
+    "appearance",
+    "showStockLogos",
+    "showStockLogosDesc",
     "stockTicker",
     "stockTickerDesc"
   ]

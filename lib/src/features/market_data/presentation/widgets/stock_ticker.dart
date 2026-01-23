@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../../shared/theme/app_theme.dart';
 import '../../../../shared/widgets/stock_logo.dart';
 import '../../../../shared/currency/currency_controller.dart';
+import '../../../../shared/settings/settings_controller.dart';
 import '../../domain/stock.dart';
 
 class StockTicker extends StatefulWidget {
@@ -91,6 +92,7 @@ class _StockTickerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currencyController = context.watch<CurrencyController>();
+    final settingsController = context.watch<SettingsController>();
     final currencySymbol = currencyController.currencySymbol;
     final rate = currencyController.exchangeRate;
 
@@ -112,13 +114,15 @@ class _StockTickerItem extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          StockLogo(
-            url: stock.imageUrl,
-            symbol: stock.symbol,
-            countryCode: stock.country,
-            size: 32,
-          ),
-          const SizedBox(width: 12),
+          if (settingsController.showStockLogos) ...[
+            StockLogo(
+              url: stock.imageUrl,
+              symbol: stock.symbol,
+              countryCode: stock.country,
+              size: 32,
+            ),
+            const SizedBox(width: 12),
+          ],
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

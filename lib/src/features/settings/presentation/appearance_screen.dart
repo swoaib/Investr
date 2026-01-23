@@ -74,6 +74,53 @@ class AppearanceScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 16),
+            // Stock Low Toggle
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardTheme.color,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.showStockLogos,
+                        style: GoogleFonts.outfit(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.showStockLogosDesc,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  Switch.adaptive(
+                    value: settingsController.showStockLogos,
+                    activeTrackColor: AppTheme.primaryGreen,
+                    onChanged: (value) {
+                      settingsController.toggleStockLogos(value);
+                    },
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 24),
 
             // Theme Selection (Reusing style from Onboarding)

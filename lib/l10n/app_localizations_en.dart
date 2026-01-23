@@ -929,6 +929,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get epsAndRev => 'EPS & Rev';
 
   @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get showStockLogos => 'Show Stock Logos';
+
+  @override
+  String get showStockLogosDesc => 'Show company logos in list and ticker';
+
+  @override
   String get stockTicker => 'Stock Ticker';
 
   @override

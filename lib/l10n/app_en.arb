@@ -332,6 +332,9 @@
   "notificationPriceAlert": "Price Alert: ",
   "notificationReached": " reached ",
   "epsAndRev": "EPS & Rev",
+  "appearance": "Appearance",
+  "showStockLogos": "Show Stock Logos",
+  "showStockLogosDesc": "Show company logos in list and ticker",
   "stockTicker": "Stock Ticker",
   "stockTickerDesc": "Show market data at top of dashboard",
   "appleInc": "Apple Inc."

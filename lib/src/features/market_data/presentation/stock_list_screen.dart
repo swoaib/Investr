@@ -272,6 +272,7 @@ class _StockListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsController = context.watch<SettingsController>();
     final currencyController = context.watch<CurrencyController>();
     final currencySymbol = currencyController.currencySymbol;
     final rate = currencyController.exchangeRate;
@@ -325,14 +326,16 @@ class _StockListItem extends StatelessWidget {
         child: Row(
           children: [
             // Logo
-            StockLogo(
-              url: stock.imageUrl,
-              symbol: stock.symbol,
-              countryCode: stock.country,
-              exchange: stock.exchange,
-              currency: stock.currency,
-            ),
-            const SizedBox(width: 12),
+            if (settingsController.showStockLogos) ...[
+              StockLogo(
+                url: stock.imageUrl,
+                symbol: stock.symbol,
+                countryCode: stock.country,
+                exchange: stock.exchange,
+                currency: stock.currency,
+              ),
+              const SizedBox(width: 12),
+            ],
             // Symbol and Name
             Expanded(
               flex: 3,
@@ -486,7 +489,9 @@ class _SearchResultItem extends StatelessWidget {
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
     // Convert values
+    // Convert values
     final displayPrice = stock.price * rate;
+    final settingsController = context.watch<SettingsController>();
 
     return GestureDetector(
       onTap: () {
@@ -506,12 +511,14 @@ class _SearchResultItem extends StatelessWidget {
         child: Row(
           children: [
             // Logo
-            StockLogo(
-              url: stock.imageUrl,
-              symbol: stock.symbol,
-              countryCode: stock.country,
-            ),
-            const SizedBox(width: 12),
+            if (settingsController.showStockLogos) ...[
+              StockLogo(
+                url: stock.imageUrl,
+                symbol: stock.symbol,
+                countryCode: stock.country,
+              ),
+              const SizedBox(width: 12),
+            ],
             // Symbol and Name
             Expanded(
               child: Column(
