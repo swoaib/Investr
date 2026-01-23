@@ -65,6 +65,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final isKeyboardOpen = bottomInset > 0;
+
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: true,
@@ -78,10 +81,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               bottom: 0,
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.only(
+                  padding: EdgeInsets.only(
                     left: 16,
                     right: 16,
-                    bottom: 8.0,
+                    bottom: isKeyboardOpen
+                        ? 8.0
+                        : CustomBottomNavigationBar.bottomPadding,
                   ),
                   child: _buildSearchBar(context),
                 ),
