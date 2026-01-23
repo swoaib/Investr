@@ -315,16 +315,24 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                 const SizedBox(height: 24),
 
                 // Stock Search Field
-                Container(
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardTheme.color,
                     borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: _isLoading
+                          ? AppTheme.primaryGreen
+                          : Colors.transparent,
+                      width: 2,
+                    ),
                     boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
+                      if (_isLoading)
+                        BoxShadow(
+                          color: AppTheme.primaryGreen.withValues(alpha: 0.4),
+                          blurRadius: 12,
+                          spreadRadius: 0,
+                        ),
                     ],
                   ),
                   child: Column(
@@ -340,7 +348,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                             color: AppTheme.primaryGreen,
                           ),
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.all(16),
+                          contentPadding: const EdgeInsets.all(14),
                           suffixIcon: _isLoading
                               ? Transform.scale(
                                   scale: 0.5,
@@ -523,7 +531,9 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Intrinsic Value is negative. This usually happens when the Long-Term Growth Rate is higher than WACC.',
+                      _dcfData!.longTermGrowthRate >= _dcfData!.wacc
+                          ? 'Long-Term Growth Rate (${_dcfData!.longTermGrowthRate.toStringAsFixed(2)}%) is higher than WACC (${_dcfData!.wacc.toStringAsFixed(2)}%). This invalidates the terminal value calculation.'
+                          : 'The intrinsic value is negative, likely due to negative projected Free Cash Flows or high debt.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Colors.redAccent,
                         fontWeight: FontWeight.bold,
