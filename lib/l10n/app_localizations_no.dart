@@ -1038,4 +1038,54 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get alertLimitReached => 'You can only create 3 alerts.';
+
+  @override
+  String get fmpDcfModel => 'FMP DCF Model';
+
+  @override
+  String get keyAssumptions => 'Key Assumptions';
+
+  @override
+  String get custom => 'Custom';
+
+  @override
+  String get customizeAssumptions => 'Customize Assumptions';
+
+  @override
+  String get waccLabel => 'WACC (%)';
+
+  @override
+  String get growthLabel => 'Long-Term Growth (%)';
+
+  @override
+  String get taxRateLabel => 'Tax Rate (%)';
+
+  @override
+  String get riskFreeLabel => 'Risk Free Rate (%)';
+
+  @override
+  String get betaLabel => 'Beta';
+
+  @override
+  String dcfErrorInvalidTerminal(Object growth, Object wacc) {
+    return 'Long-Term Growth Rate ($growth%) is higher than WACC ($wacc%). This invalidates the terminal value calculation.';
+  }
+
+  @override
+  String get dcfErrorNegative =>
+      'The intrinsic value is negative, likely due to negative projected Free Cash Flows or high debt.';
+
+  @override
+  String fetchError(Object symbol) {
+    return 'Could not fetch valuation data for $symbol';
+  }
+
+  @override
+  String get howItWorksValuationDesc =>
+      'This screen displays the Intrinsic Value calculated by the Discounted Cash Flow (DCF) model provided by Financial Modeling Prep (FMP). It compares this value to the current market price to estimate if the stock is undervalued or overvalued.';
+
+  @override
+  String exchangeRateInfo(Object currency, Object rate) {
+    return '1 USD = $rate $currency';
+  }
 }

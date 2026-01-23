@@ -364,5 +364,21 @@
   "alertUpdated": "Alert updated for {symbol}",
   "alertSet": "Alert set for {symbol} when price is {condition} ${price}",
   "alertLimitReached": "You can only create 3 alerts.",
-  "error": "Error: {error}"
+  "error": "Error: {error}",
+  "fmpDcfModel": "FMP DCF Model",
+  "keyAssumptions": "Key Assumptions",
+  "custom": "Custom",
+  "customizeAssumptions": "Customize Assumptions",
+  "waccLabel": "WACC (%)",
+  "growthLabel": "Long-Term Growth (%)",
+  "taxRateLabel": "Tax Rate (%)",
+  "riskFreeLabel": "Risk Free Rate (%)",
+  "betaLabel": "Beta",
+  "calculate": "Calculate",
+  "currentPrice": "Current Price",
+  "dcfErrorInvalidTerminal": "Long-Term Growth Rate ({growth}%) is higher than WACC ({wacc}%). This invalidates the terminal value calculation.",
+  "dcfErrorNegative": "The intrinsic value is negative, likely due to negative projected Free Cash Flows or high debt.",
+  "fetchError": "Could not fetch valuation data for {symbol}",
+  "howItWorksValuationDesc": "This screen displays the Intrinsic Value calculated by the Discounted Cash Flow (DCF) model provided by Financial Modeling Prep (FMP). It compares this value to the current market price to estimate if the stock is undervalued or overvalued.",
+  "exchangeRateInfo": "1 USD = {rate} {currency}"
 }

@@ -1971,6 +1971,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can only create 3 alerts.'**
   String get alertLimitReached;
+
+  /// No description provided for @fmpDcfModel.
+  ///
+  /// In en, this message translates to:
+  /// **'FMP DCF Model'**
+  String get fmpDcfModel;
+
+  /// No description provided for @keyAssumptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Key Assumptions'**
+  String get keyAssumptions;
+
+  /// No description provided for @custom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get custom;
+
+  /// No description provided for @customizeAssumptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize Assumptions'**
+  String get customizeAssumptions;
+
+  /// No description provided for @waccLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'WACC (%)'**
+  String get waccLabel;
+
+  /// No description provided for @growthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-Term Growth (%)'**
+  String get growthLabel;
+
+  /// No description provided for @taxRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax Rate (%)'**
+  String get taxRateLabel;
+
+  /// No description provided for @riskFreeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk Free Rate (%)'**
+  String get riskFreeLabel;
+
+  /// No description provided for @betaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Beta'**
+  String get betaLabel;
+
+  /// No description provided for @dcfErrorInvalidTerminal.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-Term Growth Rate ({growth}%) is higher than WACC ({wacc}%). This invalidates the terminal value calculation.'**
+  String dcfErrorInvalidTerminal(Object growth, Object wacc);
+
+  /// No description provided for @dcfErrorNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'The intrinsic value is negative, likely due to negative projected Free Cash Flows or high debt.'**
+  String get dcfErrorNegative;
+
+  /// No description provided for @fetchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not fetch valuation data for {symbol}'**
+  String fetchError(Object symbol);
+
+  /// No description provided for @howItWorksValuationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'This screen displays the Intrinsic Value calculated by the Discounted Cash Flow (DCF) model provided by Financial Modeling Prep (FMP). It compares this value to the current market price to estimate if the stock is undervalued or overvalued.'**
+  String get howItWorksValuationDesc;
+
+  /// No description provided for @exchangeRateInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'1 USD = {rate} {currency}'**
+  String exchangeRateInfo(Object currency, Object rate);
 }
 
 class _AppLocalizationsDelegate

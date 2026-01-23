@@ -118,6 +118,8 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
   Future<void> _fetchStockData() async {
     final symbol = _symbolController.text.trim().toUpperCase();
     if (symbol.isEmpty) return;
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
 
     if (mounted) setState(() => _isLoading = true);
 
@@ -154,7 +156,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
         if (dcfData == null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Could not fetch valuation data for $symbol'),
+              content: Text(l10n.fetchError(symbol)),
               behavior: SnackBarBehavior.floating,
               margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
             ),
@@ -205,7 +207,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'This screen displays the Intrinsic Value calculated by the Discounted Cash Flow (DCF) model provided by Financial Modeling Prep (FMP). It compares this value to the current market price to estimate if the stock is undervalued or overvalued.',
+                l10n.howItWorksValuationDesc,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   height: 1.5,
                   fontSize: 16,
@@ -290,7 +292,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'FMP DCF Model',
+                      l10n.fmpDcfModel,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: AppTheme.textGrey,
                       ),
@@ -306,7 +308,10 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          '1 USD = ${currencyController.exchangeRate.toStringAsFixed(2)} ${currencyController.currency}',
+                          l10n.exchangeRateInfo(
+                            currencyController.exchangeRate.toStringAsFixed(2),
+                            currencyController.currency,
+                          ),
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
@@ -532,8 +537,11 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                   Expanded(
                     child: Text(
                       _dcfData!.longTermGrowthRate >= _dcfData!.wacc
-                          ? 'Long-Term Growth Rate (${_dcfData!.longTermGrowthRate.toStringAsFixed(2)}%) is higher than WACC (${_dcfData!.wacc.toStringAsFixed(2)}%). This invalidates the terminal value calculation.'
-                          : 'The intrinsic value is negative, likely due to negative projected Free Cash Flows or high debt.',
+                          ? l10n.dcfErrorInvalidTerminal(
+                              _dcfData!.longTermGrowthRate.toStringAsFixed(2),
+                              _dcfData!.wacc.toStringAsFixed(2),
+                            )
+                          : l10n.dcfErrorNegative,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Colors.redAccent,
                         fontWeight: FontWeight.bold,
@@ -579,6 +587,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
 
   void _showCustomizationSheet() {
     if (_dcfData == null) return;
+    final l10n = AppLocalizations.of(context)!;
 
     final waccController = TextEditingController(
       text: (_dcfData!.wacc).toStringAsFixed(2),
@@ -616,21 +625,21 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Customize Assumptions',
+                l10n.customizeAssumptions,
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 24),
-              _buildInputRow(context, 'WACC (%)', waccController),
+              _buildInputRow(context, l10n.waccLabel, waccController),
               const SizedBox(height: 16),
-              _buildInputRow(context, 'Long-Term Growth (%)', growthController),
+              _buildInputRow(context, l10n.growthLabel, growthController),
               const SizedBox(height: 16),
-              _buildInputRow(context, 'Tax Rate (%)', taxController),
+              _buildInputRow(context, l10n.taxRateLabel, taxController),
               const SizedBox(height: 16),
-              _buildInputRow(context, 'Risk Free Rate (%)', riskFreeController),
+              _buildInputRow(context, l10n.riskFreeLabel, riskFreeController),
               const SizedBox(height: 16),
-              _buildInputRow(context, 'Beta', betaController),
+              _buildInputRow(context, l10n.betaLabel, betaController),
               const SizedBox(height: 32),
               const SizedBox(height: 32),
               SizedBox(
@@ -659,7 +668,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: const Text('Calculate'),
+                  child: Text(AppLocalizations.of(context)!.calculate),
                 ),
               ),
               const SizedBox(height: 24),
@@ -768,7 +777,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Key Assumptions',
+                    l10n.keyAssumptions,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -784,7 +793,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        'Custom',
+                        l10n.custom,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: AppTheme.primaryGreen,
                           fontWeight: FontWeight.bold,
@@ -796,7 +805,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               const SizedBox(height: 16),
               _buildBreakdownRow(
                 context,
-                'WACC',
+                l10n.waccLabel, // Using label as key, stripping (%) if needed or keeping. The label in arb has (%)
                 percent.format(_dcfData!.wacc / 100),
               ),
               const Divider(),

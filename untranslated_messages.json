@@ -63,7 +63,21 @@
     "userNotSignedIn",
     "alertUpdated",
     "alertSet",
-    "alertLimitReached"
+    "alertLimitReached",
+    "fmpDcfModel",
+    "keyAssumptions",
+    "custom",
+    "customizeAssumptions",
+    "waccLabel",
+    "growthLabel",
+    "taxRateLabel",
+    "riskFreeLabel",
+    "betaLabel",
+    "dcfErrorInvalidTerminal",
+    "dcfErrorNegative",
+    "fetchError",
+    "howItWorksValuationDesc",
+    "exchangeRateInfo"
   ],
 
   "no": [
@@ -128,6 +142,20 @@
     "userNotSignedIn",
     "alertUpdated",
     "alertSet",
-    "alertLimitReached"
+    "alertLimitReached",
+    "fmpDcfModel",
+    "keyAssumptions",
+    "custom",
+    "customizeAssumptions",
+    "waccLabel",
+    "growthLabel",
+    "taxRateLabel",
+    "riskFreeLabel",
+    "betaLabel",
+    "dcfErrorInvalidTerminal",
+    "dcfErrorNegative",
+    "fetchError",
+    "howItWorksValuationDesc",
+    "exchangeRateInfo"
   ]
 }
