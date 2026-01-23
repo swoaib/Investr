@@ -4,12 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
-import '../../../shared/theme/theme_controller.dart';
+
 import '../../../shared/locale/locale_controller.dart';
 import '../../../shared/currency/currency_controller.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import 'alerts_management_screen.dart';
 import 'widgets/feedback_bottom_sheet.dart';
+import 'appearance_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -21,7 +22,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    final themeController = context.watch<ThemeController>();
     final localeController = context.watch<LocaleController>();
     final currencyController = context.watch<CurrencyController>();
     final l10n = AppLocalizations.of(context)!;
@@ -64,21 +64,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               _buildSettingsTile(
                 context,
-                title: l10n.themeMode,
-                icon: Icons.brightness_6_outlined, // theme mode icon
-                onTap: () =>
-                    _showThemeSelection(context, themeController, l10n),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _getThemeText(themeController.themeMode, l10n),
-                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                title: l10n
+                    .themeMode, // Renaming to "Appearance" in UI logic since l10n might be fixed
+                icon: Icons.palette_outlined, // appearance icon
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AppearanceScreen(),
                     ),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.chevron_right, color: Colors.grey),
-                  ],
-                ),
+                  );
+                },
               ),
               _buildSettingsTile(
                 context,
@@ -173,17 +169,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  String _getThemeText(ThemeMode mode, AppLocalizations l10n) {
-    switch (mode) {
-      case ThemeMode.system:
-        return l10n.system;
-      case ThemeMode.light:
-        return l10n.light;
-      case ThemeMode.dark:
-        return l10n.dark;
-    }
-  }
-
   String _getLocaleText(Locale? locale, AppLocalizations l10n) {
     if (locale == null) return l10n.system;
     switch (locale.languageCode) {
@@ -196,80 +181,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       default:
         return l10n.system;
     }
-  }
-
-  void _showThemeSelection(
-    BuildContext context,
-    ThemeController controller,
-    AppLocalizations l10n,
-  ) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Text(
-                  l10n.themeMode,
-                  style: GoogleFonts.outfit(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              RadioGroup<ThemeMode>(
-                groupValue: controller.themeMode,
-                onChanged: (value) {
-                  if (value != null) {
-                    controller.updateThemeMode(value);
-                    Navigator.pop(context);
-                  }
-                },
-                child: Column(
-                  children: [
-                    _buildThemeOption(
-                      context,
-                      title: l10n.system,
-                      mode: ThemeMode.system,
-                    ),
-                    _buildThemeOption(
-                      context,
-                      title: l10n.light,
-                      mode: ThemeMode.light,
-                    ),
-                    _buildThemeOption(
-                      context,
-                      title: l10n.dark,
-                      mode: ThemeMode.dark,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildThemeOption(
-    BuildContext context, {
-    required String title,
-    required ThemeMode mode,
-  }) {
-    return RadioListTile<ThemeMode>(
-      title: Text(title, style: GoogleFonts.outfit(fontSize: 16)),
-      value: mode,
-      activeColor: AppTheme.primaryGreen,
-    );
   }
 
   void _showLanguageSelection(

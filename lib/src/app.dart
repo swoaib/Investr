@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'shared/theme/app_theme.dart';
 import 'shared/theme/theme_controller.dart';
+import 'shared/settings/settings_controller.dart';
 import 'shared/locale/locale_controller.dart';
 import 'shared/currency/currency_controller.dart';
 import 'features/market_data/data/stock_repository.dart';
@@ -70,6 +71,7 @@ class _InvestrAppState extends State<InvestrApp> {
           create: (_) =>
               widget.themeController ?? ThemeController(widget.prefs),
         ),
+        ChangeNotifierProvider(create: (_) => SettingsController(widget.prefs)),
         ChangeNotifierProvider(create: (_) => LocaleController(widget.prefs)),
         ChangeNotifierProvider(create: (_) => CurrencyController()),
         Provider<AlertsRepository>(create: (_) => AlertsRepository()),

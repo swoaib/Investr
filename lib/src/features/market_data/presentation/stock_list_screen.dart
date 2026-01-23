@@ -11,6 +11,7 @@ import '../../../shared/currency/currency_controller.dart';
 import '../domain/stock.dart';
 import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
+import '../../../shared/settings/settings_controller.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/market/market_schedule_service.dart';
 import 'widgets/stock_ticker.dart';
@@ -35,6 +36,7 @@ class _StockListViewState extends State<_StockListView> {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<StockListController>();
+    final settingsController = context.watch<SettingsController>();
     final currencyController = context.watch<CurrencyController>();
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
@@ -80,7 +82,8 @@ class _StockListViewState extends State<_StockListView> {
               ),
             ),
             const SizedBox(height: 16),
-            if (controller.stocks.isNotEmpty) ...[
+            if (settingsController.showStockTicker &&
+                controller.stocks.isNotEmpty) ...[
               StockTicker(stocks: controller.stocks),
               const SizedBox(height: 8),
             ],
