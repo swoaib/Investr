@@ -7,13 +7,23 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current locale from Localizations widget or LocaleController if available
+    final locale = Localizations.localeOf(context);
+    String assetPath = 'assets/privacy_policy.md';
+
+    if (locale.languageCode == 'nb' || locale.languageCode == 'no') {
+      assetPath = 'assets/privacy_policy_nb.md';
+    } else if (locale.languageCode == 'ja') {
+      assetPath = 'assets/privacy_policy_ja.md';
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),
       body: FutureBuilder<String>(
-        future: rootBundle.loadString('assets/privacy_policy.md'),
+        future: rootBundle.loadString(assetPath),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

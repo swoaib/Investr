@@ -97,6 +97,8 @@ flutter:
     - assets/images/onboarding/
     - assets/flags/
     - assets/privacy_policy.md
+    - assets/privacy_policy_nb.md
+    - assets/privacy_policy_ja.md
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
