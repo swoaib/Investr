@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'investr-13bc4.firebasestorage.app',
     iosBundleId: 'x.sohaibahmed.investr',
   );
+
 }
