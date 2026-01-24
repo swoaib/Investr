@@ -174,7 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     switch (locale.languageCode) {
       case 'en':
         return 'English';
-      case 'no':
+      case 'nb':
         return 'Norsk';
       case 'ja':
         return '日本語';
@@ -230,7 +230,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildLanguageOption(
                       context,
                       title: 'Norsk',
-                      locale: const Locale('no'),
+                      locale: const Locale('nb'),
                     ),
                     _buildLanguageOption(
                       context,

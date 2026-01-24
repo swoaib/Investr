@@ -92,6 +92,17 @@ class _InvestrAppState extends State<InvestrApp> {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
+            localeResolutionCallback: (locale, supportedLocales) {
+              if (locale?.languageCode == 'no') {
+                return const Locale('nb');
+              }
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale?.languageCode) {
+                  return supportedLocale;
+                }
+              }
+              return supportedLocales.first;
+            },
             routerConfig: _router,
           );
         },
