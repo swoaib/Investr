@@ -15,7 +15,9 @@ class SetAlertDialog extends StatefulWidget {
   final StockAlert? existingAlert;
 
   const SetAlertDialog({
-    required this.symbol, required this.currentPrice, super.key,
+    required this.symbol,
+    required this.currentPrice,
+    super.key,
     this.existingAlert,
   });
 

@@ -7,7 +7,9 @@ class MarkdownViewerScreen extends StatelessWidget {
   final String assetPath;
 
   const MarkdownViewerScreen({
-    required this.title, required this.assetPath, super.key,
+    required this.title,
+    required this.assetPath,
+    super.key,
   });
 
   @override

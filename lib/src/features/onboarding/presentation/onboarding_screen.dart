@@ -161,7 +161,10 @@ class OnboardingPage extends StatelessWidget {
   final String imagePath;
 
   const OnboardingPage({
-    required this.title, required this.description, required this.imagePath, super.key,
+    required this.title,
+    required this.description,
+    required this.imagePath,
+    super.key,
   });
 
   @override

@@ -7,7 +7,9 @@ class LanguagePicker extends StatelessWidget {
   final ValueChanged<Locale?> onLocaleChanged;
 
   const LanguagePicker({
-    required this.selectedLocale, required this.onLocaleChanged, super.key,
+    required this.selectedLocale,
+    required this.onLocaleChanged,
+    super.key,
   });
 
   @override

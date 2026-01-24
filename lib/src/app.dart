@@ -27,7 +27,9 @@ class InvestrApp extends StatefulWidget {
   final AnalyticsService? analyticsService;
 
   const InvestrApp({
-    required this.onboardingCompleted, required this.prefs, super.key,
+    required this.onboardingCompleted,
+    required this.prefs,
+    super.key,
     this.stockListController,
     this.stockRepository,
     this.themeController,

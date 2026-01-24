@@ -13,7 +13,8 @@ class EarningsChart extends StatefulWidget {
   final String metric; // 'EPS' or 'Revenue'
 
   const EarningsChart({
-    required this.earnings, super.key,
+    required this.earnings,
+    super.key,
     this.isLoading = false,
     this.metric = 'EPS',
   });

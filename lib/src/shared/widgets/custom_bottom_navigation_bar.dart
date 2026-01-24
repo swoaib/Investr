@@ -19,7 +19,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final VoidCallback? onSearchTap;
 
   const CustomBottomNavigationBar({
-    required this.selectedIndex, required this.onItemTapped, required this.items, super.key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+    required this.items,
+    super.key,
     this.onSearchTap,
   });
 
