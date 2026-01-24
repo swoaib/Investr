@@ -21,7 +21,6 @@
   "upgradeToPro": "Upgrade to Pro",
   "upgradeToProDesc": "Get advanced analysis and real-time data",
   "upgradeNow": "Upgrade Now",
-  
   "feedbackTitle": "Send Feedback",
   "feedbackHint": "Tell us what you think...",
   "feedbackOptionalName": "Name (Optional)",
@@ -29,8 +28,6 @@
   "submitFeedback": "Submit Feedback",
   "feedbackThanks": "Thank you for your feedback!",
   "feedbackError": "Could not send feedback. Please try again.",
-
-
   "learnTitle": "Learn Value Investing",
   "overallProgress": "Overall Progress",
   "inflationTitle": "Inflation",
@@ -43,7 +40,6 @@
   "cpiBasketDesc": "Economists measure inflation by tracking the price of a 'basket' of goods like food, housing, and fuel. Historically, inflation has averaged around 3% per year.",
   "inflationShieldTitle": "Beating Inflation",
   "inflationShieldDesc": "Investing is your shield. To grow your wealth, your returns must be higher than the inflation rate.",
-  
   "stocks101Title": "Stocks 101",
   "stocks101Desc": "Start your journey here.",
   "whatIsAStock": "What is a Stock?",
@@ -52,10 +48,8 @@
   "theStockMarketDesc": "The stock market is where buyers and sellers meet to trade shares. Think of it as a supermarket for companies.",
   "whyInvest": "Why Invest?",
   "whyInvestDesc": "Investing allows your money to grow over time, helping you beat inflation and build long-term wealth.",
-  
   "stocks101AttributionTitle": "Credit Where Due",
   "stocks101AttributionDesc": "The information in this app is based on the book 'The Intelligent Investor' by Benjamin Graham. Other information from value investors may also be included.",
-
   "whyInvestLessonTitle": "Why Invest?",
   "whyInvestLessonDesc": "Beat inflation and build wealth.",
   "stocksVsBankTitle": "Stocks vs. Bank",
@@ -66,7 +60,6 @@
   "inflationShieldDesc": "Inflation eats your cash. Investing is your shield—you need returns higher than inflation just to break even.",
   "powerOfCompoundingTitle": "Compounding",
   "powerOfCompoundingDesc": "Money making money. Starting early allows your interest to earn interest, creating a snowball effect of wealth.",
-
   "investingVsSpeculationTitle": "Investment vs. Speculation",
   "investingVsSpeculationDesc": "Understand the difference.",
   "whatIsAnInvestment": "What is an Investment?",
@@ -81,10 +74,8 @@
   "valueRiskDesc": "Value investing reduces risk, but doesn't eliminate it. There are of course no guarantees in the market. Investing is usually for the people looking ath the future with optimism.",
   "startupSpeculationTitle": "Strategic Speculation",
   "startupSpeculationDesc": "It's okay to back early-stage companies (like Amazon's IPO). But limit these speculative bets to maximum 10% of your portfolio.",
-  
   "stockOwnershipHistory": "Historical Context",
   "stockOwnershipHistoryDesc": "Stocks just simplify ownership. The concept of investing remains the same whether you buy a farm, a stock, or other instruments.",
-
   "mrMarketTitle": "Mr. Market",
   "mrMarketDesc": "The Intelligent Investor concept.",
   "meetMrMarket": "Meet Mr. Market",
@@ -97,7 +88,6 @@
   "intrinsicValueDesc": "Focus on the intrinsic value of the business. Buy when the price is well below this value, and sell when it is well above.",
   "disciplineIsKey": "Discipline is Key",
   "disciplineIsKeyDesc": "The investor without a disciplined approach will likely fall victim to Mr. Market's irrationality.",
-
   "marginOfSafetyTitle": "Margin of Safety",
   "marginOfSafetyDesc": "Risk management strategy.",
   "theSecret": "The Secret",
@@ -110,7 +100,6 @@
   "diversificationDesc": "Margin of safety is also achieved by not putting all your eggs in one basket. Spreading risk protects your capital.",
   "conservativeAssumptions": "Conservative Assumptions",
   "conservativeAssumptionsDesc": "When valuing a company, always use conservative estimates for growth and profitability to ensure a margin of safety.",
-
   "indexFundsTitle": "Index Funds",
   "indexFundsDesc": "The power of passive investing.",
   "whatIsAnIndexFund": "What is an Index Fund?",
@@ -121,17 +110,14 @@
   "lowCostDesc": "Index funds are passively managed, meaning they have significantly lower fees compared to actively managed mutual funds.",
   "marketPerformance": "Market Performance",
   "marketPerformanceDesc": "Statistically, most actively managed funds fail to beat the market over the long term. If you can't beat them, join them.",
-
   "calcIntrinsicValueTitle": "Calculating Intrinsic Value",
   "calcIntrinsicValueDesc": "The science of valuation.",
-  
   "powerOfCompoundingTitle": "The Power of Compounding",
   "powerOfCompoundingDesc": "Why starting early matters.",
   "snowballEffect": "What is Compounding?",
   "snowballEffectDesc": "It is when your profits earn their own profits. If you earn $10 on $100, next year you earn on $110. Over time, this creates exponential wealth.",
   "timeIsKey": "How to Achieve It",
   "timeIsKeyDesc": "1. Reinvest your dividends (don't spend them).\n2. Start early. Time is the multiplier. \n\nThe longer you stay invested, the faster your snowball grows.",
-
   "dollarCostAveragingTitle": "Dollar Cost Averaging",
   "priceVsValue": "Price vs. Value",
   "priceVsValueDesc": "Price is what you pay. Value is what you get. A stock might cost $100, but its intrinsic value could be $50 or $150.",
@@ -141,7 +127,6 @@
   "stepByStepDesc": "1. Estimate future Free Cash Flow growth.\n2. Choose a Discount Rate (your desired return).\n3. Sum the discounted values.",
   "useOurCalculator": "Use Our Calculator",
   "useOurCalculatorDesc": "This math can be complex. Use the \"Intrinsic Value Calculator\" tool in this app to do the heavy lifting for you.",
-
   "dollarCostAveragingTitle": "Dollar Cost Averaging",
   "dollarCostAveragingDesc": "Build wealth through consistency.",
   "whatIsDCA": "What is DCA?",
@@ -158,7 +143,6 @@
   "dcaHistoryGrowthDesc": "Consistency beats timing, the graph above shows another example of starting with $3000 and adding $100 each month and also the corresponding S&P 500 index during Dec 99 and Dec 02.",
   "done": "Done",
   "next": "Next",
-
   "overview": "Overview",
   "earnings": "Earnings",
   "keyStatistics": "Key Statistics",
@@ -203,18 +187,14 @@
   "learnToInvestDesc": "Master the basics of investing with our curated educational content.",
   "valueYourPortfolio": "Calculate Intrinsic Value",
   "valueYourPortfolioDesc": "Use our calculator to calculate the intrinsic value of a company and make informed decisions.",
-  
   "howToInvestTitle": "How to Invest",
   "howToInvestDesc": "Brokers, ETFs, and getting started.",
-  
   "theBroker": "The Broker",
   "theBrokerDesc": "Your broker is your gateway to the market. Today, this is typically a mobile app or a bank. They execute your buy and sell orders.",
   "popularBrokersTitle": "Popular Brokers",
   "popularBrokersDesc": "Select your country to see some of the most popular stock brokers available to you.",
-  
   "accountTypes": "Account Types",
   "accountTypesDesc": "You usually need a separate brokerage account for stocks. Look for tax-advantaged accounts (like ISAs, Roth IRAs, or ASK) to save on taxes.",
-  
   "howToBuyTitle": "How to Buy",
   "howToBuyDesc": "1. Search for the stock you want, lets take Apple as an example. Search for AAPL.\n\n2. Click 'Buy'.\n\n3. Enter amount (e.g. 5 share) and the amount you are willing to but it for (e.g. 100$). This will cost you 500$\n\n4. Confirm Order, and when the price hits you bidding price, you will earn your shares. \n\nCongratulations, you are now a part-owner of Apple!",
   "bidAskExplainer": "The Bid vs Ask",
@@ -223,89 +203,64 @@
   "buyingExampleAAPLDesc": "1. Search for AAPL.\n2. Click 'Trade' or 'Buy'.\n3. Enter amount (e.g. 1 share).\n4. Confirm Order. \n\nCongratulations, you are now a part-owner of Apple!",
   "marketOrder": "Market Order",
   "marketOrderDesc": "Buys immediately at the best available price. Simplest way to start.",
-
   "howToSellTitle": "How to Sell",
   "howToSellDesc": "Turning stocks back into cash.",
   "sellingProcess": "The Process",
   "sellingProcessDesc": "Go to your portfolio, select the stock, tap 'Sell', and choose the amount. The cash will settle in your account (usually takes 2 days).",
   "whenToSell": "When to Sell?",
   "whenToSellDesc": "Sell if the company's fundamentals deteriorate, the price becomes insanely high (overvalued), or you find a much better opportunity elsewhere.",
-  
   "etfs": "ETFs",
   "etfsDesc": "There are of course other ethical funds that may be governed in different countries, like SPUS, which tries to meet Islamic ethics. These types of funds can be bought on the stock market like Exchange Traded Funds (ETFs), which are baskets of stocks that trade like a single stock.",
-  
   "mutualFunds": "Mutual Funds",
   "mutualFundsDesc": "Similar to ETFs but often actively managed by a professional. Beware: they typically have higher fees which eat into your returns.",
-  
   "ethicalInvesting": "Ethical Investing (ESG)",
   "ethicalInvestingDesc": "You can vote with your wallet. ESG funds only include companies that meet Environmental, Social, and Governance standards.",
-  
   "moduleFoundation": "The Foundation",
   "moduleAssetClasses": "Asset Classes",
   "modulePhilosophy": "The Philosophy",
   "moduleStrategy": "Practical Strategy",
-
   "understandingMetricsTitle": "Understanding Metrics",
   "understandingMetricsDesc": "Learn to speak the language.",
-  
   "marketCapTitle": "Market Cap",
   "marketCapDesc": "Market Capitalization is the total value of a company. It's calculated by multiplying the stock price by the number of shares.",
-  
   "peRatioTitle": "P/E Ratio",
   "peRatioImgDesc": "The Price-to-Earnings ratio tells you how much you are paying for $1 of earnings. A lower P/E *can* mean a bargain.",
-  
   "dividendYieldTitle": "Dividend Yield",
   "dividendYieldDesc": "This is the percentage of the stock price that is paid out to you in cash each year. It's like getting paid rent for owning the stock.",
-  
   "epsTitle": "EPS (Earnings Per Share)",
   "epsDesc": "The portion of a company's profit allocated to each share. It is the engine that drives the stock price in the long run.",
-  
   "revenueTitle": "Revenue (Top Line)",
   "revenueDesc": "The total amount of money currently brought in by a company's sales. It's the starting point of the income statement.",
   "grossProfitTitle": "Gross Profit",
   "grossProfitDesc": "Revenue minus the cost of making the product (COGS). It shows how efficiently a company produces its goods.",
   "netIncomeTitle": "Net Income (Bottom Line)",
   "netIncomeDesc": "The profit left after *all* expenses (taxes, interest, salaries) are paid. This is what the company actually keeps.",
-  
   "defensiveVsEnterpriseTitle": "Defensive vs Enterprise",
   "defensiveVsEnterpriseDesc": "Passive vs Active Investing.",
-  
   "twoPaths": "Two Paths",
   "twoPathsDesc": "Benjamin Graham defined two distinct types of investors based on the amount of effort they are willing to put in.",
-  
   "theDefensiveInvestor": "The Defensive Investor",
   "theDefensiveInvestorDesc": "Prioritizes safety and freedom from bother. Their goal is to get decent returns with minimal effort and worry.",
-  
   "defensiveStrategy": "Defensive Strategy",
   "defensiveStrategyDesc": "They should buy a high-grade index fund or maintain a 50/50 split between stocks and bonds, rebalancing automatically.",
-  
   "adequiteDiversificationTitle": "Adequate Diversification",
   "adequiteDiversificationDesc": "Graham suggests holding between 10 and 30 different issues to limit risk. Don't put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding an index fund.",
-  
   "theEnterpriseInvestor": "The Enterprise Investor",
   "theEnterpriseInvestorDesc": "Willing to devote time and care to researching securities. They treat investing as a business or full-time job.",
-  
   "enterpriseStrategy": "Enterprise Strategy",
   "enterpriseStrategyDesc": "They analyze financial reports to find undervalued companies, seeking higher returns in exchange for their hard work.",
-  
   "stocksVsBondsTitle": "Stocks vs. Bonds",
   "stocksVsBondsDesc": "Understanding Asset Classes.",
-
   "stocksForGrowth": "Stocks for Growth",
   "stocksForGrowthDesc": "Stocks represent ownership. They offer high potential for growth but come with higher volatility and risk.",
-
   "bondsForStability": "Bonds for Stability",
   "bondsForStabilityDesc": "Bonds are loans you make to governments or companies. They pay steady interest and are generally safer than stocks.",
-
   "riskVsReward": "Risk vs. Reward",
   "riskVsRewardDesc": "It's a trade-off. Stocks can grow fast but crash hard. Bonds likely won't double, but they won't crash either.",
-
   "theIdealMix": "The Ideal Mix",
   "theIdealMixDesc": "Most investors hold both. Stocks drive the growth of your portfolio, while bonds act as shock absorbers during market crashes.",
-  
   "theChoice": "The Choice",
   "theChoiceDesc": "Most people are defensive investors. The Enterprise approach is strictly for those willing to treat it as a business and put in the necessary hours.",
-
   "freeCashFlow": "Free Cash Flow",
   "terminalGrowthRate": "Terminal Growth Rate (%)",
   "netDebt": "Net Debt",
@@ -318,7 +273,6 @@
   "intrinsicValue": "Intrinsic Value",
   "howItWorks": "How it works",
   "dcfExplanation": "This calculator estimates the intrinsic value using the Discounted Cash Flow (DCF) model. It projects future cash flows based on your growth assumptions, discounts them back to today's value, adds a terminal value, and adjusts for the company's net debt.",
-  
   "skip": "Skip",
   "myProgress": "My Progress",
   "basicsOfOwnership": "Basics of ownership",
