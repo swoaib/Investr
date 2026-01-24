@@ -235,7 +235,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get valueRiskDesc =>
-      'Value investing reduces risk, but doesn\'t eliminate it. There are of course no guarantees in the market. Investing is usually for the people looking ath the future with optimism.';
+      'Value investing reduces risk, but doesn\'t eliminate it. There are of course no guarantees in the market. Investing is usually for the people looking at the future with optimism.';
 
   @override
   String get startupSpeculationTitle => 'Strategic Speculation';
@@ -640,7 +640,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get howToBuyDesc =>
-      '1. Search for the stock you want, lets take Apple as an example. Search for AAPL.\n2. Enter amount (e.g. 5 share) and the amount you are willing to buy it for (e.g. 100\$) and click \'Buy\'. This will cost you 500\$\n3. Confirm Order, and when someone sells at your bid price, you will earn your shares.';
+      '1. Search for the stock you want, let\'s take Apple as an example. Search for AAPL.\\n2. Enter amount (e.g. 5 share) and the amount you are willing to buy it for (e.g. 100\$) and click \'Buy\'. This will cost you 500\$\\n3. Confirm Order, and when someone sells at your bid price, you will earn your shares.';
 
   @override
   String get bidAskExplainer => 'The Bid vs Ask';
@@ -661,14 +661,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get marketOrderDesc =>
-      'Buys immediately at the best available price. Simplest way to startget started, if you sell or buy at the price listed on the stock market your order will go through immediately.';
+      'Buys immediately at the best available price. Simplest way to get started. If you sell or buy at the price listed on the stock market, your order will go through immediately.';
 
   @override
   String get howToSellTitle => 'How to Sell';
 
   @override
   String get howToSellDesc =>
-      'Turning stocks back into cash. This works smilary to how you buy stocks. Enter the quantity you want to sell and the price you want to sell it for. If someone accepts your bid price, you will sell your shares.';
+      'Turning stocks back into cash. This works similarly to how you buy stocks. Enter the quantity you want to sell and the price you want to sell it for. If someone accepts your bid price, you will sell your shares.';
 
   @override
   String get sellingProcess => 'The Process';
@@ -804,7 +804,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adequiteDiversificationDesc =>
-      'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding an index fund.';
+      'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be achieved by holding an index fund.';
 
   @override
   String get theEnterpriseInvestor => 'The Enterprise Investor';

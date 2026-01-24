@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_nb.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +93,10 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('nb'),
+  ];
 
   /// No description provided for @settingsTitle.
   ///
@@ -517,7 +521,7 @@ abstract class AppLocalizations {
   /// No description provided for @valueRiskDesc.
   ///
   /// In en, this message translates to:
-  /// **'Value investing reduces risk, but doesn\'t eliminate it. There are of course no guarantees in the market. Investing is usually for the people looking ath the future with optimism.'**
+  /// **'Value investing reduces risk, but doesn\'t eliminate it. There are of course no guarantees in the market. Investing is usually for the people looking at the future with optimism.'**
   String get valueRiskDesc;
 
   /// No description provided for @startupSpeculationTitle.
@@ -1249,7 +1253,7 @@ abstract class AppLocalizations {
   /// No description provided for @howToBuyDesc.
   ///
   /// In en, this message translates to:
-  /// **'1. Search for the stock you want, lets take Apple as an example. Search for AAPL.\n2. Enter amount (e.g. 5 share) and the amount you are willing to buy it for (e.g. 100\$) and click \'Buy\'. This will cost you 500\$\n3. Confirm Order, and when someone sells at your bid price, you will earn your shares.'**
+  /// **'1. Search for the stock you want, let\'s take Apple as an example. Search for AAPL.\\n2. Enter amount (e.g. 5 share) and the amount you are willing to buy it for (e.g. 100\$) and click \'Buy\'. This will cost you 500\$\\n3. Confirm Order, and when someone sells at your bid price, you will earn your shares.'**
   String get howToBuyDesc;
 
   /// No description provided for @bidAskExplainer.
@@ -1285,7 +1289,7 @@ abstract class AppLocalizations {
   /// No description provided for @marketOrderDesc.
   ///
   /// In en, this message translates to:
-  /// **'Buys immediately at the best available price. Simplest way to startget started, if you sell or buy at the price listed on the stock market your order will go through immediately.'**
+  /// **'Buys immediately at the best available price. Simplest way to get started. If you sell or buy at the price listed on the stock market, your order will go through immediately.'**
   String get marketOrderDesc;
 
   /// No description provided for @howToSellTitle.
@@ -1297,7 +1301,7 @@ abstract class AppLocalizations {
   /// No description provided for @howToSellDesc.
   ///
   /// In en, this message translates to:
-  /// **'Turning stocks back into cash. This works smilary to how you buy stocks. Enter the quantity you want to sell and the price you want to sell it for. If someone accepts your bid price, you will sell your shares.'**
+  /// **'Turning stocks back into cash. This works similarly to how you buy stocks. Enter the quantity you want to sell and the price you want to sell it for. If someone accepts your bid price, you will sell your shares.'**
   String get howToSellDesc;
 
   /// No description provided for @sellingProcess.
@@ -1537,7 +1541,7 @@ abstract class AppLocalizations {
   /// No description provided for @adequiteDiversificationDesc.
   ///
   /// In en, this message translates to:
-  /// **'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding an index fund.'**
+  /// **'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be achieved by holding an index fund.'**
   String get adequiteDiversificationDesc;
 
   /// No description provided for @theEnterpriseInvestor.
@@ -2062,7 +2066,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'nb'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2073,6 +2077,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'nb':
+      return AppLocalizationsNb();
   }
 
   throw FlutterError(
