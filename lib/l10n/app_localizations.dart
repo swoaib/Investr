@@ -709,7 +709,7 @@ abstract class AppLocalizations {
   /// No description provided for @whatIsAnIndexFundDesc.
   ///
   /// In en, this message translates to:
-  /// **'An index fund is a portfolio of stocks designed to mimic the composition and performance of a financial market index.'**
+  /// **'An index fund is a portfolio of stocks designed to mimic the composition and performance of a financial market index. A famous example is the S&P 500, which tracks the performance of 500 of the largest companies listed on stock exchanges in the United States.'**
   String get whatIsAnIndexFundDesc;
 
   /// No description provided for @instantDiversification.
@@ -1249,7 +1249,7 @@ abstract class AppLocalizations {
   /// No description provided for @howToBuyDesc.
   ///
   /// In en, this message translates to:
-  /// **'1. Search for the stock you want, lets take Apple as an example. Search for AAPL.\n\n2. Click \'Buy\'.\n\n3. Enter amount (e.g. 5 share) and the amount you are willing to but it for (e.g. 100\$). This will cost you 500\$\n\n4. Confirm Order, and when the price hits you bidding price, you will earn your shares. \n\nCongratulations, you are now a part-owner of Apple!'**
+  /// **'1. Search for the stock you want, lets take Apple as an example. Search for AAPL.\n2. Enter amount (e.g. 5 share) and the amount you are willing to buy it for (e.g. 100\$) and click \'Buy\'. This will cost you 500\$\n3. Confirm Order, and when someone sells at your bid price, you will earn your shares.'**
   String get howToBuyDesc;
 
   /// No description provided for @bidAskExplainer.
@@ -1285,7 +1285,7 @@ abstract class AppLocalizations {
   /// No description provided for @marketOrderDesc.
   ///
   /// In en, this message translates to:
-  /// **'Buys immediately at the best available price. Simplest way to start.'**
+  /// **'Buys immediately at the best available price. Simplest way to startget started, if you sell or buy at the price listed on the stock market your order will go through immediately.'**
   String get marketOrderDesc;
 
   /// No description provided for @howToSellTitle.
@@ -1297,7 +1297,7 @@ abstract class AppLocalizations {
   /// No description provided for @howToSellDesc.
   ///
   /// In en, this message translates to:
-  /// **'Turning stocks back into cash.'**
+  /// **'Turning stocks back into cash. This works smilary to how you buy stocks. Enter the quantity you want to sell and the price you want to sell it for. If someone accepts your bid price, you will sell your shares.'**
   String get howToSellDesc;
 
   /// No description provided for @sellingProcess.
@@ -1333,7 +1333,7 @@ abstract class AppLocalizations {
   /// No description provided for @etfsDesc.
   ///
   /// In en, this message translates to:
-  /// **'Exchange Traded Funds (ETFs) are baskets of stocks that trade like a single stock. They are modern, low-cost, and diverse.'**
+  /// **'There are of course other ethical funds that may be governed in different countries, like SPUS, which tries to meet Islamic ethics. These types of funds can be bought on the stock market like Exchange Traded Funds (ETFs), which are baskets of stocks that trade like a single stock.'**
   String get etfsDesc;
 
   /// No description provided for @mutualFunds.

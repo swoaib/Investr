@@ -346,8 +346,8 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/bid_ask.png',
           ),
           LessonPage(
-            title: l10n.sellingProcess,
-            description: l10n.sellingProcessDesc,
+            title: l10n.howToSellTitle,
+            description: l10n.howToSellDesc,
             imagePath: 'assets/images/education/portfolio_sell.png',
           ),
           LessonPage(
