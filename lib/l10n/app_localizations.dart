@@ -361,7 +361,7 @@ abstract class AppLocalizations {
   /// No description provided for @whatIsAStockDesc.
   ///
   /// In en, this message translates to:
-  /// **'A stock represents fractional ownership in a company. When you buy a share, you become a part-owner of that business.'**
+  /// **'A stock represents fractional ownership in a company. When you buy a share, you become a part-owner of that business. Therefore you should think about buying stocks as of buying the companies themselves.'**
   String get whatIsAStockDesc;
 
   /// No description provided for @theStockMarket.
@@ -469,7 +469,7 @@ abstract class AppLocalizations {
   /// No description provided for @whatIsAnInvestmentDesc.
   ///
   /// In en, this message translates to:
-  /// **'An operation that, upon thorough analysis, promises safety of principal and an adequate return.'**
+  /// **'According to Benjamin Graham, an investment is an operation that, upon thorough analysis, promises safety of principal and an adequate return.'**
   String get whatIsAnInvestmentDesc;
 
   /// No description provided for @theSpeculator.
@@ -517,7 +517,7 @@ abstract class AppLocalizations {
   /// No description provided for @valueRiskDesc.
   ///
   /// In en, this message translates to:
-  /// **'Value investing reduces risk, but doesn\'t eliminate it. There are no guarantees in the market. Investing is usually for the optimistic'**
+  /// **'Value investing reduces risk, but doesn\'t eliminate it. There are of course no guarantees in the market. Investing is usually for the people looking ath the future with optimism.'**
   String get valueRiskDesc;
 
   /// No description provided for @startupSpeculationTitle.
@@ -865,7 +865,7 @@ abstract class AppLocalizations {
   /// No description provided for @smoothingTheRideDesc.
   ///
   /// In en, this message translates to:
-  /// **'You usually get a good average price for the stock using this method. Take the example on the next page.'**
+  /// **'You usually get a good average price for the stock using this method. Take the example given in Intelligent Investor on the next page.'**
   String get smoothingTheRideDesc;
 
   /// No description provided for @removeEmotion.
@@ -1537,7 +1537,7 @@ abstract class AppLocalizations {
   /// No description provided for @adequiteDiversificationDesc.
   ///
   /// In en, this message translates to:
-  /// **'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding a index fund.'**
+  /// **'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding an index fund.'**
   String get adequiteDiversificationDesc;
 
   /// No description provided for @theEnterpriseInvestor.

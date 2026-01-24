@@ -270,6 +270,16 @@ class LearnScreen extends StatelessWidget {
             description: l10n.marketPerformanceDesc,
             imagePath: 'assets/images/education/market_performance.png',
           ),
+          LessonPage(
+            title: l10n.ethicalInvesting,
+            description: l10n.ethicalInvestingDesc,
+            imagePath: 'assets/images/education/esg_investing.png',
+          ),
+          LessonPage(
+            title: l10n.etfs,
+            description: l10n.etfsDesc,
+            imagePath: 'assets/images/education/mutual_fund_manager.png',
+          ),
         ],
       ),
       Lesson(
@@ -344,21 +354,6 @@ class LearnScreen extends StatelessWidget {
             title: l10n.marketOrder,
             description: l10n.marketOrderDesc,
             imagePath: 'assets/images/education/market_order.png',
-          ),
-          LessonPage(
-            title: l10n.etfs,
-            description: l10n.etfsDesc,
-            imagePath: 'assets/images/education/portfolio_balance.png',
-          ),
-          LessonPage(
-            title: l10n.mutualFunds,
-            description: l10n.mutualFundsDesc,
-            imagePath: 'assets/images/education/mutual_fund_manager.png',
-          ),
-          LessonPage(
-            title: l10n.ethicalInvesting,
-            description: l10n.ethicalInvestingDesc,
-            imagePath: 'assets/images/education/esg_investing.png',
           ),
         ],
       ),

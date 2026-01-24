@@ -147,7 +147,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get whatIsAStockDesc =>
-      'A stock represents fractional ownership in a company. When you buy a share, you become a part-owner of that business.';
+      'A stock represents fractional ownership in a company. When you buy a share, you become a part-owner of that business. Therefore you should think about buying stocks as of buying the companies themselves.';
 
   @override
   String get theStockMarket => 'The Stock Market';
@@ -207,7 +207,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get whatIsAnInvestmentDesc =>
-      'An operation that, upon thorough analysis, promises safety of principal and an adequate return.';
+      'According to Benjamin Graham, an investment is an operation that, upon thorough analysis, promises safety of principal and an adequate return.';
 
   @override
   String get theSpeculator => 'The Speculator';
@@ -235,7 +235,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get valueRiskDesc =>
-      'Value investing reduces risk, but doesn\'t eliminate it. There are no guarantees in the market. Investing is usually for the optimistic';
+      'Value investing reduces risk, but doesn\'t eliminate it. There are of course no guarantees in the market. Investing is usually for the people looking ath the future with optimism.';
 
   @override
   String get startupSpeculationTitle => 'Strategic Speculation';
@@ -433,7 +433,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get smoothingTheRideDesc =>
-      'You usually get a good average price for the stock using this method. Take the example on the next page.';
+      'You usually get a good average price for the stock using this method. Take the example given in Intelligent Investor on the next page.';
 
   @override
   String get removeEmotion => 'Remove Emotion';
@@ -803,7 +803,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adequiteDiversificationDesc =>
-      'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding a index fund.';
+      'Graham suggests holding between 10 and 30 different issues to limit risk. Don\'t put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding an index fund.';
 
   @override
   String get theEnterpriseInvestor => 'The Enterprise Investor';

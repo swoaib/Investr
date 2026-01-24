@@ -47,7 +47,7 @@
   "stocks101Title": "Stocks 101",
   "stocks101Desc": "Start your journey here.",
   "whatIsAStock": "What is a Stock?",
-  "whatIsAStockDesc": "A stock represents fractional ownership in a company. When you buy a share, you become a part-owner of that business.",
+  "whatIsAStockDesc": "A stock represents fractional ownership in a company. When you buy a share, you become a part-owner of that business. Therefore you should think about buying stocks as of buying the companies themselves.",
   "theStockMarket": "The Stock Market",
   "theStockMarketDesc": "The stock market is where buyers and sellers meet to trade shares. Think of it as a supermarket for companies.",
   "whyInvest": "Why Invest?",
@@ -70,7 +70,7 @@
   "investingVsSpeculationTitle": "Investment vs. Speculation",
   "investingVsSpeculationDesc": "Understand the difference.",
   "whatIsAnInvestment": "What is an Investment?",
-  "whatIsAnInvestmentDesc": "An operation that, upon thorough analysis, promises safety of principal and an adequate return.",
+  "whatIsAnInvestmentDesc": "According to Benjamin Graham, an investment is an operation that, upon thorough analysis, promises safety of principal and an adequate return.",
   "theSpeculator": "The Speculator",
   "theSpeculatorDesc": "Speculators bet on price movements without understanding the underlying business. It's essentially gambling.",
   "beAnInvestor": "Be an Investor",
@@ -78,7 +78,7 @@
   "valueInvestingTitle": "Value Investing",
   "valueInvestingDesc": "This strategy focuses on buying stocks for less than their intrinsic value—getting $1 worth of assets for 50 cents.",
   "valueRiskTitle": "No Guarantees",
-  "valueRiskDesc": "Value investing reduces risk, but doesn't eliminate it. There are no guarantees in the market. Investing is usually for the optimistic",
+  "valueRiskDesc": "Value investing reduces risk, but doesn't eliminate it. There are of course no guarantees in the market. Investing is usually for the people looking ath the future with optimism.",
   "startupSpeculationTitle": "Strategic Speculation",
   "startupSpeculationDesc": "It's okay to back early-stage companies (like Amazon's IPO). But limit these speculative bets to maximum 10% of your portfolio.",
   
@@ -147,7 +147,7 @@
   "whatIsDCA": "What is DCA?",
   "whatIsDCADesc": "Investing a fixed amount of money at regular intervals, regardless of the share price.",
   "smoothingTheRide": "Smoothing the Ride",
-  "smoothingTheRideDesc": "You usually get a good average price for the stock using this method. Take the example on the next page.",
+  "smoothingTheRideDesc": "You usually get a good average price for the stock using this method. Take the example given in Intelligent Investor on the next page.",
   "removeEmotion": "Remove Emotion",
   "removeEmotionDesc": "It eliminates the temptation to time the market, preventing emotional decisions during volatility.",
   "consistencyWins": "Consistency Wins",
@@ -232,7 +232,7 @@
   "whenToSellDesc": "Sell if the company's fundamentals deteriorate, the price becomes insanely high (overvalued), or you find a much better opportunity elsewhere.",
   
   "etfs": "ETFs",
-  "etfsDesc": "Exchange Traded Funds (ETFs) are baskets of stocks that trade like a single stock. They are modern, low-cost, and diverse.",
+  "etfsDesc": "There are of course other etichal funds that maybe governed in different countries, like SPUS which is a fund that tryies to meet the Islamic ethics, these type of fund can be bought on the stock market like Exchange Traded Funds (ETFs) which are baskets of stocks that trade like a single stock.",
   
   "mutualFunds": "Mutual Funds",
   "mutualFundsDesc": "Similar to ETFs but often actively managed by a professional. Beware: they typically have higher fees which eat into your returns.",
@@ -280,7 +280,7 @@
   "defensiveStrategyDesc": "They should buy a high-grade index fund or maintain a 50/50 split between stocks and bonds, rebalancing automatically.",
   
   "adequiteDiversificationTitle": "Adequate Diversification",
-  "adequiteDiversificationDesc": "Graham suggests holding between 10 and 30 different issues to limit risk. Don't put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding a index fund.",
+  "adequiteDiversificationDesc": "Graham suggests holding between 10 and 30 different issues to limit risk. Don't put all your eggs in one basket. Focus on big, conservatively financed companies. They are more stable and less likely to go bankrupt than smaller ones. These days this could be acheived by holding an index fund.",
   
   "theEnterpriseInvestor": "The Enterprise Investor",
   "theEnterpriseInvestorDesc": "Willing to devote time and care to researching securities. They treat investing as a business or full-time job.",
