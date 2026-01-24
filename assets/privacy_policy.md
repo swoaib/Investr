@@ -17,6 +17,7 @@ We do not require you to provide personally identifiable information (such as yo
 We may collect information that your mobile device sends whenever you use our App. This may include:
 - **Device Information:** Device model, operating system version, unique device identifiers, and mobile network information.
 - **Log Data:** Details of how you use our App, such as the time and date of your visit, the features you use, and interaction logs.
+- **Crash Data:** Data collected when the app crashes, including stack traces and device state, to help us identify and fix stability issues.
 - **Analytics:** We use third-party analytics services (such as Google Analytics for Firebase) to understand how users engage with our App. This data helps us improve functionality and user experience.
 
 ### C. Financial Data & Preferences
@@ -35,6 +36,7 @@ We may employ third-party companies and services to facilitate our App, provide 
 
 Key third-party service providers include:
 - **Google Firebase:** Used for authentication, analytics, backend infrastructure, and push notifications. [Privacy Policy](https://policies.google.com/privacy)
+- **Firebase Crashlytics:** Used for crash reporting and stability monitoring.
 - **Financial Modeling Prep (FMP):** Used to fetch real-time and historical stock market data.
 
 ## 5. Data Security

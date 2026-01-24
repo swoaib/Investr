@@ -17,6 +17,7 @@ Vi krever ikke at du oppgir personlig identifiserbar informasjon (som navn, e-po
 Vi kan samle inn informasjon som mobilenheten din sender når du bruker Appen vår. Dette kan inkludere:
 - **Enhetsinformasjon:** Enhetsmodell, operativsystemversjon, unike enhetsidentifikatorer og informasjon om mobilnettverk.
 - **Loggdata:** Detaljer om hvordan du bruker Appen vår, for eksempel tidspunkt og dato for besøket, funksjonene du bruker, og interaksjonslogger.
+- **Krasjdata:** Data som samles inn når appen krasjer, inkludert stakkspor og enhetstilstand, for å hjelpe oss med å identifisere og fikse stabilitetsproblemer.
 - **Analyse:** Vi bruker tredjeparts analysetjenester (som Google Analytics for Firebase) for å forstå hvordan brukere engasjerer seg i Appen vår. Disse dataene hjelper oss med å forbedre funksjonalitet og brukeropplevelse.
 
 ### C. Finansielle data og preferanser
@@ -35,6 +36,7 @@ Vi kan ansette tredjepartsselskaper og enkeltpersoner for å legge til rette for
 
 Viktige tredjepartsleverandører inkluderer:
 - **Google Firebase:** Brukes for autentisering, analyse, backend-infrastruktur og push-varsler. [Personvernerklæring](https://policies.google.com/privacy)
+- **Firebase Crashlytics:** Brukes for krasjrapportering og stabilitetsovervåking.
 - **Financial Modeling Prep (FMP):** Brukes til å hente aksjemarkedsdata i sanntid og historiske data.
 
 ## 5. Datasikkerhet
