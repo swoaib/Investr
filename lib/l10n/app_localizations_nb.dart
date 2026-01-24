@@ -562,7 +562,7 @@ class AppLocalizationsNb extends AppLocalizations {
   String get required => 'Påkrevd';
 
   @override
-  String get stockMarketTitle => 'Aksjemarked';
+  String get stockMarketTitle => 'Aksjemarkedet';
 
   @override
   String get searchHint => 'Søk (f.eks. AAPL)';
