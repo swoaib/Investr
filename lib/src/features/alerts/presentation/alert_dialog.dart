@@ -7,6 +7,7 @@ import 'package:investr/l10n/app_localizations.dart';
 import '../data/alerts_repository.dart';
 import '../domain/stock_alert.dart';
 import '../../../shared/theme/app_theme.dart';
+import '../../../shared/widgets/top_snackbar.dart';
 
 class SetAlertDialog extends StatefulWidget {
   final String symbol;
@@ -60,13 +61,10 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
         final currentCount = await repo.getAlertCount(userId);
         if (currentCount >= 3) {
           if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.alertLimitReached),
-              backgroundColor: Colors.red,
-              behavior: SnackBarBehavior.floating,
-              margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-            ),
+          showTopSnackBar(
+            context,
+            message: l10n.alertLimitReached,
+            backgroundColor: Colors.red,
           );
           return;
         }
@@ -92,32 +90,24 @@ class _SetAlertDialogState extends State<SetAlertDialog> {
 
       if (mounted) {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              widget.existingAlert != null
-                  ? l10n.alertUpdated(widget.symbol)
-                  : l10n.alertSet(
-                      widget.symbol,
-                      _condition == 'above' ? l10n.above : l10n.below,
-                      price.toStringAsFixed(2),
-                    ),
-            ),
-            backgroundColor: AppTheme.primaryGreen,
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-          ),
+        showTopSnackBar(
+          context,
+          message: widget.existingAlert != null
+              ? l10n.alertUpdated(widget.symbol)
+              : l10n.alertSet(
+                  widget.symbol,
+                  _condition == 'above' ? l10n.above : l10n.below,
+                  price.toStringAsFixed(2),
+                ),
+          backgroundColor: AppTheme.primaryGreen,
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.error(e.toString())),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-          ),
+        showTopSnackBar(
+          context,
+          message: AppLocalizations.of(context)!.error(e.toString()),
+          backgroundColor: Colors.red,
         );
       }
     } finally {
