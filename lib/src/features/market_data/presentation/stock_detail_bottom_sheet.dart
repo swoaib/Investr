@@ -319,15 +319,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     if (marketCap == null) return 'N/A';
     final convertedCap = marketCap * rate;
     if (convertedCap >= 1e12) {
-      return '$symbol ${(convertedCap / 1e12).toStringAsFixed(2)}T';
+      return '${symbol.isEmpty ? '' : '$symbol '}${(convertedCap / 1e12).toStringAsFixed(2)}T';
     }
     if (convertedCap >= 1e9) {
-      return '$symbol ${(convertedCap / 1e9).toStringAsFixed(2)}B';
+      return '${symbol.isEmpty ? '' : '$symbol '}${(convertedCap / 1e9).toStringAsFixed(2)}B';
     }
     if (convertedCap >= 1e6) {
-      return '$symbol ${(convertedCap / 1e6).toStringAsFixed(2)}M';
+      return '${symbol.isEmpty ? '' : '$symbol '}${(convertedCap / 1e6).toStringAsFixed(2)}M';
     }
-    return '$symbol ${convertedCap.toStringAsFixed(0)}';
+    return '${symbol.isEmpty ? '' : '$symbol '}${convertedCap.toStringAsFixed(0)}';
   }
 
   String _formatDate(DateTime date) {
@@ -761,6 +761,11 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
       yAxisReservedSize = (length * 7.0) + 12.0;
     }
 
+    // Determine effective currency symbol (empty for indexes)
+    final displayCurrencySymbol = _stock.symbol.startsWith('^')
+        ? ''
+        : currencySymbol;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -942,6 +947,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                                 setState(() {
                                   _selectedPoint = null;
                                 });
+                                return;
+                                // ignore: dead_code
                                 return;
                               }
 
@@ -1183,13 +1190,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
               _buildStatItem(
                 'Prev Close',
                 _stock.previousClose != null
-                    ? '$currencySymbol ${(_stock.previousClose! * rate).toStringAsFixed(2)}'
+                    ? '${displayCurrencySymbol.isEmpty ? '' : '$displayCurrencySymbol '}${(_stock.previousClose! * rate).toStringAsFixed(2)}'
                     : 'N/A',
                 theme,
               ),
               _buildStatItem(
                 l10n.marketCap,
-                _formatMarketCap(_stock.marketCap, rate, currencySymbol),
+                _formatMarketCap(_stock.marketCap, rate, displayCurrencySymbol),
                 theme,
               ),
               _buildStatItem(
