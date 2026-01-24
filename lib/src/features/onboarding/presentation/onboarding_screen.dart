@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-
 import 'package:investr/l10n/app_localizations.dart';
-import 'package:investr/src/features/onboarding/presentation/widgets/simplified_stock_widgets.dart';
 import 'package:investr/src/features/onboarding/presentation/widgets/notification_simulation_card.dart';
 import 'package:investr/src/features/onboarding/presentation/widgets/simplified_learn_widget.dart';
+import 'package:investr/src/features/onboarding/presentation/widgets/simplified_stock_widgets.dart';
 import 'package:investr/src/features/onboarding/presentation/widgets/simplified_valuation_widget.dart';
 import 'package:investr/src/shared/locale/locale_controller.dart';
 import 'package:investr/src/shared/theme/theme_controller.dart';
-import 'onboarding_controller.dart';
+import 'package:provider/provider.dart';
+
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/language_picker.dart';
+import 'onboarding_controller.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -161,10 +161,7 @@ class OnboardingPage extends StatelessWidget {
   final String imagePath;
 
   const OnboardingPage({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.imagePath,
+    required this.title, required this.description, required this.imagePath, super.key,
   });
 
   @override

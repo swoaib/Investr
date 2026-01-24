@@ -11,9 +11,7 @@ class StockLogo extends StatelessWidget {
   final double size;
 
   const StockLogo({
-    super.key,
-    required this.url,
-    required this.symbol,
+    required this.url, required this.symbol, super.key,
     this.countryCode,
     this.exchange,
     this.currency,

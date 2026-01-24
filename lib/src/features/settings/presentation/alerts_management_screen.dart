@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../../shared/theme/app_theme.dart';
-import '../../alerts/data/alerts_repository.dart';
-import '../../alerts/domain/stock_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../../../shared/theme/theme_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:investr/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+import '../../../shared/theme/app_theme.dart';
+import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/widgets/info_container.dart';
 import '../../../shared/widgets/stock_logo.dart';
+import '../../alerts/data/alerts_repository.dart';
+import '../../alerts/domain/stock_alert.dart';
 import '../../alerts/presentation/alert_dialog.dart';
 
 class AlertsManagementScreen extends StatelessWidget {
@@ -128,7 +129,7 @@ class AlertsManagementScreen extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          alert.condition == "above"
+                          alert.condition == 'above'
                               ? l10n.targetAbove(
                                   alert.targetPrice.toStringAsFixed(2),
                                 )

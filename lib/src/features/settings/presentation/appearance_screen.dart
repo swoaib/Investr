@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:investr/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+import '../../../shared/settings/settings_controller.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
-import '../../../shared/settings/settings_controller.dart';
 
 class AppearanceScreen extends StatelessWidget {
   const AppearanceScreen({super.key});

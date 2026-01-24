@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../domain/lesson.dart';
-import 'lesson_detail_screen.dart';
+import 'package:investr/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
-import 'package:provider/provider.dart';
 import '../data/education_service.dart';
+import '../domain/lesson.dart';
 import '../presentation/education_controller.dart';
-import 'package:investr/l10n/app_localizations.dart';
+import 'lesson_detail_screen.dart';
 
 class LearnScreen extends StatelessWidget {
   const LearnScreen({super.key});

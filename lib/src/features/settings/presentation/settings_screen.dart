@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:investr/l10n/app_localizations.dart';
-import '../../../shared/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
-import '../../../shared/locale/locale_controller.dart';
 import '../../../shared/currency/currency_controller.dart';
+import '../../../shared/locale/locale_controller.dart';
+import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
-import 'alerts_management_screen.dart';
-import 'widgets/feedback_bottom_sheet.dart';
-import 'appearance_screen.dart';
 import '../../../shared/widgets/info_container.dart';
+import 'alerts_management_screen.dart';
+import 'appearance_screen.dart';
+import 'widgets/feedback_bottom_sheet.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

@@ -1,10 +1,11 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../domain/earnings_point.dart';
-import '../../../shared/theme/app_theme.dart';
 import 'package:investr/l10n/app_localizations.dart';
 
-import 'dart:math';
+import '../../../shared/theme/app_theme.dart';
+import '../domain/earnings_point.dart';
 
 class EarningsChart extends StatefulWidget {
   final List<EarningsPoint> earnings;
@@ -12,8 +13,7 @@ class EarningsChart extends StatefulWidget {
   final String metric; // 'EPS' or 'Revenue'
 
   const EarningsChart({
-    super.key,
-    required this.earnings,
+    required this.earnings, super.key,
     this.isLoading = false,
     this.metric = 'EPS',
   });

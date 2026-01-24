@@ -3,7 +3,7 @@ class FeedbackModel {
   final String? email;
   final DateTime timestamp;
 
-  FeedbackModel({required this.content, this.email, required this.timestamp});
+  FeedbackModel({required this.content, required this.timestamp, this.email});
 
   Map<String, dynamic> toMap() {
     return {

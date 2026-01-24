@@ -1,17 +1,19 @@
+import 'dart:async';
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
 import '../../../shared/currency/currency_controller.dart';
-import '../../market_data/data/stock_repository.dart';
-import '../../market_data/domain/stock.dart';
-import '../../valuation/domain/advanced_dcf_data.dart';
+import '../../../shared/services/analytics_service.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import '../../../shared/widgets/stock_logo.dart';
-import 'package:investr/l10n/app_localizations.dart';
-import 'dart:async';
-import 'package:fl_chart/fl_chart.dart';
-import '../../../shared/services/analytics_service.dart';
+import '../../market_data/data/stock_repository.dart';
+import '../../market_data/domain/stock.dart';
+import '../../valuation/domain/advanced_dcf_data.dart';
 
 class ValuationCalculatorScreen extends StatefulWidget {
   const ValuationCalculatorScreen({super.key});

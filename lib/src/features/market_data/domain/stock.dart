@@ -1,5 +1,5 @@
-import 'price_point.dart';
 import 'earnings_point.dart';
+import 'price_point.dart';
 
 class Stock {
   final String symbol;

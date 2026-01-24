@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:investr/src/shared/services/analytics_service.dart';
+import 'package:investr/src/features/market_data/data/stock_repository.dart';
 import 'package:investr/src/features/market_data/domain/stock.dart';
 import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
+import 'package:investr/src/shared/services/analytics_service.dart';
 import 'package:investr/src/shared/theme/theme_controller.dart';
-import 'package:investr/src/features/market_data/data/stock_repository.dart';
 
 class MockStockListController extends ChangeNotifier
     implements StockListController {

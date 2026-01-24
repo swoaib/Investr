@@ -1,10 +1,11 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:investr/src/features/market_data/data/stock_repository.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
   setUpAll(() async {
@@ -38,9 +39,9 @@ void main() {
         return http.Response(
           jsonEncode([
             {
-              "symbol": "AAPL",
-              "date": "2025-09-24",
-              "equityValuePerShare": 176.65,
+              'symbol': 'AAPL',
+              'date': '2025-09-24',
+              'equityValuePerShare': 176.65,
               // Add minimal required fields to parse successfully if needed
             },
           ]),

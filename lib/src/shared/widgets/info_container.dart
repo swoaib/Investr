@@ -6,8 +6,7 @@ class InfoContainer extends StatelessWidget {
   final Color? iconColor;
 
   const InfoContainer({
-    super.key,
-    required this.text,
+    required this.text, super.key,
     this.icon,
     this.iconColor,
   });

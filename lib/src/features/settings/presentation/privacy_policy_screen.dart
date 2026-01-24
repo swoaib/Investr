@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../shared/widgets/markdown_viewer_screen.dart';
 import 'package:investr/l10n/app_localizations.dart';
+
+import '../../../shared/widgets/markdown_viewer_screen.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});

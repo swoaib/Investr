@@ -6,10 +6,7 @@ class SlidingSegmentedControl<T> extends StatelessWidget {
   final ValueChanged<T> onValueChanged;
 
   const SlidingSegmentedControl({
-    super.key,
-    required this.children,
-    required this.groupValue,
-    required this.onValueChanged,
+    required this.children, required this.groupValue, required this.onValueChanged, super.key,
   });
 
   @override

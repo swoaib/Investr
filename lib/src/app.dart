@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:investr/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'shared/theme/app_theme.dart';
-import 'shared/theme/theme_controller.dart';
-import 'shared/settings/settings_controller.dart';
-import 'shared/locale/locale_controller.dart';
-import 'shared/currency/currency_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'features/alerts/data/alerts_repository.dart';
+import 'features/dashboard/presentation/dashboard_screen.dart';
 import 'features/market_data/data/stock_repository.dart';
 import 'features/market_data/presentation/stock_list_controller.dart';
 import 'features/onboarding/presentation/onboarding_screen.dart';
-import 'features/dashboard/presentation/dashboard_screen.dart';
-import 'features/alerts/data/alerts_repository.dart';
 import 'features/settings/presentation/privacy_policy_screen.dart';
-
+import 'shared/currency/currency_controller.dart';
+import 'shared/locale/locale_controller.dart';
 import 'shared/services/analytics_service.dart';
+import 'shared/settings/settings_controller.dart';
+import 'shared/theme/app_theme.dart';
+import 'shared/theme/theme_controller.dart';
 
 class InvestrApp extends StatefulWidget {
   final bool onboardingCompleted;
@@ -27,9 +27,7 @@ class InvestrApp extends StatefulWidget {
   final AnalyticsService? analyticsService;
 
   const InvestrApp({
-    super.key,
-    required this.onboardingCompleted,
-    required this.prefs,
+    required this.onboardingCompleted, required this.prefs, super.key,
     this.stockListController,
     this.stockRepository,
     this.themeController,

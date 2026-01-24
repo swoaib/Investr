@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:investr/src/shared/theme/app_theme.dart';
 import 'package:investr/l10n/app_localizations.dart';
+import 'package:investr/src/shared/theme/app_theme.dart';
 
 class SimplifiedLearnWidget extends StatelessWidget {
   const SimplifiedLearnWidget({super.key});

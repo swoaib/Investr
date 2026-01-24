@@ -1,14 +1,16 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import '../domain/stock.dart';
-import '../domain/price_point.dart';
-import '../domain/earnings_point.dart';
-import '../../valuation/domain/dcf_data.dart';
-import '../../valuation/domain/advanced_dcf_data.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../shared/market/market_schedule_service.dart';
+import '../../valuation/domain/advanced_dcf_data.dart';
+import '../../valuation/domain/dcf_data.dart';
+import '../domain/earnings_point.dart';
+import '../domain/price_point.dart';
+import '../domain/stock.dart';
 
 class StockRepository {
   late final String _apiKey;

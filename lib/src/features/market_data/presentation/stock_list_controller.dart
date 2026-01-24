@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
-import '../data/stock_repository.dart';
 import 'dart:async';
-import '../domain/stock.dart';
+
+import 'package:flutter/material.dart';
+
+import '../data/stock_repository.dart';
 import '../domain/price_point.dart';
+import '../domain/stock.dart';
 
 class StockListController extends ChangeNotifier {
   final StockRepository _repository;

@@ -1,16 +1,17 @@
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'education_controller.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
 import '../../../shared/theme/app_theme.dart';
 import '../domain/lesson.dart';
+import 'education_controller.dart';
 import 'widgets/popular_brokers_widget.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final Lesson lesson;
 
-  const LessonDetailScreen({super.key, required this.lesson});
+  const LessonDetailScreen({required this.lesson, super.key});
 
   @override
   State<LessonDetailScreen> createState() => _LessonDetailScreenState();

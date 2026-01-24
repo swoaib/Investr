@@ -1,19 +1,19 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:investr/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../../../shared/currency/currency_controller.dart';
+import '../../../shared/market/market_schedule_service.dart';
+import '../../../shared/settings/settings_controller.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import '../../../shared/widgets/stock_logo.dart';
-import '../../../shared/currency/currency_controller.dart';
 import '../domain/stock.dart';
-import 'stock_list_controller.dart';
 import 'stock_detail_bottom_sheet.dart';
-import '../../../shared/settings/settings_controller.dart';
-import 'package:investr/l10n/app_localizations.dart';
-import '../../../shared/market/market_schedule_service.dart';
+import 'stock_list_controller.dart';
 import 'widgets/stock_ticker.dart';
 
 class StockListScreen extends StatelessWidget {

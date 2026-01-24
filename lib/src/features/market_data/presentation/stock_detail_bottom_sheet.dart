@@ -1,29 +1,31 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:investr/l10n/app_localizations.dart';
+import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
+import 'package:provider/provider.dart';
+
+import '../../../shared/currency/currency_controller.dart';
+import '../../../shared/market/market_schedule_service.dart';
 import '../../../shared/theme/app_theme.dart';
+import '../../../shared/widgets/sliding_segmented_control.dart';
+import '../../alerts/presentation/alert_dialog.dart';
 import '../data/stock_repository.dart';
+import '../domain/earnings_point.dart';
 // import '../data/market_data_service.dart'; // Unused import
 import '../domain/price_point.dart';
 import '../domain/stock.dart';
-import '../domain/earnings_point.dart';
 import 'earnings_chart.dart';
-import '../../../shared/market/market_schedule_service.dart';
-import 'package:investr/src/features/market_data/presentation/stock_list_controller.dart';
-import '../../alerts/presentation/alert_dialog.dart';
-import '../../../shared/widgets/sliding_segmented_control.dart';
-import '../../../shared/currency/currency_controller.dart';
 
 enum StockDetailView { overview, earnings }
 
 class StockDetailBottomSheet extends StatefulWidget {
   final Stock stock;
 
-  const StockDetailBottomSheet({super.key, required this.stock});
+  const StockDetailBottomSheet({required this.stock, super.key});
 
   @override
   State<StockDetailBottomSheet> createState() => _StockDetailBottomSheetState();

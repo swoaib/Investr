@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:flutter/material.dart';
+
 import '../theme/app_theme.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -17,10 +19,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final VoidCallback? onSearchTap;
 
   const CustomBottomNavigationBar({
-    super.key,
-    required this.selectedIndex,
-    required this.onItemTapped,
-    required this.items,
+    required this.selectedIndex, required this.onItemTapped, required this.items, super.key,
     this.onSearchTap,
   });
 

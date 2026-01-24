@@ -1,20 +1,22 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../shared/currency/currency_controller.dart';
+import '../../../../shared/market/market_schedule_service.dart';
+import '../../../../shared/settings/settings_controller.dart';
 import '../../../../shared/theme/app_theme.dart';
 import '../../../../shared/widgets/stock_logo.dart';
-import '../../../../shared/currency/currency_controller.dart';
-import '../../../../shared/settings/settings_controller.dart';
-import '../../../../shared/market/market_schedule_service.dart';
 import '../../domain/stock.dart';
 
 class StockTicker extends StatefulWidget {
   final List<Stock> stocks;
   final VoidCallback? onStockTap;
 
-  const StockTicker({super.key, required this.stocks, this.onStockTap});
+  const StockTicker({required this.stocks, super.key, this.onStockTap});
 
   @override
   State<StockTicker> createState() => _StockTickerState();

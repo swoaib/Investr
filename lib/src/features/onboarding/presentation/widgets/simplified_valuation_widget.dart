@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../shared/theme/app_theme.dart';
 import 'package:investr/l10n/app_localizations.dart';
+
+import '../../../../shared/theme/app_theme.dart';
 
 class SimplifiedValuationWidget extends StatelessWidget {
   const SimplifiedValuationWidget({super.key});

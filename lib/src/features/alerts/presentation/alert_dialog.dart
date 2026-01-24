@@ -1,13 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:investr/l10n/app_localizations.dart';
 
-import '../data/alerts_repository.dart';
-import '../domain/stock_alert.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/top_snackbar.dart';
+import '../data/alerts_repository.dart';
+import '../domain/stock_alert.dart';
 
 class SetAlertDialog extends StatefulWidget {
   final String symbol;
@@ -15,9 +15,7 @@ class SetAlertDialog extends StatefulWidget {
   final StockAlert? existingAlert;
 
   const SetAlertDialog({
-    super.key,
-    required this.symbol,
-    required this.currentPrice,
+    required this.symbol, required this.currentPrice, super.key,
     this.existingAlert,
   });
 

@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:ui';
-import 'package:provider/provider.dart';
-import '../../../shared/services/analytics_service.dart';
-import '../../market_data/presentation/stock_list_controller.dart';
-import '../../education/presentation/learn_screen.dart';
-import '../../valuation/presentation/valuation_calculator_screen.dart';
-import '../../settings/presentation/settings_screen.dart';
-import 'package:investr/l10n/app_localizations.dart';
-import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
-import '../../../shared/theme/app_theme.dart';
 
+import 'package:flutter/material.dart';
+import 'package:investr/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+import '../../../shared/services/analytics_service.dart';
+import '../../../shared/theme/app_theme.dart';
+import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+import '../../education/presentation/learn_screen.dart';
+import '../../market_data/presentation/stock_list_controller.dart';
 import '../../market_data/presentation/stock_list_screen.dart';
+import '../../settings/presentation/settings_screen.dart';
+import '../../valuation/presentation/valuation_calculator_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
