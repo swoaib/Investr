@@ -64,6 +64,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get termsOfService => '利用規約';
 
   @override
+  String get termsOfUse => '利用規約';
+
+  @override
   String get privacyPolicy => 'プライバシーポリシー';
 
   @override

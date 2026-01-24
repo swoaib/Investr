@@ -64,6 +64,9 @@ class AppLocalizationsNb extends AppLocalizations {
   String get termsOfService => 'Vilkår for bruk';
 
   @override
+  String get termsOfUse => 'Brukervilkår';
+
+  @override
   String get privacyPolicy => 'Personvernerklæring';
 
   @override

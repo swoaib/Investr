@@ -100,6 +100,9 @@ flutter:
     - assets/privacy_policy.md
     - assets/privacy_policy_nb.md
     - assets/privacy_policy_ja.md
+    - assets/terms_of_use.md
+    - assets/terms_of_use_nb.md
+    - assets/terms_of_use_ja.md
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
