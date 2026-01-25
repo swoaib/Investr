@@ -73,15 +73,25 @@ class _StockTickerState extends State<StockTicker> {
 
     return SizedBox(
       height: 60,
-      child: ListView.builder(
-        controller: _scrollController,
-        scrollDirection: Axis.horizontal,
-        physics:
-            const NeverScrollableScrollPhysics(), // User can't manually scroll effectively if auto-scrolling
-        itemBuilder: (context, index) {
-          final stock = widget.stocks[index % widget.stocks.length];
-          return _StockTickerItem(stock: stock);
+      child: Listener(
+        onPointerDown: (_) {
+          _timer?.cancel();
         },
+        onPointerUp: (_) {
+          _startScrolling();
+        },
+        onPointerCancel: (_) {
+          _startScrolling();
+        },
+        child: ListView.builder(
+          controller: _scrollController,
+          scrollDirection: Axis.horizontal,
+          // Removed NeverScrollableScrollPhysics to allow manual scrolling
+          itemBuilder: (context, index) {
+            final stock = widget.stocks[index % widget.stocks.length];
+            return _StockTickerItem(stock: stock);
+          },
+        ),
       ),
     );
   }
