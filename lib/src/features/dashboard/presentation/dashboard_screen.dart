@@ -71,7 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
       extendBody: true,
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           IndexedStack(index: _selectedIndex, children: _pages),
@@ -125,7 +125,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             curve: Curves.easeInOut,
             left: 0,
             right: 0,
-            bottom: _isSearchActive ? 0 : -200,
+            bottom: _isSearchActive ? bottomInset : -200,
             child: Padding(
               padding: EdgeInsets.only(
                 left: 16,
