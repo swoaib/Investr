@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,8 @@ class StockListController extends ChangeNotifier {
 
       // Start Polling (REST API)
       _startPolling();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       // Log error internally or to crash reporting service
       _error = 'Failed to load stock data. Please check your connection.';
     } finally {
@@ -97,7 +99,8 @@ class StockListController extends ChangeNotifier {
               ? sparkline
               : _stocks[i].sparklineData,
         );
-      } catch (e) {
+      } catch (e, stackTrace) {
+        FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
         // ignore error
       }
     }
@@ -143,7 +146,8 @@ class StockListController extends ChangeNotifier {
       } else {
         _error = 'Stock not found for "$query"';
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       _error = 'Error searching stock';
     } finally {
       _isLoading = false;
@@ -189,7 +193,8 @@ class StockListController extends ChangeNotifier {
         _stocks[index] = _stocks[index].copyWithSparkline(sparkline);
         notifyListeners();
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       // ignore
     }
 

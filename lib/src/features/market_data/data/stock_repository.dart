@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -77,7 +77,8 @@ class StockRepository {
 
       final results = await Future.wait(futures);
       return results.whereType<Stock>().toList();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching watchlist: $e');
       return [];
     }
@@ -143,7 +144,8 @@ class StockRepository {
           print('FMP API HTTP Error ${response.statusCode}: ${response.body}');
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching stock $symbol: $e');
     }
     return null;
@@ -176,7 +178,8 @@ class StockRepository {
           );
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching details for ${stock.symbol}: $e');
     }
     return stock;
@@ -218,7 +221,8 @@ class StockRepository {
         dividendYield: divYieldPercent,
         earningsPerShare: eps,
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching metrics for ${stock.symbol}: $e');
     }
     return stock;
@@ -263,7 +267,8 @@ class StockRepository {
           return (data[0]['price'] as num?)?.toDouble();
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching FX rate for $from$to: $e');
     }
     return null;
@@ -369,7 +374,8 @@ class StockRepository {
             .reversed
             .toList();
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching earnings for $symbol: $e');
     }
     return [];
@@ -420,7 +426,8 @@ class StockRepository {
           return points.reversed.toList();
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching history for $symbol: $e');
     }
     return [];
@@ -462,7 +469,8 @@ class StockRepository {
       }
 
       return [];
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching intraday history for $symbol: $e');
       return [];
     }
@@ -504,7 +512,8 @@ class StockRepository {
           return points.reversed.toList();
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching 5min history for $symbol: $e');
     }
     return [];
@@ -547,7 +556,8 @@ class StockRepository {
           return points.reversed.toList();
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching 1hour history for $symbol: $e');
     }
     return [];
@@ -589,7 +599,8 @@ class StockRepository {
           return points.reversed.toList();
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching 15min history for $symbol: $e');
     }
     return [];
@@ -612,7 +623,8 @@ class StockRepository {
       final now = DateTime.now();
       final cutoff = now.subtract(const Duration(days: 7));
       return fullHistory.where((p) => p.date.isAfter(cutoff)).toList();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching weekly history for $symbol: $e');
       return [];
     }
@@ -631,7 +643,8 @@ class StockRepository {
       final now = DateTime.now();
       final cutoff = now.subtract(const Duration(days: 30));
       return fullHistory.where((p) => p.date.isAfter(cutoff)).toList();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching monthly history for $symbol: $e');
       return [];
     }
@@ -695,7 +708,8 @@ class StockRepository {
       parseAndAdd(results[1]); // Name Search
 
       return combinedResults.values.toList();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('API Search failed: $e');
     }
 
@@ -717,7 +731,8 @@ class StockRepository {
         return _defaultWatchlist;
       }
       return {for (var item in list) item['symbol']: item['name']};
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       return _defaultWatchlist;
     }
   }
@@ -816,7 +831,8 @@ class StockRepository {
           );
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching DCF data for $symbol: $e');
     }
     return null;
@@ -852,7 +868,8 @@ class StockRepository {
           return AdvancedDCFData.fromJson(data);
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching Advanced DCF for $symbol: $e');
     }
     return null;

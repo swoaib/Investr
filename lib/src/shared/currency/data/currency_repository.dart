@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -40,7 +41,8 @@ class CurrencyRepository {
           print('FMP API HTTP Error ${response.statusCode}: ${response.body}');
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       if (kDebugMode) print('Error fetching FX rate for $from$to: $e');
     }
     return null;

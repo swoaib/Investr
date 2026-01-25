@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import '../domain/stock_alert.dart';
@@ -47,7 +48,12 @@ class AlertsRepository {
           // Attempt getToken anyway, though it may fail or be null
           try {
             token = await _messaging.getToken();
-          } catch (e) {
+          } catch (e, stackTrace) {
+            FirebaseCrashlytics.instance.recordError(
+              e,
+              stackTrace,
+              fatal: false,
+            );
             debugPrint('Failed to get FCM token without APNS: $e');
           }
         }
@@ -65,7 +71,8 @@ class AlertsRepository {
       // 4. Save to Firestore
       // distinct collection 'alerts' is easier for the Cloud Function to querying all
       await _firestore.collection('alerts').doc(alert.id).set(data);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       debugPrint('Error creating alert: $e');
       rethrow;
     }
@@ -86,7 +93,8 @@ class AlertsRepository {
   Future<void> deleteAlert(String alertId) async {
     try {
       await _firestore.collection('alerts').doc(alertId).delete();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       debugPrint('Error deleting alert: $e');
       rethrow;
     }
@@ -100,7 +108,8 @@ class AlertsRepository {
       // Reset lastStatus to null to re-enable notifications for this alert
       data['lastStatus'] = null;
       await _firestore.collection('alerts').doc(alert.id).update(data);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       debugPrint('Error updating alert: $e');
       rethrow;
     }

@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/widgets.dart';
 
 class AnalyticsService {
@@ -39,7 +40,8 @@ class AnalyticsService {
           'growth_rate': growthRate,
         },
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      FirebaseCrashlytics.instance.recordError(e, stackTrace, fatal: false);
       debugPrint('Failed to log DCF usage: $e');
     }
   }
