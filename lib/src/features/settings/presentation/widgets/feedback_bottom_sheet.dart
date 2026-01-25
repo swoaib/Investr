@@ -73,7 +73,12 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        16,
+        16,
+        16 + MediaQuery.of(context).viewInsets.bottom,
+      ),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
