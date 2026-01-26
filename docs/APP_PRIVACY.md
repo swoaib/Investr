@@ -1,45 +1,98 @@
 # App Store Privacy (App Privacy)
 
-Based on the used libraries and app functionality (as of January 2026), here is the configuration for App Store Connect > App Privacy.
+Use this guide to fill out the App Privacy section in App Store Connect.
 
 ## 1. Data Collection
-Answer **Yes**, you collect data from this app.
-
-## 2. Data Types
-Select the following data types:
-
-| Data Type | Category | Reason / Source |
-| :--- | :--- | :--- |
-| **Email Address** | Contact Info | **Feedback Form** (Optional). If a user submits feedback, they can provide an email. |
-| **Customer Support** | User Content | **Feedback Form**. The content of the feedback message. |
-| **Other User Content** | User Content | **Stock Alerts**. The alerts created by the user (Cloud Firestore). |
-| **User ID** | Identifiers | **Firebase Auth**. The anonymous `uid` assigned to the user. |
-| **Device ID** | Identifiers | **Firebase**. Used by Crashlytics and Cloud Messaging. |
-| **Product Interaction** | Usage Data | **Firebase Analytics**. Screen views, button taps, DCF calculations. |
-| **Crash Data** | Diagnostics | **Firebase Crashlytics**. Crash logs. |
-| **Performance Data** | Diagnostics | **Firebase Analytics**. App startup time, screen rendering times. |
-
-> **Note**: Search History is ostensibly collected (`AnalyticsService.logSearch`), but if you do not actively use this for analysis, you might ideally disable it or permit the disclosure. We recommend disclosing it as **Search History** under **Usage Data** to be safe.
+**Do you or your third-party partners collect data from this app?**
+*   **Yes**
 
 ---
 
-## 3. Data Usage & Linking
-For **ALL** the selected data types above, configure as follows:
+## 2. Data Responses by Type
 
-1.  **Is this data used for tracking purposes?**
-    *   **NO**. (Unless you explicitly enable ad tracking features or share data with brokers).
-2.  **Is this data linked to the user's identity?**
-    *   **YES**. (Even anonymous Firebase Auth counts as "linked" because it persists across sessions via an ID).
+For each data type below, we provide the answers for:
+1.  **Usage Purposes** (Select all that apply)
+2.  **Linked to User?**
+3.  **Tracking?**
 
-### Purpose of Collection
+### Contact Info: **Email Address**
+1.  **Usage Purposes**:
+    *   [x] **App Functionality**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
 
-| Data Type | Purpose(s) |
-| :--- | :--- |
-| **Email Address** | App Functionality, Product Personalization |
-| **Customer Support** | App Functionality |
-| **Other User Content** | App Functionality |
-| **User ID** | App Functionality, Analytics |
-| **Device ID** | App Functionality, Analytics |
-| **Product Interaction** | Analytics |
-| **Crash Data** | App Functionality, Analytics |
-| **Performance Data** | Analytics |
+---
+
+### User Content: **Customer Support**
+*(Feedback messages)*
+1.  **Usage Purposes**:
+    *   [x] **App Functionality**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
+
+---
+
+### User Content: **Other User Content**
+*(Stock Alerts created by user)*
+1.  **Usage Purposes**:
+    *   [x] **App Functionality**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
+
+---
+
+### Identifiers: **User ID**
+*(Firebase Auth UID)*
+1.  **Usage Purposes**:
+    *   [x] **App Functionality**
+    *   [x] **Analytics**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
+
+---
+
+### Identifiers: **Device ID**
+*(Firebase Installation ID / FCM Token)*
+1.  **Usage Purposes**:
+    *   [x] **App Functionality**
+    *   [x] **Analytics**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
+
+---
+
+### Usage Data: **Product Interaction**
+*(Screen views, taps)*
+1.  **Usage Purposes**:
+    *   [x] **Analytics**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
+
+---
+
+### Usage Data: **Search History**
+*(In-app stock searches)*
+1.  **Usage Purposes**:
+    *   [x] **Analytics**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
+
+---
+
+### Diagnostics: **Crash Data**
+*(Crash logs)*
+1.  **Usage Purposes**:
+    *   [x] **App Functionality**
+    *   [x] **Analytics**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
+
+---
+
+### Diagnostics: **Performance Data**
+*(Launch time, hang rate)*
+1.  **Usage Purposes**:
+    *   [x] **App Functionality**
+    *   [x] **Analytics**
+2.  **Linked to User?**: **Yes**
+3.  **Tracking?**: **No**
