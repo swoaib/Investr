@@ -29,7 +29,11 @@ class StockLogo extends StatelessWidget {
       child: Container(
         width: size,
         height: size,
-        color: (symbol == 'NIO' || symbol == 'AMZN')
+        color:
+            (symbol == 'NIO' ||
+                symbol == 'AMZN' ||
+                symbol == 'DIS' ||
+                symbol == 'PSNY')
             ? Colors.grey.shade900
             : symbol == 'SONY'
             ? Colors.white
