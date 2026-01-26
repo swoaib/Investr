@@ -5,11 +5,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
+import 'firebase_options_staging.dart';
 import 'src/app.dart';
 
 void main() async {
@@ -17,7 +19,14 @@ void main() async {
   await dotenv.load(fileName: '.env');
 
   // Initialize Firebase with the generated options
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseOptions firebaseOptions;
+  if (appFlavor == 'staging') {
+    firebaseOptions = StagingFirebaseOptions.currentPlatform;
+  } else {
+    firebaseOptions = DefaultFirebaseOptions.currentPlatform;
+  }
+
+  await Firebase.initializeApp(options: firebaseOptions);
 
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
