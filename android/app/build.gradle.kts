@@ -66,16 +66,16 @@ android {
             dimension = "default"
             resValue(
                 type = "string",
-                name = "Investr staging",
-                value = "Flavors staging")
+                name = "app_name",
+                value = "Investr Staging")
             applicationIdSuffix = ".staging"
         }
         create("production") {
             dimension = "default"
             resValue(
                 type = "string",
-                name = "Investr",
-                value = "Flavors production")
+                name = "app_name",
+                value = "Investr")
             applicationIdSuffix = ""
         }
     }
