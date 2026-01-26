@@ -50,14 +50,14 @@ jobs:
           echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > android/key.properties
 
       - name: Build App Bundle
-        run: flutter build appbundle --release
+        run: flutter build appbundle --release --flavor production
 
       - name: Upload to Play Store
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
           packageName: x.sohaibahmed.investr
-          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          releaseFiles: build/app/outputs/bundle/productionRelease/app-production-release.aab
           track: production
           status: draft
 
@@ -67,7 +67,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 'latest-stable'
@@ -75,7 +75,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      
+
       - name: Install Dependencies
         run: flutter pub get
 
@@ -110,10 +110,10 @@ jobs:
           # 2. Inject UUID into Xcode Project & ExportOptions
           sed -i '' "s/CODE_SIGN_STYLE = Manual;/CODE_SIGN_STYLE = Manual; PROVISIONING_PROFILE_SPECIFIER = \"$PROFILE_UUID\";/g" ios/Runner.xcodeproj/project.pbxproj
           /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:x.sohaibahmed.investr string $PROFILE_UUID" ios/Runner/ExportOptions.plist
-          
+
           # 3. Build IPA
           flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
-          
+
           # 4. Export IPA Path
           echo "ipa_path=$(find build/ios/ipa -name "*.ipa" | head -n 1)" >> $GITHUB_OUTPUT
 
