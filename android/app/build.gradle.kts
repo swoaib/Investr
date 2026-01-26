@@ -59,6 +59,26 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+
+    flavorDimensions += "default"
+    productFlavors {
+        create("staging") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "Investr staging",
+                value = "Flavors staging")
+            applicationIdSuffix = ".staging"
+        }
+        create("production") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "Investr",
+                value = "Flavors production")
+            applicationIdSuffix = ""
+        }
+    }
 }
 
 flutter {
