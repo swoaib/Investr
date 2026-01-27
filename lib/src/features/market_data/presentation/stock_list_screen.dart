@@ -283,7 +283,7 @@ class _StockListItem extends StatelessWidget {
     final currencySymbol = currencyController.currencySymbol;
     final rate = currencyController.exchangeRate;
 
-    final isIndex = stock.symbol.startsWith('^');
+    final isIndex = stock.isIndex;
     final currencyFormat = isIndex
         ? NumberFormat.currency(symbol: '')
         : currencySymbol == 'kr'
@@ -293,7 +293,8 @@ class _StockListItem extends StatelessWidget {
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
     // Convert values
-    final displayPrice = stock.price * rate;
+    final effectiveRate = isIndex ? 1.0 : rate;
+    final displayPrice = stock.price * effectiveRate;
 
     // Calculate Sparkline Y-Axis Range ensuring Previous Close is visible
     double? minY;
@@ -489,14 +490,15 @@ class _SearchResultItem extends StatelessWidget {
     final rate = currencyController.exchangeRate;
 
     final currencyFormat = NumberFormat.currency(
-      symbol: stock.symbol.startsWith('^') ? '' : currencySymbol,
+      symbol: stock.isIndex ? '' : currencySymbol,
     );
     final isPositive = stock.isPositive;
     final color = isPositive ? AppTheme.primaryGreen : Colors.red;
 
     // Convert values
     // Convert values
-    final displayPrice = stock.price * rate;
+    final effectiveRate = stock.isIndex ? 1.0 : rate;
+    final displayPrice = stock.price * effectiveRate;
     final settingsController = context.watch<SettingsController>();
 
     return GestureDetector(

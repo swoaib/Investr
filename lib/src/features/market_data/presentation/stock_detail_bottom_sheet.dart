@@ -351,18 +351,19 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     final currencySymbol = currencyController.currencySymbol;
 
     final currencyFormat = NumberFormat.currency(
-      symbol: _stock.symbol.startsWith('^') ? '' : '$currencySymbol ',
+      symbol: _stock.isIndex ? '' : '$currencySymbol ',
     );
     final points = _filteredHistory;
 
     // Calculate dynamic values based on interval
-    double displayPrice = _stock.price * rate; // Convert
+    final effectiveRate = _stock.isIndex ? 1.0 : rate;
+    double displayPrice = _stock.price * effectiveRate; // Convert
     double displayChangePercent = _stock.changePercent;
     bool isPositive = _stock.isPositive;
 
     if (_selectedInterval != '1D' && points.isNotEmpty) {
-      final firstPrice = points.first.price * rate; // Convert
-      final lastPrice = points.last.price * rate; // Convert
+      final firstPrice = points.first.price * effectiveRate; // Convert
+      final lastPrice = points.last.price * effectiveRate; // Convert
 
       displayPrice = lastPrice;
       final change = lastPrice - firstPrice;
@@ -397,17 +398,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _stock.symbol.startsWith('^')
-                            ? _stock.companyName
-                            : _stock.symbol,
+                        _stock.isIndex ? _stock.companyName : _stock.symbol,
                         style: theme.textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        _stock.symbol.startsWith('^')
-                            ? _stock.symbol
-                            : _stock.companyName,
+                        _stock.isIndex ? _stock.symbol : _stock.companyName,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: Colors.grey,
                         ),
@@ -427,7 +424,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                           Text(
                             _selectedPoint != null
                                 ? currencyFormat.format(
-                                    _selectedPoint!.price * rate,
+                                    _selectedPoint!.price * effectiveRate,
                                   ) // Convert selected point
                                 : currencyFormat.format(displayPrice),
                             style: theme.textTheme.headlineSmall?.copyWith(
@@ -539,7 +536,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                     color,
                     points,
                     l10n,
-                    rate,
+                    effectiveRate, // Pass effective rate instead of raw rate
                     currencySymbol,
                   ) // Pass rate and symbol
                 : _buildEarningsTab(theme, color, l10n),
@@ -764,9 +761,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
     }
 
     // Determine effective currency symbol (empty for indexes)
-    final displayCurrencySymbol = _stock.symbol.startsWith('^')
-        ? ''
-        : currencySymbol;
+    final displayCurrencySymbol = _stock.isIndex ? '' : currencySymbol;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),

@@ -106,4 +106,6 @@ class Stock {
   Stock copyWithEarnings(List<EarningsPoint> data) {
     return copyWith(earningsHistory: data);
   }
+
+  bool get isIndex => symbol.startsWith('^');
 }
