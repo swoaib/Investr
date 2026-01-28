@@ -109,7 +109,7 @@ jobs:
           /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:x.sohaibahmed.investr string $PROFILE_UUID" ios/Runner/ExportOptions.plist
 
           # 3. Build IPA
-          flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
+          flutter build ipa --release --flavor production --export-options-plist=ios/Runner/ExportOptions.plist
 
           # 4. Export IPA Path
           echo "ipa_path=$(find build/ios/ipa -name "*.ipa" | head -n 1)" >> $GITHUB_OUTPUT

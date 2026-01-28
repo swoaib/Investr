@@ -33,6 +33,7 @@ class StockLogo extends StatelessWidget {
             (symbol == 'NIO' ||
                 symbol == 'AMZN' ||
                 symbol == 'DIS' ||
+                symbol == 'NKE' ||
                 symbol == 'PSNY')
             ? Colors.grey.shade900
             : symbol == 'SONY'
