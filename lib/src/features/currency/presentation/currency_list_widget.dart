@@ -45,14 +45,17 @@ class CurrencyListWidget extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
-          child: SizedBox(
-            width: double.infinity,
+          child: Align(
+            alignment: Alignment.centerRight,
             child: OutlinedButton.icon(
               onPressed: onAddCurrency,
               icon: const Icon(Icons.add),
               label: const Text('Add Pair'),
               style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
               ),
             ),
           ),
