@@ -6,15 +6,22 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../shared/currency/currency_controller.dart';
+import '../../../shared/currency/data/currency_repository.dart';
 import '../../../shared/market/market_schedule_service.dart';
 import '../../../shared/settings/settings_controller.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+import '../../../shared/widgets/sliding_segmented_control.dart';
 import '../../../shared/widgets/stock_logo.dart';
+import '../../currency/domain/currency_conversion.dart';
+import '../../currency/presentation/currency_add_sheet.dart';
+import '../../currency/presentation/currency_list_widget.dart';
 import '../domain/stock.dart';
 import 'stock_detail_bottom_sheet.dart';
 import 'stock_list_controller.dart';
 import 'widgets/stock_ticker.dart';
+
+enum _MarketView { stocks, currency }
 
 class StockListScreen extends StatelessWidget {
   const StockListScreen({super.key});
@@ -33,11 +40,16 @@ class _StockListView extends StatefulWidget {
 }
 
 class _StockListViewState extends State<_StockListView> {
+  final CurrencyRepository _currencyRepo = CurrencyRepository();
+  _MarketView _currentView = _MarketView.stocks;
+  // TODO: Move to a controller/service + Persistence
+  final List<CurrencyConversion> _currencyConversions = [];
+
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<StockListController>();
     final settingsController = context.watch<SettingsController>();
-    final currencyController = context.watch<CurrencyController>();
+    // final currencyController = context.watch<CurrencyController>(); // Unused for now
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
@@ -59,24 +71,26 @@ class _StockListViewState extends State<_StockListView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      l10n.stockMarketTitle,
+                      _currentView == _MarketView.stocks
+                          ? l10n.stockMarketTitle
+                          : 'Currency',
                       style: theme.textTheme.headlineLarge,
                     ),
-                    if (currencyController.currency != 'USD')
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.chipTheme.backgroundColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          '1 USD = ${currencyController.exchangeRate.toStringAsFixed(2)} ${currencyController.currency}',
-                          style: theme.textTheme.bodySmall,
-                        ),
+                    SizedBox(
+                      width: 110,
+                      child: SlidingSegmentedControl<_MarketView>(
+                        groupValue: _currentView,
+                        children: const {
+                          _MarketView.stocks: Icon(Icons.show_chart),
+                          _MarketView.currency: Icon(Icons.currency_exchange),
+                        },
+                        onValueChanged: (value) {
+                          setState(() {
+                            _currentView = value;
+                          });
+                        },
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -89,13 +103,52 @@ class _StockListViewState extends State<_StockListView> {
             ],
 
             Expanded(
-              child: controller.isLoading
-                  ? _buildShimmerLoading(context)
-                  : controller.error != null
-                  ? Center(child: Text(controller.error!))
-                  : controller.isSearching
-                  ? _buildSearchResults(controller, l10n)
-                  : _buildWatchlist(controller, l10n),
+              child: _currentView == _MarketView.stocks
+                  ? (controller.isLoading
+                        ? _buildShimmerLoading(context)
+                        : controller.error != null
+                        ? Center(child: Text(controller.error!))
+                        : controller.isSearching
+                        ? _buildSearchResults(controller, l10n)
+                        : _buildWatchlist(controller, l10n))
+                  : CurrencyListWidget(
+                      conversions: _currencyConversions,
+                      onAddCurrency: () async {
+                        final result = await showModalBottomSheet<String>(
+                          context: context,
+                          useSafeArea: true,
+                          isScrollControlled: true,
+                          builder: (context) => const CurrencyAddSheet(),
+                        );
+
+                        if (result == null || !mounted) return;
+
+                        // Show loading indicator or optimistic add?
+                        // For now, simple fetch
+                        final rate = await _currencyRepo.getExchangeRate(
+                          'USD',
+                          result,
+                        );
+
+                        if (!context.mounted) return;
+
+                        if (rate != null) {
+                          setState(() {
+                            _currencyConversions.add(
+                              CurrencyConversion(
+                                baseCurrency: 'USD',
+                                targetCurrency: result,
+                                rate: rate,
+                              ),
+                            );
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(l10n.errorFetchingData)),
+                          );
+                        }
+                      },
+                    ),
             ),
           ],
         ),

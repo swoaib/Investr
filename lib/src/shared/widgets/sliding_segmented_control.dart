@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SlidingSegmentedControl<T> extends StatelessWidget {
-  final Map<T, String> children;
+  final Map<T, Widget> children;
   final T groupValue;
   final ValueChanged<T> onValueChanged;
 
@@ -19,38 +19,17 @@ class SlidingSegmentedControl<T> extends StatelessWidget {
         final count = children.length;
         if (count < 2) return const SizedBox();
 
-        // 1. Calculate desired width per item based on text
-        final textStyle =
-            Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ) ??
-            const TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
-
-        double maxItemWidth = 0;
-        for (final text in children.values) {
-          final textPainter = TextPainter(
-            text: TextSpan(text: text, style: textStyle),
-            textDirection: TextDirection.ltr,
-          );
-          textPainter.layout();
-          if (textPainter.width > maxItemWidth) {
-            maxItemWidth = textPainter.width;
-          }
-        }
-
-        // Add padding to item width (horizontal padding inside the item)
-        // 16px padding on each side seems appropriate for a pill shape
-        final itemWidthWithPadding = maxItemWidth + 32.0;
-
-        // 2. Determine container width
+        // Determine container width
         // If constraints are tight/finite, use them.
-        // If unbounded (Infinity), use calculated size.
+        // If unbounded (Infinity), use a default width per item.
         double totalWidth;
         if (constraints.maxWidth.isFinite) {
           totalWidth = constraints.maxWidth;
         } else {
-          totalWidth = itemWidthWithPadding * count;
+          // Default item width if unbounded (e.g. in a Row)
+          // 100.0 is a reasonable default for text labels like "Overview"
+          // It can be adjusted or made configurable if needed in the future
+          totalWidth = 100.0 * count;
         }
 
         // Recalculate itemWidth to exactly fit the determined totalWidth
@@ -98,13 +77,37 @@ class SlidingSegmentedControl<T> extends StatelessWidget {
                       child: Center(
                         child: AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 200),
-                          style: textStyle.copyWith(
-                            color: isSelected
-                                ? Colors.white
-                                : Theme.of(context).textTheme.bodyMedium?.color
-                                      ?.withValues(alpha: 0.7),
+                          style:
+                              (Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ) ??
+                                      const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ))
+                                  .copyWith(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.color
+                                              ?.withValues(alpha: 0.7),
+                                  ),
+                          child: IconTheme(
+                            data: IconThemeData(
+                              color: isSelected
+                                  ? Colors.white
+                                  : Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color
+                                        ?.withValues(alpha: 0.7),
+                              size: 20,
+                            ),
+                            child: entry.value,
                           ),
-                          child: Text(entry.value),
                         ),
                       ),
                     ),

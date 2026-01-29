@@ -1093,4 +1093,7 @@ class AppLocalizationsNb extends AppLocalizations {
   String exchangeRateInfo(Object currency, Object rate) {
     return '1 USD = $rate $currency';
   }
+
+  @override
+  String get errorFetchingData => 'Feil ved henting av data';
 }

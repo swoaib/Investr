@@ -334,5 +334,6 @@
   "dcfErrorNegative": "Den iboende verdien er negativ, sannsynligvis på grunn av negative anslåtte frie kontantstrømmer eller høy gjeld.",
   "fetchError": "Kunne ikke hente verdsettelsesdata for {symbol}",
   "howItWorksValuationDesc": "Denne skjermen viser den iboende verdien beregnet av Discounted Cash Flow (DCF)-modellen levert av Financial Modeling Prep (FMP). Den sammenligner denne verdien med gjeldende markedspris for å estimere om aksjen er undervurdert eller overvurdert.",
-  "exchangeRateInfo": "1 USD = {rate} {currency}"
+  "exchangeRateInfo": "1 USD = {rate} {currency}",
+  "errorFetchingData": "Feil ved henting av data"
 }

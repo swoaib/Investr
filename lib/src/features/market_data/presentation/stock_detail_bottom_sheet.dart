@@ -459,8 +459,8 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                 SlidingSegmentedControl<StockDetailView>(
                   groupValue: _selectedView.first,
                   children: {
-                    StockDetailView.overview: l10n.overview,
-                    StockDetailView.earnings: l10n.earnings,
+                    StockDetailView.overview: Text(l10n.overview),
+                    StockDetailView.earnings: Text(l10n.earnings),
                   },
                   onValueChanged: (value) => _handleViewSelection({value}),
                 ),

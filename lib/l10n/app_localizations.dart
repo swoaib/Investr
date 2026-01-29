@@ -2061,6 +2061,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'1 USD = {rate} {currency}'**
   String exchangeRateInfo(Object currency, Object rate);
+
+  /// No description provided for @errorFetchingData.
+  ///
+  /// In en, this message translates to:
+  /// **'Error fetching data'**
+  String get errorFetchingData;
 }
 
 class _AppLocalizationsDelegate

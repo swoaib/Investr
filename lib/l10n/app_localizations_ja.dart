@@ -1078,4 +1078,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String exchangeRateInfo(Object currency, Object rate) {
     return '1 USD = $rate $currency';
   }
+
+  @override
+  String get errorFetchingData => 'Error fetching data';
 }
