@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../shared/settings/settings_controller.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
+import '../../../shared/widgets/sliding_segmented_control.dart';
 
 class AppearanceScreen extends StatelessWidget {
   const AppearanceScreen({super.key});
@@ -36,6 +37,7 @@ class AppearanceScreen extends StatelessWidget {
                 color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(16),
               ),
+              constraints: BoxConstraints(minHeight: 64),
               child: Row(
                 children: [
                   Icon(
@@ -72,6 +74,7 @@ class AppearanceScreen extends StatelessWidget {
                 color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(16),
               ),
+              constraints: BoxConstraints(minHeight: 64),
               child: Row(
                 children: [
                   Icon(
@@ -100,7 +103,54 @@ class AppearanceScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+            // Default Landing Page Selector
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).inputDecorationTheme.fillColor,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              constraints: BoxConstraints(minHeight: 64),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.home_filled,
+                    size: 20,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      l10n.defaultLandingPage,
+                      style: GoogleFonts.outfit(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    // Reduced width for the compacted control on the right
+                    width: 90,
+                    child: SlidingSegmentedControl<String>(
+                      groupValue: settingsController.defaultLandingPage,
+                      children: {
+                        'stocks': const Icon(Icons.show_chart, size: 20),
+                        'currency': const Icon(
+                          Icons.attach_money_rounded,
+                          size: 20,
+                        ),
+                      },
+                      onValueChanged: (value) {
+                        settingsController.setDefaultLandingPage(value);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
 
             // Theme Selection (Reusing style from Onboarding)
             Container(

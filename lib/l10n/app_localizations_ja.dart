@@ -1086,4 +1086,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String conversionViaUSD(Object base, Object target) {
     return 'Converted via USD: $base -> USD -> $target';
   }
+
+  @override
+  String get defaultLandingPage => 'Default Landing Page';
+
+  @override
+  String get landingPageStocks => 'Stocks';
+
+  @override
+  String get landingPageCurrency => 'Currency';
 }

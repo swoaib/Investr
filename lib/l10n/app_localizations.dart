@@ -2073,6 +2073,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Converted via USD: {base} -> USD -> {target}'**
   String conversionViaUSD(Object base, Object target);
+
+  /// No description provided for @defaultLandingPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Landing Page'**
+  String get defaultLandingPage;
+
+  /// No description provided for @landingPageStocks.
+  ///
+  /// In en, this message translates to:
+  /// **'Stocks'**
+  String get landingPageStocks;
+
+  /// No description provided for @landingPageCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get landingPageCurrency;
 }
 
 class _AppLocalizationsDelegate

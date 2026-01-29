@@ -1,10 +1,16 @@
 {
   "ja": [
     "errorFetchingData",
-    "conversionViaUSD"
+    "conversionViaUSD",
+    "defaultLandingPage",
+    "landingPageStocks",
+    "landingPageCurrency"
   ],
 
   "nb": [
-    "conversionViaUSD"
+    "conversionViaUSD",
+    "defaultLandingPage",
+    "landingPageStocks",
+    "landingPageCurrency"
   ]
 }

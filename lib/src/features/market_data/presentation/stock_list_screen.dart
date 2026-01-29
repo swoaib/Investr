@@ -43,7 +43,21 @@ class _StockListView extends StatefulWidget {
 class _StockListViewState extends State<_StockListView> {
   final CurrencyRepository _currencyRepo = CurrencyRepository();
   Timer? _currencyPollingTimer;
-  _MarketView _currentView = _MarketView.stocks;
+  late _MarketView _currentView;
+
+  @override
+  void initState() {
+    super.initState();
+    final settings = context.read<SettingsController>();
+    _currentView = settings.defaultLandingPage == 'currency'
+        ? _MarketView.currency
+        : _MarketView.stocks;
+
+    if (_currentView == _MarketView.currency) {
+      _startCurrencyPolling();
+    }
+  }
+
   @override
   void dispose() {
     _currencyPollingTimer?.cancel();
