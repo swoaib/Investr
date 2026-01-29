@@ -45,4 +45,30 @@ class AnalyticsService {
       debugPrint('Failed to log DCF usage: $e');
     }
   }
+
+  Future<void> logAddCurrencyConversion({
+    required String baseCurrency,
+    required String targetCurrency,
+  }) async {
+    await _analytics.logEvent(
+      name: 'add_currency_conversion',
+      parameters: {
+        'base_currency': baseCurrency,
+        'target_currency': targetCurrency,
+      },
+    );
+  }
+
+  Future<void> logRemoveCurrencyConversion({
+    required String baseCurrency,
+    required String targetCurrency,
+  }) async {
+    await _analytics.logEvent(
+      name: 'remove_currency_conversion',
+      parameters: {
+        'base_currency': baseCurrency,
+        'target_currency': targetCurrency,
+      },
+    );
+  }
 }

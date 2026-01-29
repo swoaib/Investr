@@ -72,7 +72,10 @@ class _InvestrAppState extends State<InvestrApp> {
         ),
         ChangeNotifierProvider(create: (_) => SettingsController(widget.prefs)),
         ChangeNotifierProvider(create: (_) => LocaleController(widget.prefs)),
-        ChangeNotifierProvider(create: (_) => CurrencyController()),
+        ChangeNotifierProvider(
+          create: (_) =>
+              CurrencyController(analyticsService: _analyticsService),
+        ),
         Provider<AlertsRepository>(create: (_) => AlertsRepository()),
       ],
       child: Consumer2<ThemeController, LocaleController>(

@@ -4,11 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/currency/domain/currency_conversion.dart';
+import '../services/analytics_service.dart';
 import 'data/currency_repository.dart';
 
 class CurrencyController extends ChangeNotifier {
   static const String _currencyKey = 'app_currency';
   final CurrencyRepository _repository = CurrencyRepository();
+
+  final AnalyticsService _analyticsService;
 
   String _currency = 'USD'; // Default
   double _exchangeRate = 1.0; // USD to _currency
@@ -20,7 +23,8 @@ class CurrencyController extends ChangeNotifier {
     return NumberFormat.simpleCurrency(name: _currency).currencySymbol;
   }
 
-  CurrencyController() {
+  CurrencyController({required AnalyticsService analyticsService})
+    : _analyticsService = analyticsService {
     _loadCurrency();
   }
 
@@ -49,12 +53,20 @@ class CurrencyController extends ChangeNotifier {
     _savedConversions.add(conversion);
     await _saveConversions();
     notifyListeners();
+    await _analyticsService.logAddCurrencyConversion(
+      baseCurrency: conversion.baseCurrency,
+      targetCurrency: conversion.targetCurrency,
+    );
   }
 
   Future<void> removeConversion(CurrencyConversion conversion) async {
     _savedConversions.remove(conversion);
     notifyListeners();
     await _saveConversions();
+    await _analyticsService.logRemoveCurrencyConversion(
+      baseCurrency: conversion.baseCurrency,
+      targetCurrency: conversion.targetCurrency,
+    );
   }
 
   Future<void> setCurrency(String newCurrency) async {
