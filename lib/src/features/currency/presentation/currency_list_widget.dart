@@ -218,12 +218,12 @@ class _CurrencyListItem extends StatelessWidget {
 
 class _FlagIcon extends StatelessWidget {
   final String code;
-  final double size;
 
-  const _FlagIcon({required this.code, this.size = 32});
+  const _FlagIcon({required this.code});
 
   @override
   Widget build(BuildContext context) {
+    const size = 32.0;
     return ClipOval(
       child: SizedBox(
         width: size,
@@ -236,7 +236,7 @@ class _FlagIcon extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               code.toUpperCase(),
-              style: TextStyle(fontSize: size * 0.25),
+              style: const TextStyle(fontSize: size * 0.25),
             ),
           ),
         ),
