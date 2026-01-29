@@ -102,7 +102,7 @@ class _CurrencyListItem extends StatelessWidget {
                 ),
               ),
               Text(
-                '${conversion.amount}', // TODO: Format decimals?
+                conversion.amount.toStringAsFixed(2),
                 style: TextStyle(color: Colors.grey[600], fontSize: 12),
               ),
             ],

@@ -42,14 +42,11 @@ class _StockListView extends StatefulWidget {
 class _StockListViewState extends State<_StockListView> {
   final CurrencyRepository _currencyRepo = CurrencyRepository();
   _MarketView _currentView = _MarketView.stocks;
-  // TODO: Move to a controller/service + Persistence
-  final List<CurrencyConversion> _currencyConversions = [];
-
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<StockListController>();
     final settingsController = context.watch<SettingsController>();
-    // final currencyController = context.watch<CurrencyController>(); // Unused for now
+    final currencyController = context.watch<CurrencyController>();
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
@@ -114,7 +111,7 @@ class _StockListViewState extends State<_StockListView> {
                         ? _buildSearchResults(controller, l10n)
                         : _buildWatchlist(controller, l10n))
                   : CurrencyListWidget(
-                      conversions: _currencyConversions,
+                      conversions: currencyController.savedConversions,
                       onAddCurrency: () async {
                         final result =
                             await showModalBottomSheet<CurrencyConversion>(
@@ -133,16 +130,16 @@ class _StockListViewState extends State<_StockListView> {
                         if (!context.mounted) return;
 
                         if (rate != null) {
-                          setState(() {
-                            _currencyConversions.add(
-                              CurrencyConversion(
-                                baseCurrency: result.baseCurrency,
-                                targetCurrency: result.targetCurrency,
-                                rate: rate,
-                                amount: result.amount,
-                              ),
-                            );
-                          });
+                          final currencyController = context
+                              .read<CurrencyController>();
+                          await currencyController.addConversion(
+                            CurrencyConversion(
+                              baseCurrency: result.baseCurrency,
+                              targetCurrency: result.targetCurrency,
+                              rate: rate,
+                              amount: result.amount,
+                            ),
+                          );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(l10n.errorFetchingData)),

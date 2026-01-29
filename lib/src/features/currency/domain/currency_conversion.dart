@@ -22,4 +22,22 @@ class CurrencyConversion {
     // Default: try to match first two letters
     return currencyCode.substring(0, 2).toLowerCase();
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'baseCurrency': baseCurrency,
+      'targetCurrency': targetCurrency,
+      'rate': rate,
+      'amount': amount,
+    };
+  }
+
+  factory CurrencyConversion.fromJson(Map<String, dynamic> json) {
+    return CurrencyConversion(
+      baseCurrency: json['baseCurrency'] as String,
+      targetCurrency: json['targetCurrency'] as String,
+      rate: (json['rate'] as num).toDouble(),
+      amount: (json['amount'] as num?)?.toDouble() ?? 1.0,
+    );
+  }
 }
