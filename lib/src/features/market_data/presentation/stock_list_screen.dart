@@ -77,12 +77,14 @@ class _StockListViewState extends State<_StockListView> {
                       style: theme.textTheme.headlineLarge,
                     ),
                     SizedBox(
-                      width: 110,
+                      width: 90,
                       child: SlidingSegmentedControl<_MarketView>(
                         groupValue: _currentView,
                         children: const {
                           _MarketView.stocks: Icon(Icons.show_chart),
-                          _MarketView.currency: Icon(Icons.currency_exchange),
+                          _MarketView.currency: Icon(
+                            Icons.attach_money_rounded,
+                          ),
                         },
                         onValueChanged: (value) {
                           setState(() {
