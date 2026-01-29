@@ -1,17 +1,19 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
+
 import '../domain/currency_conversion.dart';
 
 class CurrencyListWidget extends StatelessWidget {
   final List<CurrencyConversion> conversions;
   final VoidCallback onAddCurrency;
+  final Function(CurrencyConversion) onRemove;
   final DateTime? lastUpdated;
 
   const CurrencyListWidget({
     required this.conversions,
     required this.onAddCurrency,
+    required this.onRemove,
     this.lastUpdated,
     super.key,
   });
@@ -38,23 +40,6 @@ class CurrencyListWidget extends StatelessWidget {
       children: [
         Column(
           children: [
-            if (lastUpdated != null)
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 16,
-                  bottom: 8,
-                ),
-                child: Text(
-                  'Last updated: ${DateFormat.Hm().format(lastUpdated!)}',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 12,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ),
             Expanded(
               child: ListView.separated(
                 padding: const EdgeInsets.only(
@@ -68,7 +53,10 @@ class CurrencyListWidget extends StatelessWidget {
                     const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final conversion = conversions[index];
-                  return _CurrencyListItem(conversion: conversion);
+                  return _CurrencyListItem(
+                    conversion: conversion,
+                    onRemove: () => onRemove(conversion),
+                  );
                 },
               ),
             ),
@@ -137,8 +125,9 @@ class CurrencyListWidget extends StatelessWidget {
 
 class _CurrencyListItem extends StatelessWidget {
   final CurrencyConversion conversion;
+  final VoidCallback onRemove;
 
-  const _CurrencyListItem({required this.conversion});
+  const _CurrencyListItem({required this.conversion, required this.onRemove});
 
   @override
   Widget build(BuildContext context) {
@@ -148,59 +137,73 @@ class _CurrencyListItem extends StatelessWidget {
     // Calculate result
     final calculatedValue = conversion.amount * conversion.rate;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      decoration: BoxDecoration(
-        color: isDark ? Colors.grey[900] : Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
+    return Dismissible(
+      key: ValueKey(conversion.id),
+      direction: DismissDirection.endToStart,
+      onDismissed: (_) => onRemove(),
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(12),
         ),
+        child: const Icon(Icons.delete, color: Colors.white),
       ),
-      child: Row(
-        children: [
-          // Base Side (From)
-          _FlagIcon(code: conversion.baseFlag),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                conversion.baseCurrency,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                conversion.amount.toStringAsFixed(2),
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-            ],
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        decoration: BoxDecoration(
+          color: isDark ? Colors.grey[900] : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
           ),
-          const Spacer(),
-          const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
-          const Spacer(),
-          // Target Side (To)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                calculatedValue.toStringAsFixed(2),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+        ),
+        child: Row(
+          children: [
+            // Base Side (From)
+            _FlagIcon(code: conversion.baseFlag),
+            const SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  conversion.baseCurrency,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-              Text(
-                conversion.targetCurrency,
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-            ],
-          ),
-          const SizedBox(width: 12),
-          _FlagIcon(code: conversion.targetFlag),
-        ],
+                Text(
+                  conversion.amount.toStringAsFixed(2),
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                ),
+              ],
+            ),
+            const Spacer(),
+            const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
+            const Spacer(),
+            // Target Side (To)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  calculatedValue.toStringAsFixed(2),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  conversion.targetCurrency,
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                ),
+              ],
+            ),
+            const SizedBox(width: 12),
+            _FlagIcon(code: conversion.targetFlag),
+          ],
+        ),
       ),
     );
   }

@@ -53,8 +53,8 @@ class CurrencyController extends ChangeNotifier {
 
   Future<void> removeConversion(CurrencyConversion conversion) async {
     _savedConversions.remove(conversion);
-    await _saveConversions();
     notifyListeners();
+    await _saveConversions();
   }
 
   Future<void> setCurrency(String newCurrency) async {
@@ -92,6 +92,7 @@ class CurrencyController extends ChangeNotifier {
 
       if (newRate != null && newRate != conversion.rate) {
         _savedConversions[i] = CurrencyConversion(
+          id: conversion.id,
           baseCurrency: conversion.baseCurrency,
           targetCurrency: conversion.targetCurrency,
           rate: newRate,

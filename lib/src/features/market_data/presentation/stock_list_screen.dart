@@ -126,6 +126,11 @@ class _StockListViewState extends State<_StockListView> {
                   : CurrencyListWidget(
                       conversions: currencyController.savedConversions,
                       lastUpdated: currencyController.lastUpdated,
+                      onRemove: (conversion) {
+                        context.read<CurrencyController>().removeConversion(
+                          conversion,
+                        );
+                      },
                       onAddCurrency: () async {
                         final result =
                             await showModalBottomSheet<CurrencyConversion>(
@@ -147,7 +152,7 @@ class _StockListViewState extends State<_StockListView> {
                           final currencyController = context
                               .read<CurrencyController>();
                           await currencyController.addConversion(
-                            CurrencyConversion(
+                            CurrencyConversion.create(
                               baseCurrency: result.baseCurrency,
                               targetCurrency: result.targetCurrency,
                               rate: rate,

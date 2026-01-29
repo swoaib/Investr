@@ -101,7 +101,7 @@ class _CurrencyAddSheetState extends State<CurrencyAddSheet> {
               child: FilledButton(
                 onPressed: () {
                   final amount = double.tryParse(_amountController.text) ?? 1.0;
-                  final conversion = CurrencyConversion(
+                  final conversion = CurrencyConversion.create(
                     baseCurrency: _baseCurrency,
                     targetCurrency: _targetCurrency,
                     rate: 0, // Rate will be fetched by parent
