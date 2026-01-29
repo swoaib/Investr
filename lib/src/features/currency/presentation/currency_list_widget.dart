@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../domain/currency_conversion.dart';
 
@@ -9,17 +10,23 @@ class CurrencyListWidget extends StatelessWidget {
   final VoidCallback onAddCurrency;
   final Function(CurrencyConversion) onRemove;
   final DateTime? lastUpdated;
+  final bool isLoading;
 
   const CurrencyListWidget({
     required this.conversions,
     required this.onAddCurrency,
     required this.onRemove,
     this.lastUpdated,
+    this.isLoading = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return _buildShimmerLoading(context);
+    }
+
     if (conversions.isEmpty) {
       return Center(
         child: Column(
@@ -123,6 +130,36 @@ class CurrencyListWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildShimmerLoading(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Shimmer.fromColors(
+      baseColor: baseColor,
+      highlightColor: highlightColor,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 8,
+          bottom: 160,
+        ),
+        itemCount: 5,
+        separatorBuilder: (context, index) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          return Container(
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          );
+        },
+      ),
     );
   }
 }

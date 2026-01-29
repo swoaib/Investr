@@ -46,6 +46,7 @@ class CurrencyController extends ChangeNotifier {
     }
 
     await _updateExchangeRate();
+    _isLoading = false;
     notifyListeners();
   }
 
@@ -91,53 +92,65 @@ class CurrencyController extends ChangeNotifier {
     await prefs.setStringList(_conversionsKey, jsonList);
   }
 
+  bool _isLoading = true;
+  bool get isLoading => _isLoading;
+
   Future<void> refreshSavedConversions() async {
     if (_savedConversions.isEmpty) return;
 
-    bool hasChanges = false;
-    for (int i = 0; i < _savedConversions.length; i++) {
-      final conversion = _savedConversions[i];
-      var newRate = await _repository.getExchangeRate(
-        conversion.baseCurrency,
-        conversion.targetCurrency,
-      );
+    // Don't show shimmer for background refreshes
+    // _isLoading = true;
+    // notifyListeners();
 
-      // Smart Fallback Logic for Refresh
-      if (newRate == null) {
-        final rateToUSD = await _repository.getExchangeRate(
+    try {
+      bool hasChanges = false;
+      for (int i = 0; i < _savedConversions.length; i++) {
+        final conversion = _savedConversions[i];
+        var newRate = await _repository.getExchangeRate(
           conversion.baseCurrency,
-          'USD',
-        );
-        final rateFromUSD = await _repository.getExchangeRate(
-          'USD',
           conversion.targetCurrency,
         );
 
-        if (rateToUSD != null && rateFromUSD != null) {
-          newRate = rateToUSD * rateFromUSD;
-          // Maintain viaUSD status implies logical correctness of retry
+        // Smart Fallback Logic for Refresh
+        if (newRate == null) {
+          final rateToUSD = await _repository.getExchangeRate(
+            conversion.baseCurrency,
+            'USD',
+          );
+          final rateFromUSD = await _repository.getExchangeRate(
+            'USD',
+            conversion.targetCurrency,
+          );
+
+          if (rateToUSD != null && rateFromUSD != null) {
+            newRate = rateToUSD * rateFromUSD;
+            // Maintain viaUSD status implies logical correctness of retry
+          }
+        }
+
+        if (newRate != null && newRate != conversion.rate) {
+          _savedConversions[i] = CurrencyConversion(
+            id: conversion.id,
+            baseCurrency: conversion.baseCurrency,
+            targetCurrency: conversion.targetCurrency,
+            rate: newRate,
+            amount: conversion.amount,
+            viaUSD: conversion.viaUSD,
+          );
+          hasChanges = true;
         }
       }
 
-      if (newRate != null && newRate != conversion.rate) {
-        _savedConversions[i] = CurrencyConversion(
-          id: conversion.id,
-          baseCurrency: conversion.baseCurrency,
-          targetCurrency: conversion.targetCurrency,
-          rate: newRate,
-          amount: conversion.amount,
-          viaUSD: conversion.viaUSD,
-        );
-        hasChanges = true;
+      if (hasChanges) {
+        await _saveConversions();
       }
-    }
 
-    if (hasChanges) {
-      await _saveConversions();
+      _lastUpdated = DateTime.now();
+      notifyListeners();
+    } finally {
+      // _isLoading = false;
+      // notifyListeners();
     }
-
-    _lastUpdated = DateTime.now();
-    notifyListeners();
   }
 
   Future<void> _updateExchangeRate() async {

@@ -140,6 +140,7 @@ class _StockListViewState extends State<_StockListView> {
                   : CurrencyListWidget(
                       conversions: currencyController.savedConversions,
                       lastUpdated: currencyController.lastUpdated,
+                      isLoading: currencyController.isLoading,
                       onRemove: (conversion) {
                         context.read<CurrencyController>().removeConversion(
                           conversion,
