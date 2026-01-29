@@ -98,15 +98,19 @@ class CurrencyListWidget extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.add,
-                          color: Theme.of(context).iconTheme.color,
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                              ? Colors.grey.shade600
+                              : Colors.grey,
                         ),
                         const SizedBox(width: 8),
                         Text(
                           'Add Pair',
                           style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium?.color,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                ? Colors.grey.shade600
+                                : Colors.grey,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
