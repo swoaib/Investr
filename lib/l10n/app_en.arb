@@ -335,5 +335,6 @@
   "fetchError": "Could not fetch valuation data for {symbol}",
   "howItWorksValuationDesc": "This screen displays the Intrinsic Value calculated by the Discounted Cash Flow (DCF) model provided by Financial Modeling Prep (FMP). It compares this value to the current market price to estimate if the stock is undervalued or overvalued.",
   "exchangeRateInfo": "1 USD = {rate} {currency}",
-  "errorFetchingData": "Error fetching data"
+  "errorFetchingData": "Error fetching data",
+  "conversionViaUSD": "Converted via USD: {base} -> USD -> {target}"
 }

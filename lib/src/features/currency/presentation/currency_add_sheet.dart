@@ -24,6 +24,8 @@ class _CurrencyAddSheetState extends State<CurrencyAddSheet> {
     'JPY',
     'CHF',
     'CNY',
+    'PKR',
+    'SAR',
   ];
 
   String _baseCurrency = 'USD';

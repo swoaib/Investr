@@ -181,7 +181,14 @@ class _CurrencyListItem extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
+            if (conversion.viaUSD) ...[
+              const Icon(Icons.arrow_forward, size: 12, color: Colors.grey),
+              const Spacer(),
+              const _FlagIcon(code: 'us'),
+              const Spacer(),
+              const Icon(Icons.arrow_forward, size: 12, color: Colors.grey),
+            ] else
+              const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
             const Spacer(),
             // Target Side (To)
             Column(
@@ -211,15 +218,16 @@ class _CurrencyListItem extends StatelessWidget {
 
 class _FlagIcon extends StatelessWidget {
   final String code;
+  final double size;
 
-  const _FlagIcon({required this.code});
+  const _FlagIcon({required this.code, this.size = 32});
 
   @override
   Widget build(BuildContext context) {
     return ClipOval(
       child: SizedBox(
-        width: 32,
-        height: 32,
+        width: size,
+        height: size,
         child: SvgPicture.asset(
           'assets/flags/$code.svg',
           fit: BoxFit.cover,
@@ -228,7 +236,7 @@ class _FlagIcon extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               code.toUpperCase(),
-              style: const TextStyle(fontSize: 8),
+              style: TextStyle(fontSize: size * 0.25),
             ),
           ),
         ),

@@ -2067,6 +2067,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error fetching data'**
   String get errorFetchingData;
+
+  /// No description provided for @conversionViaUSD.
+  ///
+  /// In en, this message translates to:
+  /// **'Converted via USD: {base} -> USD -> {target}'**
+  String conversionViaUSD(Object base, Object target);
 }
 
 class _AppLocalizationsDelegate

@@ -1096,4 +1096,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorFetchingData => 'Error fetching data';
+
+  @override
+  String conversionViaUSD(Object base, Object target) {
+    return 'Converted via USD: $base -> USD -> $target';
+  }
 }

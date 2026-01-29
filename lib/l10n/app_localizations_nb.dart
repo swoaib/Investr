@@ -1096,4 +1096,9 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String get errorFetchingData => 'Feil ved henting av data';
+
+  @override
+  String conversionViaUSD(Object base, Object target) {
+    return 'Converted via USD: $base -> USD -> $target';
+  }
 }

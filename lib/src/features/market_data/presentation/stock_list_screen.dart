@@ -141,14 +141,44 @@ class _StockListViewState extends State<_StockListView> {
 
                         if (result == null || !context.mounted) return;
 
-                        final rate = await _currencyRepo.getExchangeRate(
+                        var rate = await _currencyRepo.getExchangeRate(
                           result.baseCurrency,
                           result.targetCurrency,
                         );
 
+                        var viaUSD = false;
+
+                        // Smart Fallback Logic
+                        if (rate == null) {
+                          final rateToUSD = await _currencyRepo.getExchangeRate(
+                            result.baseCurrency,
+                            'USD',
+                          );
+                          final rateFromUSD = await _currencyRepo
+                              .getExchangeRate('USD', result.targetCurrency);
+
+                          if (rateToUSD != null && rateFromUSD != null) {
+                            rate = rateToUSD * rateFromUSD;
+                            viaUSD = true;
+                          }
+                        }
+
                         if (!context.mounted) return;
 
                         if (rate != null) {
+                          if (viaUSD) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  l10n.conversionViaUSD(
+                                    result.baseCurrency,
+                                    result.targetCurrency,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+
                           final currencyController = context
                               .read<CurrencyController>();
                           await currencyController.addConversion(
@@ -157,6 +187,7 @@ class _StockListViewState extends State<_StockListView> {
                               targetCurrency: result.targetCurrency,
                               rate: rate,
                               amount: result.amount,
+                              viaUSD: viaUSD,
                             ),
                           );
                         } else {

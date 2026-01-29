@@ -97,10 +97,27 @@ class CurrencyController extends ChangeNotifier {
     bool hasChanges = false;
     for (int i = 0; i < _savedConversions.length; i++) {
       final conversion = _savedConversions[i];
-      final newRate = await _repository.getExchangeRate(
+      var newRate = await _repository.getExchangeRate(
         conversion.baseCurrency,
         conversion.targetCurrency,
       );
+
+      // Smart Fallback Logic for Refresh
+      if (newRate == null) {
+        final rateToUSD = await _repository.getExchangeRate(
+          conversion.baseCurrency,
+          'USD',
+        );
+        final rateFromUSD = await _repository.getExchangeRate(
+          'USD',
+          conversion.targetCurrency,
+        );
+
+        if (rateToUSD != null && rateFromUSD != null) {
+          newRate = rateToUSD * rateFromUSD;
+          // Maintain viaUSD status implies logical correctness of retry
+        }
+      }
 
       if (newRate != null && newRate != conversion.rate) {
         _savedConversions[i] = CurrencyConversion(
@@ -109,6 +126,7 @@ class CurrencyController extends ChangeNotifier {
           targetCurrency: conversion.targetCurrency,
           rate: newRate,
           amount: conversion.amount,
+          viaUSD: conversion.viaUSD,
         );
         hasChanges = true;
       }
