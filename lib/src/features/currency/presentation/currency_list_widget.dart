@@ -30,33 +30,32 @@ class CurrencyListWidget extends StatelessWidget {
       );
     }
 
-    return Column(
+    return Stack(
       children: [
-        Expanded(
-          child: ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: conversions.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
-            itemBuilder: (context, index) {
-              final conversion = conversions[index];
-              return _CurrencyListItem(conversion: conversion);
-            },
+        ListView.separated(
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: 160, // Ensure last item is not hidden behind button
           ),
+          itemCount: conversions.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            final conversion = conversions[index];
+            return _CurrencyListItem(conversion: conversion);
+          },
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: OutlinedButton.icon(
-              onPressed: onAddCurrency,
-              icon: const Icon(Icons.add),
-              label: const Text('Add Pair'),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-              ),
+        Positioned(
+          right: 16,
+          bottom: 100, // Floating above bottom nav
+          child: OutlinedButton.icon(
+            onPressed: onAddCurrency,
+            icon: const Icon(Icons.add),
+            label: const Text('Add Pair'),
+            style: OutlinedButton.styleFrom(
+              backgroundColor: Theme.of(context).cardColor,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
           ),
         ),
