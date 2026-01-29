@@ -135,6 +135,7 @@ class AppearanceScreen extends StatelessWidget {
                     width: 90,
                     child: SlidingSegmentedControl<String>(
                       groupValue: settingsController.defaultLandingPage,
+                      thumbColor: AppTheme.primaryGreen,
                       children: {
                         'stocks': const Icon(Icons.show_chart, size: 20),
                         'currency': const Icon(

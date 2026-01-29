@@ -4,11 +4,13 @@ class SlidingSegmentedControl<T> extends StatelessWidget {
   final Map<T, Widget> children;
   final T groupValue;
   final ValueChanged<T> onValueChanged;
+  final Color? thumbColor;
 
   const SlidingSegmentedControl({
     required this.children,
     required this.groupValue,
     required this.onValueChanged,
+    this.thumbColor,
     super.key,
   });
 
@@ -57,9 +59,11 @@ class SlidingSegmentedControl<T> extends StatelessWidget {
                   width: itemWidth,
                   height: 32,
                   decoration: BoxDecoration(
-                    color: Theme.brightnessOf(context) == Brightness.dark
-                        ? Colors.grey.withValues(alpha: 0.3)
-                        : Colors.black.withValues(alpha: 0.3),
+                    color:
+                        thumbColor ??
+                        (Theme.brightnessOf(context) == Brightness.dark
+                            ? Colors.grey.withValues(alpha: 0.3)
+                            : Colors.black.withValues(alpha: 0.3)),
                     borderRadius: BorderRadius.circular(24),
                   ),
                 ),
