@@ -30,14 +30,34 @@ class CurrencyListWidget extends StatelessWidget {
       );
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: conversions.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final conversion = conversions[index];
-        return _CurrencyListItem(conversion: conversion);
-      },
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.separated(
+            padding: const EdgeInsets.all(16),
+            itemCount: conversions.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final conversion = conversions[index];
+              return _CurrencyListItem(conversion: conversion);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
+          child: SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: onAddCurrency,
+              icon: const Icon(Icons.add),
+              label: const Text('Add Pair'),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -49,18 +69,11 @@ class _CurrencyListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine flag capability (simple check for now)
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    // Format: "1 USD = 10.99 NOK"
-    // Left: Target Currency (NOK) + Flag
-    // Right: Equivalent in Base (USD) + Flag?
-    // Or just "10.99 NOK" on right, and "1 USD" on left?
-    // User requested "nok on one side and the usd value on the other side".
-    // Let's do:
-    // Left: Target (NOK) Flag + Code
-    // Right: Rate + Base Code (USD)
+    // Calculate result
+    final calculatedValue = conversion.amount * conversion.rate;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -73,34 +86,47 @@ class _CurrencyListItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Target Side (e.g. NOK)
-          _FlagIcon(code: conversion.targetFlag),
+          // Base Side (From)
+          _FlagIcon(code: conversion.baseFlag),
           const SizedBox(width: 12),
-          Text(
-            conversion.targetCurrency,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          const Spacer(),
-          // Exchange Rate Side (e.g. 0.091 USD)
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${conversion.rate}', // TODO: Format properly
+                conversion.baseCurrency,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 2),
               Text(
-                conversion.baseCurrency,
+                '${conversion.amount}', // TODO: Format decimals?
                 style: TextStyle(color: Colors.grey[600], fontSize: 12),
               ),
             ],
           ),
-          const SizedBox(width: 8),
-          _FlagIcon(code: conversion.baseFlag),
+          const Spacer(),
+          const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
+          const Spacer(),
+          // Target Side (To)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                calculatedValue.toStringAsFixed(2),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                conversion.targetCurrency,
+                style: TextStyle(color: Colors.grey[600], fontSize: 12),
+              ),
+            ],
+          ),
+          const SizedBox(width: 12),
+          _FlagIcon(code: conversion.targetFlag),
         ],
       ),
     );

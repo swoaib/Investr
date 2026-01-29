@@ -114,20 +114,18 @@ class _StockListViewState extends State<_StockListView> {
                   : CurrencyListWidget(
                       conversions: _currencyConversions,
                       onAddCurrency: () async {
-                        final result = await showModalBottomSheet<String>(
-                          context: context,
-                          useSafeArea: true,
-                          isScrollControlled: true,
-                          builder: (context) => const CurrencyAddSheet(),
-                        );
+                        final result =
+                            await showModalBottomSheet<CurrencyConversion>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) => const CurrencyAddSheet(),
+                            );
 
-                        if (result == null || !mounted) return;
+                        if (result == null || !context.mounted) return;
 
-                        // Show loading indicator or optimistic add?
-                        // For now, simple fetch
                         final rate = await _currencyRepo.getExchangeRate(
-                          'USD',
-                          result,
+                          result.baseCurrency,
+                          result.targetCurrency,
                         );
 
                         if (!context.mounted) return;
@@ -136,9 +134,10 @@ class _StockListViewState extends State<_StockListView> {
                           setState(() {
                             _currencyConversions.add(
                               CurrencyConversion(
-                                baseCurrency: 'USD',
-                                targetCurrency: result,
+                                baseCurrency: result.baseCurrency,
+                                targetCurrency: result.targetCurrency,
                                 rate: rate,
+                                amount: result.amount,
                               ),
                             );
                           });

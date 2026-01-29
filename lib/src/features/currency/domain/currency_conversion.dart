@@ -2,11 +2,13 @@ class CurrencyConversion {
   final String baseCurrency;
   final String targetCurrency;
   final double rate;
+  final double amount;
 
   const CurrencyConversion({
     required this.baseCurrency,
     required this.targetCurrency,
     required this.rate,
+    this.amount = 1.0,
   });
 
   // Helper to get flag asset name (e.g. 'USD' -> 'us')
