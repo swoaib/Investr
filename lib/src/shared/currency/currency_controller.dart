@@ -68,12 +68,45 @@ class CurrencyController extends ChangeNotifier {
     }
   }
 
+  DateTime? _lastUpdated;
+  DateTime? get lastUpdated => _lastUpdated;
+
   Future<void> _saveConversions() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonList = _savedConversions
         .map((c) => json.encode(c.toJson()))
         .toList();
     await prefs.setStringList(_conversionsKey, jsonList);
+  }
+
+  Future<void> refreshSavedConversions() async {
+    if (_savedConversions.isEmpty) return;
+
+    bool hasChanges = false;
+    for (int i = 0; i < _savedConversions.length; i++) {
+      final conversion = _savedConversions[i];
+      final newRate = await _repository.getExchangeRate(
+        conversion.baseCurrency,
+        conversion.targetCurrency,
+      );
+
+      if (newRate != null && newRate != conversion.rate) {
+        _savedConversions[i] = CurrencyConversion(
+          baseCurrency: conversion.baseCurrency,
+          targetCurrency: conversion.targetCurrency,
+          rate: newRate,
+          amount: conversion.amount,
+        );
+        hasChanges = true;
+      }
+    }
+
+    if (hasChanges) {
+      await _saveConversions();
+    }
+
+    _lastUpdated = DateTime.now();
+    notifyListeners();
   }
 
   Future<void> _updateExchangeRate() async {

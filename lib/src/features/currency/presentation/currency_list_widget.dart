@@ -1,14 +1,18 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import '../domain/currency_conversion.dart';
 
 class CurrencyListWidget extends StatelessWidget {
   final List<CurrencyConversion> conversions;
   final VoidCallback onAddCurrency;
+  final DateTime? lastUpdated;
 
   const CurrencyListWidget({
     required this.conversions,
     required this.onAddCurrency,
+    this.lastUpdated,
     super.key,
   });
 
@@ -32,30 +36,97 @@ class CurrencyListWidget extends StatelessWidget {
 
     return Stack(
       children: [
-        ListView.separated(
-          padding: const EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 16,
-            bottom: 160, // Ensure last item is not hidden behind button
-          ),
-          itemCount: conversions.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final conversion = conversions[index];
-            return _CurrencyListItem(conversion: conversion);
-          },
+        Column(
+          children: [
+            if (lastUpdated != null)
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 16,
+                  bottom: 8,
+                ),
+                child: Text(
+                  'Last updated: ${DateFormat.Hm().format(lastUpdated!)}',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 8,
+                  bottom: 160,
+                ),
+                itemCount: conversions.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 12),
+                itemBuilder: (context, index) {
+                  final conversion = conversions[index];
+                  return _CurrencyListItem(conversion: conversion);
+                },
+              ),
+            ),
+          ],
         ),
         Positioned(
           right: 16,
           bottom: 100, // Floating above bottom nav
-          child: OutlinedButton.icon(
-            onPressed: onAddCurrency,
-            icon: const Icon(Icons.add),
-            label: const Text('Add Pair'),
-            style: OutlinedButton.styleFrom(
-              backgroundColor: Theme.of(context).cardColor,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: GestureDetector(
+            onTap: onAddCurrency,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: (Theme.of(context).cardTheme.color ?? Colors.white)
+                          .withValues(alpha: 0.7),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Add Pair',
+                          style: TextStyle(
+                            color: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.color,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ),

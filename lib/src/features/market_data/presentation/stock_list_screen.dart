@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -41,7 +42,14 @@ class _StockListView extends StatefulWidget {
 
 class _StockListViewState extends State<_StockListView> {
   final CurrencyRepository _currencyRepo = CurrencyRepository();
+  Timer? _currencyPollingTimer;
   _MarketView _currentView = _MarketView.stocks;
+  @override
+  void dispose() {
+    _currencyPollingTimer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<StockListController>();
@@ -87,6 +95,11 @@ class _StockListViewState extends State<_StockListView> {
                           setState(() {
                             _currentView = value;
                           });
+                          if (value == _MarketView.currency) {
+                            _startCurrencyPolling();
+                          } else {
+                            _currencyPollingTimer?.cancel();
+                          }
                         },
                       ),
                     ),
@@ -112,6 +125,7 @@ class _StockListViewState extends State<_StockListView> {
                         : _buildWatchlist(controller, l10n))
                   : CurrencyListWidget(
                       conversions: currencyController.savedConversions,
+                      lastUpdated: currencyController.lastUpdated,
                       onAddCurrency: () async {
                         final result =
                             await showModalBottomSheet<CurrencyConversion>(
@@ -319,6 +333,19 @@ class _StockListViewState extends State<_StockListView> {
         ),
       ),
     );
+  }
+
+  void _startCurrencyPolling() {
+    _currencyPollingTimer?.cancel();
+
+    // Immediate refresh
+    context.read<CurrencyController>().refreshSavedConversions();
+
+    _currencyPollingTimer = Timer.periodic(const Duration(seconds: 60), (_) {
+      if (mounted && _currentView == _MarketView.currency) {
+        context.read<CurrencyController>().refreshSavedConversions();
+      }
+    });
   }
 }
 
