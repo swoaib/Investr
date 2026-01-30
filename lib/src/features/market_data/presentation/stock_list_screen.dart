@@ -259,6 +259,20 @@ class _StockListViewState extends State<_StockListView> {
               endActionPane: ActionPane(
                 motion: const ScrollMotion(),
                 extentRatio: 0.25,
+                dismissible: DismissiblePane(
+                  dismissThreshold: 0.7,
+                  onDismissed: () {
+                    controller.removeFromWatchlist(stock);
+                    InvestrSnackBar.show(
+                      context,
+                      '${stock.symbol} ${l10n.removedFromWatchlist}',
+                      onUndo: () {
+                        controller.addToWatchlist(stock, insertAt: index);
+                      },
+                      undoLabel: l10n.undo,
+                    );
+                  },
+                ),
                 children: [
                   RoundedSlidableAction(
                     onPressed: () {

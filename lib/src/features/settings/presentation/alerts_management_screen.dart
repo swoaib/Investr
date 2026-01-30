@@ -95,6 +95,12 @@ class AlertsManagementScreen extends StatelessWidget {
                       key: Key(alert.id),
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
+                        dismissible: DismissiblePane(
+                          dismissThreshold: 0.7,
+                          onDismissed: () {
+                            _deleteAlert(context, alert);
+                          },
+                        ),
                         children: [
                           RoundedSlidableAction(
                             onPressed: () => _editAlert(context, alert),
