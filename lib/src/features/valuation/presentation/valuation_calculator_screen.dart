@@ -635,7 +635,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               const SizedBox(height: 16),
               _buildInputRow(context, l10n.betaLabel, betaController),
               const SizedBox(height: 32),
-              const SizedBox(height: 32),
+
               SizedBox(
                 width: double.infinity,
                 child: InvestrButton(
