@@ -7,6 +7,7 @@ class RoundedSlidableAction extends StatelessWidget {
   final String label;
   final Color color;
   final Color foregroundColor;
+  final EdgeInsetsGeometry? margin;
 
   const RoundedSlidableAction({
     required this.onPressed,
@@ -14,6 +15,7 @@ class RoundedSlidableAction extends StatelessWidget {
     required this.label,
     required this.color,
     this.foregroundColor = Colors.white,
+    this.margin,
     super.key,
   });
 
@@ -24,7 +26,7 @@ class RoundedSlidableAction extends StatelessWidget {
       backgroundColor: Colors.transparent,
       foregroundColor: foregroundColor,
       child: Container(
-        margin: const EdgeInsets.all(8),
+        margin: margin ?? const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(32),
