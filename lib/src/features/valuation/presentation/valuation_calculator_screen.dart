@@ -269,7 +269,8 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               AppTheme.screenPaddingHorizontal,
               AppTheme.screenPaddingVertical,
               AppTheme.screenPaddingHorizontal,
-              CustomBottomNavigationBar.contentBottomPadding,
+              CustomBottomNavigationBar.contentBottomPadding +
+                  MediaQuery.of(context).padding.bottom,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -616,7 +617,9 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
       ),
       builder: (context) => Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
+          bottom:
+              MediaQuery.of(context).viewInsets.bottom +
+              MediaQuery.of(context).padding.bottom,
           left: 24,
           right: 24,
           top: 24,

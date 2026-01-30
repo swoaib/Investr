@@ -50,7 +50,9 @@ class _CurrencyAddSheetState extends State<CurrencyAddSheet> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
+        bottom:
+            MediaQuery.of(context).viewInsets.bottom +
+            MediaQuery.of(context).padding.bottom,
       ),
       child: Container(
         padding: const EdgeInsets.all(16),

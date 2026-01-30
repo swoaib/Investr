@@ -49,11 +49,11 @@ class CurrencyListWidget extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.only(
+                padding: EdgeInsets.only(
                   left: 16,
                   right: 16,
                   top: 8,
-                  bottom: 160,
+                  bottom: 160 + MediaQuery.of(context).padding.bottom,
                 ),
                 itemCount: conversions.length,
                 separatorBuilder: (context, index) =>
@@ -71,7 +71,11 @@ class CurrencyListWidget extends StatelessWidget {
         ),
         Positioned(
           right: 16,
-          bottom: 100, // Floating above bottom nav
+          bottom:
+              90 +
+              MediaQuery.of(
+                context,
+              ).padding.bottom, // Floating above bottom nav
           child: GestureDetector(
             onTap: onAddCurrency,
             child: Container(
@@ -142,11 +146,11 @@ class CurrencyListWidget extends StatelessWidget {
       baseColor: baseColor,
       highlightColor: highlightColor,
       child: ListView.separated(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           left: 16,
           right: 16,
           top: 8,
-          bottom: 160,
+          bottom: 160 + MediaQuery.of(context).padding.bottom,
         ),
         itemCount: 5,
         separatorBuilder: (context, index) => const SizedBox(height: 12),

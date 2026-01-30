@@ -541,7 +541,9 @@ class _LearnScreenContent extends StatelessWidget {
                 padding: EdgeInsets.only(
                   left: AppTheme.screenPaddingHorizontal,
                   right: AppTheme.screenPaddingHorizontal,
-                  bottom: CustomBottomNavigationBar.contentBottomPadding,
+                  bottom:
+                      CustomBottomNavigationBar.contentBottomPadding +
+                      MediaQuery.of(context).padding.bottom,
                 ),
                 itemCount: lessons.length,
                 itemBuilder: (context, index) {

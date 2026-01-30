@@ -32,7 +32,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         bottom: false,
         child: SingleChildScrollView(
           padding: EdgeInsets.only(
-            bottom: CustomBottomNavigationBar.contentBottomPadding,
+            bottom:
+                CustomBottomNavigationBar.contentBottomPadding +
+                MediaQuery.of(context).padding.bottom,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -228,7 +228,9 @@ class _StockListViewState extends State<_StockListView> {
     }
     return ReorderableListView.builder(
       padding: EdgeInsets.only(
-        bottom: CustomBottomNavigationBar.contentBottomPadding,
+        bottom:
+            CustomBottomNavigationBar.contentBottomPadding +
+            MediaQuery.of(context).padding.bottom,
       ),
       itemCount: controller.stocks.length,
       onReorder: (oldIndex, newIndex) {
@@ -291,7 +293,9 @@ class _StockListViewState extends State<_StockListView> {
     }
     return ListView.separated(
       padding: EdgeInsets.only(
-        bottom: CustomBottomNavigationBar.contentBottomPadding,
+        bottom:
+            CustomBottomNavigationBar.contentBottomPadding +
+            MediaQuery.of(context).padding.bottom,
       ),
       itemCount: controller.searchResults.length,
       separatorBuilder: (context, index) => const Divider(
@@ -323,7 +327,9 @@ class _StockListViewState extends State<_StockListView> {
       highlightColor: highlightColor,
       child: ListView.separated(
         padding: EdgeInsets.only(
-          bottom: CustomBottomNavigationBar.contentBottomPadding,
+          bottom:
+              CustomBottomNavigationBar.contentBottomPadding +
+              MediaQuery.of(context).padding.bottom,
         ),
         itemCount: 10,
         separatorBuilder: (_, _) => const Divider(
