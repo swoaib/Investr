@@ -3,14 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 class MarkdownViewerScreen extends StatelessWidget {
-  final String title;
+  final String? title;
   final String assetPath;
 
-  const MarkdownViewerScreen({
-    required this.title,
-    required this.assetPath,
-    super.key,
-  });
+  const MarkdownViewerScreen({required this.assetPath, this.title, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,38 +41,43 @@ class MarkdownViewerScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title, style: Theme.of(context).textTheme.headlineSmall),
+        title: title != null
+            ? Text(title!, style: Theme.of(context).textTheme.headlineSmall)
+            : null,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
       ),
-      body: FutureBuilder<String>(
-        future: rootBundle.loadString(effectivePath),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            // Fallback to default (english) if localized fails
-            if (effectivePath != assetPath) {
-              return FutureBuilder<String>(
-                future: rootBundle.loadString(assetPath),
-                builder: (context, retrySnapshot) {
-                  if (retrySnapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (retrySnapshot.hasError) {
-                    return Center(child: Text('Error loading document'));
-                  }
-                  return _buildMarkdown(context, retrySnapshot.data ?? '');
-                },
-              );
+      body: SafeArea(
+        child: FutureBuilder<String>(
+          future: rootBundle.loadString(effectivePath),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
             }
-            return Center(child: Text('Error loading document'));
-          }
-          return _buildMarkdown(context, snapshot.data ?? '');
-        },
+            if (snapshot.hasError) {
+              // Fallback to default (english) if localized fails
+              if (effectivePath != assetPath) {
+                return FutureBuilder<String>(
+                  future: rootBundle.loadString(assetPath),
+                  builder: (context, retrySnapshot) {
+                    if (retrySnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (retrySnapshot.hasError) {
+                      return Center(child: Text('Error loading document'));
+                    }
+                    return _buildMarkdown(context, retrySnapshot.data ?? '');
+                  },
+                );
+              }
+              return Center(child: Text('Error loading document'));
+            }
+            return _buildMarkdown(context, snapshot.data ?? '');
+          },
+        ),
       ),
     );
   }
