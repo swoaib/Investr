@@ -107,6 +107,7 @@ class AlertsManagementScreen extends StatelessWidget {
                             icon: Icons.edit,
                             label: l10n.edit,
                             color: Colors.orange,
+                            width: 90,
                             margin: const EdgeInsets.only(
                               left: 8,
                               top: 8,
