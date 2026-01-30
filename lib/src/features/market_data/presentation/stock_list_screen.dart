@@ -12,6 +12,7 @@ import '../../../shared/market/market_schedule_service.dart';
 import '../../../shared/settings/settings_controller.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+import '../../../shared/widgets/investr_snackbar.dart';
 import '../../../shared/widgets/sliding_segmented_control.dart';
 import '../../../shared/widgets/stock_logo.dart';
 import '../../currency/domain/currency_conversion.dart';
@@ -141,10 +142,20 @@ class _StockListViewState extends State<_StockListView> {
                       conversions: currencyController.savedConversions,
                       lastUpdated: currencyController.lastUpdated,
                       isLoading: currencyController.isLoading,
-                      onRemove: (conversion) {
-                        context.read<CurrencyController>().removeConversion(
-                          conversion,
-                        );
+                      onRemove: (conversion, index) {
+                        currencyController.removeConversion(conversion);
+                        if (context.mounted) {
+                          InvestrSnackBar.show(
+                            context,
+                            '${conversion.baseCurrency}/${conversion.targetCurrency} removed',
+                            onUndo: () {
+                              currencyController.addConversion(
+                                conversion,
+                                insertAt: index,
+                              );
+                            },
+                          );
+                        }
                       },
                       onAddCurrency: () async {
                         final result =
@@ -182,14 +193,11 @@ class _StockListViewState extends State<_StockListView> {
 
                         if (rate != null) {
                           if (viaUSD) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  l10n.conversionViaUSD(
-                                    result.baseCurrency,
-                                    result.targetCurrency,
-                                  ),
-                                ),
+                            InvestrSnackBar.show(
+                              context,
+                              l10n.conversionViaUSD(
+                                result.baseCurrency,
+                                result.targetCurrency,
                               ),
                             );
                           }
@@ -206,8 +214,10 @@ class _StockListViewState extends State<_StockListView> {
                             ),
                           );
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(l10n.errorFetchingData)),
+                          InvestrSnackBar.show(
+                            context,
+                            l10n.errorFetchingData,
+                            isError: true,
                           );
                         }
                       },
@@ -252,22 +262,13 @@ class _StockListViewState extends State<_StockListView> {
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
                 controller.removeFromWatchlist(stock);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      '${stock.symbol} ${l10n.removedFromWatchlist}',
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                    margin: const EdgeInsets.all(
-                      AppTheme.screenPaddingHorizontal,
-                    ),
-                    action: SnackBarAction(
-                      label: l10n.undo,
-                      onPressed: () {
-                        controller.addToWatchlist(stock, insertAt: index);
-                      },
-                    ),
-                  ),
+                InvestrSnackBar.show(
+                  context,
+                  '${stock.symbol} ${l10n.removedFromWatchlist}',
+                  onUndo: () {
+                    controller.addToWatchlist(stock, insertAt: index);
+                  },
+                  undoLabel: l10n.undo,
                 );
               },
               child: _StockListItem(stock: stock),

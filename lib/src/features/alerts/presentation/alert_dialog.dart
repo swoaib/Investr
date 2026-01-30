@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../shared/theme/app_theme.dart';
+
 import '../../../shared/widgets/top_snackbar.dart';
 import '../data/alerts_repository.dart';
 import '../domain/stock_alert.dart';

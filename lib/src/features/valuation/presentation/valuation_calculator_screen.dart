@@ -11,6 +11,7 @@ import '../../../shared/services/analytics_service.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import '../../../shared/widgets/investr_button.dart';
+import '../../../shared/widgets/investr_snackbar.dart';
 import '../../../shared/widgets/stock_logo.dart';
 import '../../market_data/data/stock_repository.dart';
 import '../../market_data/domain/stock.dart';
@@ -157,13 +158,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
         });
 
         if (dcfData == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.fetchError(symbol)),
-              behavior: SnackBarBehavior.floating,
-              margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-            ),
-          );
+          InvestrSnackBar.show(context, l10n.fetchError(symbol), isError: true);
         }
       }
     } finally {

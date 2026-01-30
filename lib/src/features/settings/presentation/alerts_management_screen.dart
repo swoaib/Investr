@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/widgets/info_container.dart';
+import '../../../shared/widgets/investr_snackbar.dart';
 import '../../../shared/widgets/stock_logo.dart';
 import '../../alerts/data/alerts_repository.dart';
 import '../../alerts/domain/stock_alert.dart';
@@ -168,22 +169,17 @@ class AlertsManagementScreen extends StatelessWidget {
     try {
       await context.read<AlertsRepository>().deleteAlert(alert.id);
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.alertDeleted),
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-          ),
+        InvestrSnackBar.show(
+          context,
+          AppLocalizations.of(context)!.alertDeleted,
         );
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.error(e.toString())),
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-          ),
+        InvestrSnackBar.show(
+          context,
+          AppLocalizations.of(context)!.error(e.toString()),
+          isError: true,
         );
       }
     }
@@ -206,14 +202,15 @@ class AlertsManagementScreen extends StatelessWidget {
         createdAt: alert.createdAt,
       );
       await context.read<AlertsRepository>().updateAlert(updatedAlert);
+      if (context.mounted) {
+        InvestrSnackBar.show(context, 'Alert set for ${alert.symbol}');
+      }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.error(e.toString())),
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-          ),
+        InvestrSnackBar.show(
+          context,
+          AppLocalizations.of(context)!.error(e.toString()),
+          isError: true,
         );
       }
     }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:investr/l10n/app_localizations.dart';
 
-import '../../../../shared/theme/app_theme.dart';
 import '../../../../shared/widgets/investr_button.dart';
+import '../../../../shared/widgets/investr_snackbar.dart';
 import '../../data/feedback_repository.dart';
 import '../../domain/feedback_model.dart';
 
@@ -31,7 +31,6 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
     });
 
     final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
 
     try {
       final feedback = FeedbackModel(
@@ -46,14 +45,8 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
 
       if (mounted) {
         Navigator.pop(context);
-        messenger.showSnackBar(
-          SnackBar(
-            content: Text(l10n.feedbackThanks),
-            backgroundColor: AppTheme.primaryGreen,
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(AppTheme.screenPaddingHorizontal),
-          ),
-        );
+        Navigator.pop(context);
+        InvestrSnackBar.show(context, l10n.feedbackThanks);
       }
     } catch (e) {
       if (mounted) {

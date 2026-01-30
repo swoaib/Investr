@@ -8,7 +8,7 @@ import '../domain/currency_conversion.dart';
 class CurrencyListWidget extends StatelessWidget {
   final List<CurrencyConversion> conversions;
   final VoidCallback onAddCurrency;
-  final Function(CurrencyConversion) onRemove;
+  final Function(CurrencyConversion, int) onRemove;
   final DateTime? lastUpdated;
   final bool isLoading;
 
@@ -62,7 +62,7 @@ class CurrencyListWidget extends StatelessWidget {
                   final conversion = conversions[index];
                   return _CurrencyListItem(
                     conversion: conversion,
-                    onRemove: () => onRemove(conversion),
+                    onRemove: () => onRemove(conversion, index),
                   );
                 },
               ),

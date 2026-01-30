@@ -111,6 +111,13 @@ class AppTheme {
         showSelectedLabels: false,
         showUnselectedLabels: false,
       ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: const Color(0xFF323232),
+        contentTextStyle: GoogleFonts.outfit(color: Colors.white),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 4,
+      ),
     );
   }
 
@@ -204,6 +211,13 @@ class AppTheme {
         elevation: 0,
         showSelectedLabels: false,
         showUnselectedLabels: false,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: const Color(0xFF2C2C2C),
+        contentTextStyle: GoogleFonts.outfit(color: Colors.white),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 4,
       ),
     );
   }

@@ -50,8 +50,17 @@ class CurrencyController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addConversion(CurrencyConversion conversion) async {
-    _savedConversions.add(conversion);
+  Future<void> addConversion(
+    CurrencyConversion conversion, {
+    int? insertAt,
+  }) async {
+    if (insertAt != null &&
+        insertAt >= 0 &&
+        insertAt <= _savedConversions.length) {
+      _savedConversions.insert(insertAt, conversion);
+    } else {
+      _savedConversions.add(conversion);
+    }
     await _saveConversions();
     notifyListeners();
     await _analyticsService.logAddCurrencyConversion(
