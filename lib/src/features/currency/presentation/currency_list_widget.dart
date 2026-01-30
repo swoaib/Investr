@@ -232,8 +232,7 @@ class _CurrencyListItem extends StatelessWidget {
               const _FlagIcon(code: 'us'),
               const Spacer(),
               const Icon(Icons.arrow_forward, size: 12, color: Colors.grey),
-            ] else
-              const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
+            ],
             const Spacer(),
             // Target Side (To)
             Column(
