@@ -139,7 +139,7 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryGreen,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
