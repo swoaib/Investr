@@ -9,6 +9,7 @@ import '../../../shared/theme/app_theme.dart';
 import '../../../shared/theme/theme_controller.dart';
 import '../../../shared/widgets/info_container.dart';
 import '../../../shared/widgets/investr_snackbar.dart';
+import '../../../shared/widgets/rounded_slidable_action.dart';
 import '../../../shared/widgets/stock_logo.dart';
 import '../../alerts/data/alerts_repository.dart';
 import '../../alerts/domain/stock_alert.dart';
@@ -95,23 +96,17 @@ class AlertsManagementScreen extends StatelessWidget {
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
                         children: [
-                          SlidableAction(
-                            onPressed: (ctx) {
-                              _editAlert(context, alert);
-                            },
-                            backgroundColor: Colors.orange,
-                            foregroundColor: Colors.white,
+                          RoundedSlidableAction(
+                            onPressed: () => _editAlert(context, alert),
                             icon: Icons.edit,
                             label: l10n.edit,
+                            color: Colors.orange,
                           ),
-                          SlidableAction(
-                            onPressed: (ctx) {
-                              _deleteAlert(context, alert);
-                            },
-                            backgroundColor: Colors.red,
-                            foregroundColor: Colors.white,
+                          RoundedSlidableAction(
+                            onPressed: () => _deleteAlert(context, alert),
                             icon: Icons.delete,
                             label: l10n.delete,
+                            color: Colors.red,
                           ),
                         ],
                       ),

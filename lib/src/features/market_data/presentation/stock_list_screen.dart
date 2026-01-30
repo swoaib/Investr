@@ -1,6 +1,8 @@
 import 'dart:async';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:investr/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +15,7 @@ import '../../../shared/settings/settings_controller.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import '../../../shared/widgets/investr_snackbar.dart';
+import '../../../shared/widgets/rounded_slidable_action.dart';
 import '../../../shared/widgets/sliding_segmented_control.dart';
 import '../../../shared/widgets/stock_logo.dart';
 import '../../currency/domain/currency_conversion.dart';
@@ -251,26 +254,30 @@ class _StockListViewState extends State<_StockListView> {
         return Column(
           key: Key(stock.symbol),
           children: [
-            Dismissible(
-              key: Key('dismiss_${stock.symbol}'),
-              background: Container(
-                color: Colors.red,
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.only(right: 20.0),
-                child: const Icon(Icons.delete, color: Colors.white),
+            Slidable(
+              key: Key('slidable_${stock.symbol}'),
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                extentRatio: 0.25,
+                children: [
+                  RoundedSlidableAction(
+                    onPressed: () {
+                      controller.removeFromWatchlist(stock);
+                      InvestrSnackBar.show(
+                        context,
+                        '${stock.symbol} ${l10n.removedFromWatchlist}',
+                        onUndo: () {
+                          controller.addToWatchlist(stock, insertAt: index);
+                        },
+                        undoLabel: l10n.undo,
+                      );
+                    },
+                    icon: Icons.delete,
+                    label: l10n.delete,
+                    color: Colors.red,
+                  ),
+                ],
               ),
-              direction: DismissDirection.endToStart,
-              onDismissed: (direction) {
-                controller.removeFromWatchlist(stock);
-                InvestrSnackBar.show(
-                  context,
-                  '${stock.symbol} ${l10n.removedFromWatchlist}',
-                  onUndo: () {
-                    controller.addToWatchlist(stock, insertAt: index);
-                  },
-                  undoLabel: l10n.undo,
-                );
-              },
               child: _StockListItem(stock: stock),
             ),
             if (index < controller.stocks.length - 1)
