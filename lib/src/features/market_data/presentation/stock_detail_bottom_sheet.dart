@@ -469,12 +469,13 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                 ),
                 const Spacer(),
                 // Alert Button
-                IconButton.outlined(
+                IconButton(
                   visualDensity: VisualDensity.compact,
                   style: IconButton.styleFrom(
-                    side: BorderSide(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.5),
+                    backgroundColor: theme.colorScheme.onSurface.withValues(
+                      alpha: 0.1,
                     ),
+                    foregroundColor: theme.colorScheme.onSurface,
                   ),
                   onPressed: () {
                     showDialog(
@@ -495,14 +496,15 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                     final isInWatchlist = controller.isInWatchlist(
                       _stock.symbol,
                     );
-                    return IconButton.outlined(
+                    return IconButton(
                       visualDensity: VisualDensity.compact,
                       style: IconButton.styleFrom(
-                        side: BorderSide(
-                          color: isInWatchlist
-                              ? theme.colorScheme.primary.withValues(alpha: 0.5)
-                              : Colors.grey.withValues(alpha: 0.5),
+                        backgroundColor: theme.colorScheme.onSurface.withValues(
+                          alpha: 0.1,
                         ),
+                        foregroundColor: isInWatchlist
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.onSurface,
                       ),
                       onPressed: () {
                         if (isInWatchlist) {
