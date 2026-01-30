@@ -334,5 +334,13 @@
   "dcfErrorNegative": "本質的価値がマイナスです。予測されるフリーキャッシュフローがマイナスか、負債が多すぎることが原因の可能性があります。",
   "fetchError": "{symbol}の評価データを取得できませんでした",
   "howItWorksValuationDesc": "この画面には、Financial Modeling Prep (FMP) が提供する割引キャッシュフロー (DCF) モデルによって計算された本質的価値が表示されます。この値を現在の市場価格と比較して、株が割安か割高かを推定します。",
-  "exchangeRateInfo": "1 USD = {rate} {currency}"
+  "exchangeRateInfo": "1 USD = {rate} {currency}",
+  "netIncome": "純利益",
+  "grossProfit": "売上総利益",
+  "operatingIncome": "営業利益",
+  "errorFetchingData": "データの取得エラー",
+  "conversionViaUSD": "USD経由で変換: {base} -> USD -> {target}",
+  "defaultLandingPage": "デフォルトのランディングページ",
+  "landingPageStocks": "株価",
+  "landingPageCurrency": "通貨"
 }

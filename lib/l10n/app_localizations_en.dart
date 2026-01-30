@@ -497,6 +497,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get revenue => 'Revenue';
 
   @override
+  String get netIncome => 'Net Income';
+
+  @override
+  String get grossProfit => 'Gross Profit';
+
+  @override
+  String get operatingIncome => 'Operating Income';
+
+  @override
   String get employees => 'Employees';
 
   @override

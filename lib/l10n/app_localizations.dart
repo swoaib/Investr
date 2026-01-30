@@ -988,6 +988,24 @@ abstract class AppLocalizations {
   /// **'Revenue'**
   String get revenue;
 
+  /// No description provided for @netIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Net Income'**
+  String get netIncome;
+
+  /// No description provided for @grossProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Gross Profit'**
+  String get grossProfit;
+
+  /// No description provided for @operatingIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating Income'**
+  String get operatingIncome;
+
   /// No description provided for @employees.
   ///
   /// In en, this message translates to:

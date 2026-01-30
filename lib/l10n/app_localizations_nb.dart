@@ -497,6 +497,15 @@ class AppLocalizationsNb extends AppLocalizations {
   String get revenue => 'Omsetning';
 
   @override
+  String get netIncome => 'Nettoinntekt';
+
+  @override
+  String get grossProfit => 'Bruttofortjeneste';
+
+  @override
+  String get operatingIncome => 'Driftsresultat';
+
+  @override
   String get employees => 'Ansatte';
 
   @override
@@ -1099,15 +1108,15 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String conversionViaUSD(Object base, Object target) {
-    return 'Converted via USD: $base -> USD -> $target';
+    return 'Konvertert via USD: $base -> USD -> $target';
   }
 
   @override
-  String get defaultLandingPage => 'Default Landing Page';
+  String get defaultLandingPage => 'Startside';
 
   @override
-  String get landingPageStocks => 'Stocks';
+  String get landingPageStocks => 'Aksjer';
 
   @override
-  String get landingPageCurrency => 'Currency';
+  String get landingPageCurrency => 'Valuta';
 }

@@ -491,6 +491,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get revenue => '売上高';
 
   @override
+  String get netIncome => '純利益';
+
+  @override
+  String get grossProfit => '売上総利益';
+
+  @override
+  String get operatingIncome => '営業利益';
+
+  @override
   String get employees => '従業員数';
 
   @override
@@ -1080,19 +1089,19 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get errorFetchingData => 'Error fetching data';
+  String get errorFetchingData => 'データの取得エラー';
 
   @override
   String conversionViaUSD(Object base, Object target) {
-    return 'Converted via USD: $base -> USD -> $target';
+    return 'USD経由で変換: $base -> USD -> $target';
   }
 
   @override
-  String get defaultLandingPage => 'Default Landing Page';
+  String get defaultLandingPage => 'デフォルトのランディングページ';
 
   @override
-  String get landingPageStocks => 'Stocks';
+  String get landingPageStocks => '株価';
 
   @override
-  String get landingPageCurrency => 'Currency';
+  String get landingPageCurrency => '通貨';
 }

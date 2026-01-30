@@ -598,17 +598,17 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
                         child: Text(l10n.revenue),
                       ),
                       DropdownMenuItem(value: 'EPS', child: Text(l10n.eps)),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Net Income',
-                        child: Text('Net Income'),
+                        child: Text(l10n.netIncome),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Gross Profit',
-                        child: Text('Gross Profit'),
+                        child: Text(l10n.grossProfit),
                       ),
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: 'Operating Income',
-                        child: Text('Operating Income'),
+                        child: Text(l10n.operatingIncome),
                       ),
                     ],
                   ),

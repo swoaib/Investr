@@ -1,16 +1,1 @@
-{
-  "ja": [
-    "errorFetchingData",
-    "conversionViaUSD",
-    "defaultLandingPage",
-    "landingPageStocks",
-    "landingPageCurrency"
-  ],
-
-  "nb": [
-    "conversionViaUSD",
-    "defaultLandingPage",
-    "landingPageStocks",
-    "landingPageCurrency"
-  ]
-}
+{}
