@@ -7,8 +7,6 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MarkdownViewerScreen(
-      assetPath: 'assets/privacy_policy.md',
-    );
+    return MarkdownViewerScreen(assetPath: 'assets/privacy_policy.md');
   }
 }
