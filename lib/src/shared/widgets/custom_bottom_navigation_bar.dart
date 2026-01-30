@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -11,10 +12,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   // Layout Constants
   static const double height = 55.0;
-  static const double bottomPadding = 24.0;
-  static const double totalHeight = height + bottomPadding;
+  static double bottomPadding = Platform.isAndroid ? 16 : 0;
+  static double totalHeight = height + bottomPadding;
   // Standard content padding to ensure items above navbar are clickable
-  static const double contentBottomPadding = totalHeight + 16.0;
+  static double contentBottomPadding = totalHeight + 16.0;
 
   final VoidCallback? onSearchTap;
 
@@ -31,7 +32,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
     final cardColor = Theme.of(context).cardTheme.color ?? Colors.white;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, bottomPadding),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        0,
+        16,
+        bottomPadding + MediaQuery.of(context).padding.bottom,
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

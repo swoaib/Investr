@@ -538,7 +538,7 @@ class _LearnScreenContent extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.only(
+                padding: EdgeInsets.only(
                   left: AppTheme.screenPaddingHorizontal,
                   right: AppTheme.screenPaddingHorizontal,
                   bottom: CustomBottomNavigationBar.contentBottomPadding,

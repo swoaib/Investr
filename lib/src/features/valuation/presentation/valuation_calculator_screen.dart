@@ -265,7 +265,7 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
         bottom: false,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(
+            padding: EdgeInsets.fromLTRB(
               AppTheme.screenPaddingHorizontal,
               AppTheme.screenPaddingVertical,
               AppTheme.screenPaddingHorizontal,

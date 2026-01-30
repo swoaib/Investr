@@ -31,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(
+          padding: EdgeInsets.only(
             bottom: CustomBottomNavigationBar.contentBottomPadding,
           ),
           child: Column(

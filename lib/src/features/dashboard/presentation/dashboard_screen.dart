@@ -132,7 +132,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 right: 16,
                 bottom: isKeyboardOpen
                     ? 8.0
-                    : CustomBottomNavigationBar.bottomPadding,
+                    : CustomBottomNavigationBar.bottomPadding +
+                          MediaQuery.of(context).padding.bottom,
               ),
               child: _buildSearchBar(context),
             ),

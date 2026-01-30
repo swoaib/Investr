@@ -227,7 +227,7 @@ class _StockListViewState extends State<_StockListView> {
       return Center(child: Text(l10n.noStocksInWatchlist));
     }
     return ReorderableListView.builder(
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
         bottom: CustomBottomNavigationBar.contentBottomPadding,
       ),
       itemCount: controller.stocks.length,
@@ -290,7 +290,7 @@ class _StockListViewState extends State<_StockListView> {
       return Center(child: Text(l10n.noResultsFound));
     }
     return ListView.separated(
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
         bottom: CustomBottomNavigationBar.contentBottomPadding,
       ),
       itemCount: controller.searchResults.length,
@@ -322,7 +322,7 @@ class _StockListViewState extends State<_StockListView> {
       baseColor: baseColor,
       highlightColor: highlightColor,
       child: ListView.separated(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           bottom: CustomBottomNavigationBar.contentBottomPadding,
         ),
         itemCount: 10,

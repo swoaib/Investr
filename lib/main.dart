@@ -46,6 +46,8 @@ void main() async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
   // Create High Importance Android Channel
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
