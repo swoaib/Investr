@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../shared/theme/app_theme.dart';
+import '../../../shared/widgets/investr_button.dart';
 import '../domain/currency_conversion.dart';
 
 class CurrencyAddSheet extends StatefulWidget {
@@ -106,7 +106,8 @@ class _CurrencyAddSheetState extends State<CurrencyAddSheet> {
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
+              child: InvestrButton(
+                text: 'Add Pair',
                 onPressed: () {
                   final amount = double.tryParse(_amountController.text) ?? 1.0;
                   final conversion = CurrencyConversion.create(
@@ -117,15 +118,6 @@ class _CurrencyAddSheetState extends State<CurrencyAddSheet> {
                   );
                   Navigator.pop(context, conversion);
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primaryGreen,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text('Add Pair'),
               ),
             ),
             const SizedBox(height: 16),

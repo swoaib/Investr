@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:investr/l10n/app_localizations.dart';
 
 import '../../../../shared/theme/app_theme.dart';
+import '../../../../shared/widgets/investr_button.dart';
 import '../../data/feedback_repository.dart';
 import '../../domain/feedback_model.dart';
 
@@ -134,26 +135,10 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
               ),
             ],
             const SizedBox(height: 24),
-            ElevatedButton(
+            InvestrButton(
+              text: l10n.submitFeedback,
               onPressed: _isSubmitting ? null : _submit,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primaryGreen,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: _isSubmitting
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation(Colors.white),
-                      ),
-                    )
-                  : Text(l10n.submitFeedback),
+              isLoading: _isSubmitting,
             ),
           ],
         ),

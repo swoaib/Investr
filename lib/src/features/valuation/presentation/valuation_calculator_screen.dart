@@ -10,6 +10,7 @@ import '../../../shared/currency/currency_controller.dart';
 import '../../../shared/services/analytics_service.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
+import '../../../shared/widgets/investr_button.dart';
 import '../../../shared/widgets/stock_logo.dart';
 import '../../market_data/data/stock_repository.dart';
 import '../../market_data/domain/stock.dart';
@@ -219,22 +220,10 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: InvestrButton(
+                  text: l10n.done,
                   onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: Theme.of(context).cardTheme.color,
-                    foregroundColor: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge?.color,
-                    elevation: 0,
-                    side: BorderSide(
-                      color: Theme.of(
-                        context,
-                      ).dividerColor.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  child: Text(l10n.done),
+                  isPrimary: false,
                 ),
               ),
             ],
@@ -649,7 +638,8 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
               const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: InvestrButton(
+                  text: AppLocalizations.of(context)!.calculate,
                   onPressed: () {
                     setState(() {
                       _customWacc = double.tryParse(waccController.text);
@@ -665,15 +655,6 @@ class _ValuationCalculatorScreenState extends State<ValuationCalculatorScreen> {
                     Navigator.pop(context);
                     _fetchStockData();
                   },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: AppTheme.primaryGreen,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Text(AppLocalizations.of(context)!.calculate),
                 ),
               ),
               const SizedBox(height: 24),
