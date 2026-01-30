@@ -381,7 +381,10 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
         color: theme.cardTheme.color,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: const EdgeInsets.only(top: 16),
+      padding: EdgeInsets.only(
+        top: 16,
+        bottom: MediaQuery.of(context).padding.bottom + 16,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,7 +664,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             isLoading: _isEarningsLoading,
             metric: _earningsMetric,
           ),
-          const SizedBox(height: 48),
         ],
       ),
     );
@@ -768,9 +770,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Removed previous date buttons as they will be integrated into the range selector
-          const SizedBox.shrink(),
-
           SizedBox(
             height: 200,
             child: _isLoading
@@ -1182,6 +1181,7 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
             mainAxisSpacing: 8,
             childAspectRatio: 2,
             shrinkWrap: true,
+            padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             children: [
               _buildStatItem(
@@ -1222,7 +1222,6 @@ class _StockDetailBottomSheetState extends State<StockDetailBottomSheet> {
               ),
             ],
           ),
-          const SizedBox(height: 8),
         ],
       ),
     );
