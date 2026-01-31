@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:investr/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../domain/lesson.dart';
 import 'education_controller.dart';
@@ -142,8 +142,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                       _currentPage == widget.lesson.pages.length - 1
                           ? (widget.lesson.quiz != null
                                 ? AppLocalizations.of(context)!.startQuiz
-                                : 'Done')
-                          : 'Next',
+                                : AppLocalizations.of(context)!.done)
+                          : AppLocalizations.of(context)!.next,
                     ),
                   ),
                 ],

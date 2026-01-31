@@ -1106,596 +1106,571 @@ class AppLocalizationsJa extends AppLocalizations {
   String get landingPageCurrency => '通貨';
 
   @override
-  String get quizTitle => 'Knowledge Check';
+  String get quizTitle => '確認クイズ';
 
   @override
   String questionCount(Object current, Object total) {
-    return 'Question $current of $total';
+    return '質問 $current / $total';
   }
 
   @override
-  String get quizCompleted => 'Quiz Completed!';
+  String get quizCompleted => 'クイズ完了！';
 
   @override
   String quizScore(Object score, Object total) {
-    return 'You scored $score out of $total';
+    return 'スコア: $score / $total';
   }
 
   @override
-  String get correct => 'Correct!';
+  String get correct => '正解！';
 
   @override
-  String get incorrect => 'Incorrect';
+  String get incorrect => '不正解';
 
   @override
-  String get finish => 'Finish';
+  String get finish => '終了';
 
   @override
-  String get startQuiz => 'Take Quiz';
+  String get startQuiz => 'クイズを始める';
 
   @override
-  String get quizNext => 'Next';
+  String get quizNext => '次へ';
 
   @override
-  String get quizQ_Stocks101_1 => 'What is a stock?';
+  String get quizQ_Stocks101_1 => '株式とは何ですか？';
 
   @override
-  String get quizO_Stocks101_1_1 => 'A type of loan to a company';
+  String get quizO_Stocks101_1_1 => '企業へのローンの一種';
 
   @override
-  String get quizO_Stocks101_1_2 => 'Fractional ownership in a company';
+  String get quizO_Stocks101_1_2 => '企業の所有権の一部';
 
   @override
-  String get quizO_Stocks101_1_3 => 'A guarantee of profit';
+  String get quizO_Stocks101_1_3 => '利益の保証';
 
   @override
-  String get quizO_Stocks101_1_4 => 'A government bond';
+  String get quizO_Stocks101_1_4 => '国債';
 
   @override
   String get quizE_Stocks101_1 =>
-      'A stock represents partial ownership in a corporation. When you buy a stock, you are buying a piece of that company.';
+      '株式は企業の所有権の一部を表します。株を買うということは、その会社の一部を買うということです。';
 
   @override
-  String get quizQ_Stocks101_2 => 'Why do companies issue stock?';
+  String get quizQ_Stocks101_2 => 'なぜ企業は株式を発行するのですか？';
 
   @override
-  String get quizO_Stocks101_2_1 => 'To increase their debt';
+  String get quizO_Stocks101_2_1 => '負債を増やすため';
 
   @override
-  String get quizO_Stocks101_2_2 => 'To pay less taxes';
+  String get quizO_Stocks101_2_2 => '税金を減らすため';
 
   @override
-  String get quizO_Stocks101_2_3 => 'To raise capital for growth';
+  String get quizO_Stocks101_2_3 => '成長のための資金を調達するため';
 
   @override
-  String get quizO_Stocks101_2_4 => 'To give away money';
+  String get quizO_Stocks101_2_4 => 'お金を配るため';
 
   @override
   String get quizE_Stocks101_2 =>
-      'Companies issue stock to raise money (capital) to fund operations, expand their business, or pay off debt.';
+      '企業は、事業の運営資金、拡大、または負債の返済のために資金（資本）を調達するために株式を発行します。';
 
   @override
-  String get quizQ_Stocks101_3 =>
-      'Over the long term, stocks have historically...';
+  String get quizQ_Stocks101_3 => '長期的には、株式は歴史的に...';
 
   @override
-  String get quizO_Stocks101_3_1 => 'Lost money';
+  String get quizO_Stocks101_3_1 => 'お金を失った';
 
   @override
-  String get quizO_Stocks101_3_2 => 'Stayed the same';
+  String get quizO_Stocks101_3_2 => '変わらなかった';
 
   @override
-  String get quizO_Stocks101_3_3 => 'Outperformed savings accounts';
+  String get quizO_Stocks101_3_3 => '貯金口座を上回った';
 
   @override
-  String get quizO_Stocks101_3_4 => 'Been safer than cash';
+  String get quizO_Stocks101_3_4 => '現金より安全だった';
 
   @override
   String get quizE_Stocks101_3 =>
-      'Historically, the stock market has provided returns that significantly outperform savings accounts and beat inflation over long periods.';
+      '歴史的に、株式市場は長期間にわたり、貯金口座を大幅に上回り、インフレを打ち負かすリターンを提供してきました。';
 
   @override
-  String get quizQ_InvestVsSpec_1 =>
-      'What is the main difference between investing and speculation?';
+  String get quizQ_InvestVsSpec_1 => '投資と投機の主な違いは何ですか？';
 
   @override
-  String get quizO_InvestVsSpec_1_1 => 'Amount of money used';
+  String get quizO_InvestVsSpec_1_1 => '使用される金額';
 
   @override
-  String get quizO_InvestVsSpec_1_2 => 'Time horizon and analysis';
+  String get quizO_InvestVsSpec_1_2 => '時間枠と分析';
 
   @override
-  String get quizO_InvestVsSpec_1_3 => 'Type of stock bought';
+  String get quizO_InvestVsSpec_1_3 => '買われる株の種類';
 
   @override
-  String get quizO_InvestVsSpec_1_4 => 'The broker used';
+  String get quizO_InvestVsSpec_1_4 => '使用されるブローカー';
 
   @override
   String get quizE_InvestVsSpec_1 =>
-      'Investing involves thorough analysis and a long-term view, while speculation is often short-term and based on price movements without underlying value analysis.';
+      '投資は徹底的な分析と長期的視点を伴いますが、投機は多くの場合、基礎的価値の分析なしに価格変動に基づく短期的なものです。';
 
   @override
-  String get quizQ_InvestVsSpec_2 => 'Which approach relies more on chance?';
+  String get quizQ_InvestVsSpec_2 => 'どのアプローチがより運に依存していますか？';
 
   @override
-  String get quizO_InvestVsSpec_2_1 => 'Value Investing';
+  String get quizO_InvestVsSpec_2_1 => 'バリュー投資';
 
   @override
-  String get quizO_InvestVsSpec_2_2 => 'Dollar Cost Averaging';
+  String get quizO_InvestVsSpec_2_2 => 'ドルコスト平均法';
 
   @override
-  String get quizO_InvestVsSpec_2_3 => 'Speculation';
+  String get quizO_InvestVsSpec_2_3 => '投機';
 
   @override
-  String get quizO_InvestVsSpec_2_4 => 'Index Fund Investing';
+  String get quizO_InvestVsSpec_2_4 => 'インデックスファンド投資';
 
   @override
   String get quizE_InvestVsSpec_2 =>
-      'Speculation is often compared to gambling because it relies more on luck and short-term market psychology than on the fundamental value of the asset.';
+      '投機は、資産の本質的価値よりも運や短期的な市場心理に依存するため、ギャンブルによく例えられます。';
 
   @override
-  String get quizQ_InvestVsSpec_3 => 'What is \"Value Investing\"?';
+  String get quizQ_InvestVsSpec_3 => '「バリュー投資」とは何ですか？';
 
   @override
-  String get quizO_InvestVsSpec_3_1 => 'Buying the most expensive stocks';
+  String get quizO_InvestVsSpec_3_1 => '最も高価な株を買うこと';
 
   @override
-  String get quizO_InvestVsSpec_3_2 =>
-      'Buying stocks for less than they are worth';
+  String get quizO_InvestVsSpec_3_2 => '価値よりも安く株を買うこと';
 
   @override
-  String get quizO_InvestVsSpec_3_3 => 'Buying whatever is trending';
+  String get quizO_InvestVsSpec_3_3 => 'トレンドのものを買うこと';
 
   @override
-  String get quizO_InvestVsSpec_3_4 => 'Buying only tech stocks';
+  String get quizO_InvestVsSpec_3_4 => 'ハイテク株のみを買うこと';
 
   @override
-  String get quizE_InvestVsSpec_3 =>
-      'Value investing is the strategy of buying stocks that are trading for less than their intrinsic or book value.';
+  String get quizE_InvestVsSpec_3 => 'バリュー投資は、本質的価値や帳簿価額よりも安く取引されている株を買う戦略です。';
 
   @override
-  String get quizQ_WhyInvest_1 =>
-      'What is the silent killer of purchasing power?';
+  String get quizQ_WhyInvest_1 => '購買力の静かなる殺人者は何ですか？';
 
   @override
-  String get quizO_WhyInvest_1_1 => 'Taxation';
+  String get quizO_WhyInvest_1_1 => '課税';
 
   @override
-  String get quizO_WhyInvest_1_2 => 'Inflation';
+  String get quizO_WhyInvest_1_2 => 'インフレ';
 
   @override
-  String get quizO_WhyInvest_1_3 => 'Deflation';
+  String get quizO_WhyInvest_1_3 => 'デフレ';
 
   @override
-  String get quizO_WhyInvest_1_4 => 'Dividends';
+  String get quizO_WhyInvest_1_4 => '配当';
 
   @override
   String get quizE_WhyInvest_1 =>
-      'Inflation slowly erodes the purchasing power of your money over time, making cash worth less in the future.';
+      'インフレは時間の経過とともにあなたのお金の購買力をゆっくりと侵食し、将来の現金の価値を下げます。';
 
   @override
-  String get quizQ_WhyInvest_2 => 'What is \"Compound Interest\"?';
+  String get quizQ_WhyInvest_2 => '「複利」とは何ですか？';
 
   @override
-  String get quizO_WhyInvest_2_1 => 'Interest on your interest';
+  String get quizO_WhyInvest_2_1 => '利子に対する利子';
 
   @override
-  String get quizO_WhyInvest_2_2 => 'A bank fee';
+  String get quizO_WhyInvest_2_2 => '銀行の手数料';
 
   @override
-  String get quizO_WhyInvest_2_3 => 'A tax on gains';
+  String get quizO_WhyInvest_2_3 => '利益に対する税金';
 
   @override
-  String get quizO_WhyInvest_2_4 => 'A type of loan';
+  String get quizO_WhyInvest_2_4 => 'ローンの一種';
 
   @override
   String get quizE_WhyInvest_2 =>
-      'Compound interest is when you earn interest on both your initial money and the interest you\'ve already accumulated, leading to exponential growth.';
+      '複利とは、元本だけでなく、すでに蓄積された利子に対しても利子を得ることにより、指数関数的な成長をもたらすことです。';
 
   @override
-  String get quizQ_WhyInvest_3 =>
-      'Why are stocks generally better than a savings account for long-term goals?';
+  String get quizQ_WhyInvest_3 => 'なぜ一般的に株式は長期的な目標に対して貯金口座より優れているのですか？';
 
   @override
-  String get quizO_WhyInvest_3_1 => 'They are safer';
+  String get quizO_WhyInvest_3_1 => 'より安全だから';
 
   @override
-  String get quizO_WhyInvest_3_2 => 'They have historically beaten inflation';
+  String get quizO_WhyInvest_3_2 => '歴史的にインフレを上回っているから';
 
   @override
-  String get quizO_WhyInvest_3_3 => 'They are insured by the government';
+  String get quizO_WhyInvest_3_3 => '政府によって保証されているから';
 
   @override
-  String get quizO_WhyInvest_3_4 => 'They are easier to access';
+  String get quizO_WhyInvest_3_4 => 'アクセスしやすいから';
 
   @override
   String get quizE_WhyInvest_3 =>
-      'While savings accounts are safer, their low interest rates often fail to keep up with inflation, whereas stocks have historically provided much higher returns over the long run.';
+      '貯金口座は安全ですが、その低金利はしばしばインフレに追いつけません。一方、株式は歴史的に長期的にはるかに高いリターンを提供してきました。';
 
   @override
-  String get quizQ_DefensiveVsEnterprise_1 =>
-      'Who is a \"Defensive Investor\"?';
+  String get quizQ_DefensiveVsEnterprise_1 => '「防衛的投資家」とは誰ですか？';
 
   @override
-  String get quizO_DefensiveVsEnterprise_1_1 => 'Someone who shorts stocks';
+  String get quizO_DefensiveVsEnterprise_1_1 => '空売りをする人';
 
   @override
-  String get quizO_DefensiveVsEnterprise_1_2 =>
-      'Someone who wants safety and freedom from effort';
+  String get quizO_DefensiveVsEnterprise_1_2 => '安全性と労力の最小化を望む人';
 
   @override
-  String get quizO_DefensiveVsEnterprise_1_3 => 'Someone who trades daily';
+  String get quizO_DefensiveVsEnterprise_1_3 => '毎日取引する人';
 
   @override
-  String get quizO_DefensiveVsEnterprise_1_4 =>
-      'Someone who buys only penny stocks';
+  String get quizO_DefensiveVsEnterprise_1_4 => 'ペニーストックのみを買う人';
 
   @override
   String get quizE_DefensiveVsEnterprise_1 =>
-      'A defensive investor prioritizes safety and minimal effort, often choosing index funds or high-quality blue-chip stocks.';
+      '防衛的投資家は、安全性と最小限の労力を優先し、多くの場合、インデックスファンドや高品質の優良株を選びます。';
 
   @override
-  String get quizQ_DefensiveVsEnterprise_2 =>
-      'What is the main goal of an \"Enterprising Investor\"?';
+  String get quizQ_DefensiveVsEnterprise_2 => '「積極的投資家」の主な目標は何ですか？';
 
   @override
-  String get quizO_DefensiveVsEnterprise_2_1 => 'To match the market average';
+  String get quizO_DefensiveVsEnterprise_2_1 => '市場平均に合わせること';
 
   @override
-  String get quizO_DefensiveVsEnterprise_2_2 =>
-      'To beat the market through effort and skill';
+  String get quizO_DefensiveVsEnterprise_2_2 => '努力とスキルで市場に勝つこと';
 
   @override
-  String get quizO_DefensiveVsEnterprise_2_3 => 'To lose money';
+  String get quizO_DefensiveVsEnterprise_2_3 => 'お金を失うこと';
 
   @override
-  String get quizO_DefensiveVsEnterprise_2_4 => 'To avoid all risk';
+  String get quizO_DefensiveVsEnterprise_2_4 => 'すべてのリスクを避けること';
 
   @override
   String get quizE_DefensiveVsEnterprise_2 =>
-      'An enterprising investor is willing to put in time and effort to research stocks in hopes of achieving a better return than the average market.';
+      '積極的投資家は、平均的な市場よりも良いリターンを達成することを期待して、株のリサーチに時間と労力を費やすことを厭いません。';
 
   @override
-  String get quizQ_DefensiveVsEnterprise_3 =>
-      'Which strategy requires more time and research?';
+  String get quizQ_DefensiveVsEnterprise_3 => 'どの戦略がより多くの時間とリサーチを必要としますか？';
 
   @override
-  String get quizO_DefensiveVsEnterprise_3_1 => 'Defensive Investing';
+  String get quizO_DefensiveVsEnterprise_3_1 => '防衛的投資';
 
   @override
-  String get quizO_DefensiveVsEnterprise_3_2 => 'Enterprising Investing';
+  String get quizO_DefensiveVsEnterprise_3_2 => '積極的投資';
 
   @override
-  String get quizO_DefensiveVsEnterprise_3_3 => 'Passive Investing';
+  String get quizO_DefensiveVsEnterprise_3_3 => 'パッシブ投資';
 
   @override
-  String get quizO_DefensiveVsEnterprise_3_4 => 'Savings Accounts';
+  String get quizO_DefensiveVsEnterprise_3_4 => '貯金口座';
 
   @override
   String get quizE_DefensiveVsEnterprise_3 =>
-      'Enterprising investing involves active research, analysis, and monitoring of individual stocks, which requires significantly more time.';
+      '積極的投資は、個々の株式の積極的なリサーチ、分析、監視を伴うため、大幅に多くの時間を必要とします。';
 
   @override
-  String get quizQ_MrMarket_1 => 'Who is \"Mr. Market\"?';
+  String get quizQ_MrMarket_1 => '「ミスター・マーケット」とは誰ですか？';
 
   @override
-  String get quizO_MrMarket_1_1 => 'A famous investor';
+  String get quizO_MrMarket_1_1 => '有名な投資家';
 
   @override
-  String get quizO_MrMarket_1_2 =>
-      'An allegorical character representing market mood';
+  String get quizO_MrMarket_1_2 => '市場の気分を表す寓話的なキャラクター';
 
   @override
-  String get quizO_MrMarket_1_3 => 'The CEO of the stock exchange';
+  String get quizO_MrMarket_1_3 => '証券取引所のCEO';
 
   @override
-  String get quizO_MrMarket_1_4 => 'A government regulator';
+  String get quizO_MrMarket_1_4 => '政府の規制当局';
 
   @override
   String get quizE_MrMarket_1 =>
-      'Benjamin Graham created Mr. Market to allegorize the irrational and emotional daily price fluctuations of the stock market.';
+      'ベンジャミン・グレアムは、株式市場の不合理で感情的な毎日の価格変動を寓話化するためにミスター・マーケットを作成しました。';
 
   @override
-  String get quizQ_MrMarket_2 => 'Mr. Market is described as...';
+  String get quizQ_MrMarket_2 => 'ミスター・マーケットはどのように描写されていますか？';
 
   @override
-  String get quizO_MrMarket_2_1 => 'Rational and calm';
+  String get quizO_MrMarket_2_1 => '合理的で冷静';
 
   @override
-  String get quizO_MrMarket_2_2 => 'Predictable and steady';
+  String get quizO_MrMarket_2_2 => '予測可能で安定している';
 
   @override
-  String get quizO_MrMarket_2_3 => 'Emotional and manic-depressive';
+  String get quizO_MrMarket_2_3 => '感情的で躁鬱的';
 
   @override
-  String get quizO_MrMarket_2_4 => 'Always correct';
+  String get quizO_MrMarket_2_4 => '常に正しい';
 
   @override
   String get quizE_MrMarket_2 =>
-      'Mr. Market swings from extreme optimism to extreme pessimism, offering prices based on his mood rather than true value.';
+      'ミスター・マーケットは極端な楽観主義から極端な悲観主義へと揺れ動き、真の価値ではなく彼の気分に基づいた価格を提示します。';
 
   @override
-  String get quizQ_MrMarket_3 =>
-      'What should you do when Mr. Market is depressed and offers low prices?';
+  String get quizQ_MrMarket_3 => 'ミスター・マーケットが落ち込んでいて安値を提示しているとき、あなたはどうすべきですか？';
 
   @override
-  String get quizO_MrMarket_3_1 => 'Sell everything';
+  String get quizO_MrMarket_3_1 => 'すべて売る';
 
   @override
-  String get quizO_MrMarket_3_2 => 'Buy if the value is right';
+  String get quizO_MrMarket_3_2 => '価値が正しければ買う';
 
   @override
-  String get quizO_MrMarket_3_3 => 'Panic';
+  String get quizO_MrMarket_3_3 => 'パニックになる';
 
   @override
-  String get quizO_MrMarket_3_4 => 'Ignore him completely';
+  String get quizO_MrMarket_3_4 => '彼を完全に無視する';
 
   @override
   String get quizE_MrMarket_3 =>
-      'When the market is irrational and prices are low, it presents an opportunity for the intelligent investor to buy quality assets at a discount.';
+      '市場が不合理で価格が低いとき、賢明な投資家にとって質の高い資産を割引価格で購入する機会となります。';
 
   @override
-  String get quizQ_MarginOfSafety_1 => 'What is the \"Margin of Safety\"?';
+  String get quizQ_MarginOfSafety_1 => '「安全域」とは何ですか？';
 
   @override
-  String get quizO_MarginOfSafety_1_1 => 'A safety helmet';
+  String get quizO_MarginOfSafety_1_1 => '安全ヘルメット';
 
   @override
-  String get quizO_MarginOfSafety_1_2 =>
-      'Buying at a price far below intrinsic value';
+  String get quizO_MarginOfSafety_1_2 => '本質的価値を大幅に下回る価格で購入すること';
 
   @override
-  String get quizO_MarginOfSafety_1_3 => 'A stop-loss order';
+  String get quizO_MarginOfSafety_1_3 => 'ストップロス注文';
 
   @override
-  String get quizO_MarginOfSafety_1_4 => 'Buying insurance';
+  String get quizO_MarginOfSafety_1_4 => '保険を買うこと';
 
   @override
   String get quizE_MarginOfSafety_1 =>
-      'Margin of safety is the concept of purchasing a stock at a significant discount to its intrinsic value to minimize the risk of loss.';
+      '安全域とは、損失のリスクを最小限に抑えるために、本質的価値から大幅に割り引かれた価格で株を購入するという概念です。';
 
   @override
-  String get quizQ_MarginOfSafety_2 => 'Why is a Margin of Safety important?';
+  String get quizQ_MarginOfSafety_2 => 'なぜ安全域が重要なのですか？';
 
   @override
-  String get quizO_MarginOfSafety_2_1 => 'It guarantees a profit';
+  String get quizO_MarginOfSafety_2_1 => '利益を保証するから';
 
   @override
-  String get quizO_MarginOfSafety_2_2 => 'It allows for error and bad luck';
+  String get quizO_MarginOfSafety_2_2 => 'エラーや不運の余地を与えるから';
 
   @override
-  String get quizO_MarginOfSafety_2_3 => 'It is required by law';
+  String get quizO_MarginOfSafety_2_3 => '法律で義務付けられているから';
 
   @override
-  String get quizO_MarginOfSafety_2_4 => 'It makes trading faster';
+  String get quizO_MarginOfSafety_2_4 => '取引を速くするから';
 
   @override
   String get quizE_MarginOfSafety_2 =>
-      'It acts as a buffer against errors in your valuation, unforeseen market events, or bad luck, protecting your capital.';
+      'それは、評価の誤り、予期せぬ市場の出来事、または不運に対するバッファーとして機能し、あなたの資本を保護します。';
 
   @override
-  String get quizQ_MarginOfSafety_3 =>
-      'Which comparison was used for Margin of Safety?';
+  String get quizQ_MarginOfSafety_3 => '安全域にはどのような比較が使われましたか？';
 
   @override
-  String get quizO_MarginOfSafety_3_1 =>
-      'Building a bridge stronger than needed';
+  String get quizO_MarginOfSafety_3_1 => '必要以上に強く橋を架けること';
 
   @override
-  String get quizO_MarginOfSafety_3_2 => 'Driving a fast car';
+  String get quizO_MarginOfSafety_3_2 => '速い車を運転すること';
 
   @override
-  String get quizO_MarginOfSafety_3_3 => 'Betting on a horse';
+  String get quizO_MarginOfSafety_3_3 => '馬に賭けること';
 
   @override
-  String get quizO_MarginOfSafety_3_4 => 'Cooking a meal';
+  String get quizO_MarginOfSafety_3_4 => '料理をすること';
 
   @override
   String get quizE_MarginOfSafety_3 =>
-      'Like an engineer builds a bridge to hold 30,000 lbs even if only 10,000 lbs trucks cross it, an investor wants a buffer for their investments.';
+      'エンジニアが1万ポンドのトラックしか通らないとしても3万ポンドに耐えられる橋を作るように、投資家も投資に対してバッファーを求めます。';
 
   @override
-  String get quizQ_IndexFunds_1 => 'What does an Index Fund do?';
+  String get quizQ_IndexFunds_1 => 'インデックスファンドは何をしますか？';
 
   @override
-  String get quizO_IndexFunds_1_1 => 'Tries to beat the market';
+  String get quizO_IndexFunds_1_1 => '市場に勝とうとする';
 
   @override
-  String get quizO_IndexFunds_1_2 => 'Tracks a specific market index';
+  String get quizO_IndexFunds_1_2 => '特定の市場指数を追跡する';
 
   @override
-  String get quizO_IndexFunds_1_3 => 'Buys only one stock';
+  String get quizO_IndexFunds_1_3 => '1つの株だけを買う';
 
   @override
-  String get quizO_IndexFunds_1_4 => 'Shorts the market';
+  String get quizO_IndexFunds_1_4 => '市場を空売りする';
 
   @override
   String get quizE_IndexFunds_1 =>
-      'An index fund buys all (or a representative sample) of the companies in a specific index, like the S&P 500, to match its performance.';
+      'インデックスファンドは、S&P 500のような特定の指数のパフォーマンスに一致させるために、その指数内のすべての企業（または代表的なサンプル）を購入します。';
 
   @override
-  String get quizQ_IndexFunds_2 => 'What is a major benefit of Index Funds?';
+  String get quizQ_IndexFunds_2 => 'インデックスファンドの大きな利点は何ですか？';
 
   @override
-  String get quizO_IndexFunds_2_1 => 'Instant diversification';
+  String get quizO_IndexFunds_2_1 => '瞬時の分散投資';
 
   @override
-  String get quizO_IndexFunds_2_2 => 'Guaranteed 100% returns';
+  String get quizO_IndexFunds_2_2 => '100％のリターン保証';
 
   @override
-  String get quizO_IndexFunds_2_3 => 'No risk';
+  String get quizO_IndexFunds_2_3 => 'リスクなし';
 
   @override
-  String get quizO_IndexFunds_2_4 => 'Free money';
+  String get quizO_IndexFunds_2_4 => 'タダのお金';
 
   @override
   String get quizE_IndexFunds_2 =>
-      'By buying a single index fund, you instantly own a tiny piece of hundreds or thousands of companies, spreading your risk.';
+      '単一のインデックスファンドを購入することで、数百または数千の企業の小さな一部を即座に所有し、リスクを分散させることができます。';
 
   @override
-  String get quizQ_IndexFunds_3 =>
-      'How do Index Fund fees generally compare to active mutual funds?';
+  String get quizQ_IndexFunds_3 => 'インデックスファンドの手数料はアクティブファンドと比べて一般的にどうですか？';
 
   @override
-  String get quizO_IndexFunds_3_1 => 'They are much higher';
+  String get quizO_IndexFunds_3_1 => 'はるかに高い';
 
   @override
-  String get quizO_IndexFunds_3_2 => 'They are about the same';
+  String get quizO_IndexFunds_3_2 => 'ほぼ同じ';
 
   @override
-  String get quizO_IndexFunds_3_3 => 'They are typically much lower';
+  String get quizO_IndexFunds_3_3 => '通常はるかに低い';
 
   @override
-  String get quizO_IndexFunds_3_4 => 'Fees don\'t exist';
+  String get quizO_IndexFunds_3_4 => '手数料は存在しない';
 
   @override
   String get quizE_IndexFunds_3 =>
-      'Because they require less active management, index funds and ETFs usually have significantly lower expense ratios than actively managed funds.';
+      'アクティブな管理をあまり必要としないため、インデックスファンドやETFは通常、アクティブ管理ファンドよりも経費率が大幅に低くなります。';
 
   @override
-  String get quizQ_DCA_1 => 'What is Dollar Cost Averaging (DCA)?';
+  String get quizQ_DCA_1 => 'ドルコスト平均法（DCA）とは何ですか？';
 
   @override
-  String get quizO_DCA_1_1 => 'Investing a lump sum all at once';
+  String get quizO_DCA_1_1 => '一度に一括投資すること';
 
   @override
-  String get quizO_DCA_1_2 => 'Investing a fixed amount at regular intervals';
+  String get quizO_DCA_1_2 => '一定の間隔で定額を投資すること';
 
   @override
-  String get quizO_DCA_1_3 => 'Buying only when the market is low';
+  String get quizO_DCA_1_3 => '市場が低いときだけ買うこと';
 
   @override
-  String get quizO_DCA_1_4 => 'Selling when the market is high';
+  String get quizO_DCA_1_4 => '市場が高いときに売ること';
 
   @override
   String get quizE_DCA_1 =>
-      'DCA involves investing the same amount of money (e.g., \$500) on a regular schedule (e.g., monthly) regardless of the share price.';
+      'DCAは、株価に関係なく、定期的なスケジュール（例：毎月）で同じ金額（例：500ドル）を投資することを伴います。';
 
   @override
-  String get quizQ_DCA_2 => 'Does DCA require you to time the market?';
+  String get quizQ_DCA_2 => 'DCAは市場のタイミングを計る必要がありますか？';
 
   @override
-  String get quizO_DCA_2_1 => 'Yes, perfectly';
+  String get quizO_DCA_2_1 => 'はい、完璧に';
 
   @override
-  String get quizO_DCA_2_2 => 'No, it ignores market timing';
+  String get quizO_DCA_2_2 => 'いいえ、市場のタイミングを無視します';
 
   @override
-  String get quizO_DCA_2_3 => 'Only during crashes';
+  String get quizO_DCA_2_3 => '暴落時のみ';
 
   @override
-  String get quizO_DCA_2_4 => 'Only during bubbles';
+  String get quizO_DCA_2_4 => 'バブル時のみ';
 
   @override
-  String get quizE_DCA_2 =>
-      'DCA removes the need to predict market tops and bottoms, discouraging emotional trading based on price fluctuations.';
+  String get quizE_DCA_2 => 'DCAは市場の天井と底を予測する必要性をなくし、価格変動に基づく感情的な取引を思いとどまらせます。';
 
   @override
-  String get quizQ_DCA_3 => 'What is a psychological benefit of DCA?';
+  String get quizQ_DCA_3 => 'DCAの心理的な利点は何ですか？';
 
   @override
-  String get quizO_DCA_3_1 => 'It is exciting';
+  String get quizO_DCA_3_1 => 'エキサイティングである';
 
   @override
-  String get quizO_DCA_3_2 => 'It removes emotion from investing';
+  String get quizO_DCA_3_2 => '投資から感情を排除する';
 
   @override
-  String get quizO_DCA_3_3 => 'It makes you feel smarter';
+  String get quizO_DCA_3_3 => '自分が賢いと感じさせる';
 
   @override
-  String get quizO_DCA_3_4 => 'It guarantees quick riches';
+  String get quizO_DCA_3_4 => '迅速な富を保証する';
 
   @override
-  String get quizE_DCA_3 =>
-      'By sticking to a schedule, you avoid the fear of buying at the top or the hesitation to buy during a dip.';
+  String get quizE_DCA_3 => 'スケジュールを守ることで、高値掴みへの恐怖や、下落時に買うことへの躊躇を避けることができます。';
 
   @override
-  String get quizQ_HowToInvest_1 => 'What is a Broker?';
+  String get quizQ_HowToInvest_1 => 'ブローカーとは何ですか？';
 
   @override
-  String get quizO_HowToInvest_1_1 => 'A person who breaks things';
+  String get quizO_HowToInvest_1_1 => '物を壊す人';
 
   @override
-  String get quizO_HowToInvest_1_2 =>
-      'An intermediary between you and the stock market';
+  String get quizO_HowToInvest_1_2 => 'あなたと株式市場の仲介者';
 
   @override
-  String get quizO_HowToInvest_1_3 => 'A bank teller';
+  String get quizO_HowToInvest_1_3 => '銀行の窓口係';
 
   @override
-  String get quizO_HowToInvest_1_4 => 'A government official';
+  String get quizO_HowToInvest_1_4 => '政府関係者';
 
   @override
-  String get quizE_HowToInvest_1 =>
-      'A broker is a firm or individual that facilitates the buying and selling of financial securities between a buyer and a seller.';
+  String get quizE_HowToInvest_1 => 'ブローカーは、買い手と売り手の間の金融証券の売買を促進する企業または個人です。';
 
   @override
-  String get quizQ_HowToInvest_2 => 'What is a \"Market Order\"?';
+  String get quizQ_HowToInvest_2 => '「成行注文」とは何ですか？';
 
   @override
-  String get quizO_HowToInvest_2_1 => 'An order to buy groceries';
+  String get quizO_HowToInvest_2_1 => '食料品を買う注文';
 
   @override
-  String get quizO_HowToInvest_2_2 =>
-      'An order to buy/sell immediately at the current price';
+  String get quizO_HowToInvest_2_2 => '現在の価格で即座に売買する注文';
 
   @override
-  String get quizO_HowToInvest_2_3 =>
-      'An order to buy at a specific price later';
+  String get quizO_HowToInvest_2_3 => '後で特定の価格で買う注文';
 
   @override
-  String get quizO_HowToInvest_2_4 => 'An order to cancel a trade';
+  String get quizO_HowToInvest_2_4 => '取引をキャンセルする注文';
 
   @override
   String get quizE_HowToInvest_2 =>
-      'A market order guarantees execution but not a specific price; it executes immediately at the best available current price.';
+      '成行注文は執行を保証しますが、特定の価格は保証しません。その時点で利用可能な最良の価格で即座に執行されます。';
 
   @override
-  String get quizQ_HowToInvest_3 => 'What is the \"Bid\" price?';
+  String get quizQ_HowToInvest_3 => '「Bid」（買い）価格とは何ですか？';
 
   @override
-  String get quizO_HowToInvest_3_1 => 'The price you pay to buy';
+  String get quizO_HowToInvest_3_1 => 'あなたが買うために支払う価格';
 
   @override
-  String get quizO_HowToInvest_3_2 => 'The price a buyer is willing to pay';
+  String get quizO_HowToInvest_3_2 => '買い手が支払う意思のある価格';
 
   @override
-  String get quizO_HowToInvest_3_3 => 'The price a seller wants';
+  String get quizO_HowToInvest_3_3 => '売り手が望む価格';
 
   @override
-  String get quizO_HowToInvest_3_4 => 'The final sale price';
+  String get quizO_HowToInvest_3_4 => '最終販売価格';
 
   @override
   String get quizE_HowToInvest_3 =>
-      'The bid is the highest price a buyer is willing to pay for a stock, while the ask is the lowest price a seller is willing to accept.';
+      'Bidは買い手が支払う意思のある最高価格であり、Askは売り手が受け入れる意思のある最低価格です。';
 
   @override
-  String get quizQ_Metrics_1 => 'what is \"Market Cap\"?';
+  String get quizQ_Metrics_1 => '「時価総額」とは何ですか？';
 
   @override
-  String get quizO_Metrics_1_1 => 'The maximum number of stocks';
+  String get quizO_Metrics_1_1 => '株式の最大数';
 
   @override
-  String get quizO_Metrics_1_2 => 'The total value of a company\'s shares';
+  String get quizO_Metrics_1_2 => '企業の株式の総価値';
 
   @override
-  String get quizO_Metrics_1_3 => 'The location of the market';
+  String get quizO_Metrics_1_3 => '市場の場所';
 
   @override
-  String get quizO_Metrics_1_4 => 'The cap on a bottle';
+  String get quizO_Metrics_1_4 => 'ボトルのキャップ';
 
   @override
-  String get quizE_Metrics_1 =>
-      'Market capitalization is calculated by multiplying the total number of outstanding shares by the current share price.';
+  String get quizE_Metrics_1 => '時価総額は、発行済株式総数に現在の株価を掛けて計算されます。';
 
   @override
-  String get quizQ_Metrics_2 => 'What does P/E Ratio stand for?';
+  String get quizQ_Metrics_2 => 'PERは何の略ですか？';
 
   @override
   String get quizO_Metrics_2_1 => 'Profit to Earnings';
 
   @override
-  String get quizO_Metrics_2_2 => 'Price to Earnings';
+  String get quizO_Metrics_2_2 => 'Price to Earnings（株価収益率）';
 
   @override
   String get quizO_Metrics_2_3 => 'Public to Equity';
@@ -1704,85 +1679,80 @@ class AppLocalizationsJa extends AppLocalizations {
   String get quizO_Metrics_2_4 => 'Past to End';
 
   @override
-  String get quizE_Metrics_2 =>
-      'The Price-to-Earnings ratio measures a company\'s current share price relative to its per-share earnings.';
+  String get quizE_Metrics_2 => '株価収益率は、一株当たり利益に対する企業の現在の株価を測定します。';
 
   @override
-  String get quizQ_Metrics_3 => 'What is a \"Dividend\"?';
+  String get quizQ_Metrics_3 => '「配当」とは何ですか？';
 
   @override
-  String get quizO_Metrics_3_1 => 'A tax payment';
+  String get quizO_Metrics_3_1 => '納税';
 
   @override
-  String get quizO_Metrics_3_2 => 'A fee paid to the broker';
+  String get quizO_Metrics_3_2 => 'ブローカーに支払う手数料';
 
   @override
-  String get quizO_Metrics_3_3 => 'A distribution of profits to shareholders';
+  String get quizO_Metrics_3_3 => '株主への利益の分配';
 
   @override
-  String get quizO_Metrics_3_4 => 'A type of stock split';
+  String get quizO_Metrics_3_4 => '株式分割の一種';
 
   @override
-  String get quizE_Metrics_3 =>
-      'A dividend is a payment made by a corporation to its shareholders, usually as a distribution of profits.';
+  String get quizE_Metrics_3 => '配当は企業が株主に対して行う支払いで、通常は利益の配分として行われます。';
 
   @override
-  String get quizQ_IntrinsicValue_1 => 'What is \"Intrinsic Value\"?';
+  String get quizQ_IntrinsicValue_1 => '「本質的価値」とは何ですか？';
 
   @override
-  String get quizO_IntrinsicValue_1_1 => 'The current market price';
+  String get quizO_IntrinsicValue_1_1 => '現在の市場価格';
 
   @override
-  String get quizO_IntrinsicValue_1_2 => 'The true inherent value of a company';
+  String get quizO_IntrinsicValue_1_2 => '企業の真の内在的価値';
 
   @override
-  String get quizO_IntrinsicValue_1_3 => 'The price 10 years ago';
+  String get quizO_IntrinsicValue_1_3 => '10年前の価格';
 
   @override
-  String get quizO_IntrinsicValue_1_4 => 'The price predicted by TV analysts';
+  String get quizO_IntrinsicValue_1_4 => 'テレビのアナリストが予測した価格';
 
   @override
   String get quizE_IntrinsicValue_1 =>
-      'Intrinsic value is an estimate of the actual true value of a company based on its fundamentals, cash flows, and assets, independent of its market price.';
+      '本質的価値は、市場価格とは無関係に、ファンダメンタルズ、キャッシュフロー、資産に基づいた企業の実際の真の価値の推定値です。';
 
   @override
-  String get quizQ_IntrinsicValue_2 =>
-      'What is the difference between Price and Value?';
+  String get quizQ_IntrinsicValue_2 => '価格と価値の違いは何ですか？';
 
   @override
-  String get quizO_IntrinsicValue_2_1 => 'They are the same thing';
+  String get quizO_IntrinsicValue_2_1 => 'それらは同じものです';
 
   @override
-  String get quizO_IntrinsicValue_2_2 =>
-      'Price is what you pay, value is what you get';
+  String get quizO_IntrinsicValue_2_2 => '価格は支払うもの、価値は得るもの';
 
   @override
-  String get quizO_IntrinsicValue_2_3 => 'Price is always higher';
+  String get quizO_IntrinsicValue_2_3 => '価格は常に高い';
 
   @override
-  String get quizO_IntrinsicValue_2_4 => 'Value is always higher';
+  String get quizO_IntrinsicValue_2_4 => '価値は常に高い';
 
   @override
   String get quizE_IntrinsicValue_2 =>
-      'As Warren Buffett famously said, \"Price is what you pay. Value is what you get.\" The market price can disconnect from the true value.';
+      'ウォーレン・バフェットが有名に言ったように、「価格はあなたが支払うもの。価値は手に入れるもの」。市場価格は真の価値から乖離することがあります。';
 
   @override
-  String get quizQ_IntrinsicValue_3 =>
-      'What method is commonly used to estimate intrinsic value?';
+  String get quizQ_IntrinsicValue_3 => '本質的価値を推定するために一般的に使用される方法はどれですか？';
 
   @override
-  String get quizO_IntrinsicValue_3_1 => 'Guessing';
+  String get quizO_IntrinsicValue_3_1 => '推測';
 
   @override
-  String get quizO_IntrinsicValue_3_2 => 'Discounted Cash Flow (DCF)';
+  String get quizO_IntrinsicValue_3_2 => '割引キャッシュフロー（DCF）';
 
   @override
-  String get quizO_IntrinsicValue_3_3 => 'Reading horoscopes';
+  String get quizO_IntrinsicValue_3_3 => '星占いを読む';
 
   @override
-  String get quizO_IntrinsicValue_3_4 => 'Asking a friend';
+  String get quizO_IntrinsicValue_3_4 => '友人に尋ねる';
 
   @override
   String get quizE_IntrinsicValue_3 =>
-      'DCF Analysis is a valuation method used to estimate the value of an investment based on its expected future cash flows.';
+      'DCF分析は、予想される将来のキャッシュフローに基づいて投資の価値を推定するために使用される評価方法です。';
 }

@@ -1121,683 +1121,684 @@ class AppLocalizationsNb extends AppLocalizations {
   String get landingPageCurrency => 'Valuta';
 
   @override
-  String get quizTitle => 'Knowledge Check';
+  String get quizTitle => 'Kunnskapssjekk';
 
   @override
   String questionCount(Object current, Object total) {
-    return 'Question $current of $total';
+    return 'Spørsmål $current av $total';
   }
 
   @override
-  String get quizCompleted => 'Quiz Completed!';
+  String get quizCompleted => 'Quiz fullført!';
 
   @override
   String quizScore(Object score, Object total) {
-    return 'You scored $score out of $total';
+    return 'Du fikk $score av $total';
   }
 
   @override
-  String get correct => 'Correct!';
+  String get correct => 'Riktig!';
 
   @override
-  String get incorrect => 'Incorrect';
+  String get incorrect => 'Feil';
 
   @override
-  String get finish => 'Finish';
+  String get finish => 'Fullfør';
 
   @override
-  String get startQuiz => 'Take Quiz';
+  String get startQuiz => 'Ta Quiz';
 
   @override
-  String get quizNext => 'Next';
+  String get quizNext => 'Neste';
 
   @override
-  String get quizQ_Stocks101_1 => 'What is a stock?';
+  String get quizQ_Stocks101_1 => 'Hva er en aksje?';
 
   @override
-  String get quizO_Stocks101_1_1 => 'A type of loan to a company';
+  String get quizO_Stocks101_1_1 => 'En type lån til et selskap';
 
   @override
-  String get quizO_Stocks101_1_2 => 'Fractional ownership in a company';
+  String get quizO_Stocks101_1_2 => 'Delvis eierskap i et selskap';
 
   @override
-  String get quizO_Stocks101_1_3 => 'A guarantee of profit';
+  String get quizO_Stocks101_1_3 => 'En garanti for gevinst';
 
   @override
-  String get quizO_Stocks101_1_4 => 'A government bond';
+  String get quizO_Stocks101_1_4 => 'En statsobligasjon';
 
   @override
   String get quizE_Stocks101_1 =>
-      'A stock represents partial ownership in a corporation. When you buy a stock, you are buying a piece of that company.';
+      'En aksje representerer delvis eierskap i et selskap. Når du kjøper en aksje, kjøper du en del av selve selskapet.';
 
   @override
-  String get quizQ_Stocks101_2 => 'Why do companies issue stock?';
+  String get quizQ_Stocks101_2 => 'Hvorfor utsteder selskaper aksjer?';
 
   @override
-  String get quizO_Stocks101_2_1 => 'To increase their debt';
+  String get quizO_Stocks101_2_1 => 'For å øke gjelden sin';
 
   @override
-  String get quizO_Stocks101_2_2 => 'To pay less taxes';
+  String get quizO_Stocks101_2_2 => 'For å betale mindre skatt';
 
   @override
-  String get quizO_Stocks101_2_3 => 'To raise capital for growth';
+  String get quizO_Stocks101_2_3 => 'For å hente kapital til vekst';
 
   @override
-  String get quizO_Stocks101_2_4 => 'To give away money';
+  String get quizO_Stocks101_2_4 => 'For å gi bort penger';
 
   @override
   String get quizE_Stocks101_2 =>
-      'Companies issue stock to raise money (capital) to fund operations, expand their business, or pay off debt.';
+      'Selskaper utsteder aksjer for å hente penger (kapital) til å finansiere drift, utvide virksomheten eller betale ned gjeld.';
 
   @override
-  String get quizQ_Stocks101_3 =>
-      'Over the long term, stocks have historically...';
+  String get quizQ_Stocks101_3 => 'Over lang tid har aksjer historisk sett...';
 
   @override
-  String get quizO_Stocks101_3_1 => 'Lost money';
+  String get quizO_Stocks101_3_1 => 'Tapt penger';
 
   @override
-  String get quizO_Stocks101_3_2 => 'Stayed the same';
+  String get quizO_Stocks101_3_2 => 'Holdt seg uendret';
 
   @override
-  String get quizO_Stocks101_3_3 => 'Outperformed savings accounts';
+  String get quizO_Stocks101_3_3 => 'Gjort det bedre enn sparekontoer';
 
   @override
-  String get quizO_Stocks101_3_4 => 'Been safer than cash';
+  String get quizO_Stocks101_3_4 => 'Vært tryggere enn kontanter';
 
   @override
   String get quizE_Stocks101_3 =>
-      'Historically, the stock market has provided returns that significantly outperform savings accounts and beat inflation over long periods.';
+      'Historisk sett har aksjemarkedet gitt avkastning som betydelig overgår sparekontoer og slår inflasjon over lengre perioder.';
 
   @override
   String get quizQ_InvestVsSpec_1 =>
-      'What is the main difference between investing and speculation?';
+      'Hva er hovedforskjellen mellom investering og spekulasjon?';
 
   @override
-  String get quizO_InvestVsSpec_1_1 => 'Amount of money used';
+  String get quizO_InvestVsSpec_1_1 => 'Hvor mye penger som brukes';
 
   @override
-  String get quizO_InvestVsSpec_1_2 => 'Time horizon and analysis';
+  String get quizO_InvestVsSpec_1_2 => 'Tidshorisont og analyse';
 
   @override
-  String get quizO_InvestVsSpec_1_3 => 'Type of stock bought';
+  String get quizO_InvestVsSpec_1_3 => 'Hvilken type aksje som kjøpes';
 
   @override
-  String get quizO_InvestVsSpec_1_4 => 'The broker used';
+  String get quizO_InvestVsSpec_1_4 => 'Hvilken megler som brukes';
 
   @override
   String get quizE_InvestVsSpec_1 =>
-      'Investing involves thorough analysis and a long-term view, while speculation is often short-term and based on price movements without underlying value analysis.';
+      'Investering innebærer grundig analyse og et langsiktig perspektiv, mens spekulasjon ofte er kortsiktig og basert på prisbevegelser uten underliggende verdianalyse.';
 
   @override
-  String get quizQ_InvestVsSpec_2 => 'Which approach relies more on chance?';
+  String get quizQ_InvestVsSpec_2 =>
+      'Hvilken tilnærming er mest basert på flaks?';
 
   @override
-  String get quizO_InvestVsSpec_2_1 => 'Value Investing';
+  String get quizO_InvestVsSpec_2_1 => 'Verdiinvestering';
 
   @override
-  String get quizO_InvestVsSpec_2_2 => 'Dollar Cost Averaging';
+  String get quizO_InvestVsSpec_2_2 => 'Kronerulling (DCA)';
 
   @override
-  String get quizO_InvestVsSpec_2_3 => 'Speculation';
+  String get quizO_InvestVsSpec_2_3 => 'Spekulasjon';
 
   @override
-  String get quizO_InvestVsSpec_2_4 => 'Index Fund Investing';
+  String get quizO_InvestVsSpec_2_4 => 'Indeksfondinvestering';
 
   @override
   String get quizE_InvestVsSpec_2 =>
-      'Speculation is often compared to gambling because it relies more on luck and short-term market psychology than on the fundamental value of the asset.';
+      'Spekulasjon sammenlignes ofte med gambling fordi det er mer avhengig av flaks og kortsiktig markedspsykologi enn av eiendelens fundamentale verdi.';
 
   @override
-  String get quizQ_InvestVsSpec_3 => 'What is \"Value Investing\"?';
+  String get quizQ_InvestVsSpec_3 => 'Hva er \"Verdiinvestering\"?';
 
   @override
-  String get quizO_InvestVsSpec_3_1 => 'Buying the most expensive stocks';
+  String get quizO_InvestVsSpec_3_1 => 'Å kjøpe de dyreste aksjene';
 
   @override
   String get quizO_InvestVsSpec_3_2 =>
-      'Buying stocks for less than they are worth';
+      'Å kjøpe aksjer for mindre enn de er verdt';
 
   @override
-  String get quizO_InvestVsSpec_3_3 => 'Buying whatever is trending';
+  String get quizO_InvestVsSpec_3_3 => 'Å kjøpe det som er populært';
 
   @override
-  String get quizO_InvestVsSpec_3_4 => 'Buying only tech stocks';
+  String get quizO_InvestVsSpec_3_4 => 'Å kjøpe kun teknologiaksjer';
 
   @override
   String get quizE_InvestVsSpec_3 =>
-      'Value investing is the strategy of buying stocks that are trading for less than their intrinsic or book value.';
+      'Verdiinvestering er strategien med å kjøpe aksjer som handles for mindre enn deres iboende verdi eller bokførte verdi.';
 
   @override
-  String get quizQ_WhyInvest_1 =>
-      'What is the silent killer of purchasing power?';
+  String get quizQ_WhyInvest_1 => 'Hva er kjøpekraftens stille morder?';
 
   @override
-  String get quizO_WhyInvest_1_1 => 'Taxation';
+  String get quizO_WhyInvest_1_1 => 'Skatt';
 
   @override
-  String get quizO_WhyInvest_1_2 => 'Inflation';
+  String get quizO_WhyInvest_1_2 => 'Inflasjon';
 
   @override
-  String get quizO_WhyInvest_1_3 => 'Deflation';
+  String get quizO_WhyInvest_1_3 => 'Deflasjon';
 
   @override
-  String get quizO_WhyInvest_1_4 => 'Dividends';
+  String get quizO_WhyInvest_1_4 => 'Utbytte';
 
   @override
   String get quizE_WhyInvest_1 =>
-      'Inflation slowly erodes the purchasing power of your money over time, making cash worth less in the future.';
+      'Inflasjon tærer sakte på kjøpekraften til pengene dine over tid, noe som gjør at kontanter blir mindre verdt i fremtiden.';
 
   @override
-  String get quizQ_WhyInvest_2 => 'What is \"Compound Interest\"?';
+  String get quizQ_WhyInvest_2 => 'Hva er \"Renters rente\"?';
 
   @override
-  String get quizO_WhyInvest_2_1 => 'Interest on your interest';
+  String get quizO_WhyInvest_2_1 => 'Renter på rentene dine';
 
   @override
-  String get quizO_WhyInvest_2_2 => 'A bank fee';
+  String get quizO_WhyInvest_2_2 => 'Et bankgebyr';
 
   @override
-  String get quizO_WhyInvest_2_3 => 'A tax on gains';
+  String get quizO_WhyInvest_2_3 => 'En skatt på gevinst';
 
   @override
-  String get quizO_WhyInvest_2_4 => 'A type of loan';
+  String get quizO_WhyInvest_2_4 => 'En type lån';
 
   @override
   String get quizE_WhyInvest_2 =>
-      'Compound interest is when you earn interest on both your initial money and the interest you\'ve already accumulated, leading to exponential growth.';
+      'Renters rente er når du tjener renter på både det opprinnelige beløpet og rentene du allerede har opptjent, noe som fører til eksponentiell vekst.';
 
   @override
   String get quizQ_WhyInvest_3 =>
-      'Why are stocks generally better than a savings account for long-term goals?';
+      'Hvorfor er aksjer generelt bedre enn en sparekonto for langsiktige mål?';
 
   @override
-  String get quizO_WhyInvest_3_1 => 'They are safer';
+  String get quizO_WhyInvest_3_1 => 'De er tryggere';
 
   @override
-  String get quizO_WhyInvest_3_2 => 'They have historically beaten inflation';
+  String get quizO_WhyInvest_3_2 => 'De har historisk sett slått inflasjonen';
 
   @override
-  String get quizO_WhyInvest_3_3 => 'They are insured by the government';
+  String get quizO_WhyInvest_3_3 => 'De er forsikret av staten';
 
   @override
-  String get quizO_WhyInvest_3_4 => 'They are easier to access';
+  String get quizO_WhyInvest_3_4 => 'De er lettere å få tak i';
 
   @override
   String get quizE_WhyInvest_3 =>
-      'While savings accounts are safer, their low interest rates often fail to keep up with inflation, whereas stocks have historically provided much higher returns over the long run.';
+      'Selv om sparekontoer er tryggere, klarer de lave rentene ofte ikke å holde tritt med inflasjonen, mens aksjer historisk sett har gitt mye høyere avkastning på lang sikt.';
 
   @override
   String get quizQ_DefensiveVsEnterprise_1 =>
-      'Who is a \"Defensive Investor\"?';
+      'Hvem er en \"Defensiv Investor\"?';
 
   @override
-  String get quizO_DefensiveVsEnterprise_1_1 => 'Someone who shorts stocks';
+  String get quizO_DefensiveVsEnterprise_1_1 => 'Noen som shorter aksjer';
 
   @override
   String get quizO_DefensiveVsEnterprise_1_2 =>
-      'Someone who wants safety and freedom from effort';
+      'Noen som ønsker trygghet og minimalt arbeid';
 
   @override
-  String get quizO_DefensiveVsEnterprise_1_3 => 'Someone who trades daily';
+  String get quizO_DefensiveVsEnterprise_1_3 =>
+      'Noen som handler daglig (daytrader)';
 
   @override
   String get quizO_DefensiveVsEnterprise_1_4 =>
-      'Someone who buys only penny stocks';
+      'Noen som bare kjøper \"penny stocks\"';
 
   @override
   String get quizE_DefensiveVsEnterprise_1 =>
-      'A defensive investor prioritizes safety and minimal effort, often choosing index funds or high-quality blue-chip stocks.';
+      'En defensiv investor prioriterer trygghet og minimal innsats, og velger ofte indeksfond eller høykvalitets \"blue-chip\"-aksjer.';
 
   @override
   String get quizQ_DefensiveVsEnterprise_2 =>
-      'What is the main goal of an \"Enterprising Investor\"?';
+      'Hva er hovedmålet til en \"Foretaksom Investor\"?';
 
   @override
-  String get quizO_DefensiveVsEnterprise_2_1 => 'To match the market average';
+  String get quizO_DefensiveVsEnterprise_2_1 =>
+      'Å matche markedsgjennomsnittet';
 
   @override
   String get quizO_DefensiveVsEnterprise_2_2 =>
-      'To beat the market through effort and skill';
+      'Å slå markedet gjennom innsats og dyktighet';
 
   @override
-  String get quizO_DefensiveVsEnterprise_2_3 => 'To lose money';
+  String get quizO_DefensiveVsEnterprise_2_3 => 'Å tape penger';
 
   @override
-  String get quizO_DefensiveVsEnterprise_2_4 => 'To avoid all risk';
+  String get quizO_DefensiveVsEnterprise_2_4 => 'Å unngå all risiko';
 
   @override
   String get quizE_DefensiveVsEnterprise_2 =>
-      'An enterprising investor is willing to put in time and effort to research stocks in hopes of achieving a better return than the average market.';
+      'En foretaksom investor er villig til å bruke tid og krefter på å undersøke aksjer i håp om å oppnå bedre avkastning enn markedsgjennomsnittet.';
 
   @override
   String get quizQ_DefensiveVsEnterprise_3 =>
-      'Which strategy requires more time and research?';
+      'Hvilken strategi krever mest tid og research?';
 
   @override
-  String get quizO_DefensiveVsEnterprise_3_1 => 'Defensive Investing';
+  String get quizO_DefensiveVsEnterprise_3_1 => 'Defensiv investering';
 
   @override
-  String get quizO_DefensiveVsEnterprise_3_2 => 'Enterprising Investing';
+  String get quizO_DefensiveVsEnterprise_3_2 => 'Foretaksom investering';
 
   @override
-  String get quizO_DefensiveVsEnterprise_3_3 => 'Passive Investing';
+  String get quizO_DefensiveVsEnterprise_3_3 => 'Passiv investering';
 
   @override
-  String get quizO_DefensiveVsEnterprise_3_4 => 'Savings Accounts';
+  String get quizO_DefensiveVsEnterprise_3_4 => 'Sparekontoer';
 
   @override
   String get quizE_DefensiveVsEnterprise_3 =>
-      'Enterprising investing involves active research, analysis, and monitoring of individual stocks, which requires significantly more time.';
+      'Foretaksom investering innebærer aktiv research, analyse og overvåking av enkeltaksjer, noe som krever betydelig mer tid.';
 
   @override
-  String get quizQ_MrMarket_1 => 'Who is \"Mr. Market\"?';
+  String get quizQ_MrMarket_1 => 'Hvem er \"Mr. Market\"?';
 
   @override
-  String get quizO_MrMarket_1_1 => 'A famous investor';
+  String get quizO_MrMarket_1_1 => 'En kjent investor';
 
   @override
   String get quizO_MrMarket_1_2 =>
-      'An allegorical character representing market mood';
+      'En allegorisk karakter som representerer markedets humør';
 
   @override
-  String get quizO_MrMarket_1_3 => 'The CEO of the stock exchange';
+  String get quizO_MrMarket_1_3 => 'Direktøren for børsen';
 
   @override
-  String get quizO_MrMarket_1_4 => 'A government regulator';
+  String get quizO_MrMarket_1_4 => 'En statlig regulator';
 
   @override
   String get quizE_MrMarket_1 =>
-      'Benjamin Graham created Mr. Market to allegorize the irrational and emotional daily price fluctuations of the stock market.';
+      'Benjamin Graham skapte Mr. Market som en allegori for de irrasjonelle og emosjonelle daglige prissvingningene i aksjemarkedet.';
 
   @override
-  String get quizQ_MrMarket_2 => 'Mr. Market is described as...';
+  String get quizQ_MrMarket_2 => 'Mr. Market beskrives som...';
 
   @override
-  String get quizO_MrMarket_2_1 => 'Rational and calm';
+  String get quizO_MrMarket_2_1 => 'Rasjonell og rolig';
 
   @override
-  String get quizO_MrMarket_2_2 => 'Predictable and steady';
+  String get quizO_MrMarket_2_2 => 'Forutsigbar og stødig';
 
   @override
-  String get quizO_MrMarket_2_3 => 'Emotional and manic-depressive';
+  String get quizO_MrMarket_2_3 => 'Emosjonell og manisk-depressiv';
 
   @override
-  String get quizO_MrMarket_2_4 => 'Always correct';
+  String get quizO_MrMarket_2_4 => 'Alltid korrekt';
 
   @override
   String get quizE_MrMarket_2 =>
-      'Mr. Market swings from extreme optimism to extreme pessimism, offering prices based on his mood rather than true value.';
+      'Mr. Market svinger fra ekstrem optimisme til ekstrem pessimisme, og tilbyr priser basert på humøret sitt heller enn reell verdi.';
 
   @override
   String get quizQ_MrMarket_3 =>
-      'What should you do when Mr. Market is depressed and offers low prices?';
+      'Hva bør du gjøre når Mr. Market er deprimert og tilbyr lave priser?';
 
   @override
-  String get quizO_MrMarket_3_1 => 'Sell everything';
+  String get quizO_MrMarket_3_1 => 'Selge alt';
 
   @override
-  String get quizO_MrMarket_3_2 => 'Buy if the value is right';
+  String get quizO_MrMarket_3_2 => 'Kjøpe hvis verdien er riktig';
 
   @override
-  String get quizO_MrMarket_3_3 => 'Panic';
+  String get quizO_MrMarket_3_3 => 'Gjøre ingenting';
 
   @override
-  String get quizO_MrMarket_3_4 => 'Ignore him completely';
+  String get quizO_MrMarket_3_4 => 'Ignorere ham fullstendig';
 
   @override
   String get quizE_MrMarket_3 =>
-      'When the market is irrational and prices are low, it presents an opportunity for the intelligent investor to buy quality assets at a discount.';
+      'Når markedet er irrasjonelt og prisene er lave, gir det den intelligente investoren en mulighet til å kjøpe kvalitetsaktiva med rabatt.';
 
   @override
-  String get quizQ_MarginOfSafety_1 => 'What is the \"Margin of Safety\"?';
+  String get quizQ_MarginOfSafety_1 => 'Hva er \"Sikkerhetsmargin\"?';
 
   @override
-  String get quizO_MarginOfSafety_1_1 => 'A safety helmet';
+  String get quizO_MarginOfSafety_1_1 => 'En vernehjelm';
 
   @override
   String get quizO_MarginOfSafety_1_2 =>
-      'Buying at a price far below intrinsic value';
+      'Å kjøpe til en pris langt under iboende verdi';
 
   @override
-  String get quizO_MarginOfSafety_1_3 => 'A stop-loss order';
+  String get quizO_MarginOfSafety_1_3 => 'En stop-loss ordre';
 
   @override
-  String get quizO_MarginOfSafety_1_4 => 'Buying insurance';
+  String get quizO_MarginOfSafety_1_4 => 'Å kjøpe forsikring';
 
   @override
   String get quizE_MarginOfSafety_1 =>
-      'Margin of safety is the concept of purchasing a stock at a significant discount to its intrinsic value to minimize the risk of loss.';
+      'Sikkerhetsmargin er konseptet med å kjøpe en aksje med betydelig rabatt i forhold til dens iboende verdi for å minimere risikoen for tap.';
 
   @override
-  String get quizQ_MarginOfSafety_2 => 'Why is a Margin of Safety important?';
+  String get quizQ_MarginOfSafety_2 => 'Hvorfor er sikkerhetsmargin viktig?';
 
   @override
-  String get quizO_MarginOfSafety_2_1 => 'It guarantees a profit';
+  String get quizO_MarginOfSafety_2_1 => 'Det garanterer profitt';
 
   @override
-  String get quizO_MarginOfSafety_2_2 => 'It allows for error and bad luck';
+  String get quizO_MarginOfSafety_2_2 => 'Det gir rom for feil og uflaks';
 
   @override
-  String get quizO_MarginOfSafety_2_3 => 'It is required by law';
+  String get quizO_MarginOfSafety_2_3 => 'Det er påkrevd ved lov';
 
   @override
-  String get quizO_MarginOfSafety_2_4 => 'It makes trading faster';
+  String get quizO_MarginOfSafety_2_4 => 'Det gjør handelen raskere';
 
   @override
   String get quizE_MarginOfSafety_2 =>
-      'It acts as a buffer against errors in your valuation, unforeseen market events, or bad luck, protecting your capital.';
+      'Det fungerer som en buffer mot feil i verdivurderingen din, uforutsette markedshendelser eller uflaks, og beskytter kapitalen din.';
 
   @override
   String get quizQ_MarginOfSafety_3 =>
-      'Which comparison was used for Margin of Safety?';
+      'Hvilken sammenligning ble brukt for sikkerhetsmargin?';
 
   @override
   String get quizO_MarginOfSafety_3_1 =>
-      'Building a bridge stronger than needed';
+      'Å bygge en bro sterkere enn nødvendig';
 
   @override
-  String get quizO_MarginOfSafety_3_2 => 'Driving a fast car';
+  String get quizO_MarginOfSafety_3_2 => 'Å kjøre en rask bil';
 
   @override
-  String get quizO_MarginOfSafety_3_3 => 'Betting on a horse';
+  String get quizO_MarginOfSafety_3_3 => 'Å vedde på en hest';
 
   @override
-  String get quizO_MarginOfSafety_3_4 => 'Cooking a meal';
+  String get quizO_MarginOfSafety_3_4 => 'Å lage mat';
 
   @override
   String get quizE_MarginOfSafety_3 =>
-      'Like an engineer builds a bridge to hold 30,000 lbs even if only 10,000 lbs trucks cross it, an investor wants a buffer for their investments.';
+      'Akkurat som en ingeniør bygger en bro som tåler 30 000 pund selv om lastebilene bare veier 10 000 pund, ønsker en investor en buffer for investeringene sine.';
 
   @override
-  String get quizQ_IndexFunds_1 => 'What does an Index Fund do?';
+  String get quizQ_IndexFunds_1 => 'Hva gjør et indeksfond?';
 
   @override
-  String get quizO_IndexFunds_1_1 => 'Tries to beat the market';
+  String get quizO_IndexFunds_1_1 => 'Prøver å slå markedet';
 
   @override
-  String get quizO_IndexFunds_1_2 => 'Tracks a specific market index';
+  String get quizO_IndexFunds_1_2 => 'Følger en bestemt markedsindeks';
 
   @override
-  String get quizO_IndexFunds_1_3 => 'Buys only one stock';
+  String get quizO_IndexFunds_1_3 => 'Kjøper kun én aksje';
 
   @override
-  String get quizO_IndexFunds_1_4 => 'Shorts the market';
+  String get quizO_IndexFunds_1_4 => 'Shorter markedet';
 
   @override
   String get quizE_IndexFunds_1 =>
-      'An index fund buys all (or a representative sample) of the companies in a specific index, like the S&P 500, to match its performance.';
+      'Et indeksfond kjøper alle (eller et representativt utvalg) av selskapene i en spesifikk indeks, som S&P 500, for å matche ytelsen.';
 
   @override
-  String get quizQ_IndexFunds_2 => 'What is a major benefit of Index Funds?';
+  String get quizQ_IndexFunds_2 => 'Hva er en stor fordel med indeksfond?';
 
   @override
-  String get quizO_IndexFunds_2_1 => 'Instant diversification';
+  String get quizO_IndexFunds_2_1 => 'Umiddelbar diversifisering';
 
   @override
-  String get quizO_IndexFunds_2_2 => 'Guaranteed 100% returns';
+  String get quizO_IndexFunds_2_2 => 'Garantert 100% avkastning';
 
   @override
-  String get quizO_IndexFunds_2_3 => 'No risk';
+  String get quizO_IndexFunds_2_3 => 'Ingen risiko';
 
   @override
-  String get quizO_IndexFunds_2_4 => 'Free money';
+  String get quizO_IndexFunds_2_4 => 'Gratis penger';
 
   @override
   String get quizE_IndexFunds_2 =>
-      'By buying a single index fund, you instantly own a tiny piece of hundreds or thousands of companies, spreading your risk.';
+      'Ved å kjøpe ett enkelt indeksfond eier du umiddelbart en liten del av hundrevis eller tusenvis av selskaper, og sprer dermed risikoen.';
 
   @override
   String get quizQ_IndexFunds_3 =>
-      'How do Index Fund fees generally compare to active mutual funds?';
+      'Hvordan er gebyrene i indeksfond sammenlignet med aktive fond?';
 
   @override
-  String get quizO_IndexFunds_3_1 => 'They are much higher';
+  String get quizO_IndexFunds_3_1 => 'Mye høyere';
 
   @override
-  String get quizO_IndexFunds_3_2 => 'They are about the same';
+  String get quizO_IndexFunds_3_2 => 'Omtrent det samme';
 
   @override
-  String get quizO_IndexFunds_3_3 => 'They are typically much lower';
+  String get quizO_IndexFunds_3_3 => 'Vanligvis mye lavere';
 
   @override
-  String get quizO_IndexFunds_3_4 => 'Fees don\'t exist';
+  String get quizO_IndexFunds_3_4 => 'Gebyrer eksisterer ikke';
 
   @override
   String get quizE_IndexFunds_3 =>
-      'Because they require less active management, index funds and ETFs usually have significantly lower expense ratios than actively managed funds.';
+      'Fordi de krever mindre aktiv forvaltning, har indeksfond og ETFer vanligvis betydelig lavere kostnader enn aktivt forvaltede fond.';
 
   @override
-  String get quizQ_DCA_1 => 'What is Dollar Cost Averaging (DCA)?';
+  String get quizQ_DCA_1 => 'Hva er Dollar Cost Averaging (DCA)?';
 
   @override
-  String get quizO_DCA_1_1 => 'Investing a lump sum all at once';
+  String get quizO_DCA_1_1 => 'Å investere et engangsbeløp med en gang';
 
   @override
-  String get quizO_DCA_1_2 => 'Investing a fixed amount at regular intervals';
+  String get quizO_DCA_1_2 => 'Å investere et fast beløp med jevne mellomrom';
 
   @override
-  String get quizO_DCA_1_3 => 'Buying only when the market is low';
+  String get quizO_DCA_1_3 => 'Å kjøpe kun når markedet er lavt';
 
   @override
-  String get quizO_DCA_1_4 => 'Selling when the market is high';
+  String get quizO_DCA_1_4 => 'Å selge når markedet er høyt';
 
   @override
   String get quizE_DCA_1 =>
-      'DCA involves investing the same amount of money (e.g., \$500) on a regular schedule (e.g., monthly) regardless of the share price.';
+      'DCA innebærer å investere samme pengebeløp (f.eks. 500 kr) etter en fast tidsplan (f.eks. månedlig) uavhengig av aksjekursen.';
 
   @override
-  String get quizQ_DCA_2 => 'Does DCA require you to time the market?';
+  String get quizQ_DCA_2 => 'Krever DCA at du timer markedet?';
 
   @override
-  String get quizO_DCA_2_1 => 'Yes, perfectly';
+  String get quizO_DCA_2_1 => 'Ja, perfekt';
 
   @override
-  String get quizO_DCA_2_2 => 'No, it ignores market timing';
+  String get quizO_DCA_2_2 => 'Nei, det ignorerer markedstimid';
 
   @override
-  String get quizO_DCA_2_3 => 'Only during crashes';
+  String get quizO_DCA_2_3 => 'Bare under krasj';
 
   @override
-  String get quizO_DCA_2_4 => 'Only during bubbles';
+  String get quizO_DCA_2_4 => 'Bare under bobler';
 
   @override
   String get quizE_DCA_2 =>
-      'DCA removes the need to predict market tops and bottoms, discouraging emotional trading based on price fluctuations.';
+      'DCA fjerner behovet for å forutsi markedstoppper og -bunner, og motvirker emosjonell handel basert på prissvingninger.';
 
   @override
-  String get quizQ_DCA_3 => 'What is a psychological benefit of DCA?';
+  String get quizQ_DCA_3 => 'Hva er en psykologisk fordel med DCA?';
 
   @override
-  String get quizO_DCA_3_1 => 'It is exciting';
+  String get quizO_DCA_3_1 => 'Det er spennende';
 
   @override
-  String get quizO_DCA_3_2 => 'It removes emotion from investing';
+  String get quizO_DCA_3_2 => 'Det fjerner følelser fra investeringen';
 
   @override
-  String get quizO_DCA_3_3 => 'It makes you feel smarter';
+  String get quizO_DCA_3_3 => 'Det får deg til å føle deg smartere';
 
   @override
-  String get quizO_DCA_3_4 => 'It guarantees quick riches';
+  String get quizO_DCA_3_4 => 'Det garanterer rask rikdom';
 
   @override
   String get quizE_DCA_3 =>
-      'By sticking to a schedule, you avoid the fear of buying at the top or the hesitation to buy during a dip.';
+      'Ved å holde seg til en plan unngår du frykten for å kjøpe på toppen eller nølingen med å kjøpe under en nedgang.';
 
   @override
-  String get quizQ_HowToInvest_1 => 'What is a Broker?';
+  String get quizQ_HowToInvest_1 => 'Hva er en Megler (Broker)?';
 
   @override
-  String get quizO_HowToInvest_1_1 => 'A person who breaks things';
+  String get quizO_HowToInvest_1_1 => 'En person som ødelegger ting';
 
   @override
   String get quizO_HowToInvest_1_2 =>
-      'An intermediary between you and the stock market';
+      'Et mellomledd mellom deg og aksjemarkedet';
 
   @override
-  String get quizO_HowToInvest_1_3 => 'A bank teller';
+  String get quizO_HowToInvest_1_3 => 'En bankfunksjonær';
 
   @override
-  String get quizO_HowToInvest_1_4 => 'A government official';
+  String get quizO_HowToInvest_1_4 => 'En offentlig tjenestemann';
 
   @override
   String get quizE_HowToInvest_1 =>
-      'A broker is a firm or individual that facilitates the buying and selling of financial securities between a buyer and a seller.';
+      'En megler er et firma eller en person som legger til rette for kjøp og salg av verdipapirer mellom en kjøper og en selger.';
 
   @override
-  String get quizQ_HowToInvest_2 => 'What is a \"Market Order\"?';
+  String get quizQ_HowToInvest_2 => 'Hva er en \"Markedsordre\"?';
 
   @override
-  String get quizO_HowToInvest_2_1 => 'An order to buy groceries';
+  String get quizO_HowToInvest_2_1 => 'En ordre for å kjøpe matvarer';
 
   @override
   String get quizO_HowToInvest_2_2 =>
-      'An order to buy/sell immediately at the current price';
+      'En ordre om å kjøpe/selge umiddelbart til gjeldende pris';
 
   @override
   String get quizO_HowToInvest_2_3 =>
-      'An order to buy at a specific price later';
+      'En ordre om å kjøpe til en bestemt pris senere';
 
   @override
-  String get quizO_HowToInvest_2_4 => 'An order to cancel a trade';
+  String get quizO_HowToInvest_2_4 => 'En ordre om å kansellere en handel';
 
   @override
   String get quizE_HowToInvest_2 =>
-      'A market order guarantees execution but not a specific price; it executes immediately at the best available current price.';
+      'En markedsordre garanterer utførelse, men ikke en spesifikk pris; den utføres umiddelbart til den beste tilgjengelige prisen der og da.';
 
   @override
-  String get quizQ_HowToInvest_3 => 'What is the \"Bid\" price?';
+  String get quizQ_HowToInvest_3 => 'Hva er \"Bud\" (Bid)-pris?';
 
   @override
-  String get quizO_HowToInvest_3_1 => 'The price you pay to buy';
+  String get quizO_HowToInvest_3_1 => 'Prisen du betaler for å kjøpe';
 
   @override
-  String get quizO_HowToInvest_3_2 => 'The price a buyer is willing to pay';
+  String get quizO_HowToInvest_3_2 => 'Prisen en kjøper er villig til å betale';
 
   @override
-  String get quizO_HowToInvest_3_3 => 'The price a seller wants';
+  String get quizO_HowToInvest_3_3 => 'Prisen en selger ønsker';
 
   @override
-  String get quizO_HowToInvest_3_4 => 'The final sale price';
+  String get quizO_HowToInvest_3_4 => 'Den endelige salgsprisen';
 
   @override
   String get quizE_HowToInvest_3 =>
-      'The bid is the highest price a buyer is willing to pay for a stock, while the ask is the lowest price a seller is willing to accept.';
+      'Bud (Bid) er den høyeste prisen en kjøper er villig til å betale for en aksje, mens Tilbud (Ask) er den laveste prisen en selger er villig til å godta.';
 
   @override
-  String get quizQ_Metrics_1 => 'what is \"Market Cap\"?';
+  String get quizQ_Metrics_1 => 'Hva er \"Markedsverdi\" (Market Cap)?';
 
   @override
-  String get quizO_Metrics_1_1 => 'The maximum number of stocks';
+  String get quizO_Metrics_1_1 => 'Maksimum antall aksjer';
 
   @override
-  String get quizO_Metrics_1_2 => 'The total value of a company\'s shares';
+  String get quizO_Metrics_1_2 => 'Den totale verdien av et selskaps aksjer';
 
   @override
-  String get quizO_Metrics_1_3 => 'The location of the market';
+  String get quizO_Metrics_1_3 => 'Markedets beliggenhet';
 
   @override
-  String get quizO_Metrics_1_4 => 'The cap on a bottle';
+  String get quizO_Metrics_1_4 => 'Korken på en flaske';
 
   @override
   String get quizE_Metrics_1 =>
-      'Market capitalization is calculated by multiplying the total number of outstanding shares by the current share price.';
+      'Markedsverdi beregnes ved å multiplisere antall utestående aksjer med gjeldende aksjekurs.';
 
   @override
-  String get quizQ_Metrics_2 => 'What does P/E Ratio stand for?';
+  String get quizQ_Metrics_2 => 'Hva står P/E-forhold for?';
 
   @override
-  String get quizO_Metrics_2_1 => 'Profit to Earnings';
+  String get quizO_Metrics_2_1 => 'Profitt til Inntekt';
 
   @override
-  String get quizO_Metrics_2_2 => 'Price to Earnings';
+  String get quizO_Metrics_2_2 => 'Pris til Inntekt (Price to Earnings)';
 
   @override
-  String get quizO_Metrics_2_3 => 'Public to Equity';
+  String get quizO_Metrics_2_3 => 'Offentlig til Egenkapital';
 
   @override
-  String get quizO_Metrics_2_4 => 'Past to End';
+  String get quizO_Metrics_2_4 => 'Fortid til Slutt';
 
   @override
   String get quizE_Metrics_2 =>
-      'The Price-to-Earnings ratio measures a company\'s current share price relative to its per-share earnings.';
+      'P/E-forholdet måler et selskaps nåværende aksjekurs i forhold til inntjeningen per aksje.';
 
   @override
-  String get quizQ_Metrics_3 => 'What is a \"Dividend\"?';
+  String get quizQ_Metrics_3 => 'Hva er et \"Utbytte\"?';
 
   @override
-  String get quizO_Metrics_3_1 => 'A tax payment';
+  String get quizO_Metrics_3_1 => 'En skatteinnbetaling';
 
   @override
-  String get quizO_Metrics_3_2 => 'A fee paid to the broker';
+  String get quizO_Metrics_3_2 => 'Et gebyr betalt til megleren';
 
   @override
-  String get quizO_Metrics_3_3 => 'A distribution of profits to shareholders';
+  String get quizO_Metrics_3_3 => 'En utdeling av overskudd til aksjonærene';
 
   @override
-  String get quizO_Metrics_3_4 => 'A type of stock split';
+  String get quizO_Metrics_3_4 => 'En type aksjesplitt';
 
   @override
   String get quizE_Metrics_3 =>
-      'A dividend is a payment made by a corporation to its shareholders, usually as a distribution of profits.';
+      'Et utbytte er en betaling gjort av et selskap til sine aksjonærer, vanligvis som en fordeling av overskudd.';
 
   @override
-  String get quizQ_IntrinsicValue_1 => 'What is \"Intrinsic Value\"?';
+  String get quizQ_IntrinsicValue_1 => 'Hva er \"Iboende verdi\"?';
 
   @override
-  String get quizO_IntrinsicValue_1_1 => 'The current market price';
+  String get quizO_IntrinsicValue_1_1 => 'Gjeldende markedspris';
 
   @override
-  String get quizO_IntrinsicValue_1_2 => 'The true inherent value of a company';
+  String get quizO_IntrinsicValue_1_2 =>
+      'Den sanne, indre verdien av et selskap';
 
   @override
-  String get quizO_IntrinsicValue_1_3 => 'The price 10 years ago';
+  String get quizO_IntrinsicValue_1_3 => 'Prisen for 10 år siden';
 
   @override
-  String get quizO_IntrinsicValue_1_4 => 'The price predicted by TV analysts';
+  String get quizO_IntrinsicValue_1_4 => 'Prisen spådd av analytikere på TV';
 
   @override
   String get quizE_IntrinsicValue_1 =>
-      'Intrinsic value is an estimate of the actual true value of a company based on its fundamentals, cash flows, and assets, independent of its market price.';
+      'Iboende verdi er et estimat av den faktiske verdien til et selskap basert på fundamentale forhold, kontantstrømmer og eiendeler, uavhengig av markedsprisen.';
 
   @override
-  String get quizQ_IntrinsicValue_2 =>
-      'What is the difference between Price and Value?';
+  String get quizQ_IntrinsicValue_2 => 'Hva er forskjellen på Pris og Verdi?';
 
   @override
-  String get quizO_IntrinsicValue_2_1 => 'They are the same thing';
+  String get quizO_IntrinsicValue_2_1 => 'De er det samme';
 
   @override
   String get quizO_IntrinsicValue_2_2 =>
-      'Price is what you pay, value is what you get';
+      'Pris er hva du betaler, verdi er hva du får';
 
   @override
-  String get quizO_IntrinsicValue_2_3 => 'Price is always higher';
+  String get quizO_IntrinsicValue_2_3 => 'Pris er alltid høyere';
 
   @override
-  String get quizO_IntrinsicValue_2_4 => 'Value is always higher';
+  String get quizO_IntrinsicValue_2_4 => 'Verdi er alltid høyere';
 
   @override
   String get quizE_IntrinsicValue_2 =>
-      'As Warren Buffett famously said, \"Price is what you pay. Value is what you get.\" The market price can disconnect from the true value.';
+      'Som Warren Buffett sa: \"Pris er hva du betaler. Verdi er hva du får.\" Markedsprisen kan skilles fra den sanne verdien.';
 
   @override
   String get quizQ_IntrinsicValue_3 =>
-      'What method is commonly used to estimate intrinsic value?';
+      'Hvilken metode er vanlig å bruke for å estimere iboende verdi?';
 
   @override
-  String get quizO_IntrinsicValue_3_1 => 'Guessing';
+  String get quizO_IntrinsicValue_3_1 => 'Gjetting';
 
   @override
-  String get quizO_IntrinsicValue_3_2 => 'Discounted Cash Flow (DCF)';
+  String get quizO_IntrinsicValue_3_2 => 'Diskontert kontantstrøm (DCF)';
 
   @override
-  String get quizO_IntrinsicValue_3_3 => 'Reading horoscopes';
+  String get quizO_IntrinsicValue_3_3 => 'Lese horoskoper';
 
   @override
-  String get quizO_IntrinsicValue_3_4 => 'Asking a friend';
+  String get quizO_IntrinsicValue_3_4 => 'Spørre en venn';
 
   @override
   String get quizE_IntrinsicValue_3 =>
-      'DCF Analysis is a valuation method used to estimate the value of an investment based on its expected future cash flows.';
+      'DCF-analyse er en verdsettelsesmetode som brukes til å estimere verdien av en investering basert på dens forventede fremtidige kontantstrømmer.';
 }
