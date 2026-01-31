@@ -57,6 +57,7 @@ dependencies:
   firebase_analytics: ^12.1.1
   flutter_markdown_plus: ^1.0.7
   firebase_crashlytics: ^5.0.7
+  in_app_review: ^2.0.11
 
 dev_dependencies:
   flutter_test:

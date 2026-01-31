@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
 import '../data/education_service.dart';
 import '../domain/lesson.dart';
 
@@ -7,6 +8,7 @@ class EducationController extends ChangeNotifier {
   final Map<String, int> _lessonProgress = {}; // lessonId -> maxPageIndex
   final Map<String, bool> _quizStatus = {}; // lessonId -> passed
   bool _isLoading = true;
+  final InAppReview _inAppReview = InAppReview.instance;
 
   EducationController(this._educationService) {
     _loadProgress();
@@ -54,6 +56,15 @@ class EducationController extends ChangeNotifier {
     _quizStatus[lessonId] = true;
     notifyListeners();
     await _educationService.saveQuizStatus(lessonId, true);
+    await _checkAndRequestReview(lessonId);
+  }
+
+  Future<void> _checkAndRequestReview(String lessonId) async {
+    if (lessonId == 'why_invest' || lessonId == 'dollar_cost_averaging') {
+      if (await _inAppReview.isAvailable()) {
+        await _inAppReview.requestReview();
+      }
+    }
   }
 
   // Specific method to get the raw page index for resuming
