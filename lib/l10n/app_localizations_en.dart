@@ -106,6 +106,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackImprovementTitle => 'Tell us what we can improve';
 
   @override
+  String get feedbackSentimentSad => 'Sad';
+
+  @override
+  String get feedbackSentimentNeutral => 'Neutral';
+
+  @override
+  String get feedbackSentimentHappy => 'Happy';
+
+  @override
   String get learnTitle => 'Learn Value Investing';
 
   @override

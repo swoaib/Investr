@@ -100,10 +100,19 @@ class AppLocalizationsNb extends AppLocalizations {
   String get feedbackError => 'Kunne ikke sende tilbakemelding. Prøv igjen.';
 
   @override
-  String get feedbackSentimentTitle => 'How is your experience?';
+  String get feedbackSentimentTitle => 'Hvordan er opplevelsen din?';
 
   @override
-  String get feedbackImprovementTitle => 'Tell us what we can improve';
+  String get feedbackImprovementTitle => 'Fortell oss hva vi kan forbedre';
+
+  @override
+  String get feedbackSentimentSad => 'Trist';
+
+  @override
+  String get feedbackSentimentNeutral => 'Nøytral';
+
+  @override
+  String get feedbackSentimentHappy => 'Fornøyd';
 
   @override
   String get learnTitle => 'Lær verdiinvestering';

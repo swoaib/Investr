@@ -100,10 +100,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get feedbackError => 'フィードバックを送信できませんでした。もう一度お試しください。';
 
   @override
-  String get feedbackSentimentTitle => 'How is your experience?';
+  String get feedbackSentimentTitle => '体験はいかがでしたか？';
 
   @override
-  String get feedbackImprovementTitle => 'Tell us what we can improve';
+  String get feedbackImprovementTitle => '改善点をお聞かせください';
+
+  @override
+  String get feedbackSentimentSad => '不満';
+
+  @override
+  String get feedbackSentimentNeutral => '普通';
+
+  @override
+  String get feedbackSentimentHappy => '満足';
 
   @override
   String get learnTitle => 'バリュー投資を学ぶ';

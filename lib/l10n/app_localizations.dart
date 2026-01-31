@@ -292,6 +292,24 @@ abstract class AppLocalizations {
   /// **'Tell us what we can improve'**
   String get feedbackImprovementTitle;
 
+  /// No description provided for @feedbackSentimentSad.
+  ///
+  /// In en, this message translates to:
+  /// **'Sad'**
+  String get feedbackSentimentSad;
+
+  /// No description provided for @feedbackSentimentNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Neutral'**
+  String get feedbackSentimentNeutral;
+
+  /// No description provided for @feedbackSentimentHappy.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy'**
+  String get feedbackSentimentHappy;
+
   /// No description provided for @learnTitle.
   ///
   /// In en, this message translates to:

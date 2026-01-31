@@ -13,7 +13,7 @@ class FeedbackSentimentBottomSheet extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
@@ -30,13 +30,15 @@ class FeedbackSentimentBottomSheet extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildSentimentOption(
                   context,
-                  assetPath: 'assets/images/feedback/smiley_sad.png',
+                  icon: Icons.sentiment_dissatisfied_rounded,
+                  color: const Color(0xFFE57373), // Red 300
+                  label: l10n.feedbackSentimentSad,
                   onTap: () {
                     Navigator.pop(context);
                     showModalBottomSheet(
@@ -51,7 +53,9 @@ class FeedbackSentimentBottomSheet extends StatelessWidget {
                 ),
                 _buildSentimentOption(
                   context,
-                  assetPath: 'assets/images/feedback/smiley_neutral.png',
+                  icon: Icons.sentiment_neutral_rounded,
+                  color: const Color(0xFFFFB74D), // Orange 300
+                  label: l10n.feedbackSentimentNeutral,
                   onTap: () {
                     Navigator.pop(context);
                     showModalBottomSheet(
@@ -66,17 +70,15 @@ class FeedbackSentimentBottomSheet extends StatelessWidget {
                 ),
                 _buildSentimentOption(
                   context,
-                  assetPath: 'assets/images/feedback/smiley_happy.png',
+                  icon: Icons.sentiment_very_satisfied_rounded,
+                  color: const Color(0xFF81C784), // Green 300
+                  label: l10n.feedbackSentimentHappy,
                   onTap: () async {
                     Navigator.pop(context);
                     final InAppReview inAppReview = InAppReview.instance;
 
                     if (await inAppReview.isAvailable()) {
                       await inAppReview.requestReview();
-                    } else {
-                      // fallback to open store listing?
-                      // await inAppReview.openStoreListing();
-                      // For now, let's just stick to the request if available.
                     }
                   },
                 ),
@@ -91,12 +93,34 @@ class FeedbackSentimentBottomSheet extends StatelessWidget {
 
   Widget _buildSentimentOption(
     BuildContext context, {
-    required String assetPath,
+    required IconData icon,
+    required Color color,
+    required String label,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
-      child: Image.asset(assetPath, width: 64, height: 64),
+      borderRadius: BorderRadius.circular(16),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.withValues(alpha: 0.3)),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(icon, size: 48, color: color),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
