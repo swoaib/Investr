@@ -78,12 +78,16 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
           MaterialPageRoute(
             builder: (_) => QuizScreen(
               quiz: widget.lesson.quiz!,
-              onFinish: () {
-                context.read<EducationController>().completeQuiz(
-                  widget.lesson.id,
-                );
-                Navigator.of(context).pop(); // Close quiz
-                Navigator.of(context).pop(); // Close lesson
+              onFinish: (isPassed) {
+                if (isPassed) {
+                  context.read<EducationController>().completeQuiz(
+                    widget.lesson.id,
+                  );
+                  Navigator.of(context).pop(); // Close quiz
+                  Navigator.of(context).pop(); // Close lesson
+                } else {
+                  Navigator.of(context).pop(); // Close quiz, stay on lesson
+                }
               },
             ),
           ),

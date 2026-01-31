@@ -1140,6 +1140,15 @@ class AppLocalizationsNb extends AppLocalizations {
   String get correct => 'Riktig!';
 
   @override
+  String get quizFailed => 'Quiz mislyktes';
+
+  @override
+  String get tryAgain => 'Prøv igjen';
+
+  @override
+  String get quizFailMessage => 'Du må ha alt riktig for å bestå.';
+
+  @override
   String get incorrect => 'Feil';
 
   @override

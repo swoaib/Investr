@@ -2140,6 +2140,24 @@ abstract class AppLocalizations {
   /// **'Correct!'**
   String get correct;
 
+  /// No description provided for @quizFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz Failed'**
+  String get quizFailed;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
+
+  /// No description provided for @quizFailMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You need 100% correct to pass.'**
+  String get quizFailMessage;
+
   /// No description provided for @incorrect.
   ///
   /// In en, this message translates to:

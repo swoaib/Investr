@@ -1125,6 +1125,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get correct => '正解！';
 
   @override
+  String get quizFailed => '不合格';
+
+  @override
+  String get tryAgain => '再試行';
+
+  @override
+  String get quizFailMessage => '合格するには100％正解する必要があります。';
+
+  @override
   String get incorrect => '不正解';
 
   @override

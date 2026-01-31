@@ -1140,6 +1140,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get correct => 'Correct!';
 
   @override
+  String get quizFailed => 'Quiz Failed';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get quizFailMessage => 'You need 100% correct to pass.';
+
+  @override
   String get incorrect => 'Incorrect';
 
   @override
