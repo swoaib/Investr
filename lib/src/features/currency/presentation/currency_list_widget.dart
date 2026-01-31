@@ -72,7 +72,7 @@ class CurrencyListWidget extends StatelessWidget {
         Positioned(
           right: 16,
           bottom:
-              90 +
+              80 +
               MediaQuery.of(
                 context,
               ).padding.bottom, // Floating above bottom nav

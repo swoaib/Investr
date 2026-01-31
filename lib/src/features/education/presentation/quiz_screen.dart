@@ -231,62 +231,71 @@ class _QuizResultSheet extends StatelessWidget {
     final isPassed = score == total;
 
     return Container(
-      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: isPassed
-                  ? AppTheme.primaryGreen.withValues(alpha: 0.1)
-                  : Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              isPassed ? Icons.emoji_events : Icons.close,
-              size: 48,
-              color: isPassed
-                  ? AppTheme.primaryGreen
-                  : Theme.of(context).colorScheme.error,
-            ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: isPassed
+                      ? AppTheme.primaryGreen.withValues(alpha: 0.1)
+                      : Theme.of(
+                          context,
+                        ).colorScheme.error.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  isPassed ? Icons.emoji_events : Icons.close,
+                  size: 48,
+                  color: isPassed
+                      ? AppTheme.primaryGreen
+                      : Theme.of(context).colorScheme.error,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                isPassed ? l10n.quizCompleted : l10n.quizFailed,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                isPassed ? l10n.quizScore(score, total) : l10n.quizFailMessage,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close local sheet
+                    onFinish(isPassed); // Pass result to parent
+                  },
+                  style: isPassed
+                      ? null
+                      : ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          foregroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.textDark
+                              : Colors.white,
+                        ),
+                  child: Text(isPassed ? l10n.finish : l10n.tryAgain),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
-          const SizedBox(height: 16),
-          Text(
-            isPassed ? l10n.quizCompleted : l10n.quizFailed,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            isPassed ? l10n.quizScore(score, total) : l10n.quizFailMessage,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 32),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close local sheet
-                onFinish(isPassed); // Pass result to parent
-              },
-              style: isPassed
-                  ? null
-                  : ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      foregroundColor: Colors.white,
-                    ),
-              child: Text(isPassed ? l10n.finish : l10n.tryAgain),
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
+        ),
       ),
     );
   }
