@@ -5,11 +5,59 @@ import '../domain/lesson.dart';
 class EducationController extends ChangeNotifier {
   final EducationService _educationService;
   final Map<String, int> _lessonProgress = {}; // lessonId -> maxPageIndex
+  final Map<String, bool> _quizStatus = {}; // lessonId -> passed
   bool _isLoading = true;
 
   EducationController(this._educationService) {
     _loadProgress();
   }
+
+  // ... existing code ...
+
+  Future<void> transformLessons(List<Lesson> lessons) async {
+    _isLoading = true;
+    notifyListeners();
+    for (final lesson in lessons) {
+      final progress = await _educationService.getLessonProgress(lesson.id);
+      _lessonProgress[lesson.id] = progress;
+      final quizPassed = await _educationService.getQuizStatus(lesson.id);
+      _quizStatus[lesson.id] = quizPassed;
+    }
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  double getProgress(String lessonId, int totalPages, {bool hasQuiz = false}) {
+    // ...
+    final index = _lessonProgress[lessonId] ?? 0;
+
+    // If they have seen the last page
+    if (index >= totalPages - 1) {
+      if (hasQuiz) {
+        // If there is a quiz, check if it is passed
+        final passed = _quizStatus[lessonId] ?? false;
+        return passed
+            ? 1.0
+            : 0.99; // 0.99 to indicate almost done (read but not passed)
+      }
+      return 1.0;
+    }
+
+    return index / (totalPages - 1);
+  }
+
+  bool isQuizPassed(String lessonId) {
+    return _quizStatus[lessonId] ?? false;
+  }
+
+  Future<void> completeQuiz(String lessonId) async {
+    _quizStatus[lessonId] = true;
+    notifyListeners();
+    await _educationService.saveQuizStatus(lessonId, true);
+  }
+
+  // Specific method to get the raw page index for resuming
+  // ...
 
   bool get isLoading => _isLoading;
 
@@ -24,44 +72,6 @@ class EducationController extends ChangeNotifier {
     // So we will expose a method to initialize progress for a list of lessons.
     _isLoading = false;
     notifyListeners();
-  }
-
-  Future<void> transformLessons(List<Lesson> lessons) async {
-    _isLoading = true;
-    notifyListeners();
-    for (final lesson in lessons) {
-      final progress = await _educationService.getLessonProgress(lesson.id);
-      _lessonProgress[lesson.id] = progress;
-    }
-    _isLoading = false;
-    notifyListeners();
-  }
-
-  double getProgress(String lessonId, int totalPages) {
-    // Progress is (completed pages) / (total pages - 1)
-    // Because page 0 is 0% (start), last page is 100% (done)
-    // Actually, "Done" button is on the last page.
-    // Let's say:
-    // page 0 of 3 -> 0/3 = 0%
-    // page 1 of 3 -> 1/3 = 33%
-    // page 2 of 3 -> 2/3 = 66%
-    // finshed -> 3/3 = 100%
-    // But we only track "max page reached".
-    // If user reached last page (index totalPages - 1), that's technically 100% if they read it.
-    // Let's treat "reaching the last page" as effectively completed for visual simplicity,
-    // or we can add a specific "completed" flag.
-    // For now: (current page index + 1) / totalPages is a bit aggressive if just started.
-    // Let's map 0..totalPages-1 to 0..1
-    if (totalPages <= 1) return 1.0;
-
-    // If stored index is totalPages - 1 (the last page), show 100%
-    // Otherwise show index / (totalPages - 1)
-
-    final index = _lessonProgress[lessonId] ?? 0;
-    // If they have seen the last page, it's 100%
-    if (index >= totalPages - 1) return 1.0;
-
-    return index / (totalPages - 1);
   }
 
   // Specific method to get the raw page index for resuming

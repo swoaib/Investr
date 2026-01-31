@@ -49,6 +49,44 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/stocks_attribution.png',
           ),
         ],
+        quiz: Quiz(
+          title: '${l10n.stocks101Title} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_Stocks101_1,
+              options: [
+                l10n.quizO_Stocks101_1_1,
+                l10n.quizO_Stocks101_1_2,
+                l10n.quizO_Stocks101_1_3,
+                l10n.quizO_Stocks101_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_Stocks101_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_Stocks101_2,
+              options: [
+                l10n.quizO_Stocks101_2_1,
+                l10n.quizO_Stocks101_2_2,
+                l10n.quizO_Stocks101_2_3,
+                l10n.quizO_Stocks101_2_4,
+              ],
+              correctOptionIndex: 2,
+              explanation: l10n.quizE_Stocks101_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_Stocks101_3,
+              options: [
+                l10n.quizO_Stocks101_3_1,
+                l10n.quizO_Stocks101_3_2,
+                l10n.quizO_Stocks101_3_3,
+                l10n.quizO_Stocks101_3_4,
+              ],
+              correctOptionIndex: 2,
+              explanation: l10n.quizE_Stocks101_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'investing_vs_speculation',
@@ -84,6 +122,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/strategic_speculation.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.investingVsSpeculationTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_InvestVsSpec_1,
+              options: [
+                l10n.quizO_InvestVsSpec_1_1,
+                l10n.quizO_InvestVsSpec_1_2,
+                l10n.quizO_InvestVsSpec_1_3,
+                l10n.quizO_InvestVsSpec_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_InvestVsSpec_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_InvestVsSpec_2,
+              options: [
+                l10n.quizO_InvestVsSpec_2_1,
+                l10n.quizO_InvestVsSpec_2_2,
+                l10n.quizO_InvestVsSpec_2_3,
+                l10n.quizO_InvestVsSpec_2_4,
+              ],
+              correctOptionIndex: 2,
+              explanation: l10n.quizE_InvestVsSpec_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_InvestVsSpec_3,
+              options: [
+                l10n.quizO_InvestVsSpec_3_1,
+                l10n.quizO_InvestVsSpec_3_2,
+                l10n.quizO_InvestVsSpec_3_3,
+                l10n.quizO_InvestVsSpec_3_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_InvestVsSpec_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'why_invest',
@@ -129,6 +206,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/compound_time.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.whyInvestLessonTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_WhyInvest_1,
+              options: [
+                l10n.quizO_WhyInvest_1_1,
+                l10n.quizO_WhyInvest_1_2,
+                l10n.quizO_WhyInvest_1_3,
+                l10n.quizO_WhyInvest_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_WhyInvest_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_WhyInvest_2,
+              options: [
+                l10n.quizO_WhyInvest_2_1,
+                l10n.quizO_WhyInvest_2_2,
+                l10n.quizO_WhyInvest_2_3,
+                l10n.quizO_WhyInvest_2_4,
+              ],
+              correctOptionIndex: 0,
+              explanation: l10n.quizE_WhyInvest_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_WhyInvest_3,
+              options: [
+                l10n.quizO_WhyInvest_3_1,
+                l10n.quizO_WhyInvest_3_2,
+                l10n.quizO_WhyInvest_3_3,
+                l10n.quizO_WhyInvest_3_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_WhyInvest_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'defensive_vs_enterprise',
@@ -169,6 +285,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/intelligent_choice.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.defensiveVsEnterpriseTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_DefensiveVsEnterprise_1,
+              options: [
+                l10n.quizO_DefensiveVsEnterprise_1_1,
+                l10n.quizO_DefensiveVsEnterprise_1_2,
+                l10n.quizO_DefensiveVsEnterprise_1_3,
+                l10n.quizO_DefensiveVsEnterprise_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_DefensiveVsEnterprise_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_DefensiveVsEnterprise_2,
+              options: [
+                l10n.quizO_DefensiveVsEnterprise_2_1,
+                l10n.quizO_DefensiveVsEnterprise_2_2,
+                l10n.quizO_DefensiveVsEnterprise_2_3,
+                l10n.quizO_DefensiveVsEnterprise_2_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_DefensiveVsEnterprise_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_DefensiveVsEnterprise_3,
+              options: [
+                l10n.quizO_DefensiveVsEnterprise_3_1,
+                l10n.quizO_DefensiveVsEnterprise_3_2,
+                l10n.quizO_DefensiveVsEnterprise_3_3,
+                l10n.quizO_DefensiveVsEnterprise_3_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_DefensiveVsEnterprise_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'mr_market',
@@ -204,6 +359,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/mr_market_discipline.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.mrMarketTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_MrMarket_1,
+              options: [
+                l10n.quizO_MrMarket_1_1,
+                l10n.quizO_MrMarket_1_2,
+                l10n.quizO_MrMarket_1_3,
+                l10n.quizO_MrMarket_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_MrMarket_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_MrMarket_2,
+              options: [
+                l10n.quizO_MrMarket_2_1,
+                l10n.quizO_MrMarket_2_2,
+                l10n.quizO_MrMarket_2_3,
+                l10n.quizO_MrMarket_2_4,
+              ],
+              correctOptionIndex: 2,
+              explanation: l10n.quizE_MrMarket_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_MrMarket_3,
+              options: [
+                l10n.quizO_MrMarket_3_1,
+                l10n.quizO_MrMarket_3_2,
+                l10n.quizO_MrMarket_3_3,
+                l10n.quizO_MrMarket_3_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_MrMarket_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'margin_of_safety',
@@ -242,6 +436,45 @@ class LearnScreen extends StatelessWidget {
                 'assets/images/education/margin_of_safety_conservative.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.marginOfSafetyTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_MarginOfSafety_1,
+              options: [
+                l10n.quizO_MarginOfSafety_1_1,
+                l10n.quizO_MarginOfSafety_1_2,
+                l10n.quizO_MarginOfSafety_1_3,
+                l10n.quizO_MarginOfSafety_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_MarginOfSafety_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_MarginOfSafety_2,
+              options: [
+                l10n.quizO_MarginOfSafety_2_1,
+                l10n.quizO_MarginOfSafety_2_2,
+                l10n.quizO_MarginOfSafety_2_3,
+                l10n.quizO_MarginOfSafety_2_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_MarginOfSafety_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_MarginOfSafety_3,
+              options: [
+                l10n.quizO_MarginOfSafety_3_1,
+                l10n.quizO_MarginOfSafety_3_2,
+                l10n.quizO_MarginOfSafety_3_3,
+                l10n.quizO_MarginOfSafety_3_4,
+              ],
+              correctOptionIndex: 0,
+              explanation: l10n.quizE_MarginOfSafety_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'index_funds',
@@ -282,6 +515,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/mutual_fund_manager.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.indexFundsTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_IndexFunds_1,
+              options: [
+                l10n.quizO_IndexFunds_1_1,
+                l10n.quizO_IndexFunds_1_2,
+                l10n.quizO_IndexFunds_1_3,
+                l10n.quizO_IndexFunds_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_IndexFunds_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_IndexFunds_2,
+              options: [
+                l10n.quizO_IndexFunds_2_1,
+                l10n.quizO_IndexFunds_2_2,
+                l10n.quizO_IndexFunds_2_3,
+                l10n.quizO_IndexFunds_2_4,
+              ],
+              correctOptionIndex: 0,
+              explanation: l10n.quizE_IndexFunds_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_IndexFunds_3,
+              options: [
+                l10n.quizO_IndexFunds_3_1,
+                l10n.quizO_IndexFunds_3_2,
+                l10n.quizO_IndexFunds_3_3,
+                l10n.quizO_IndexFunds_3_4,
+              ],
+              correctOptionIndex: 2,
+              explanation: l10n.quizE_IndexFunds_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'dollar_cost_averaging',
@@ -317,6 +589,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/dca_remove_emotion.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.dollarCostAveragingTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_DCA_1,
+              options: [
+                l10n.quizO_DCA_1_1,
+                l10n.quizO_DCA_1_2,
+                l10n.quizO_DCA_1_3,
+                l10n.quizO_DCA_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_DCA_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_DCA_2,
+              options: [
+                l10n.quizO_DCA_2_1,
+                l10n.quizO_DCA_2_2,
+                l10n.quizO_DCA_2_3,
+                l10n.quizO_DCA_2_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_DCA_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_DCA_3,
+              options: [
+                l10n.quizO_DCA_3_1,
+                l10n.quizO_DCA_3_2,
+                l10n.quizO_DCA_3_3,
+                l10n.quizO_DCA_3_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_DCA_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'how_to_invest',
@@ -357,6 +668,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/market_order.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.howToInvestTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_HowToInvest_1,
+              options: [
+                l10n.quizO_HowToInvest_1_1,
+                l10n.quizO_HowToInvest_1_2,
+                l10n.quizO_HowToInvest_1_3,
+                l10n.quizO_HowToInvest_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_HowToInvest_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_HowToInvest_2,
+              options: [
+                l10n.quizO_HowToInvest_2_1,
+                l10n.quizO_HowToInvest_2_2,
+                l10n.quizO_HowToInvest_2_3,
+                l10n.quizO_HowToInvest_2_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_HowToInvest_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_HowToInvest_3,
+              options: [
+                l10n.quizO_HowToInvest_3_1,
+                l10n.quizO_HowToInvest_3_2,
+                l10n.quizO_HowToInvest_3_3,
+                l10n.quizO_HowToInvest_3_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_HowToInvest_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'understanding_metrics',
@@ -402,6 +752,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/net_income.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.understandingMetricsTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_Metrics_1,
+              options: [
+                l10n.quizO_Metrics_1_1,
+                l10n.quizO_Metrics_1_2,
+                l10n.quizO_Metrics_1_3,
+                l10n.quizO_Metrics_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_Metrics_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_Metrics_2,
+              options: [
+                l10n.quizO_Metrics_2_1,
+                l10n.quizO_Metrics_2_2,
+                l10n.quizO_Metrics_2_3,
+                l10n.quizO_Metrics_2_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_Metrics_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_Metrics_3,
+              options: [
+                l10n.quizO_Metrics_3_1,
+                l10n.quizO_Metrics_3_2,
+                l10n.quizO_Metrics_3_3,
+                l10n.quizO_Metrics_3_4,
+              ],
+              correctOptionIndex: 2,
+              explanation: l10n.quizE_Metrics_3,
+            ),
+          ],
+        ),
       ),
       Lesson(
         id: 'calculating_intrinsic_value',
@@ -432,6 +821,45 @@ class LearnScreen extends StatelessWidget {
             imagePath: 'assets/images/education/intrinsic_conservative.png',
           ),
         ],
+
+        quiz: Quiz(
+          title: '${l10n.calcIntrinsicValueTitle} ${l10n.quizTitle}',
+          questions: [
+            QuizQuestion(
+              question: l10n.quizQ_IntrinsicValue_1,
+              options: [
+                l10n.quizO_IntrinsicValue_1_1,
+                l10n.quizO_IntrinsicValue_1_2,
+                l10n.quizO_IntrinsicValue_1_3,
+                l10n.quizO_IntrinsicValue_1_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_IntrinsicValue_1,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_IntrinsicValue_2,
+              options: [
+                l10n.quizO_IntrinsicValue_2_1,
+                l10n.quizO_IntrinsicValue_2_2,
+                l10n.quizO_IntrinsicValue_2_3,
+                l10n.quizO_IntrinsicValue_2_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_IntrinsicValue_2,
+            ),
+            QuizQuestion(
+              question: l10n.quizQ_IntrinsicValue_3,
+              options: [
+                l10n.quizO_IntrinsicValue_3_1,
+                l10n.quizO_IntrinsicValue_3_2,
+                l10n.quizO_IntrinsicValue_3_3,
+                l10n.quizO_IntrinsicValue_3_4,
+              ],
+              correctOptionIndex: 1,
+              explanation: l10n.quizE_IntrinsicValue_3,
+            ),
+          ],
+        ),
       ),
     ];
   }
@@ -605,7 +1033,11 @@ class _LessonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Watch for updates to repaint when progress changes
     final progress = context.select<EducationController, double>(
-      (controller) => controller.getProgress(lesson.id, lesson.pages.length),
+      (controller) => controller.getProgress(
+        lesson.id,
+        lesson.pages.length,
+        hasQuiz: lesson.quiz != null,
+      ),
     );
 
     return GestureDetector(
@@ -684,7 +1116,9 @@ class _LessonCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        if (progress > 0 && progress < 1.0)
+                        if (progress > 0 &&
+                            progress <
+                                1.0) // Show percentage only if not complete (0.99 is not complete)
                           Text(
                             '${(progress * 100).toInt()}%',
                             style: const TextStyle(
@@ -698,6 +1132,24 @@ class _LessonCard extends StatelessWidget {
                           const Icon(
                             Icons.check_circle,
                             color: AppTheme.primaryGreen,
+                          )
+                        else if (lesson.quiz != null &&
+                            progress >
+                                0.98) // Almost done (read pages) but quiz not passed
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF9C27B0), // Purple
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Text(
+                              'Quiz',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           )
                         else if (progress > 0.0)
                           SizedBox(

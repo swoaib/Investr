@@ -14,8 +14,20 @@ class EducationService {
     }
   }
 
+  static const String _quizPassedKeyPrefix = 'quiz_passed_';
+
   Future<int> getLessonProgress(String lessonId) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt('$_progressKeyPrefix$lessonId') ?? 0;
+  }
+
+  Future<void> saveQuizStatus(String lessonId, bool passed) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('$_quizPassedKeyPrefix$lessonId', passed);
+  }
+
+  Future<bool> getQuizStatus(String lessonId) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('$_quizPassedKeyPrefix$lessonId') ?? false;
   }
 }

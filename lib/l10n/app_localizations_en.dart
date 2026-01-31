@@ -1119,4 +1119,685 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get landingPageCurrency => 'Currency';
+
+  @override
+  String get quizTitle => 'Knowledge Check';
+
+  @override
+  String questionCount(Object current, Object total) {
+    return 'Question $current of $total';
+  }
+
+  @override
+  String get quizCompleted => 'Quiz Completed!';
+
+  @override
+  String quizScore(Object score, Object total) {
+    return 'You scored $score out of $total';
+  }
+
+  @override
+  String get correct => 'Correct!';
+
+  @override
+  String get incorrect => 'Incorrect';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get startQuiz => 'Take Quiz';
+
+  @override
+  String get quizNext => 'Next';
+
+  @override
+  String get quizQ_Stocks101_1 => 'What is a stock?';
+
+  @override
+  String get quizO_Stocks101_1_1 => 'A type of loan to a company';
+
+  @override
+  String get quizO_Stocks101_1_2 => 'Fractional ownership in a company';
+
+  @override
+  String get quizO_Stocks101_1_3 => 'A guarantee of profit';
+
+  @override
+  String get quizO_Stocks101_1_4 => 'A government bond';
+
+  @override
+  String get quizE_Stocks101_1 =>
+      'A stock represents partial ownership in a corporation. When you buy a stock, you are buying a piece of that company.';
+
+  @override
+  String get quizQ_Stocks101_2 => 'Why do companies issue stock?';
+
+  @override
+  String get quizO_Stocks101_2_1 => 'To increase their debt';
+
+  @override
+  String get quizO_Stocks101_2_2 => 'To pay less taxes';
+
+  @override
+  String get quizO_Stocks101_2_3 => 'To raise capital for growth';
+
+  @override
+  String get quizO_Stocks101_2_4 => 'To give away money';
+
+  @override
+  String get quizE_Stocks101_2 =>
+      'Companies issue stock to raise money (capital) to fund operations, expand their business, or pay off debt.';
+
+  @override
+  String get quizQ_Stocks101_3 =>
+      'Over the long term, stocks have historically...';
+
+  @override
+  String get quizO_Stocks101_3_1 => 'Lost money';
+
+  @override
+  String get quizO_Stocks101_3_2 => 'Stayed the same';
+
+  @override
+  String get quizO_Stocks101_3_3 => 'Outperformed savings accounts';
+
+  @override
+  String get quizO_Stocks101_3_4 => 'Been safer than cash';
+
+  @override
+  String get quizE_Stocks101_3 =>
+      'Historically, the stock market has provided returns that significantly outperform savings accounts and beat inflation over long periods.';
+
+  @override
+  String get quizQ_InvestVsSpec_1 =>
+      'What is the main difference between investing and speculation?';
+
+  @override
+  String get quizO_InvestVsSpec_1_1 => 'Amount of money used';
+
+  @override
+  String get quizO_InvestVsSpec_1_2 => 'Time horizon and analysis';
+
+  @override
+  String get quizO_InvestVsSpec_1_3 => 'Type of stock bought';
+
+  @override
+  String get quizO_InvestVsSpec_1_4 => 'The broker used';
+
+  @override
+  String get quizE_InvestVsSpec_1 =>
+      'Investing involves thorough analysis and a long-term view, while speculation is often short-term and based on price movements without underlying value analysis.';
+
+  @override
+  String get quizQ_InvestVsSpec_2 => 'Which approach relies more on chance?';
+
+  @override
+  String get quizO_InvestVsSpec_2_1 => 'Value Investing';
+
+  @override
+  String get quizO_InvestVsSpec_2_2 => 'Dollar Cost Averaging';
+
+  @override
+  String get quizO_InvestVsSpec_2_3 => 'Speculation';
+
+  @override
+  String get quizO_InvestVsSpec_2_4 => 'Index Fund Investing';
+
+  @override
+  String get quizE_InvestVsSpec_2 =>
+      'Speculation is often compared to gambling because it relies more on luck and short-term market psychology than on the fundamental value of the asset.';
+
+  @override
+  String get quizQ_InvestVsSpec_3 => 'What is \"Value Investing\"?';
+
+  @override
+  String get quizO_InvestVsSpec_3_1 => 'Buying the most expensive stocks';
+
+  @override
+  String get quizO_InvestVsSpec_3_2 =>
+      'Buying stocks for less than they are worth';
+
+  @override
+  String get quizO_InvestVsSpec_3_3 => 'Buying whatever is trending';
+
+  @override
+  String get quizO_InvestVsSpec_3_4 => 'Buying only tech stocks';
+
+  @override
+  String get quizE_InvestVsSpec_3 =>
+      'Value investing is the strategy of buying stocks that are trading for less than their intrinsic or book value.';
+
+  @override
+  String get quizQ_WhyInvest_1 =>
+      'What is the silent killer of purchasing power?';
+
+  @override
+  String get quizO_WhyInvest_1_1 => 'Taxation';
+
+  @override
+  String get quizO_WhyInvest_1_2 => 'Inflation';
+
+  @override
+  String get quizO_WhyInvest_1_3 => 'Deflation';
+
+  @override
+  String get quizO_WhyInvest_1_4 => 'Dividends';
+
+  @override
+  String get quizE_WhyInvest_1 =>
+      'Inflation slowly erodes the purchasing power of your money over time, making cash worth less in the future.';
+
+  @override
+  String get quizQ_WhyInvest_2 => 'What is \"Compound Interest\"?';
+
+  @override
+  String get quizO_WhyInvest_2_1 => 'Interest on your interest';
+
+  @override
+  String get quizO_WhyInvest_2_2 => 'A bank fee';
+
+  @override
+  String get quizO_WhyInvest_2_3 => 'A tax on gains';
+
+  @override
+  String get quizO_WhyInvest_2_4 => 'A type of loan';
+
+  @override
+  String get quizE_WhyInvest_2 =>
+      'Compound interest is when you earn interest on both your initial money and the interest you\'ve already accumulated, leading to exponential growth.';
+
+  @override
+  String get quizQ_WhyInvest_3 =>
+      'Why are stocks generally better than a savings account for long-term goals?';
+
+  @override
+  String get quizO_WhyInvest_3_1 => 'They are safer';
+
+  @override
+  String get quizO_WhyInvest_3_2 => 'They have historically beaten inflation';
+
+  @override
+  String get quizO_WhyInvest_3_3 => 'They are insured by the government';
+
+  @override
+  String get quizO_WhyInvest_3_4 => 'They are easier to access';
+
+  @override
+  String get quizE_WhyInvest_3 =>
+      'While savings accounts are safer, their low interest rates often fail to keep up with inflation, whereas stocks have historically provided much higher returns over the long run.';
+
+  @override
+  String get quizQ_DefensiveVsEnterprise_1 =>
+      'Who is a \"Defensive Investor\"?';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_1_1 => 'Someone who shorts stocks';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_1_2 =>
+      'Someone who wants safety and freedom from effort';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_1_3 => 'Someone who trades daily';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_1_4 =>
+      'Someone who buys only penny stocks';
+
+  @override
+  String get quizE_DefensiveVsEnterprise_1 =>
+      'A defensive investor prioritizes safety and minimal effort, often choosing index funds or high-quality blue-chip stocks.';
+
+  @override
+  String get quizQ_DefensiveVsEnterprise_2 =>
+      'What is the main goal of an \"Enterprising Investor\"?';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_2_1 => 'To match the market average';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_2_2 =>
+      'To beat the market through effort and skill';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_2_3 => 'To lose money';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_2_4 => 'To avoid all risk';
+
+  @override
+  String get quizE_DefensiveVsEnterprise_2 =>
+      'An enterprising investor is willing to put in time and effort to research stocks in hopes of achieving a better return than the average market.';
+
+  @override
+  String get quizQ_DefensiveVsEnterprise_3 =>
+      'Which strategy requires more time and research?';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_3_1 => 'Defensive Investing';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_3_2 => 'Enterprising Investing';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_3_3 => 'Passive Investing';
+
+  @override
+  String get quizO_DefensiveVsEnterprise_3_4 => 'Savings Accounts';
+
+  @override
+  String get quizE_DefensiveVsEnterprise_3 =>
+      'Enterprising investing involves active research, analysis, and monitoring of individual stocks, which requires significantly more time.';
+
+  @override
+  String get quizQ_MrMarket_1 => 'Who is \"Mr. Market\"?';
+
+  @override
+  String get quizO_MrMarket_1_1 => 'A famous investor';
+
+  @override
+  String get quizO_MrMarket_1_2 =>
+      'An allegorical character representing market mood';
+
+  @override
+  String get quizO_MrMarket_1_3 => 'The CEO of the stock exchange';
+
+  @override
+  String get quizO_MrMarket_1_4 => 'A government regulator';
+
+  @override
+  String get quizE_MrMarket_1 =>
+      'Benjamin Graham created Mr. Market to allegorize the irrational and emotional daily price fluctuations of the stock market.';
+
+  @override
+  String get quizQ_MrMarket_2 => 'Mr. Market is described as...';
+
+  @override
+  String get quizO_MrMarket_2_1 => 'Rational and calm';
+
+  @override
+  String get quizO_MrMarket_2_2 => 'Predictable and steady';
+
+  @override
+  String get quizO_MrMarket_2_3 => 'Emotional and manic-depressive';
+
+  @override
+  String get quizO_MrMarket_2_4 => 'Always correct';
+
+  @override
+  String get quizE_MrMarket_2 =>
+      'Mr. Market swings from extreme optimism to extreme pessimism, offering prices based on his mood rather than true value.';
+
+  @override
+  String get quizQ_MrMarket_3 =>
+      'What should you do when Mr. Market is depressed and offers low prices?';
+
+  @override
+  String get quizO_MrMarket_3_1 => 'Sell everything';
+
+  @override
+  String get quizO_MrMarket_3_2 => 'Buy if the value is right';
+
+  @override
+  String get quizO_MrMarket_3_3 => 'Panic';
+
+  @override
+  String get quizO_MrMarket_3_4 => 'Ignore him completely';
+
+  @override
+  String get quizE_MrMarket_3 =>
+      'When the market is irrational and prices are low, it presents an opportunity for the intelligent investor to buy quality assets at a discount.';
+
+  @override
+  String get quizQ_MarginOfSafety_1 => 'What is the \"Margin of Safety\"?';
+
+  @override
+  String get quizO_MarginOfSafety_1_1 => 'A safety helmet';
+
+  @override
+  String get quizO_MarginOfSafety_1_2 =>
+      'Buying at a price far below intrinsic value';
+
+  @override
+  String get quizO_MarginOfSafety_1_3 => 'A stop-loss order';
+
+  @override
+  String get quizO_MarginOfSafety_1_4 => 'Buying insurance';
+
+  @override
+  String get quizE_MarginOfSafety_1 =>
+      'Margin of safety is the concept of purchasing a stock at a significant discount to its intrinsic value to minimize the risk of loss.';
+
+  @override
+  String get quizQ_MarginOfSafety_2 => 'Why is a Margin of Safety important?';
+
+  @override
+  String get quizO_MarginOfSafety_2_1 => 'It guarantees a profit';
+
+  @override
+  String get quizO_MarginOfSafety_2_2 => 'It allows for error and bad luck';
+
+  @override
+  String get quizO_MarginOfSafety_2_3 => 'It is required by law';
+
+  @override
+  String get quizO_MarginOfSafety_2_4 => 'It makes trading faster';
+
+  @override
+  String get quizE_MarginOfSafety_2 =>
+      'It acts as a buffer against errors in your valuation, unforeseen market events, or bad luck, protecting your capital.';
+
+  @override
+  String get quizQ_MarginOfSafety_3 =>
+      'Which comparison was used for Margin of Safety?';
+
+  @override
+  String get quizO_MarginOfSafety_3_1 =>
+      'Building a bridge stronger than needed';
+
+  @override
+  String get quizO_MarginOfSafety_3_2 => 'Driving a fast car';
+
+  @override
+  String get quizO_MarginOfSafety_3_3 => 'Betting on a horse';
+
+  @override
+  String get quizO_MarginOfSafety_3_4 => 'Cooking a meal';
+
+  @override
+  String get quizE_MarginOfSafety_3 =>
+      'Like an engineer builds a bridge to hold 30,000 lbs even if only 10,000 lbs trucks cross it, an investor wants a buffer for their investments.';
+
+  @override
+  String get quizQ_IndexFunds_1 => 'What does an Index Fund do?';
+
+  @override
+  String get quizO_IndexFunds_1_1 => 'Tries to beat the market';
+
+  @override
+  String get quizO_IndexFunds_1_2 => 'Tracks a specific market index';
+
+  @override
+  String get quizO_IndexFunds_1_3 => 'Buys only one stock';
+
+  @override
+  String get quizO_IndexFunds_1_4 => 'Shorts the market';
+
+  @override
+  String get quizE_IndexFunds_1 =>
+      'An index fund buys all (or a representative sample) of the companies in a specific index, like the S&P 500, to match its performance.';
+
+  @override
+  String get quizQ_IndexFunds_2 => 'What is a major benefit of Index Funds?';
+
+  @override
+  String get quizO_IndexFunds_2_1 => 'Instant diversification';
+
+  @override
+  String get quizO_IndexFunds_2_2 => 'Guaranteed 100% returns';
+
+  @override
+  String get quizO_IndexFunds_2_3 => 'No risk';
+
+  @override
+  String get quizO_IndexFunds_2_4 => 'Free money';
+
+  @override
+  String get quizE_IndexFunds_2 =>
+      'By buying a single index fund, you instantly own a tiny piece of hundreds or thousands of companies, spreading your risk.';
+
+  @override
+  String get quizQ_IndexFunds_3 =>
+      'How do Index Fund fees generally compare to active mutual funds?';
+
+  @override
+  String get quizO_IndexFunds_3_1 => 'They are much higher';
+
+  @override
+  String get quizO_IndexFunds_3_2 => 'They are about the same';
+
+  @override
+  String get quizO_IndexFunds_3_3 => 'They are typically much lower';
+
+  @override
+  String get quizO_IndexFunds_3_4 => 'Fees don\'t exist';
+
+  @override
+  String get quizE_IndexFunds_3 =>
+      'Because they require less active management, index funds and ETFs usually have significantly lower expense ratios than actively managed funds.';
+
+  @override
+  String get quizQ_DCA_1 => 'What is Dollar Cost Averaging (DCA)?';
+
+  @override
+  String get quizO_DCA_1_1 => 'Investing a lump sum all at once';
+
+  @override
+  String get quizO_DCA_1_2 => 'Investing a fixed amount at regular intervals';
+
+  @override
+  String get quizO_DCA_1_3 => 'Buying only when the market is low';
+
+  @override
+  String get quizO_DCA_1_4 => 'Selling when the market is high';
+
+  @override
+  String get quizE_DCA_1 =>
+      'DCA involves investing the same amount of money (e.g., \$500) on a regular schedule (e.g., monthly) regardless of the share price.';
+
+  @override
+  String get quizQ_DCA_2 => 'Does DCA require you to time the market?';
+
+  @override
+  String get quizO_DCA_2_1 => 'Yes, perfectly';
+
+  @override
+  String get quizO_DCA_2_2 => 'No, it ignores market timing';
+
+  @override
+  String get quizO_DCA_2_3 => 'Only during crashes';
+
+  @override
+  String get quizO_DCA_2_4 => 'Only during bubbles';
+
+  @override
+  String get quizE_DCA_2 =>
+      'DCA removes the need to predict market tops and bottoms, discouraging emotional trading based on price fluctuations.';
+
+  @override
+  String get quizQ_DCA_3 => 'What is a psychological benefit of DCA?';
+
+  @override
+  String get quizO_DCA_3_1 => 'It is exciting';
+
+  @override
+  String get quizO_DCA_3_2 => 'It removes emotion from investing';
+
+  @override
+  String get quizO_DCA_3_3 => 'It makes you feel smarter';
+
+  @override
+  String get quizO_DCA_3_4 => 'It guarantees quick riches';
+
+  @override
+  String get quizE_DCA_3 =>
+      'By sticking to a schedule, you avoid the fear of buying at the top or the hesitation to buy during a dip.';
+
+  @override
+  String get quizQ_HowToInvest_1 => 'What is a Broker?';
+
+  @override
+  String get quizO_HowToInvest_1_1 => 'A person who breaks things';
+
+  @override
+  String get quizO_HowToInvest_1_2 =>
+      'An intermediary between you and the stock market';
+
+  @override
+  String get quizO_HowToInvest_1_3 => 'A bank teller';
+
+  @override
+  String get quizO_HowToInvest_1_4 => 'A government official';
+
+  @override
+  String get quizE_HowToInvest_1 =>
+      'A broker is a firm or individual that facilitates the buying and selling of financial securities between a buyer and a seller.';
+
+  @override
+  String get quizQ_HowToInvest_2 => 'What is a \"Market Order\"?';
+
+  @override
+  String get quizO_HowToInvest_2_1 => 'An order to buy groceries';
+
+  @override
+  String get quizO_HowToInvest_2_2 =>
+      'An order to buy/sell immediately at the current price';
+
+  @override
+  String get quizO_HowToInvest_2_3 =>
+      'An order to buy at a specific price later';
+
+  @override
+  String get quizO_HowToInvest_2_4 => 'An order to cancel a trade';
+
+  @override
+  String get quizE_HowToInvest_2 =>
+      'A market order guarantees execution but not a specific price; it executes immediately at the best available current price.';
+
+  @override
+  String get quizQ_HowToInvest_3 => 'What is the \"Bid\" price?';
+
+  @override
+  String get quizO_HowToInvest_3_1 => 'The price you pay to buy';
+
+  @override
+  String get quizO_HowToInvest_3_2 => 'The price a buyer is willing to pay';
+
+  @override
+  String get quizO_HowToInvest_3_3 => 'The price a seller wants';
+
+  @override
+  String get quizO_HowToInvest_3_4 => 'The final sale price';
+
+  @override
+  String get quizE_HowToInvest_3 =>
+      'The bid is the highest price a buyer is willing to pay for a stock, while the ask is the lowest price a seller is willing to accept.';
+
+  @override
+  String get quizQ_Metrics_1 => 'what is \"Market Cap\"?';
+
+  @override
+  String get quizO_Metrics_1_1 => 'The maximum number of stocks';
+
+  @override
+  String get quizO_Metrics_1_2 => 'The total value of a company\'s shares';
+
+  @override
+  String get quizO_Metrics_1_3 => 'The location of the market';
+
+  @override
+  String get quizO_Metrics_1_4 => 'The cap on a bottle';
+
+  @override
+  String get quizE_Metrics_1 =>
+      'Market capitalization is calculated by multiplying the total number of outstanding shares by the current share price.';
+
+  @override
+  String get quizQ_Metrics_2 => 'What does P/E Ratio stand for?';
+
+  @override
+  String get quizO_Metrics_2_1 => 'Profit to Earnings';
+
+  @override
+  String get quizO_Metrics_2_2 => 'Price to Earnings';
+
+  @override
+  String get quizO_Metrics_2_3 => 'Public to Equity';
+
+  @override
+  String get quizO_Metrics_2_4 => 'Past to End';
+
+  @override
+  String get quizE_Metrics_2 =>
+      'The Price-to-Earnings ratio measures a company\'s current share price relative to its per-share earnings.';
+
+  @override
+  String get quizQ_Metrics_3 => 'What is a \"Dividend\"?';
+
+  @override
+  String get quizO_Metrics_3_1 => 'A tax payment';
+
+  @override
+  String get quizO_Metrics_3_2 => 'A fee paid to the broker';
+
+  @override
+  String get quizO_Metrics_3_3 => 'A distribution of profits to shareholders';
+
+  @override
+  String get quizO_Metrics_3_4 => 'A type of stock split';
+
+  @override
+  String get quizE_Metrics_3 =>
+      'A dividend is a payment made by a corporation to its shareholders, usually as a distribution of profits.';
+
+  @override
+  String get quizQ_IntrinsicValue_1 => 'What is \"Intrinsic Value\"?';
+
+  @override
+  String get quizO_IntrinsicValue_1_1 => 'The current market price';
+
+  @override
+  String get quizO_IntrinsicValue_1_2 => 'The true inherent value of a company';
+
+  @override
+  String get quizO_IntrinsicValue_1_3 => 'The price 10 years ago';
+
+  @override
+  String get quizO_IntrinsicValue_1_4 => 'The price predicted by TV analysts';
+
+  @override
+  String get quizE_IntrinsicValue_1 =>
+      'Intrinsic value is an estimate of the actual true value of a company based on its fundamentals, cash flows, and assets, independent of its market price.';
+
+  @override
+  String get quizQ_IntrinsicValue_2 =>
+      'What is the difference between Price and Value?';
+
+  @override
+  String get quizO_IntrinsicValue_2_1 => 'They are the same thing';
+
+  @override
+  String get quizO_IntrinsicValue_2_2 =>
+      'Price is what you pay, value is what you get';
+
+  @override
+  String get quizO_IntrinsicValue_2_3 => 'Price is always higher';
+
+  @override
+  String get quizO_IntrinsicValue_2_4 => 'Value is always higher';
+
+  @override
+  String get quizE_IntrinsicValue_2 =>
+      'As Warren Buffett famously said, \"Price is what you pay. Value is what you get.\" The market price can disconnect from the true value.';
+
+  @override
+  String get quizQ_IntrinsicValue_3 =>
+      'What method is commonly used to estimate intrinsic value?';
+
+  @override
+  String get quizO_IntrinsicValue_3_1 => 'Guessing';
+
+  @override
+  String get quizO_IntrinsicValue_3_2 => 'Discounted Cash Flow (DCF)';
+
+  @override
+  String get quizO_IntrinsicValue_3_3 => 'Reading horoscopes';
+
+  @override
+  String get quizO_IntrinsicValue_3_4 => 'Asking a friend';
+
+  @override
+  String get quizE_IntrinsicValue_3 =>
+      'DCF Analysis is a valuation method used to estimate the value of an investment based on its expected future cash flows.';
 }

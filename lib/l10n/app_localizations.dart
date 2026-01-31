@@ -2109,6 +2109,1248 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Currency'**
   String get landingPageCurrency;
+
+  /// No description provided for @quizTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge Check'**
+  String get quizTitle;
+
+  /// No description provided for @questionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {current} of {total}'**
+  String questionCount(Object current, Object total);
+
+  /// No description provided for @quizCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz Completed!'**
+  String get quizCompleted;
+
+  /// No description provided for @quizScore.
+  ///
+  /// In en, this message translates to:
+  /// **'You scored {score} out of {total}'**
+  String quizScore(Object score, Object total);
+
+  /// No description provided for @correct.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct!'**
+  String get correct;
+
+  /// No description provided for @incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect'**
+  String get incorrect;
+
+  /// No description provided for @finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish;
+
+  /// No description provided for @startQuiz.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Quiz'**
+  String get startQuiz;
+
+  /// No description provided for @quizNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get quizNext;
+
+  /// No description provided for @quizQ_Stocks101_1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is a stock?'**
+  String get quizQ_Stocks101_1;
+
+  /// No description provided for @quizO_Stocks101_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'A type of loan to a company'**
+  String get quizO_Stocks101_1_1;
+
+  /// No description provided for @quizO_Stocks101_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractional ownership in a company'**
+  String get quizO_Stocks101_1_2;
+
+  /// No description provided for @quizO_Stocks101_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'A guarantee of profit'**
+  String get quizO_Stocks101_1_3;
+
+  /// No description provided for @quizO_Stocks101_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'A government bond'**
+  String get quizO_Stocks101_1_4;
+
+  /// No description provided for @quizE_Stocks101_1.
+  ///
+  /// In en, this message translates to:
+  /// **'A stock represents partial ownership in a corporation. When you buy a stock, you are buying a piece of that company.'**
+  String get quizE_Stocks101_1;
+
+  /// No description provided for @quizQ_Stocks101_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Why do companies issue stock?'**
+  String get quizQ_Stocks101_2;
+
+  /// No description provided for @quizO_Stocks101_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'To increase their debt'**
+  String get quizO_Stocks101_2_1;
+
+  /// No description provided for @quizO_Stocks101_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'To pay less taxes'**
+  String get quizO_Stocks101_2_2;
+
+  /// No description provided for @quizO_Stocks101_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'To raise capital for growth'**
+  String get quizO_Stocks101_2_3;
+
+  /// No description provided for @quizO_Stocks101_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'To give away money'**
+  String get quizO_Stocks101_2_4;
+
+  /// No description provided for @quizE_Stocks101_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Companies issue stock to raise money (capital) to fund operations, expand their business, or pay off debt.'**
+  String get quizE_Stocks101_2;
+
+  /// No description provided for @quizQ_Stocks101_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the long term, stocks have historically...'**
+  String get quizQ_Stocks101_3;
+
+  /// No description provided for @quizO_Stocks101_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Lost money'**
+  String get quizO_Stocks101_3_1;
+
+  /// No description provided for @quizO_Stocks101_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Stayed the same'**
+  String get quizO_Stocks101_3_2;
+
+  /// No description provided for @quizO_Stocks101_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Outperformed savings accounts'**
+  String get quizO_Stocks101_3_3;
+
+  /// No description provided for @quizO_Stocks101_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Been safer than cash'**
+  String get quizO_Stocks101_3_4;
+
+  /// No description provided for @quizE_Stocks101_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Historically, the stock market has provided returns that significantly outperform savings accounts and beat inflation over long periods.'**
+  String get quizE_Stocks101_3;
+
+  /// No description provided for @quizQ_InvestVsSpec_1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the main difference between investing and speculation?'**
+  String get quizQ_InvestVsSpec_1;
+
+  /// No description provided for @quizO_InvestVsSpec_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount of money used'**
+  String get quizO_InvestVsSpec_1_1;
+
+  /// No description provided for @quizO_InvestVsSpec_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Time horizon and analysis'**
+  String get quizO_InvestVsSpec_1_2;
+
+  /// No description provided for @quizO_InvestVsSpec_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Type of stock bought'**
+  String get quizO_InvestVsSpec_1_3;
+
+  /// No description provided for @quizO_InvestVsSpec_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'The broker used'**
+  String get quizO_InvestVsSpec_1_4;
+
+  /// No description provided for @quizE_InvestVsSpec_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Investing involves thorough analysis and a long-term view, while speculation is often short-term and based on price movements without underlying value analysis.'**
+  String get quizE_InvestVsSpec_1;
+
+  /// No description provided for @quizQ_InvestVsSpec_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Which approach relies more on chance?'**
+  String get quizQ_InvestVsSpec_2;
+
+  /// No description provided for @quizO_InvestVsSpec_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Value Investing'**
+  String get quizO_InvestVsSpec_2_1;
+
+  /// No description provided for @quizO_InvestVsSpec_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Dollar Cost Averaging'**
+  String get quizO_InvestVsSpec_2_2;
+
+  /// No description provided for @quizO_InvestVsSpec_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Speculation'**
+  String get quizO_InvestVsSpec_2_3;
+
+  /// No description provided for @quizO_InvestVsSpec_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Index Fund Investing'**
+  String get quizO_InvestVsSpec_2_4;
+
+  /// No description provided for @quizE_InvestVsSpec_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Speculation is often compared to gambling because it relies more on luck and short-term market psychology than on the fundamental value of the asset.'**
+  String get quizE_InvestVsSpec_2;
+
+  /// No description provided for @quizQ_InvestVsSpec_3.
+  ///
+  /// In en, this message translates to:
+  /// **'What is \"Value Investing\"?'**
+  String get quizQ_InvestVsSpec_3;
+
+  /// No description provided for @quizO_InvestVsSpec_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Buying the most expensive stocks'**
+  String get quizO_InvestVsSpec_3_1;
+
+  /// No description provided for @quizO_InvestVsSpec_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Buying stocks for less than they are worth'**
+  String get quizO_InvestVsSpec_3_2;
+
+  /// No description provided for @quizO_InvestVsSpec_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Buying whatever is trending'**
+  String get quizO_InvestVsSpec_3_3;
+
+  /// No description provided for @quizO_InvestVsSpec_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Buying only tech stocks'**
+  String get quizO_InvestVsSpec_3_4;
+
+  /// No description provided for @quizE_InvestVsSpec_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Value investing is the strategy of buying stocks that are trading for less than their intrinsic or book value.'**
+  String get quizE_InvestVsSpec_3;
+
+  /// No description provided for @quizQ_WhyInvest_1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the silent killer of purchasing power?'**
+  String get quizQ_WhyInvest_1;
+
+  /// No description provided for @quizO_WhyInvest_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxation'**
+  String get quizO_WhyInvest_1_1;
+
+  /// No description provided for @quizO_WhyInvest_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Inflation'**
+  String get quizO_WhyInvest_1_2;
+
+  /// No description provided for @quizO_WhyInvest_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Deflation'**
+  String get quizO_WhyInvest_1_3;
+
+  /// No description provided for @quizO_WhyInvest_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Dividends'**
+  String get quizO_WhyInvest_1_4;
+
+  /// No description provided for @quizE_WhyInvest_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Inflation slowly erodes the purchasing power of your money over time, making cash worth less in the future.'**
+  String get quizE_WhyInvest_1;
+
+  /// No description provided for @quizQ_WhyInvest_2.
+  ///
+  /// In en, this message translates to:
+  /// **'What is \"Compound Interest\"?'**
+  String get quizQ_WhyInvest_2;
+
+  /// No description provided for @quizO_WhyInvest_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest on your interest'**
+  String get quizO_WhyInvest_2_1;
+
+  /// No description provided for @quizO_WhyInvest_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'A bank fee'**
+  String get quizO_WhyInvest_2_2;
+
+  /// No description provided for @quizO_WhyInvest_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'A tax on gains'**
+  String get quizO_WhyInvest_2_3;
+
+  /// No description provided for @quizO_WhyInvest_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'A type of loan'**
+  String get quizO_WhyInvest_2_4;
+
+  /// No description provided for @quizE_WhyInvest_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Compound interest is when you earn interest on both your initial money and the interest you\'ve already accumulated, leading to exponential growth.'**
+  String get quizE_WhyInvest_2;
+
+  /// No description provided for @quizQ_WhyInvest_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Why are stocks generally better than a savings account for long-term goals?'**
+  String get quizQ_WhyInvest_3;
+
+  /// No description provided for @quizO_WhyInvest_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'They are safer'**
+  String get quizO_WhyInvest_3_1;
+
+  /// No description provided for @quizO_WhyInvest_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'They have historically beaten inflation'**
+  String get quizO_WhyInvest_3_2;
+
+  /// No description provided for @quizO_WhyInvest_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'They are insured by the government'**
+  String get quizO_WhyInvest_3_3;
+
+  /// No description provided for @quizO_WhyInvest_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'They are easier to access'**
+  String get quizO_WhyInvest_3_4;
+
+  /// No description provided for @quizE_WhyInvest_3.
+  ///
+  /// In en, this message translates to:
+  /// **'While savings accounts are safer, their low interest rates often fail to keep up with inflation, whereas stocks have historically provided much higher returns over the long run.'**
+  String get quizE_WhyInvest_3;
+
+  /// No description provided for @quizQ_DefensiveVsEnterprise_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Who is a \"Defensive Investor\"?'**
+  String get quizQ_DefensiveVsEnterprise_1;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone who shorts stocks'**
+  String get quizO_DefensiveVsEnterprise_1_1;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone who wants safety and freedom from effort'**
+  String get quizO_DefensiveVsEnterprise_1_2;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone who trades daily'**
+  String get quizO_DefensiveVsEnterprise_1_3;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone who buys only penny stocks'**
+  String get quizO_DefensiveVsEnterprise_1_4;
+
+  /// No description provided for @quizE_DefensiveVsEnterprise_1.
+  ///
+  /// In en, this message translates to:
+  /// **'A defensive investor prioritizes safety and minimal effort, often choosing index funds or high-quality blue-chip stocks.'**
+  String get quizE_DefensiveVsEnterprise_1;
+
+  /// No description provided for @quizQ_DefensiveVsEnterprise_2.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the main goal of an \"Enterprising Investor\"?'**
+  String get quizQ_DefensiveVsEnterprise_2;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'To match the market average'**
+  String get quizO_DefensiveVsEnterprise_2_1;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'To beat the market through effort and skill'**
+  String get quizO_DefensiveVsEnterprise_2_2;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'To lose money'**
+  String get quizO_DefensiveVsEnterprise_2_3;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'To avoid all risk'**
+  String get quizO_DefensiveVsEnterprise_2_4;
+
+  /// No description provided for @quizE_DefensiveVsEnterprise_2.
+  ///
+  /// In en, this message translates to:
+  /// **'An enterprising investor is willing to put in time and effort to research stocks in hopes of achieving a better return than the average market.'**
+  String get quizE_DefensiveVsEnterprise_2;
+
+  /// No description provided for @quizQ_DefensiveVsEnterprise_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Which strategy requires more time and research?'**
+  String get quizQ_DefensiveVsEnterprise_3;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Defensive Investing'**
+  String get quizO_DefensiveVsEnterprise_3_1;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Enterprising Investing'**
+  String get quizO_DefensiveVsEnterprise_3_2;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Passive Investing'**
+  String get quizO_DefensiveVsEnterprise_3_3;
+
+  /// No description provided for @quizO_DefensiveVsEnterprise_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Accounts'**
+  String get quizO_DefensiveVsEnterprise_3_4;
+
+  /// No description provided for @quizE_DefensiveVsEnterprise_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Enterprising investing involves active research, analysis, and monitoring of individual stocks, which requires significantly more time.'**
+  String get quizE_DefensiveVsEnterprise_3;
+
+  /// No description provided for @quizQ_MrMarket_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Who is \"Mr. Market\"?'**
+  String get quizQ_MrMarket_1;
+
+  /// No description provided for @quizO_MrMarket_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'A famous investor'**
+  String get quizO_MrMarket_1_1;
+
+  /// No description provided for @quizO_MrMarket_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'An allegorical character representing market mood'**
+  String get quizO_MrMarket_1_2;
+
+  /// No description provided for @quizO_MrMarket_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'The CEO of the stock exchange'**
+  String get quizO_MrMarket_1_3;
+
+  /// No description provided for @quizO_MrMarket_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'A government regulator'**
+  String get quizO_MrMarket_1_4;
+
+  /// No description provided for @quizE_MrMarket_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Benjamin Graham created Mr. Market to allegorize the irrational and emotional daily price fluctuations of the stock market.'**
+  String get quizE_MrMarket_1;
+
+  /// No description provided for @quizQ_MrMarket_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Mr. Market is described as...'**
+  String get quizQ_MrMarket_2;
+
+  /// No description provided for @quizO_MrMarket_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Rational and calm'**
+  String get quizO_MrMarket_2_1;
+
+  /// No description provided for @quizO_MrMarket_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Predictable and steady'**
+  String get quizO_MrMarket_2_2;
+
+  /// No description provided for @quizO_MrMarket_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Emotional and manic-depressive'**
+  String get quizO_MrMarket_2_3;
+
+  /// No description provided for @quizO_MrMarket_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Always correct'**
+  String get quizO_MrMarket_2_4;
+
+  /// No description provided for @quizE_MrMarket_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Mr. Market swings from extreme optimism to extreme pessimism, offering prices based on his mood rather than true value.'**
+  String get quizE_MrMarket_2;
+
+  /// No description provided for @quizQ_MrMarket_3.
+  ///
+  /// In en, this message translates to:
+  /// **'What should you do when Mr. Market is depressed and offers low prices?'**
+  String get quizQ_MrMarket_3;
+
+  /// No description provided for @quizO_MrMarket_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell everything'**
+  String get quizO_MrMarket_3_1;
+
+  /// No description provided for @quizO_MrMarket_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy if the value is right'**
+  String get quizO_MrMarket_3_2;
+
+  /// No description provided for @quizO_MrMarket_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Panic'**
+  String get quizO_MrMarket_3_3;
+
+  /// No description provided for @quizO_MrMarket_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore him completely'**
+  String get quizO_MrMarket_3_4;
+
+  /// No description provided for @quizE_MrMarket_3.
+  ///
+  /// In en, this message translates to:
+  /// **'When the market is irrational and prices are low, it presents an opportunity for the intelligent investor to buy quality assets at a discount.'**
+  String get quizE_MrMarket_3;
+
+  /// No description provided for @quizQ_MarginOfSafety_1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the \"Margin of Safety\"?'**
+  String get quizQ_MarginOfSafety_1;
+
+  /// No description provided for @quizO_MarginOfSafety_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'A safety helmet'**
+  String get quizO_MarginOfSafety_1_1;
+
+  /// No description provided for @quizO_MarginOfSafety_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Buying at a price far below intrinsic value'**
+  String get quizO_MarginOfSafety_1_2;
+
+  /// No description provided for @quizO_MarginOfSafety_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'A stop-loss order'**
+  String get quizO_MarginOfSafety_1_3;
+
+  /// No description provided for @quizO_MarginOfSafety_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Buying insurance'**
+  String get quizO_MarginOfSafety_1_4;
+
+  /// No description provided for @quizE_MarginOfSafety_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Margin of safety is the concept of purchasing a stock at a significant discount to its intrinsic value to minimize the risk of loss.'**
+  String get quizE_MarginOfSafety_1;
+
+  /// No description provided for @quizQ_MarginOfSafety_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Why is a Margin of Safety important?'**
+  String get quizQ_MarginOfSafety_2;
+
+  /// No description provided for @quizO_MarginOfSafety_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'It guarantees a profit'**
+  String get quizO_MarginOfSafety_2_1;
+
+  /// No description provided for @quizO_MarginOfSafety_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'It allows for error and bad luck'**
+  String get quizO_MarginOfSafety_2_2;
+
+  /// No description provided for @quizO_MarginOfSafety_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'It is required by law'**
+  String get quizO_MarginOfSafety_2_3;
+
+  /// No description provided for @quizO_MarginOfSafety_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'It makes trading faster'**
+  String get quizO_MarginOfSafety_2_4;
+
+  /// No description provided for @quizE_MarginOfSafety_2.
+  ///
+  /// In en, this message translates to:
+  /// **'It acts as a buffer against errors in your valuation, unforeseen market events, or bad luck, protecting your capital.'**
+  String get quizE_MarginOfSafety_2;
+
+  /// No description provided for @quizQ_MarginOfSafety_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Which comparison was used for Margin of Safety?'**
+  String get quizQ_MarginOfSafety_3;
+
+  /// No description provided for @quizO_MarginOfSafety_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Building a bridge stronger than needed'**
+  String get quizO_MarginOfSafety_3_1;
+
+  /// No description provided for @quizO_MarginOfSafety_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Driving a fast car'**
+  String get quizO_MarginOfSafety_3_2;
+
+  /// No description provided for @quizO_MarginOfSafety_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Betting on a horse'**
+  String get quizO_MarginOfSafety_3_3;
+
+  /// No description provided for @quizO_MarginOfSafety_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooking a meal'**
+  String get quizO_MarginOfSafety_3_4;
+
+  /// No description provided for @quizE_MarginOfSafety_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Like an engineer builds a bridge to hold 30,000 lbs even if only 10,000 lbs trucks cross it, an investor wants a buffer for their investments.'**
+  String get quizE_MarginOfSafety_3;
+
+  /// No description provided for @quizQ_IndexFunds_1.
+  ///
+  /// In en, this message translates to:
+  /// **'What does an Index Fund do?'**
+  String get quizQ_IndexFunds_1;
+
+  /// No description provided for @quizO_IndexFunds_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Tries to beat the market'**
+  String get quizO_IndexFunds_1_1;
+
+  /// No description provided for @quizO_IndexFunds_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracks a specific market index'**
+  String get quizO_IndexFunds_1_2;
+
+  /// No description provided for @quizO_IndexFunds_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Buys only one stock'**
+  String get quizO_IndexFunds_1_3;
+
+  /// No description provided for @quizO_IndexFunds_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Shorts the market'**
+  String get quizO_IndexFunds_1_4;
+
+  /// No description provided for @quizE_IndexFunds_1.
+  ///
+  /// In en, this message translates to:
+  /// **'An index fund buys all (or a representative sample) of the companies in a specific index, like the S&P 500, to match its performance.'**
+  String get quizE_IndexFunds_1;
+
+  /// No description provided for @quizQ_IndexFunds_2.
+  ///
+  /// In en, this message translates to:
+  /// **'What is a major benefit of Index Funds?'**
+  String get quizQ_IndexFunds_2;
+
+  /// No description provided for @quizO_IndexFunds_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Instant diversification'**
+  String get quizO_IndexFunds_2_1;
+
+  /// No description provided for @quizO_IndexFunds_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Guaranteed 100% returns'**
+  String get quizO_IndexFunds_2_2;
+
+  /// No description provided for @quizO_IndexFunds_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'No risk'**
+  String get quizO_IndexFunds_2_3;
+
+  /// No description provided for @quizO_IndexFunds_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Free money'**
+  String get quizO_IndexFunds_2_4;
+
+  /// No description provided for @quizE_IndexFunds_2.
+  ///
+  /// In en, this message translates to:
+  /// **'By buying a single index fund, you instantly own a tiny piece of hundreds or thousands of companies, spreading your risk.'**
+  String get quizE_IndexFunds_2;
+
+  /// No description provided for @quizQ_IndexFunds_3.
+  ///
+  /// In en, this message translates to:
+  /// **'How do Index Fund fees generally compare to active mutual funds?'**
+  String get quizQ_IndexFunds_3;
+
+  /// No description provided for @quizO_IndexFunds_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'They are much higher'**
+  String get quizO_IndexFunds_3_1;
+
+  /// No description provided for @quizO_IndexFunds_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'They are about the same'**
+  String get quizO_IndexFunds_3_2;
+
+  /// No description provided for @quizO_IndexFunds_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'They are typically much lower'**
+  String get quizO_IndexFunds_3_3;
+
+  /// No description provided for @quizO_IndexFunds_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees don\'t exist'**
+  String get quizO_IndexFunds_3_4;
+
+  /// No description provided for @quizE_IndexFunds_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Because they require less active management, index funds and ETFs usually have significantly lower expense ratios than actively managed funds.'**
+  String get quizE_IndexFunds_3;
+
+  /// No description provided for @quizQ_DCA_1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is Dollar Cost Averaging (DCA)?'**
+  String get quizQ_DCA_1;
+
+  /// No description provided for @quizO_DCA_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Investing a lump sum all at once'**
+  String get quizO_DCA_1_1;
+
+  /// No description provided for @quizO_DCA_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Investing a fixed amount at regular intervals'**
+  String get quizO_DCA_1_2;
+
+  /// No description provided for @quizO_DCA_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Buying only when the market is low'**
+  String get quizO_DCA_1_3;
+
+  /// No description provided for @quizO_DCA_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Selling when the market is high'**
+  String get quizO_DCA_1_4;
+
+  /// No description provided for @quizE_DCA_1.
+  ///
+  /// In en, this message translates to:
+  /// **'DCA involves investing the same amount of money (e.g., \$500) on a regular schedule (e.g., monthly) regardless of the share price.'**
+  String get quizE_DCA_1;
+
+  /// No description provided for @quizQ_DCA_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Does DCA require you to time the market?'**
+  String get quizQ_DCA_2;
+
+  /// No description provided for @quizO_DCA_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, perfectly'**
+  String get quizO_DCA_2_1;
+
+  /// No description provided for @quizO_DCA_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'No, it ignores market timing'**
+  String get quizO_DCA_2_2;
+
+  /// No description provided for @quizO_DCA_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Only during crashes'**
+  String get quizO_DCA_2_3;
+
+  /// No description provided for @quizO_DCA_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Only during bubbles'**
+  String get quizO_DCA_2_4;
+
+  /// No description provided for @quizE_DCA_2.
+  ///
+  /// In en, this message translates to:
+  /// **'DCA removes the need to predict market tops and bottoms, discouraging emotional trading based on price fluctuations.'**
+  String get quizE_DCA_2;
+
+  /// No description provided for @quizQ_DCA_3.
+  ///
+  /// In en, this message translates to:
+  /// **'What is a psychological benefit of DCA?'**
+  String get quizQ_DCA_3;
+
+  /// No description provided for @quizO_DCA_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'It is exciting'**
+  String get quizO_DCA_3_1;
+
+  /// No description provided for @quizO_DCA_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'It removes emotion from investing'**
+  String get quizO_DCA_3_2;
+
+  /// No description provided for @quizO_DCA_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'It makes you feel smarter'**
+  String get quizO_DCA_3_3;
+
+  /// No description provided for @quizO_DCA_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'It guarantees quick riches'**
+  String get quizO_DCA_3_4;
+
+  /// No description provided for @quizE_DCA_3.
+  ///
+  /// In en, this message translates to:
+  /// **'By sticking to a schedule, you avoid the fear of buying at the top or the hesitation to buy during a dip.'**
+  String get quizE_DCA_3;
+
+  /// No description provided for @quizQ_HowToInvest_1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is a Broker?'**
+  String get quizQ_HowToInvest_1;
+
+  /// No description provided for @quizO_HowToInvest_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'A person who breaks things'**
+  String get quizO_HowToInvest_1_1;
+
+  /// No description provided for @quizO_HowToInvest_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'An intermediary between you and the stock market'**
+  String get quizO_HowToInvest_1_2;
+
+  /// No description provided for @quizO_HowToInvest_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'A bank teller'**
+  String get quizO_HowToInvest_1_3;
+
+  /// No description provided for @quizO_HowToInvest_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'A government official'**
+  String get quizO_HowToInvest_1_4;
+
+  /// No description provided for @quizE_HowToInvest_1.
+  ///
+  /// In en, this message translates to:
+  /// **'A broker is a firm or individual that facilitates the buying and selling of financial securities between a buyer and a seller.'**
+  String get quizE_HowToInvest_1;
+
+  /// No description provided for @quizQ_HowToInvest_2.
+  ///
+  /// In en, this message translates to:
+  /// **'What is a \"Market Order\"?'**
+  String get quizQ_HowToInvest_2;
+
+  /// No description provided for @quizO_HowToInvest_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'An order to buy groceries'**
+  String get quizO_HowToInvest_2_1;
+
+  /// No description provided for @quizO_HowToInvest_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'An order to buy/sell immediately at the current price'**
+  String get quizO_HowToInvest_2_2;
+
+  /// No description provided for @quizO_HowToInvest_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'An order to buy at a specific price later'**
+  String get quizO_HowToInvest_2_3;
+
+  /// No description provided for @quizO_HowToInvest_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'An order to cancel a trade'**
+  String get quizO_HowToInvest_2_4;
+
+  /// No description provided for @quizE_HowToInvest_2.
+  ///
+  /// In en, this message translates to:
+  /// **'A market order guarantees execution but not a specific price; it executes immediately at the best available current price.'**
+  String get quizE_HowToInvest_2;
+
+  /// No description provided for @quizQ_HowToInvest_3.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the \"Bid\" price?'**
+  String get quizQ_HowToInvest_3;
+
+  /// No description provided for @quizO_HowToInvest_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'The price you pay to buy'**
+  String get quizO_HowToInvest_3_1;
+
+  /// No description provided for @quizO_HowToInvest_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'The price a buyer is willing to pay'**
+  String get quizO_HowToInvest_3_2;
+
+  /// No description provided for @quizO_HowToInvest_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'The price a seller wants'**
+  String get quizO_HowToInvest_3_3;
+
+  /// No description provided for @quizO_HowToInvest_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'The final sale price'**
+  String get quizO_HowToInvest_3_4;
+
+  /// No description provided for @quizE_HowToInvest_3.
+  ///
+  /// In en, this message translates to:
+  /// **'The bid is the highest price a buyer is willing to pay for a stock, while the ask is the lowest price a seller is willing to accept.'**
+  String get quizE_HowToInvest_3;
+
+  /// No description provided for @quizQ_Metrics_1.
+  ///
+  /// In en, this message translates to:
+  /// **'what is \"Market Cap\"?'**
+  String get quizQ_Metrics_1;
+
+  /// No description provided for @quizO_Metrics_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'The maximum number of stocks'**
+  String get quizO_Metrics_1_1;
+
+  /// No description provided for @quizO_Metrics_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'The total value of a company\'s shares'**
+  String get quizO_Metrics_1_2;
+
+  /// No description provided for @quizO_Metrics_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'The location of the market'**
+  String get quizO_Metrics_1_3;
+
+  /// No description provided for @quizO_Metrics_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'The cap on a bottle'**
+  String get quizO_Metrics_1_4;
+
+  /// No description provided for @quizE_Metrics_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Market capitalization is calculated by multiplying the total number of outstanding shares by the current share price.'**
+  String get quizE_Metrics_1;
+
+  /// No description provided for @quizQ_Metrics_2.
+  ///
+  /// In en, this message translates to:
+  /// **'What does P/E Ratio stand for?'**
+  String get quizQ_Metrics_2;
+
+  /// No description provided for @quizO_Metrics_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit to Earnings'**
+  String get quizO_Metrics_2_1;
+
+  /// No description provided for @quizO_Metrics_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Price to Earnings'**
+  String get quizO_Metrics_2_2;
+
+  /// No description provided for @quizO_Metrics_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Public to Equity'**
+  String get quizO_Metrics_2_3;
+
+  /// No description provided for @quizO_Metrics_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Past to End'**
+  String get quizO_Metrics_2_4;
+
+  /// No description provided for @quizE_Metrics_2.
+  ///
+  /// In en, this message translates to:
+  /// **'The Price-to-Earnings ratio measures a company\'s current share price relative to its per-share earnings.'**
+  String get quizE_Metrics_2;
+
+  /// No description provided for @quizQ_Metrics_3.
+  ///
+  /// In en, this message translates to:
+  /// **'What is a \"Dividend\"?'**
+  String get quizQ_Metrics_3;
+
+  /// No description provided for @quizO_Metrics_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'A tax payment'**
+  String get quizO_Metrics_3_1;
+
+  /// No description provided for @quizO_Metrics_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'A fee paid to the broker'**
+  String get quizO_Metrics_3_2;
+
+  /// No description provided for @quizO_Metrics_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'A distribution of profits to shareholders'**
+  String get quizO_Metrics_3_3;
+
+  /// No description provided for @quizO_Metrics_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'A type of stock split'**
+  String get quizO_Metrics_3_4;
+
+  /// No description provided for @quizE_Metrics_3.
+  ///
+  /// In en, this message translates to:
+  /// **'A dividend is a payment made by a corporation to its shareholders, usually as a distribution of profits.'**
+  String get quizE_Metrics_3;
+
+  /// No description provided for @quizQ_IntrinsicValue_1.
+  ///
+  /// In en, this message translates to:
+  /// **'What is \"Intrinsic Value\"?'**
+  String get quizQ_IntrinsicValue_1;
+
+  /// No description provided for @quizO_IntrinsicValue_1_1.
+  ///
+  /// In en, this message translates to:
+  /// **'The current market price'**
+  String get quizO_IntrinsicValue_1_1;
+
+  /// No description provided for @quizO_IntrinsicValue_1_2.
+  ///
+  /// In en, this message translates to:
+  /// **'The true inherent value of a company'**
+  String get quizO_IntrinsicValue_1_2;
+
+  /// No description provided for @quizO_IntrinsicValue_1_3.
+  ///
+  /// In en, this message translates to:
+  /// **'The price 10 years ago'**
+  String get quizO_IntrinsicValue_1_3;
+
+  /// No description provided for @quizO_IntrinsicValue_1_4.
+  ///
+  /// In en, this message translates to:
+  /// **'The price predicted by TV analysts'**
+  String get quizO_IntrinsicValue_1_4;
+
+  /// No description provided for @quizE_IntrinsicValue_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Intrinsic value is an estimate of the actual true value of a company based on its fundamentals, cash flows, and assets, independent of its market price.'**
+  String get quizE_IntrinsicValue_1;
+
+  /// No description provided for @quizQ_IntrinsicValue_2.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the difference between Price and Value?'**
+  String get quizQ_IntrinsicValue_2;
+
+  /// No description provided for @quizO_IntrinsicValue_2_1.
+  ///
+  /// In en, this message translates to:
+  /// **'They are the same thing'**
+  String get quizO_IntrinsicValue_2_1;
+
+  /// No description provided for @quizO_IntrinsicValue_2_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Price is what you pay, value is what you get'**
+  String get quizO_IntrinsicValue_2_2;
+
+  /// No description provided for @quizO_IntrinsicValue_2_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Price is always higher'**
+  String get quizO_IntrinsicValue_2_3;
+
+  /// No description provided for @quizO_IntrinsicValue_2_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Value is always higher'**
+  String get quizO_IntrinsicValue_2_4;
+
+  /// No description provided for @quizE_IntrinsicValue_2.
+  ///
+  /// In en, this message translates to:
+  /// **'As Warren Buffett famously said, \"Price is what you pay. Value is what you get.\" The market price can disconnect from the true value.'**
+  String get quizE_IntrinsicValue_2;
+
+  /// No description provided for @quizQ_IntrinsicValue_3.
+  ///
+  /// In en, this message translates to:
+  /// **'What method is commonly used to estimate intrinsic value?'**
+  String get quizQ_IntrinsicValue_3;
+
+  /// No description provided for @quizO_IntrinsicValue_3_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Guessing'**
+  String get quizO_IntrinsicValue_3_1;
+
+  /// No description provided for @quizO_IntrinsicValue_3_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Discounted Cash Flow (DCF)'**
+  String get quizO_IntrinsicValue_3_2;
+
+  /// No description provided for @quizO_IntrinsicValue_3_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading horoscopes'**
+  String get quizO_IntrinsicValue_3_3;
+
+  /// No description provided for @quizO_IntrinsicValue_3_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking a friend'**
+  String get quizO_IntrinsicValue_3_4;
+
+  /// No description provided for @quizE_IntrinsicValue_3.
+  ///
+  /// In en, this message translates to:
+  /// **'DCF Analysis is a valuation method used to estimate the value of an investment based on its expected future cash flows.'**
+  String get quizE_IntrinsicValue_3;
 }
 
 class _AppLocalizationsDelegate

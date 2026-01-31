@@ -4,9 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'package:investr/l10n/app_localizations.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../domain/lesson.dart';
 import 'education_controller.dart';
+import 'quiz_screen.dart';
 import 'widgets/popular_brokers_widget.dart';
 
 class LessonDetailScreen extends StatefulWidget {
@@ -62,7 +64,25 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
       );
     } else {
       HapticFeedback.lightImpact();
-      context.pop();
+
+      if (widget.lesson.quiz != null) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => QuizScreen(
+              quiz: widget.lesson.quiz!,
+              onFinish: () {
+                context.read<EducationController>().completeQuiz(
+                  widget.lesson.id,
+                );
+                Navigator.of(context).pop(); // Close quiz
+                Navigator.of(context).pop(); // Close lesson
+              },
+            ),
+          ),
+        );
+      } else {
+        context.pop();
+      }
     }
   }
 
@@ -120,7 +140,9 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                     onPressed: _nextPage,
                     child: Text(
                       _currentPage == widget.lesson.pages.length - 1
-                          ? 'Done'
+                          ? (widget.lesson.quiz != null
+                                ? AppLocalizations.of(context)!.startQuiz
+                                : 'Done')
                           : 'Next',
                     ),
                   ),

@@ -10,6 +10,7 @@ class Lesson {
   final Color color;
   final IconData? icon; // For the list view if needed
   final LessonCategory category;
+  final Quiz? quiz;
 
   const Lesson({
     required this.id,
@@ -19,9 +20,31 @@ class Lesson {
     required this.color,
     required this.category,
     this.icon,
+    this.quiz,
   });
 
   double get progress => 0.0; // Placeholder for now
+}
+
+class QuizQuestion {
+  final String question;
+  final List<String> options;
+  final int correctOptionIndex;
+  final String explanation;
+
+  const QuizQuestion({
+    required this.question,
+    required this.options,
+    required this.correctOptionIndex,
+    required this.explanation,
+  });
+}
+
+class Quiz {
+  final String title;
+  final List<QuizQuestion> questions;
+
+  const Quiz({required this.title, required this.questions});
 }
 
 class LessonPage {
