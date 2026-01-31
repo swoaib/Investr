@@ -29,6 +29,8 @@
   "submitFeedback": "Submit Feedback",
   "feedbackThanks": "Thank you for your feedback!",
   "feedbackError": "Could not send feedback. Please try again.",
+  "feedbackSentimentTitle": "How is your experience?",
+  "feedbackImprovementTitle": "Tell us what we can improve",
   "learnTitle": "Learn Value Investing",
   "overallProgress": "Overall Progress",
   "inflationTitle": "Inflation",

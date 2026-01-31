@@ -97,6 +97,7 @@ flutter:
     - assets/logo.png
     - assets/images/education/
     - assets/images/onboarding/
+    - assets/images/feedback/
     - assets/flags/
     - assets/privacy_policy.md
     - assets/privacy_policy_nb.md

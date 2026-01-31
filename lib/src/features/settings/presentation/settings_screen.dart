@@ -11,7 +11,7 @@ import '../../../shared/widgets/custom_bottom_navigation_bar.dart';
 import '../../../shared/widgets/info_container.dart';
 import 'alerts_management_screen.dart';
 import 'appearance_screen.dart';
-import 'widgets/feedback_bottom_sheet.dart';
+import 'widgets/feedback_sentiment_bottom_sheet.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -123,7 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     context: context,
                     isScrollControlled: true,
                     backgroundColor: Colors.transparent,
-                    builder: (context) => const FeedbackBottomSheet(),
+                    builder: (context) => const FeedbackSentimentBottomSheet(),
                   );
                 },
               ),

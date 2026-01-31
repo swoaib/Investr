@@ -100,6 +100,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackError => 'Could not send feedback. Please try again.';
 
   @override
+  String get feedbackSentimentTitle => 'How is your experience?';
+
+  @override
+  String get feedbackImprovementTitle => 'Tell us what we can improve';
+
+  @override
   String get learnTitle => 'Learn Value Investing';
 
   @override

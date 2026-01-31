@@ -280,6 +280,18 @@ abstract class AppLocalizations {
   /// **'Could not send feedback. Please try again.'**
   String get feedbackError;
 
+  /// No description provided for @feedbackSentimentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How is your experience?'**
+  String get feedbackSentimentTitle;
+
+  /// No description provided for @feedbackImprovementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what we can improve'**
+  String get feedbackImprovementTitle;
+
   /// No description provided for @learnTitle.
   ///
   /// In en, this message translates to:

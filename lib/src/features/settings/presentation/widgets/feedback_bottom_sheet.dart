@@ -8,7 +8,9 @@ import '../../data/feedback_repository.dart';
 import '../../domain/feedback_model.dart';
 
 class FeedbackBottomSheet extends StatefulWidget {
-  const FeedbackBottomSheet({super.key});
+  final String? title;
+
+  const FeedbackBottomSheet({super.key, this.title});
 
   @override
   State<FeedbackBottomSheet> createState() => _FeedbackBottomSheetState();
@@ -84,7 +86,7 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
           children: [
             Center(
               child: Text(
-                l10n.feedbackTitle,
+                widget.title ?? l10n.feedbackTitle,
                 style: GoogleFonts.outfit(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
