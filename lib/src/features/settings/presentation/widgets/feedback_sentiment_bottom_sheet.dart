@@ -106,10 +106,13 @@ class FeedbackSentimentBottomSheet extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.withValues(alpha: 0.3)),
+              border: Border.all(
+                color: Colors.grey.withValues(alpha: 0.5),
+                width: 1,
+              ),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, size: 48, color: color),
+            child: Icon(icon, size: 48, color: Colors.grey.shade700),
           ),
           const SizedBox(height: 8),
           Text(
