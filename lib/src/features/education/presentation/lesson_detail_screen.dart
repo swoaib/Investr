@@ -28,13 +28,21 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
   void initState() {
     super.initState();
     // Initialize PageController with stored progress
-    final initialPage = context.read<EducationController>().getRawProgress(
-      widget.lesson.id,
-    );
-    // If completed (reached the last page), restart from 0
-    // Otherwise resume from where we left off
-    if (initialPage >= widget.lesson.pages.length - 1) {
-      _currentPage = 0;
+    final controller = context.read<EducationController>();
+    final initialPage = controller.getRawProgress(widget.lesson.id);
+    final quizPassed = controller.isQuizPassed(widget.lesson.id);
+    final totalPages = widget.lesson.pages.length;
+
+    // Logic:
+    // 1. If we haven't reached the end, resume where we left off.
+    // 2. If we reached the end but haven't passed the quiz, go to the last page (Quiz start).
+    // 3. If we passed the quiz, restart from the beginning (Page 0).
+    if (initialPage >= totalPages - 1) {
+      if (quizPassed) {
+        _currentPage = 0;
+      } else {
+        _currentPage = totalPages - 1;
+      }
     } else {
       _currentPage = initialPage;
     }
