@@ -1120,11 +1120,15 @@ class _LessonCard extends StatelessWidget {
                             progress <
                                 1.0) // Show percentage only if not complete (0.99 is not complete)
                           Text(
-                            '${(progress * 100).toInt()}%',
-                            style: const TextStyle(
+                            (lesson.quiz != null && progress > 0.98)
+                                ? 'Quiz'
+                                : '${(progress * 100).toInt()}%',
+                            style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF2196F3),
+                              color: (lesson.quiz != null && progress > 0.98)
+                                  ? const Color(0xFF9C27B0)
+                                  : const Color(0xFF2196F3),
                             ),
                           ),
                         const SizedBox(width: 8),
@@ -1136,18 +1140,17 @@ class _LessonCard extends StatelessWidget {
                         else if (lesson.quiz != null &&
                             progress >
                                 0.98) // Almost done (read pages) but quiz not passed
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF9C27B0), // Purple
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Text(
-                              'Quiz',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 8,
-                                fontWeight: FontWeight.bold,
+                          SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                              value: progress,
+                              strokeWidth: 3,
+                              backgroundColor: const Color(
+                                0xFF9C27B0,
+                              ).withValues(alpha: 0.2),
+                              valueColor: const AlwaysStoppedAnimation(
+                                Color(0xFF9C27B0),
                               ),
                             ),
                           )
