@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -54,11 +55,13 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
 
   void _nextPage() {
     if (_currentPage < widget.lesson.pages.length - 1) {
+      HapticFeedback.lightImpact();
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     } else {
+      HapticFeedback.lightImpact();
       context.pop();
     }
   }
