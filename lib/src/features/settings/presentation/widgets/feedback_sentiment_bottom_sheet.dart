@@ -98,6 +98,9 @@ class FeedbackSentimentBottomSheet extends StatelessWidget {
     required String label,
     required VoidCallback onTap,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final iconColor = isDark ? Colors.grey.shade400 : Colors.grey.shade700;
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -112,7 +115,7 @@ class FeedbackSentimentBottomSheet extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, size: 48, color: Colors.grey.shade700),
+            child: Icon(icon, size: 48, color: iconColor),
           ),
           const SizedBox(height: 8),
           Text(
